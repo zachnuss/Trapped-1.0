@@ -468,6 +468,8 @@ public class PlayerMovement : MonoBehaviour
 
         damage = playerData.totalDamageBase + playerData.damageUpgrade;
 
+        gamerUI.healthBarStatus(health);
+
         speedMultiplier = (playerData.speedUpgrade)/10;
         //Debug.Log(speedMultiplier);
         
@@ -573,9 +575,13 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case powerUpType.health:
                 if (health < playerData.totalHealthBase)
+                {
                     health += 20;
+                    playerData.localHealth = health;
+                }
                 if (health > playerData.totalHealthBase)
-                    health = playerData.localHealth;
+                    health = playerData.totalHealthBase;
+                gamerUI.healthBarStatus(health);
                 break;
             default:
                 break;

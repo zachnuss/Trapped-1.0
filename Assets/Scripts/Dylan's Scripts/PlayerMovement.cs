@@ -504,6 +504,7 @@ public class PlayerMovement : MonoBehaviour
     void Timer()
     {
         localTimer += Time.deltaTime;
+        playerData.totalTime+= Time.deltaTime;
         // Debug.Log("click");
         playerData.timerSec = Mathf.RoundToInt(localTimer);
         if (playerData.timerSec >= 60)
@@ -531,7 +532,7 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         localTimer++; //= Time.deltaTime;
-        Debug.Log("click");
+        //Debug.Log("click");
 
         playerData.UpdateTime();
 

@@ -143,8 +143,8 @@ public class PlayerData : ScriptableObject
     public void UpgradeHealth()
     {
         healthUpgrade++;
-        totalHealthBase += 10;
-        localHealth += 10;
+        totalHealthBase += 1;
+        localHealth += 1;
         Debug.Log("Health Upgrade Purchased! New Health = " + localHealth + " out of " + totalHealthBase);
         //UPDATE UI HERE
     }

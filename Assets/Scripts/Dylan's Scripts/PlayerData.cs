@@ -143,8 +143,8 @@ public class PlayerData : ScriptableObject
     public void UpgradeHealth()
     {
         healthUpgrade++;
-        totalHealthBase += 10;
-        localHealth += 10;
+        totalHealthBase += 1;
+        localHealth += 1;
         Debug.Log("Health Upgrade Purchased! New Health = " + localHealth + " out of " + totalHealthBase);
         //UPDATE UI HERE
     }
@@ -183,6 +183,25 @@ public class PlayerData : ScriptableObject
     }
 
     public void SaveHighscore() //Wesley
+    {
+        if (score > highScore1)
+        {
+            highScore3 = highScore2;
+            highScore2 = highScore1;
+            highScore1 = score;
+        }
+        else if (score > highScore2)
+        {
+            highScore3 = highScore2;
+            highScore2 = score;
+        }
+        else if (score > highScore3)
+        {
+            highScore3 = score;
+        }
+    }
+
+    public void SaveHighscoresToFile()
     {
 
     }

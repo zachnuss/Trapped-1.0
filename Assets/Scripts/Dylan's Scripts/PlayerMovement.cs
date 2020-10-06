@@ -358,7 +358,8 @@ public class PlayerMovement : MonoBehaviour
         if (other.tag == "Goal")
         {
             //Debug.Log("goal");
-            gamerUI.UpdateObjText();
+            if(!other.GetComponent<TeleBool>().active)
+                   gamerUI.UpdateObjText();
             //Debug.Log("hit");
             other.GetComponent<TeleBool>().active = true;
             //instead of destroying io made the game object change color so we dont get an error when we have multiple keys
@@ -456,6 +457,8 @@ public class PlayerMovement : MonoBehaviour
         health = playerData.localHealth;
 
         damage = playerData.totalDamageBase + playerData.damageUpgrade;
+
+        gamerUI.healthBarStatus(health);
 
         speedMultiplier = (playerData.speedUpgrade)/10;
         //Debug.Log(speedMultiplier);
@@ -561,9 +564,13 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case powerUpType.health:
                 if (health < playerData.totalHealthBase)
+                {
                     health += 20;
+                    playerData.localHealth = health;
+                }
                 if (health > playerData.totalHealthBase)
-                    health = playerData.localHealth;
+                    health = playerData.totalHealthBase;
+                gamerUI.healthBarStatus(health);
                 break;
             default:
                 break;

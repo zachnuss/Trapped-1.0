@@ -88,7 +88,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3147948298627174401}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -221,7 +221,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ec057eb7d68714f419727f6edf175ea2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.229
+      value: -0.391
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ec057eb7d68714f419727f6edf175ea2,
         type: 3}
@@ -368,7 +368,9 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: faf695accae00634180be1e6cfec02e5, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5458362805262123125, guid: ec057eb7d68714f419727f6edf175ea2, type: 3}
+    - {fileID: -816568809371731162, guid: ec057eb7d68714f419727f6edf175ea2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ec057eb7d68714f419727f6edf175ea2, type: 3}
 --- !u!4 &1932888094948178323 stripped
 Transform:

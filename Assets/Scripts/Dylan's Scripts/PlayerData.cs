@@ -10,7 +10,7 @@ public class PlayerData : ScriptableObject
     public float timerSec;
     public float timerMin;
     public float timerHour;
-    public float _timerBetweenLevels;
+    public float timerBetweenLevels;
 
     [Header("Player Upgrade Stats")]
     public int healthUpgrade;
@@ -61,7 +61,7 @@ public class PlayerData : ScriptableObject
     {
         if (OnLevel <= levelsS.Length - 1)
         {
-            _timerBetweenLevels = timerSec;
+            timerBetweenLevels = timerSec;
             Debug.Log("Beat level");
             if (OnLevel > 0)
             {
@@ -84,7 +84,7 @@ public class PlayerData : ScriptableObject
         if (OnLevel != levelsS.Length)
         {
             Debug.Log("Loading Next Level: " + levelsS[OnLevel]);
-            timerSec += _timerBetweenLevels;
+            timerSec += timerBetweenLevels;
             SceneManager.LoadScene(nextLevelStr);
         }
         else
@@ -125,6 +125,7 @@ public class PlayerData : ScriptableObject
         timerHour = 0;
         timerSec = 0;
         timerMin = 0;
+        timerBetweenLevels = 0;
         //currency starts at 0
         currency = 0;
         //score starts at 0

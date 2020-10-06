@@ -69,8 +69,14 @@ public class PlayerData : ScriptableObject
             }
             
             OnLevel++;
-            if(OnLevel != levelsS.Length)
+            if (OnLevel > 2)
+                OnLevel = 0;
+
+            if (OnLevel != levelsS.Length)
                 nextLevelStr = levelsS[OnLevel];
+
+            //goes 1 - 3 then back to one
+            
 
             //load store scene?
             SceneManager.LoadScene("StoreScene");
@@ -85,6 +91,9 @@ public class PlayerData : ScriptableObject
         {
             Debug.Log("Loading Next Level: " + levelsS[OnLevel]);
             timerSec += timerBetweenLevels;
+
+            //pick next permutation
+
             SceneManager.LoadScene(nextLevelStr);
         }
         else

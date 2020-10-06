@@ -117,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
 
         teleporterTracker = GameObject.FindGameObjectWithTag("GoalCheck"); //assumes we check on construction of the player, with a new player every level - Wesley
         rng = Random.Range(0, transition.Length);
-        localTimer = playerData._timerBetweenLevels;
+        localTimer = playerData.timerBetweenLevels;
         // StartCoroutine(timerCount());
         InvokeRepeating("ScorePerSecond", 0f, 1f); //Every second, give score equal to 1*the level count. - Wesley
     }

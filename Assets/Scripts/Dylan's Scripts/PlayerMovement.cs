@@ -132,7 +132,6 @@ public class PlayerMovement : MonoBehaviour
         //cant move if we are rotating
         if (!overTheEdge && !moving)
         {
-
             Movement();
         }
 
@@ -142,7 +141,6 @@ public class PlayerMovement : MonoBehaviour
         if (_rotationTrans != null)
         {
             Interpolation();
-            //Bezier();
         }
     }
 
@@ -171,7 +169,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (checkToCalculate)
         {
-            
             //Debug.Log("Moving to next side YEET");
             c0 = this.transform;
             c1 = _rotationTrans;
@@ -183,7 +180,6 @@ public class PlayerMovement : MonoBehaviour
             checkToCalculate = false;
             moving = true;
             timeStart = Time.time;
-            //timeStart2 = Time.time;
             OnPlayerRotation();
 
            
@@ -224,7 +220,6 @@ public class PlayerMovement : MonoBehaviour
 
             par01 = Quaternion.Slerp(pc0.rotation, pc1.rotation, u2);
 
-           // Vector3 tempRot = new Vector3(0, -90, 0);
             //apply those new values
             transform.position = p01;
             transform.rotation = r01;
@@ -346,11 +341,6 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
-    /// <summary>
-    /// Attack code goes here
-    /// 
-    /// </summary>
-    /// <param name="other"></param>
     
     private void OnTriggerEnter(Collider other)
     {
@@ -526,7 +516,6 @@ public class PlayerMovement : MonoBehaviour
         playerData.UpdateTime();
       //  Debug.Log(_timer);
         DisplayTime();
-        //StartCoroutine(timerCount());
     }
 
     void DisplayTime()

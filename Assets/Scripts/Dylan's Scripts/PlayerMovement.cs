@@ -181,8 +181,6 @@ public class PlayerMovement : MonoBehaviour
             moving = true;
             timeStart = Time.time;
             OnPlayerRotation();
-
-           
         }
 
         if (moving)

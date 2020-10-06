@@ -368,7 +368,8 @@ public class PlayerMovement : MonoBehaviour
         if (other.tag == "Goal")
         {
             //Debug.Log("goal");
-            gamerUI.UpdateObjText();
+            if(!other.GetComponent<TeleBool>().active)
+                   gamerUI.UpdateObjText();
             //Debug.Log("hit");
             other.GetComponent<TeleBool>().active = true;
             //instead of destroying io made the game object change color so we dont get an error when we have multiple keys

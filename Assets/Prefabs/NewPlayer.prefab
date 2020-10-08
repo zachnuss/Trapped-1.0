@@ -1383,7 +1383,7 @@ MonoBehaviour:
     m_MinSize: 0
     m_MaxSize: 300
     m_Alignment: 5
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -2093,6 +2093,10 @@ MonoBehaviour:
   hpBarX: 0
   objectiveText: {fileID: 1767476939777226961}
   objectiveTracker: 0
+  loopsText: {fileID: 6060373289156518453}
+  progressBarBit: {fileID: 841856442273652983}
+  progressBarHalf: {fileID: 6706150933381380840}
+  progressBarFull: {fileID: 1991063854457263329}
 --- !u!1 &7571365786826290777
 GameObject:
   m_ObjectHideFlags: 0

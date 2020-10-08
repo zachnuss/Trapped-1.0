@@ -21,6 +21,15 @@ public class UIInGame : MonoBehaviour
     public Text objectiveText;
     public int objectiveTracker;
 
+    //Cube and Loop progression Variables
+    public Text loopsText;  //Links to loop num text for UI
+    private int loopsCompleted = 0; //TEMP VARIABLE TO BE REPLACED WHEN LOOPS WORK
+
+    public Image progressBarBit; //Progress bar first level image
+    public Image progressBarHalf; //Progress bar second level image
+    public Image progressBarFull; //Progress bar third level image
+
+
     //Function to keep track of the health bar removal
     public void healthBarStatus(int health)
     {
@@ -40,7 +49,15 @@ public class UIInGame : MonoBehaviour
         //When the scene starts it will display the current health total that is stored in the player data
         healthText.text = "" + playerData.localHealth;
 
-        hpBarX = healthBar.rectTransform.localScale.x;    
+        hpBarX = healthBar.rectTransform.localScale.x;
+
+        //Sets up the loops completed *****TEMP METHOD****
+        loopsText.text = "" + loopsCompleted;
+
+        //Initializes the progress bar *TEST TEST*
+        progressBarBit.enabled = true;
+        progressBarHalf.enabled = false;
+        progressBarFull.enabled = false;
     }
 
 

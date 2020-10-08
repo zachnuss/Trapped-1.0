@@ -12,4 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a7c1bbaabe05941a7e2b4e775195be, type: 3}
   m_Name: GameLevelDataObj
   m_EditorClassIdentifier: 
-  check: 0
+  level1Permutations:
+  - {fileID: 4965323513242849705, guid: fd342bb6f23c13147af24a167e829afd, type: 3}
+  - {fileID: 4965323513242849705, guid: 435684908907058499d78170716a1a5e, type: 3}
+  - {fileID: 4965323513242849705, guid: 61a872961e6afc94f9e5312a873c3d12, type: 3}
+  level2Permutations:
+  - {fileID: 1113953728954480797, guid: e20432d1288830f45950648e7b4495cf, type: 3}
+  - {fileID: 1113953728954480797, guid: da786f1c55a9d184e806d6c082fcc3ee, type: 3}
+  - {fileID: 1113953728954480797, guid: f77f8e2e2c832e0439724012b418c4d1, type: 3}
+  level3Permutations:
+  - {fileID: 4411012756225232695, guid: c596bcd67e4f42c469712da45478e759, type: 3}
+  - {fileID: 4411012756225232695, guid: 7957d915462645845af82ffd12d5711c, type: 3}
+  - {fileID: 4411012756225232695, guid: e542fdd206db4004ea6c97dbbc288c27, type: 3}

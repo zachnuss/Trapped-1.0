@@ -11,6 +11,7 @@ public class PlayerData : ScriptableObject
     public float timerMin;
     public float timerHour;
     public float timerBetweenLevels;
+    public float totalTime;
 
     [Header("Player Upgrade Stats")]
     public int healthUpgrade;

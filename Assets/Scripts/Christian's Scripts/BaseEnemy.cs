@@ -53,6 +53,8 @@ public class BaseEnemy : MonoBehaviour
     private bool _hasHitWall = false;
     private GameObject _playerGO; //initialize in start
 
+    private PlayerData playerData;//player data object
+
     /**
      * CLASS FUNCTIONS
      */
@@ -81,9 +83,9 @@ public class BaseEnemy : MonoBehaviour
         multiplier = Mathf.Pow(multiplier, level);
         speedMultipler = Mathf.Pow(speedMultipler, level);
         //raise stats
-        health = Mathf.FloorToInt(health * multiplier);
-        damage = Mathf.FloorToInt(damage * multiplier);
-        speed = Mathf.FloorToInt(speed * speedMultipler);
+        health = Mathf.FloorToInt((health * multiplier)+(playerData.totalTime/60*3));
+        damage = Mathf.FloorToInt((damage * multiplier) + (playerData.totalTime / 60 * 2));
+        speed = Mathf.FloorToInt((speed * speedMultipler) + (playerData.totalTime / 60 * .5f));
         pointValue = Mathf.FloorToInt(pointValue * multiplier);
     }
 
@@ -206,6 +208,7 @@ public class BaseEnemy : MonoBehaviour
 
         //get my level based on index (i.e. level 1 = 0)
         int curLevelIndex = _playerGO.GetComponent<PlayerMovement>().playerData.OnLevel;
+        playerData = _playerGO.GetComponent<PlayerMovement>().playerData;
         //level up based on level index
         levelUp(curLevelIndex);
 

@@ -28,15 +28,15 @@ public class GameLevelData : ScriptableObject
         switch (levelType)
         {
             case levelTypeE.EasyLevel:
-                permutation = Random.Range(0, level1Permutations.Length - 1);
+                permutation = Random.Range(0, level1Permutations.Length);
                 Debug.Log("Used p number: " + permutation);
                 return level1Permutations[permutation];
             case levelTypeE.MidLevel:
-                permutation = Random.Range(0, level2Permutations.Length - 1);
+                permutation = Random.Range(0, level2Permutations.Length);
                 Debug.Log("Used p number: " + permutation);
                 return level2Permutations[permutation];
             case levelTypeE.Hardlevel:
-                permutation = Random.Range(0, level3Permutations.Length - 1);
+                permutation = Random.Range(0, level3Permutations.Length);
                 Debug.Log("Used p number: " + permutation);
                 return level3Permutations[permutation];
             default:

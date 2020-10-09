@@ -20,15 +20,32 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //animation states for player
+    //top
+    public enum playerTopState
+    {
+        idle,
+        moving,
+        firing,
+        interacting
+    };
+    //legs
+    public enum playerBottomState
+    {
+        idle,
+        walking
+    }
+
+
     public UIInGame gamerUI;
     //set up for rotation and new rotation orientation
     [Header("Parent object of this player obj")]
     public GameObject parent;
     public GameObject follower;
     //new rotation orientation player moves to
-    Quaternion targetRotation;
+    //Quaternion targetRotation;
     //PlayerInputActions controls;
-    Vector3 _playerAngle;
+    //Vector3 _playerAngle;
     [Header("Player movement speed")]
     public float movementSpeed = 1.0f;
     Vector2 movementInput;
@@ -41,6 +58,10 @@ public class PlayerMovement : MonoBehaviour
     public int health;
     public int damage;
     public float speedMultiplier;
+
+    [Header("Player Animation State")]
+    public playerBottomState animBottomState;
+    public playerTopState animTopState;
 
     //Camera
    // public CamLookAt playerCam;
@@ -273,6 +294,9 @@ public class PlayerMovement : MonoBehaviour
 
         //player is always moving forward, player is just adjsuting which way they move forward (always local forward so we can have player move consistentaly forward on each side)
         transform.position += transform.forward * newSpeed *speedAdjustment()* Time.deltaTime;
+
+
+
     }
 
     void Movement()
@@ -281,13 +305,20 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(movement);
         //only move if player gives input
         if (movement != Vector3.zero)
+        {
             RotateMovement(movement);
+            animBottomState = playerBottomState.walking;
+        }
+        else
+            animBottomState = playerBottomState.idle;
     }
     //make movement not constant
     public float speedAdjustment()
     {
         float speedMod = Mathf.Sqrt((movementInput.x * movementInput.x) + (movementInput.y * movementInput.y));
 
+        //player legs walking speed is determined here
+        //SET ANIMATION SPEED HERE (multiply anim speed by speed mod)
 
         return speedMod;
     }
@@ -336,6 +367,7 @@ public class PlayerMovement : MonoBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce(bullet.transform.forward * 1000);
 
+        //when we fire we run fire animation once (firing state is active while animation is active)
 
 
     }
@@ -590,4 +622,6 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log("off");
         //Debug.Log(speedMultiplier);
     }
+
+    
 }

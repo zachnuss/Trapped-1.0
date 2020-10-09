@@ -51,8 +51,11 @@ public class PlayerMovement : MonoBehaviour
     Vector2 movementInput;
     //rotation
     [Header("Rotation Speed")]
-    public float _turnSpeed = 2f;
+    public float turnSpeed = 20f;
+    public float lookSpeed = 30f;
     float _angle;
+    //player looking rotation
+    Vector2 lookingInput;
 
     [Header("Current Player Stats - Set on Scene Start")]
     public int health;
@@ -247,10 +250,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
    
-    //movement
+    //for movement
     private void OnMove1(InputValue value)
     {
         movementInput = value.Get<Vector2>();
+    }
+    //for looking
+    private void OnLook(InputValue value)
+    {
+        lookingInput = value.Get<Vector2>();
+        Debug.Log(lookingInput);
     }
     //joysticks
     public float JoystickH()
@@ -278,7 +287,7 @@ public class PlayerMovement : MonoBehaviour
         _angle = Mathf.Rad2Deg * _angle;
 
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
-        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * _turnSpeed), 0 ); //transform.localEulerAngles.x 
+        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * turnSpeed), 0 ); //transform.localEulerAngles.x 
 
         //improved rotation movement
         //Vector3 desiredRot = new Vector3(0, _angle, 0);//Quaternion.Euler(0, _angle, 0);
@@ -294,9 +303,6 @@ public class PlayerMovement : MonoBehaviour
 
         //player is always moving forward, player is just adjsuting which way they move forward (always local forward so we can have player move consistentaly forward on each side)
         transform.position += transform.forward * newSpeed *speedAdjustment()* Time.deltaTime;
-
-
-
     }
 
     void Movement()
@@ -323,13 +329,41 @@ public class PlayerMovement : MonoBehaviour
         return speedMod;
     }
 
+    //looking rotation (Not running yet)
+    public float JoystickLookingH()
+    {
+        //float r = 0.0f;
+        float h = movementInput.x;
+        //r += Mathf.Round(h);
+        return Mathf.Clamp(h, -1.0f, 1.0f);
+    }
+    public float JoystickLookingV()
+    {
+        //float r = 0.0f;
+        float v = movementInput.y;
+        //r += Mathf.Round(v);
+        return Mathf.Clamp(v, -1.0f, 1.0f);
+    }
+    public Vector3 LookJoystick()
+    {
+        return new Vector3(JoystickLookingH(), 0, JoystickLookingV());
+    }
+    void RotateLookingMovement(Vector3 movement)
+    {
+        //convert joystick movements to angles that we can apply to player rotation
+        _angle = Mathf.Atan2(movement.x, movement.z);
+        _angle = Mathf.Rad2Deg * _angle;
+
+        //local angles are used since its a child, the player parent is set to keep track of the global rotation
+        //set local rotation of the top half player
+        //transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * lookSpeed), 0); //transform.localEulerAngles.x 
+    }
+
     void OnPlayerRotation()
     {
         //runs when player moves to next cube (runs only once)
         //camera rotation
         Transform newCameraTrans = _rotationTrans;
-        
-
     }
 
     //when player gets to edge

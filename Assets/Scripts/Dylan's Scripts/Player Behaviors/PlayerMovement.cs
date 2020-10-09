@@ -115,12 +115,20 @@ public class PlayerMovement : MonoBehaviour
     public Animator[] transition; //Transition animator
     public float transitionTime = 1;
     private int rng;
-
+    bool firingState;
+    bool _repeatedFire;
+    float counter;
+    //set to time to run full animation before repeat, may be a bit shorter so it works better
+    float fireAnimationTime = 1f;
     public float localTimer;
     
     //displays timer per level (resets at level start and ends at level end
     [Header("UI")]
     public Text timerText;
+
+    [Header("Player Animators")]
+    public Animator top;
+    public Animator legs;
 
     //awake
     private void Awake()
@@ -185,6 +193,14 @@ public class PlayerMovement : MonoBehaviour
             //if we hit the door and are off the cube
             checkToCalculate = true;
         }
+
+        //IsName = name of firing animation for top
+        //TEMPORARY COMMENTED CAUSE I DONT HAVE ANIMATIONS YET
+   //     if (top.GetCurrentAnimatorStateInfo(0).IsName("Firing"))
+   //     {
+            // turn of state when animation is done
+    //        firingState = false;
+    //   }
     }
 
     //moves player based on equation
@@ -314,9 +330,16 @@ public class PlayerMovement : MonoBehaviour
         {
             RotateMovement(movement);
             animBottomState = playerBottomState.walking;
+            //turned off temp cause we dont have animations lol
+            //if(!firingState)
+                animTopState = playerTopState.moving;
         }
         else
+        {
             animBottomState = playerBottomState.idle;
+           // if (!firingState)
+                animTopState = playerTopState.idle;
+        }
     }
     //make movement not constant
     public float speedAdjustment()
@@ -347,6 +370,19 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 LookJoystick()
     {
         return new Vector3(JoystickLookingH(), 0, JoystickLookingV());
+    }
+    void Looking()
+    {
+        Vector3 looking = LookJoystick();
+        //Debug.Log(movement);
+        //only move if player gives input
+        if (looking != Vector3.zero)
+        {
+            RotateMovement(looking);
+            //animTopState = playerTopState.moving;
+        }
+       // else
+          //  animTopState = playerTopState.idle;
     }
     void RotateLookingMovement(Vector3 movement)
     {
@@ -400,10 +436,15 @@ public class PlayerMovement : MonoBehaviour
         //just to destroy stray bullets if they escape the walls
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce(bullet.transform.forward * 1000);
-
+       // _repeatedFire = true;
         //when we fire we run fire animation once (firing state is active while animation is active)
+        //StartCoroutine(FireState());
 
+        //start animation
+        firingState = true;
 
+        //temporary turned off cause i dont have animations (will ignore firing for now)
+       // animTopState = playerTopState.firing;
     }
     
     private void OnTriggerEnter(Collider other)
@@ -657,5 +698,19 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(speedMultiplier);
     }
 
-    
+
+    //NOT IN USE - UNUSED
+    //when we fire, we launch the firing animation, while the bool is on (the anim is playing) we cannot switch to topIdle or topMoving until its done
+    IEnumerator FireState()
+    {
+        animTopState= playerTopState.firing;
+        firingState = true;
+        
+        //however long the animation is
+        yield return new WaitForSeconds(1f);
+
+        //if we havent fired again in the last sec, we can turn this off
+        if(_repeatedFire == false)
+            firingState = false;
+    }
 }

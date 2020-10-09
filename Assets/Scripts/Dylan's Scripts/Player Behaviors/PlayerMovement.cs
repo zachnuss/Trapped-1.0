@@ -117,7 +117,6 @@ public class PlayerMovement : MonoBehaviour
     private int rng;
     bool firingState;
     bool _repeatedFire;
-    float counter;
     //set to time to run full animation before repeat, may be a bit shorter so it works better
     float fireAnimationTime = 1f;
     public float localTimer;
@@ -197,8 +196,8 @@ public class PlayerMovement : MonoBehaviour
         //temp commented out
 
         //IsName = name of firing animation for top
-        //TEMPORARY COMMENTED CAUSE I DONT HAVE ANIMATIONS YET
-        //     if (top.GetCurrentAnimatorStateInfo(0).IsName("Firing"))
+        //TEMPORARY COMMENTED CAUSE I DONT HAVE ANIMATIONS YET (0 is base state)
+        //     if (top.GetCurrentAnimatorStateInfo(0).IsName("isFiring"))
         //     {
         // turn of state when animation is done
         //        firingState = false;
@@ -374,11 +373,24 @@ public class PlayerMovement : MonoBehaviour
         //only move if player gives input
         if (looking != Vector3.zero)
         {
-            RotateMovement(looking);
+            LookMovement(looking);
             //animTopState = playerTopState.moving;
         }
        // else
           //  animTopState = playerTopState.idle;
+    }
+
+    void LookMovement(Vector3 movement)
+    {
+        //convert joystick movements to angles that we can apply to player rotation
+        _angle = Mathf.Atan2(movement.x, movement.z);
+        _angle = Mathf.Rad2Deg * _angle;
+
+        //local angles are used since its a child, the player parent is set to keep track of the global rotation
+        //rotates top half with the gun
+       // transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * lookSpeed), 0);
+
+        
     }
 
     void OnPlayerRotation()

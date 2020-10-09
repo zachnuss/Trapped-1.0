@@ -27,6 +27,7 @@ public class LevelSetup : MonoBehaviour
         SetPlayer();
         permutation = gameLevelData.ChooseLevelP(type);
         Instantiate(permutation);
+        Debug.Log(permutation.name);
     }
 
     void SetPlayer()

@@ -189,20 +189,27 @@ public class PlayerData : ScriptableObject
             highScore3 = highScore2;
             highScore2 = highScore1;
             highScore1 = score;
+            SaveHighscoresToFile();
         }
         else if (score > highScore2)
         {
             highScore3 = highScore2;
             highScore2 = score;
+            SaveHighscoresToFile();
         }
         else if (score > highScore3)
         {
             highScore3 = score;
+            SaveHighscoresToFile();
         }
+
     }
 
     public void SaveHighscoresToFile()
     {
-
+        string score1 = JsonUtility.ToJson(highScore1);
+        string score2 = JsonUtility.ToJson(highScore2);
+        string score3 = JsonUtility.ToJson(highScore3);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/HighScores.json", score1 + "\n" + score2 + "\n" + score3);
     }
 }

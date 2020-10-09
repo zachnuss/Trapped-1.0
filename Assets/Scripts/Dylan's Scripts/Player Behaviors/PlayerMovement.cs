@@ -129,12 +129,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animators")]
     public Animator top;
     public Animator legs;
+    public PlayerAnimations playerAnimations;
 
     //awake
     private void Awake()
     {
-  
-        Vector3 _playerAngle = Vector3.zero;
  
     }
 
@@ -194,13 +193,18 @@ public class PlayerMovement : MonoBehaviour
             checkToCalculate = true;
         }
 
+
+        //temp commented out
+
         //IsName = name of firing animation for top
         //TEMPORARY COMMENTED CAUSE I DONT HAVE ANIMATIONS YET
-   //     if (top.GetCurrentAnimatorStateInfo(0).IsName("Firing"))
-   //     {
-            // turn of state when animation is done
-    //        firingState = false;
-    //   }
+        //     if (top.GetCurrentAnimatorStateInfo(0).IsName("Firing"))
+        //     {
+        // turn of state when animation is done
+        //        firingState = false;
+        //   }
+
+        //SetAnimation();
     }
 
     //moves player based on equation
@@ -305,17 +309,9 @@ public class PlayerMovement : MonoBehaviour
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * turnSpeed), 0 ); //transform.localEulerAngles.x 
 
-        //improved rotation movement
-        //Vector3 desiredRot = new Vector3(0, _angle, 0);//Quaternion.Euler(0, _angle, 0);
-        //transform.localEulerAngles = Vector3.Slerp(this.transform.localEulerAngles, desiredRot, Time.deltaTime * _turnSpeed);
-
         //base movement is just 1.0
         float boost = movementSpeed * speedMultiplier;
         float newSpeed = movementSpeed + boost;
-
-
-        //in order to avoid unwanted forward movement while player rotates, speed will be reduced if the localY is a certain amount away from _angle
-        //if(transform.localEulerAngles.y == _angle)
 
         //player is always moving forward, player is just adjsuting which way they move forward (always local forward so we can have player move consistentaly forward on each side)
         transform.position += transform.forward * newSpeed *speedAdjustment()* Time.deltaTime;
@@ -383,16 +379,6 @@ public class PlayerMovement : MonoBehaviour
         }
        // else
           //  animTopState = playerTopState.idle;
-    }
-    void RotateLookingMovement(Vector3 movement)
-    {
-        //convert joystick movements to angles that we can apply to player rotation
-        _angle = Mathf.Atan2(movement.x, movement.z);
-        _angle = Mathf.Rad2Deg * _angle;
-
-        //local angles are used since its a child, the player parent is set to keep track of the global rotation
-        //set local rotation of the top half player
-        //transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * lookSpeed), 0); //transform.localEulerAngles.x 
     }
 
     void OnPlayerRotation()
@@ -698,19 +684,49 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(speedMultiplier);
     }
 
+    //will be in update
+    void SetAnimation()
+    {
+        //based on status enum
+        switch (animBottomState)
+        {
+            case playerBottomState.idle:
+                break;
+            case playerBottomState.walking:
+                break;
+            default:
+                break;
+        }
+
+        switch (animTopState)
+        {
+            case playerTopState.idle:
+                break;
+            case playerTopState.moving:
+                break;
+            case playerTopState.firing:
+
+                break;
+            case playerTopState.interacting:
+                break;
+            default:
+                break;
+        }
+    }
+
 
     //NOT IN USE - UNUSED
     //when we fire, we launch the firing animation, while the bool is on (the anim is playing) we cannot switch to topIdle or topMoving until its done
     IEnumerator FireState()
     {
-        animTopState= playerTopState.firing;
+        animTopState = playerTopState.firing;
         firingState = true;
-        
+
         //however long the animation is
         yield return new WaitForSeconds(1f);
 
         //if we havent fired again in the last sec, we can turn this off
-        if(_repeatedFire == false)
+        if (_repeatedFire == false)
             firingState = false;
     }
 }

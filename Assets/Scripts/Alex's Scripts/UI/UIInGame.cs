@@ -23,7 +23,7 @@ public class UIInGame : MonoBehaviour
 
     //Cube and Loop progression Variables
     public Text loopsText;  //Links to loop num text for UI
-    private int loopsCompleted = -1; //TEMP VARIABLE TO BE REPLACED WHEN LOOPS WORK
+    private int loopsCompleted = 0; //TEMP VARIABLE TO BE REPLACED WHEN LOOPS WORK
 
     public Image progressBarBit; //Progress bar first level image
     public Image progressBarHalf; //Progress bar second level image
@@ -51,9 +51,6 @@ public class UIInGame : MonoBehaviour
         //level 1 check
         if(currLevel == 0)
         {
-            loopsCompleted++; //Whenever the level finishes looping around it will update the text for loops completed
-            loopsText.text = "" + loopsCompleted;
-
             progressBarBit.enabled = true;
             progressBarHalf.enabled = false;
             progressBarFull.enabled = false;
@@ -88,6 +85,9 @@ public class UIInGame : MonoBehaviour
         healthText.text = "" + playerData.localHealth;
 
         hpBarX = healthBar.rectTransform.localScale.x;
+
+        //Set the text for loops completed *TEMP UNTIL LOOPS ARE ENABLED*
+        loopsText.text = "" + loopsCompleted;
 
         //Initializes the progress bar
         progressStatus();

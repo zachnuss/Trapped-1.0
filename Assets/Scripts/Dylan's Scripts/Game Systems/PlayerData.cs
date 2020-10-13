@@ -46,16 +46,8 @@ public class PlayerData : ScriptableObject
     //public Scene prevLevel;
     public string nextLevelStr;
     public string prevLevelStr;
-
-   // [Header("End and Store")]
-   // public Scene endScreenScene;
-    //public Scene storeScene;
-
-    //initial setup for playerdata on lvl 1
-    public void OnLevel1Load()
-    {
-        ResetUpgrades();
-    }
+    [Header("Levels Beaten")]
+    public int levelsBeaten = 0;
 
     //called when level beat
     public void BeatLevel()
@@ -71,17 +63,22 @@ public class PlayerData : ScriptableObject
             
             OnLevel++;
             if (OnLevel > 2)
+            {
                 OnLevel = 0;
+                //finished one loop of levels 1 - 3, now at reset we can add the thing for high risk/high reward and increase difficulty
+
+                //INCREASE DIFFICULTY HERE
+
+            }
 
             if (OnLevel != levelsS.Length)
                 nextLevelStr = levelsS[OnLevel];
 
             //goes 1 - 3 then back to one
-            
+            levelsBeaten++;
 
             //load store scene?
             SceneManager.LoadScene("StoreScene");
-
         }
     }
 
@@ -92,8 +89,6 @@ public class PlayerData : ScriptableObject
         {
             Debug.Log("Loading Next Level: " + levelsS[OnLevel]);
             timerSec += timerBetweenLevels;
-
-            //pick next permutation
 
             SceneManager.LoadScene(nextLevelStr);
         }
@@ -131,6 +126,7 @@ public class PlayerData : ScriptableObject
         totalHealthBase = 100;
         //currently level 1 = scene 0
         OnLevel = 0;
+        levelsBeaten = 0;
         //timer starts at 0
         timerHour = 0;
         timerSec = 0;
@@ -149,47 +145,36 @@ public class PlayerData : ScriptableObject
     /// 
     /// </summary>
     /// <param name="addition"></param>
-
     public void UpgradeHealth()
     {
         healthUpgrade++;
         totalHealthBase += 5;
         localHealth += 5;
         Debug.Log("Health Upgrade Purchased! New Health = " + localHealth + " out of " + totalHealthBase);
-        //UPDATE UI HERE
     }
-
     public void UpgradeDamage()
     {
         damageUpgrade++;
-
         Debug.Log("Damage Upgrade Purchased!");
-        //UPDATE UI HERE
     }
-
     public void UpgradeSpeed()
     {
         speedUpgrade++;
-
         Debug.Log("SPEED Upgrade Purchased!");
-        //UPDATE UI HERE
     }
 
     public void UpdateTime()
     {      
-
             if (timerMin >= 60)
             {
                 timerHour++;
                 timerMin = 0;
             }
         
-
         if (timerHour >= 99 && timerMin > 60 && timerSec > 60)
         {
             Debug.Log("you loose");
         }
-
     }
 
     public void SaveHighscore() //Wesley

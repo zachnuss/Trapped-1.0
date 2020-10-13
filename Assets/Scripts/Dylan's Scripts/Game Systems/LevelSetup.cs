@@ -21,6 +21,8 @@ public class LevelSetup : MonoBehaviour
 
     private GameObject _player;
 
+    public Modifier[] currentModsInLevel;
+
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -28,6 +30,9 @@ public class LevelSetup : MonoBehaviour
         permutation = gameLevelData.ChooseLevelP(type);
         Instantiate(permutation);
         Debug.Log(permutation.name);
+
+        //set modifiers
+        SetModifiers();
     }
 
     void SetPlayer()
@@ -38,7 +43,7 @@ public class LevelSetup : MonoBehaviour
                 _player.transform.position = new Vector3(0.45f, 23.01f, 0.27f);
                 break;
             case levelTypeE.MidLevel:
-                _player.transform.position = new Vector3(0, 23.998f, 0);
+                //_player.transform.position = new Vector3(0, 23.998f, 0);
                 break;
             case levelTypeE.Hardlevel:
                 _player.transform.position = new Vector3(0, 38.1f, 0);
@@ -46,5 +51,29 @@ public class LevelSetup : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    //if player choose mods at end of loop they go into each level here
+    void SetModifiers()
+    {
+        currentModsInLevel = gameLevelData.mods;
+        ActivateModifiers();
+    }
+
+
+    //physicall activate mods in level
+    void ActivateModifiers()
+    {
+        for (int modIndex = 0; modIndex <= currentModsInLevel.Length; modIndex++)
+        {
+            if (currentModsInLevel[modIndex].modType == modifierType.shields_and_regainMOD)
+            {
+                //turn on health regen bool on player
+                _player.GetComponent<PlayerMovement>().healthRegen = true;
+                return;
+            }
+        }
+
+        Debug.Log("Mods Now Active in Level");
     }
 }

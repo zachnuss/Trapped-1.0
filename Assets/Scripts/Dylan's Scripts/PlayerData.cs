@@ -29,12 +29,19 @@ public class PlayerData : ScriptableObject
 
     [Header("Player score")]
     public int score = 0;
+    public int scoreFromTime;
+    public int scoreFromEnemies;
+    public int enemiesKilled;
+    public int powerUpsCollected;
+    public int matchCurrencyCollected;
+    public int matchSpecialCoinCollected;
     private int highScore1 = 0;
     private int highScore2 = 0;
     private int highScore3 = 0;
 
     [Header("Player Currency")]
     public int currency;
+    public int specialCoins;
 
     [Header("Player Currency")]
    // public Scene[] levels;
@@ -46,9 +53,11 @@ public class PlayerData : ScriptableObject
     public string nextLevelStr;
     public string prevLevelStr;
 
-   // [Header("End and Store")]
-   // public Scene endScreenScene;
+    // [Header("End and Store")]
+    // public Scene endScreenScene;
     //public Scene storeScene;
+    [Header("Player Color")]
+    public int materialChoice;
 
     //initial setup for playerdata on lvl 1
     public void OnLevel1Load()
@@ -189,27 +198,45 @@ public class PlayerData : ScriptableObject
             highScore3 = highScore2;
             highScore2 = highScore1;
             highScore1 = score;
-            SaveHighscoresToFile();
         }
         else if (score > highScore2)
         {
             highScore3 = highScore2;
             highScore2 = score;
-            SaveHighscoresToFile();
         }
         else if (score > highScore3)
         {
             highScore3 = score;
-            SaveHighscoresToFile();
         }
+    }
+
+    public void TrackEnemyScore()
+    {
 
     }
 
-    public void SaveHighscoresToFile()
+    public void TrackTimeScore()
     {
-        string score1 = JsonUtility.ToJson(highScore1);
-        string score2 = JsonUtility.ToJson(highScore2);
-        string score3 = JsonUtility.ToJson(highScore3);
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/HighScores.json", score1 + "\n" + score2 + "\n" + score3);
+
+    }
+
+    public void TrackCurrencyGains()
+    {
+
+    }
+
+    public void TrackSpecialCoinGains()
+    {
+
+    }
+
+    public void TrackEnemyKills()
+    {
+
+    }
+
+    public void TrackPowerupGains()
+    {
+
     }
 }

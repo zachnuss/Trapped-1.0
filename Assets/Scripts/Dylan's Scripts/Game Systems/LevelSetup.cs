@@ -38,7 +38,7 @@ public class LevelSetup : MonoBehaviour
                 _player.transform.position = new Vector3(0.45f, 23.01f, 0.27f);
                 break;
             case levelTypeE.MidLevel:
-                _player.transform.position = new Vector3(0, 23.998f, 0);
+                //_player.transform.position = new Vector3(0, 23.998f, 0);
                 break;
             case levelTypeE.Hardlevel:
                 _player.transform.position = new Vector3(0, 38.1f, 0);

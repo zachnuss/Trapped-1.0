@@ -127,8 +127,11 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Player Animators")]
     public Animator top;
+    public GameObject topObj;
     public Animator legs;
     public PlayerAnimations playerAnimations;
+
+    //public GameObject top;
 
     //awake
     private void Awake()
@@ -388,7 +391,8 @@ public class PlayerMovement : MonoBehaviour
 
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-       // transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * lookSpeed), 0);
+        if(topObj != null)
+            topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * lookSpeed), 0);
 
         
     }

@@ -22,7 +22,7 @@ public class PlayerData : ScriptableObject
     public int totalHealthBase;
     // public int totalSpeedBase;
     public int totalDamageBase;
-    public int localHealth;
+    public float localHealth;
 
     [Header("Current level player is on: ZERO INDEXED")]
     public int OnLevel = 0;

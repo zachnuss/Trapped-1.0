@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     Vector2 lookingInput;
 
     [Header("Current Player Stats - Set on Scene Start")]
-    public int health;
+    public float health;
     public int damage;
     public float speedMultiplier;
 
@@ -120,6 +120,10 @@ public class PlayerMovement : MonoBehaviour
     //set to time to run full animation before repeat, may be a bit shorter so it works better
     float fireAnimationTime = 1f;
     public float localTimer;
+
+    [Header("Player Modifiers")]
+    //player choosen mods
+    public bool healthRegen = false;
     
     //displays timer per level (resets at level start and ends at level end
     [Header("UI")]
@@ -145,14 +149,14 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        SetPlayerModifiers();
         SetPlayerStats();
 
         teleporterTracker = GameObject.FindGameObjectWithTag("GoalCheck"); //assumes we check on construction of the player, with a new player every level - Wesley
         rng = Random.Range(0, transition.Length);
         localTimer = playerData.timerBetweenLevels;
         // StartCoroutine(timerCount());
-        InvokeRepeating("ScorePerSecond", 0f, 1f); //Every second, give score equal to 1*the level count. - Wesley
+        InvokeRepeating("PerSecond", 0f, 1f); //Every second, give score equal to 1*the level count. - Wesley
     }
 
 
@@ -604,9 +608,22 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Score - Wesley
-    void ScorePerSecond()
+    void PerSecond()
     {
         playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1.
+
+        //other things it should do every second
+
+        //health regen  (if active)
+        if (healthRegen)
+        {
+            if (health < playerData.totalHealthBase)
+            {
+                health += 0.1f;
+                gamerUI.healthBarStatus((int)health);
+                Debug.Log("regen");
+            }
+        }
     }
 
     //UI and TIMER
@@ -621,12 +638,14 @@ public class PlayerMovement : MonoBehaviour
             playerData.timerMin++;
             playerData.timerSec = 0;
             localTimer = 0;
-           
+
         }
 
         playerData.UpdateTime();
       //  Debug.Log(_timer);
         DisplayTime();
+
+        
     }
 
     void DisplayTime()
@@ -730,6 +749,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //sets up player stats based on which mods are active in level setup
+    void SetPlayerModifiers()
+    {
+
+    }
 
     //NOT IN USE - UNUSED
     //when we fire, we launch the firing animation, while the bool is on (the anim is playing) we cannot switch to topIdle or topMoving until its done

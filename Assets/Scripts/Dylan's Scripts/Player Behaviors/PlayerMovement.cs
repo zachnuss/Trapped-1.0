@@ -20,27 +20,51 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //animation states for player
+    //top
+    public enum playerTopState
+    {
+        idle,
+        moving,
+        firing,
+        interacting
+    };
+    //legs
+    public enum playerBottomState
+    {
+        idle,
+        walking
+    }
+
+
     public UIInGame gamerUI;
     //set up for rotation and new rotation orientation
     [Header("Parent object of this player obj")]
     public GameObject parent;
     public GameObject follower;
     //new rotation orientation player moves to
-    Quaternion targetRotation;
+    //Quaternion targetRotation;
     //PlayerInputActions controls;
-    Vector3 _playerAngle;
+    //Vector3 _playerAngle;
     [Header("Player movement speed")]
     public float movementSpeed = 1.0f;
     Vector2 movementInput;
     //rotation
     [Header("Rotation Speed")]
-    public float _turnSpeed = 2f;
+    public float turnSpeed = 20f;
+    public float lookSpeed = 30f;
     float _angle;
+    //player looking rotation
+    Vector2 lookingInput;
 
     [Header("Current Player Stats - Set on Scene Start")]
     public int health;
     public int damage;
     public float speedMultiplier;
+
+    [Header("Player Animation State")]
+    public playerBottomState animBottomState;
+    public playerTopState animTopState;
 
     //Camera
    // public CamLookAt playerCam;
@@ -91,18 +115,24 @@ public class PlayerMovement : MonoBehaviour
     public Animator[] transition; //Transition animator
     public float transitionTime = 1;
     private int rng;
-
+    bool firingState;
+    bool _repeatedFire;
+    //set to time to run full animation before repeat, may be a bit shorter so it works better
+    float fireAnimationTime = 1f;
     public float localTimer;
     
     //displays timer per level (resets at level start and ends at level end
     [Header("UI")]
     public Text timerText;
 
+    [Header("Player Animators")]
+    public Animator top;
+    public Animator legs;
+    public PlayerAnimations playerAnimations;
+
     //awake
     private void Awake()
     {
-  
-        Vector3 _playerAngle = Vector3.zero;
  
     }
 
@@ -161,6 +191,19 @@ public class PlayerMovement : MonoBehaviour
             //if we hit the door and are off the cube
             checkToCalculate = true;
         }
+
+
+        //temp commented out
+
+        //IsName = name of firing animation for top
+        //TEMPORARY COMMENTED CAUSE I DONT HAVE ANIMATIONS YET (0 is base state)
+        //     if (top.GetCurrentAnimatorStateInfo(0).IsName("isFiring"))
+        //     {
+        // turn of state when animation is done
+        //        firingState = false;
+        //   }
+
+        //SetAnimation();
     }
 
     //moves player based on equation
@@ -226,10 +269,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
    
-    //movement
+    //for movement
     private void OnMove1(InputValue value)
     {
         movementInput = value.Get<Vector2>();
+    }
+    //for looking
+    private void OnLook(InputValue value)
+    {
+        lookingInput = value.Get<Vector2>();
+        Debug.Log(lookingInput);
     }
     //joysticks
     public float JoystickH()
@@ -257,19 +306,11 @@ public class PlayerMovement : MonoBehaviour
         _angle = Mathf.Rad2Deg * _angle;
 
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
-        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * _turnSpeed), 0 ); //transform.localEulerAngles.x 
-
-        //improved rotation movement
-        //Vector3 desiredRot = new Vector3(0, _angle, 0);//Quaternion.Euler(0, _angle, 0);
-        //transform.localEulerAngles = Vector3.Slerp(this.transform.localEulerAngles, desiredRot, Time.deltaTime * _turnSpeed);
+        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * turnSpeed), 0 ); //transform.localEulerAngles.x 
 
         //base movement is just 1.0
         float boost = movementSpeed * speedMultiplier;
         float newSpeed = movementSpeed + boost;
-
-
-        //in order to avoid unwanted forward movement while player rotates, speed will be reduced if the localY is a certain amount away from _angle
-        //if(transform.localEulerAngles.y == _angle)
 
         //player is always moving forward, player is just adjsuting which way they move forward (always local forward so we can have player move consistentaly forward on each side)
         transform.position += transform.forward * newSpeed *speedAdjustment()* Time.deltaTime;
@@ -281,15 +322,75 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(movement);
         //only move if player gives input
         if (movement != Vector3.zero)
+        {
             RotateMovement(movement);
+            animBottomState = playerBottomState.walking;
+            //turned off temp cause we dont have animations lol
+            //if(!firingState)
+                animTopState = playerTopState.moving;
+        }
+        else
+        {
+            animBottomState = playerBottomState.idle;
+           // if (!firingState)
+                animTopState = playerTopState.idle;
+        }
     }
     //make movement not constant
     public float speedAdjustment()
     {
         float speedMod = Mathf.Sqrt((movementInput.x * movementInput.x) + (movementInput.y * movementInput.y));
 
+        //player legs walking speed is determined here
+        //SET ANIMATION SPEED HERE (multiply anim speed by speed mod)
 
         return speedMod;
+    }
+
+    //looking rotation (Not running yet)
+    public float JoystickLookingH()
+    {
+        //float r = 0.0f;
+        float h = movementInput.x;
+        //r += Mathf.Round(h);
+        return Mathf.Clamp(h, -1.0f, 1.0f);
+    }
+    public float JoystickLookingV()
+    {
+        //float r = 0.0f;
+        float v = movementInput.y;
+        //r += Mathf.Round(v);
+        return Mathf.Clamp(v, -1.0f, 1.0f);
+    }
+    public Vector3 LookJoystick()
+    {
+        return new Vector3(JoystickLookingH(), 0, JoystickLookingV());
+    }
+    void Looking()
+    {
+        Vector3 looking = LookJoystick();
+        //Debug.Log(movement);
+        //only move if player gives input
+        if (looking != Vector3.zero)
+        {
+            LookMovement(looking);
+            //animTopState = playerTopState.moving;
+        }
+       // else
+          //  animTopState = playerTopState.idle;
+    }
+
+    void LookMovement(Vector3 movement)
+    {
+        //convert joystick movements to angles that we can apply to player rotation
+        _angle = Mathf.Atan2(movement.x, movement.z);
+        _angle = Mathf.Rad2Deg * _angle;
+
+        //local angles are used since its a child, the player parent is set to keep track of the global rotation
+        //rotates top half with the gun
+       // transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * lookSpeed), 0);
+
+        
     }
 
     void OnPlayerRotation()
@@ -297,8 +398,6 @@ public class PlayerMovement : MonoBehaviour
         //runs when player moves to next cube (runs only once)
         //camera rotation
         Transform newCameraTrans = _rotationTrans;
-        
-
     }
 
     //when player gets to edge
@@ -335,9 +434,15 @@ public class PlayerMovement : MonoBehaviour
         //just to destroy stray bullets if they escape the walls
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce(bullet.transform.forward * 1000);
+       // _repeatedFire = true;
+        //when we fire we run fire animation once (firing state is active while animation is active)
+        //StartCoroutine(FireState());
 
+        //start animation
+        firingState = true;
 
-
+        //temporary turned off cause i dont have animations (will ignore firing for now)
+       // animTopState = playerTopState.firing;
     }
     
     private void OnTriggerEnter(Collider other)
@@ -589,5 +694,51 @@ public class PlayerMovement : MonoBehaviour
         }
         //Debug.Log("off");
         //Debug.Log(speedMultiplier);
+    }
+
+    //will be in update
+    void SetAnimation()
+    {
+        //based on status enum
+        switch (animBottomState)
+        {
+            case playerBottomState.idle:
+                break;
+            case playerBottomState.walking:
+                break;
+            default:
+                break;
+        }
+
+        switch (animTopState)
+        {
+            case playerTopState.idle:
+                break;
+            case playerTopState.moving:
+                break;
+            case playerTopState.firing:
+
+                break;
+            case playerTopState.interacting:
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    //NOT IN USE - UNUSED
+    //when we fire, we launch the firing animation, while the bool is on (the anim is playing) we cannot switch to topIdle or topMoving until its done
+    IEnumerator FireState()
+    {
+        animTopState = playerTopState.firing;
+        firingState = true;
+
+        //however long the animation is
+        yield return new WaitForSeconds(1f);
+
+        //if we havent fired again in the last sec, we can turn this off
+        if (_repeatedFire == false)
+            firingState = false;
     }
 }

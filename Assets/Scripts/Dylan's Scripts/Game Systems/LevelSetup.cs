@@ -64,13 +64,16 @@ public class LevelSetup : MonoBehaviour
     //physicall activate mods in level
     void ActivateModifiers()
     {
-        for (int modIndex = 0; modIndex <= currentModsInLevel.Length; modIndex++)
+        for (int modIndex = 0; modIndex < currentModsInLevel.Length; modIndex++)
         {
             if (currentModsInLevel[modIndex].modType == modifierType.shields_and_regainMOD)
             {
                 //turn on health regen bool on player
                 _player.GetComponent<PlayerMovement>().healthRegen = true;
-                return;
+            }
+            if(currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD)
+            {
+                _player.GetComponent<PlayerMovement>().doubleScoreMod = true;
             }
         }
 

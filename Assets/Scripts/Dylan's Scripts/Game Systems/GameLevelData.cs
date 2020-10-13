@@ -74,7 +74,7 @@ public class GameLevelData : ScriptableObject
     public void AddModifier(modifierType newMod)
     {
         //find mod with this enum then turn it on
-        for(int modIndex = 0; modIndex <= mods.Length; modIndex++)
+        for(int modIndex = 0; modIndex < mods.Length; modIndex++)
         {
             if(mods[modIndex].modType == newMod)
             {
@@ -88,7 +88,7 @@ public class GameLevelData : ScriptableObject
     public bool CheckIfModActive(modifierType newMod)
     {
         //find mod with this enum then turn it on
-        for (int modIndex = 0; modIndex <= mods.Length; modIndex++)
+        for (int modIndex = 0; modIndex < mods.Length; modIndex++)
         {
             if (mods[modIndex].modType == newMod && mods[modIndex].modActive)
             {

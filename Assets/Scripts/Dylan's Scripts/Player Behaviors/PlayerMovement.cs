@@ -124,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Modifiers")]
     //player choosen mods
     public bool healthRegen = false;
+    public bool doubleScoreMod = false;
     
     //displays timer per level (resets at level start and ends at level end
     [Header("UI")]
@@ -610,7 +611,10 @@ public class PlayerMovement : MonoBehaviour
     //Score - Wesley
     void PerSecond()
     {
-        playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1.
+        if(!doubleScoreMod)
+            playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1.
+        else
+            playerData.AddScore(2 * (playerData.OnLevel + 1));
 
         //other things it should do every second
 

@@ -23,7 +23,7 @@ public class UIInGame : MonoBehaviour
 
     //Cube and Loop progression Variables
     public Text loopsText;  //Links to loop num text for UI
-    private int loopsCompleted = 0; //TEMP VARIABLE TO BE REPLACED WHEN LOOPS WORK
+    private int loopsCompleted = -1; //TEMP VARIABLE TO BE REPLACED WHEN LOOPS WORK
 
     public Image progressBarBit; //Progress bar first level image
     public Image progressBarHalf; //Progress bar second level image
@@ -40,6 +40,44 @@ public class UIInGame : MonoBehaviour
         //Debug.Log(healthBar.rectTransform.localScale.x);
     }
 
+    //Function to keep track of the Progress bar and what level the player is on
+    public void progressStatus()
+    {
+        //Current level variable
+        int currLevel = playerData.OnLevel; //0 is level 1, 1 is level 2, 2 is level 3
+        //Debug.Log("We are on the " + currLevel+1 + " level!"); 
+
+        //If-else statements to check what level we are currently on and what should be enabled or disabled
+        //level 1 check
+        if(currLevel == 0)
+        {
+            loopsCompleted++; //Whenever the level finishes looping around it will update the text for loops completed
+            loopsText.text = "" + loopsCompleted;
+
+            progressBarBit.enabled = true;
+            progressBarHalf.enabled = false;
+            progressBarFull.enabled = false;
+        }
+
+        //level 2 check
+        if (currLevel == 1)
+        {
+            progressBarBit.enabled = false;
+            progressBarHalf.enabled = true;
+            progressBarFull.enabled = false;
+        }
+
+        //level 3 check
+        if (currLevel == 2)
+        {
+            progressBarBit.enabled = false;
+            progressBarHalf.enabled = false;
+            progressBarFull.enabled = true;
+        }
+
+        //Debug.Log("Progress Bar Set!");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,13 +89,8 @@ public class UIInGame : MonoBehaviour
 
         hpBarX = healthBar.rectTransform.localScale.x;
 
-        //Sets up the loops completed *****TEMP METHOD****
-        loopsText.text = "" + loopsCompleted;
-
-        //Initializes the progress bar *TEST TEST*
-        progressBarBit.enabled = true;
-        progressBarHalf.enabled = false;
-        progressBarFull.enabled = false;
+        //Initializes the progress bar
+        progressStatus();
     }
 
 

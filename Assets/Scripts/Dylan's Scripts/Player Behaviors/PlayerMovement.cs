@@ -211,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
         //        firingState = false;
         //   }
 
-        //SetAnimation();
+        SetAnimation();
     }
 
     //moves player based on equation
@@ -726,6 +726,7 @@ public class PlayerMovement : MonoBehaviour
     //will be in update
     void SetAnimation()
     {
+        playerAnimations.isIdlingTop();
         //based on status enum
         switch (animBottomState)
         {

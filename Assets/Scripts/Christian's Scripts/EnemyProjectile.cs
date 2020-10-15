@@ -22,12 +22,11 @@ public class EnemyProjectile : MonoBehaviour {
     void Update() {
         //movement of the bullet
         transform.position += speed * fireDir.normalized * Time.deltaTime;
-    }
 
-    private void OnTriggerEnter(Collider other) {
-        //damaging player will be handled in the player's script
-        if (other.tag != "Player")
-        { Destroy(gameObject); }
+        //check for collisiongs using raycast
+        if (_isColliding()) {
+            Destroy(gameObject);
+        }
     }
 
     //functions
@@ -36,5 +35,15 @@ public class EnemyProjectile : MonoBehaviour {
         speed = newSpeed;
         damage = newDamage;
         fireDir = newDir;
+    }
+
+    //not all Objects 
+    private bool _isColliding() {
+        RaycastHit hit;
+        //check for collision using Raycasting
+        if (Physics.Raycast(transform.position, fireDir, 0.75f)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -175,6 +175,9 @@ MonoBehaviour:
   speed: 5
   pointValue: 150
   rateOfBehaviorChange: 2
+  shootCoolDown: 2
+  projectilePrefab: {fileID: 7190517177803824060, guid: a6b53dfcdd9e21e4cb1537d4e31d7246,
+    type: 3}
   playerRangeCheck: 10
 --- !u!1 &7858288221219031826
 GameObject:

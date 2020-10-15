@@ -14,6 +14,7 @@ public class CommonGuard : BaseEnemy {
     ///protected
     protected bool _canSprint = true;
     protected bool _isTrackingPlayer = false;
+    protected bool _canShootPlayer = false;
     ///private
     private float _storeRegSpeed;
     private float _shootTimer = 0f;
@@ -52,11 +53,18 @@ public class CommonGuard : BaseEnemy {
             CancelInvoke("_changeBehavior");
 
             //sprint
-            if (_canSprint) {
+            if (false) {//_canSprint) { //commenting our for debugging shooting
                 //increase speed for tracking
                 speed = _storeRegSpeed * 1.5f;
                 Invoke("_sprintCoolDown", 2.5f); //returns speed back when invoked
                 _canSprint = false;
+            }
+
+            //check for conditions, then shoot and reset vals
+            if (_canShootPlayer && dirOfPlayer == Direction.Forward) {
+                _shootPlayer();
+                _shootTimer = Time.time + shootCoolDown;
+                _canShootPlayer = false;
             }
         }
         else {
@@ -66,6 +74,11 @@ public class CommonGuard : BaseEnemy {
             }
 
             _isTrackingPlayer = false;
+        }
+
+        ///check timer for shooting
+        if (Time.time > _shootTimer) {
+            _canShootPlayer = true;
         }
 
         ///check before movement
@@ -118,24 +131,23 @@ public class CommonGuard : BaseEnemy {
 
     //shoot in front of the enemy
     protected void _shootPlayer() {
-        //check your timer
-        if (Time.time > _shootTimer) {
-            //instantiate
-            GameObject newBullet;
-            Quaternion zerodQ = new Quaternion(0f, 0f, 0f, 1f);
-            newBullet = Instantiate(projectilePrefab, _fwdDirGO.transform.position,
-                                    zerodQ, null) as GameObject;
-            //pass bullet speed value as 
-
-            //move
-
-
-            //set a new timer
-            _shootTimer = Time.time + shootCoolDown;
-        }
+        //gather local vals for instantiation
+        GameObject newBullet;
+        Quaternion zerodQ = new Quaternion(0f, 0f, 0f, 1f);
+        Vector3 fireDir = (_fwdDirGO.transform.position - transform.position);
+        fireDir = fireDir.normalized;
+        //instantiate
+        newBullet = Instantiate(projectilePrefab, _fwdDirGO.transform.position,
+                                zerodQ, null) as GameObject;
+        //pass bullet speed value as 
+        newBullet.GetComponent<EnemyProjectile>().assignStats(speed * 2f,
+                                                                damage,
+                                                                fireDir);
+        //set a new timer
+        _shootTimer = Time.time + shootCoolDown;
     }
 
-    //call as invoke so the 
+    //call as invoke so the boolean will get swapped back
     protected void _sprintCoolDown() {
         speed = _storeRegSpeed;
         _canSprint = true;

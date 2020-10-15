@@ -64,6 +64,8 @@ public class ForceFieldsEnemy : MonoBehaviour
         }
     }
 
+
+    //CODE FOR BASE ENEMY HERE
     //function for enemy script
     //if enemy takes damage, begin timer, once timer is reached sheild can regen health
     //will go in update

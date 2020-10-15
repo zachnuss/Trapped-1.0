@@ -24,3 +24,10 @@ MonoBehaviour:
   - {fileID: 4411012756225232695, guid: c596bcd67e4f42c469712da45478e759, type: 3}
   - {fileID: 4411012756225232695, guid: 7957d915462645845af82ffd12d5711c, type: 3}
   - {fileID: 4411012756225232695, guid: e542fdd206db4004ea6c97dbbc288c27, type: 3}
+  mods:
+  - modActive: 0
+    modDescription: enemies do double damage, but double score
+    modType: 1
+  - modActive: 1
+    modDescription: Health regen + enemies get sheilds
+    modType: 2

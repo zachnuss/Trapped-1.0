@@ -15,20 +15,64 @@ public class UIInGame : MonoBehaviour
 
     //Image Variable to change the health bar to match the missing health percentage
     public Image healthBar; //Links to hp bar Image
-    public int currHealth = 0; //Current health of the player
+    public float currHealth = 0f; //Current health of the player
     public float hpBarX = 0f; //X Scale of the image bar to be set later
 
     public Text objectiveText;
     public int objectiveTracker;
 
+    //Cube and Loop progression Variables
+    public Text loopsText;  //Links to loop num text for UI
+    private int loopsCompleted = 0; //TEMP VARIABLE TO BE REPLACED WHEN LOOPS WORK
+
+    public Image progressBarBit; //Progress bar first level image
+    public Image progressBarHalf; //Progress bar second level image
+    public Image progressBarFull; //Progress bar third level image
+
+
     //Function to keep track of the health bar removal
-    public void healthBarStatus(int health)
+    public void healthBarStatus(float health)
     {
         healthText.text = "" + health; //Sets health to be displayed correctly on the HP bar
         float totalHealth = playerData.totalHealthBase; //sets a total health variable to the health base for fractioning
-        float result = health / totalHealth; //Sets the fraction for the scaling 
+        float result = (int)health / totalHealth; //Sets the fraction for the scaling 
         healthBar.rectTransform.localScale = new Vector3 ((result * hpBarX),0.38f,0.38f); //Scales the hpBar image
         //Debug.Log(healthBar.rectTransform.localScale.x);
+    }
+
+    //Function to keep track of the Progress bar and what level the player is on
+    public void progressStatus()
+    {
+        //Current level variable
+        int currLevel = playerData.OnLevel; //0 is level 1, 1 is level 2, 2 is level 3
+        //Debug.Log("We are on the " + currLevel+1 + " level!"); 
+
+        //If-else statements to check what level we are currently on and what should be enabled or disabled
+        //level 1 check
+        if(currLevel == 0)
+        {
+            progressBarBit.enabled = true;
+            progressBarHalf.enabled = false;
+            progressBarFull.enabled = false;
+        }
+
+        //level 2 check
+        if (currLevel == 1)
+        {
+            progressBarBit.enabled = false;
+            progressBarHalf.enabled = true;
+            progressBarFull.enabled = false;
+        }
+
+        //level 3 check
+        if (currLevel == 2)
+        {
+            progressBarBit.enabled = false;
+            progressBarHalf.enabled = false;
+            progressBarFull.enabled = true;
+        }
+
+        //Debug.Log("Progress Bar Set!");
     }
 
     // Start is called before the first frame update
@@ -40,7 +84,13 @@ public class UIInGame : MonoBehaviour
         //When the scene starts it will display the current health total that is stored in the player data
         healthText.text = "" + playerData.localHealth;
 
-        hpBarX = healthBar.rectTransform.localScale.x;    
+        hpBarX = healthBar.rectTransform.localScale.x;
+
+        //Set the text for loops completed *TEMP UNTIL LOOPS ARE ENABLED*
+        loopsText.text = "" + loopsCompleted;
+
+        //Initializes the progress bar
+        progressStatus();
     }
 
 

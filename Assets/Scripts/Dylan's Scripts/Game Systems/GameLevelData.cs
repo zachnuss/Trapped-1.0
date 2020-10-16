@@ -10,6 +10,29 @@ using UnityEngine;
 /// 
 /// PlayerData takes from here to choose the next level
 /// </summary>
+/// 
+
+public enum modifierType
+{
+   none,
+   doubleDamageMOD,
+   shields_and_regainMOD
+};
+
+[System.Serializable]
+public class Modifier
+{
+    public Modifier()
+    {
+        modActive = false;
+        modDescription = "";
+    }
+    public bool modActive;
+    public string modDescription;
+    public modifierType modType;
+    //maybe symbol goes here or somethin
+}
+
 [CreateAssetMenu(fileName = "GameLevelData", menuName = "ScritableObjects/GameLevelData", order = 2)]
 public class GameLevelData : ScriptableObject
 {
@@ -20,7 +43,10 @@ public class GameLevelData : ScriptableObject
     public GameObject[] level2Permutations;
     [Header("Level 3 Permutations")]
     public GameObject[] level3Permutations;
-    
+
+    [Header("Mods Active")]
+    public Modifier[] mods;
+    private Modifier lastModActivated;
 
     public GameObject ChooseLevelP(levelTypeE levelType)
     {
@@ -43,5 +69,32 @@ public class GameLevelData : ScriptableObject
                 Debug.Log("Null Permutation");
                 return null;
         }
+    }
+
+    public void AddModifier(modifierType newMod)
+    {
+        //find mod with this enum then turn it on
+        for(int modIndex = 0; modIndex < mods.Length; modIndex++)
+        {
+            if(mods[modIndex].modType == newMod)
+            {
+                mods[modIndex].modActive = true;
+                Debug.Log("New Mod Activated");
+                lastModActivated = mods[modIndex];
+            }
+        }
+    }
+
+    public bool CheckIfModActive(modifierType newMod)
+    {
+        //find mod with this enum then turn it on
+        for (int modIndex = 0; modIndex < mods.Length; modIndex++)
+        {
+            if (mods[modIndex].modType == newMod && mods[modIndex].modActive)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

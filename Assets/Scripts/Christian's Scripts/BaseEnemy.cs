@@ -36,7 +36,6 @@ public class BaseEnemy : MonoBehaviour {
     [Range(1f, 5f)] public float rateOfBehaviorChange = 2f;
 
     ///protected
-    protected int _maxHealth;
     protected Behavior _myBehavior;
     protected float _trackingSpeed;
     protected Vector3 _moveDir; //movement
@@ -85,8 +84,10 @@ public class BaseEnemy : MonoBehaviour {
 
         switch (_myBehavior) {
             case Behavior.Idle:
-                //increase randWaitTime
-                randWaitTime += 3.0f;
+                //increase randWaitTime randomly
+                if (Random.Range(0, 3) == 0) {
+                    randWaitTime += 0.75f; //*****************
+                }
                 //enemy will remain in position (see Update())
                 break;
             case Behavior.ChangeDirection:
@@ -226,22 +227,19 @@ public class BaseEnemy : MonoBehaviour {
         //local vars
         bool isFacingWall = false;
         RaycastHit hit;
-        //check Behavior
-        if (_myBehavior != Behavior.AttackPlayer && _myBehavior != Behavior.TrackPlayer) {
-            //draw line for debugging
-            Vector3 endPoint = transform.position + _moveDir;
-            //Debug.DrawLine(transform.position, endPoint, Color.green, Time.deltaTime, false);
-            Debug.DrawRay(transform.position, _moveDir, Color.green, Time.deltaTime, false);
-            //check what's in fron using Raycast
-            if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
-                //don't change direction if I'm looking at the player
-                if (hit.transform.tag == "Wall") {
-                    isFacingWall = true;
-                }
-                //am I hitting myself?
-                else if (hit.transform.name == transform.GetChild(0).name) {
-                    Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
-                }
+        ///draw line for debugging
+        //Vector3 endPoint = transform.position + _moveDir;
+        //Debug.DrawLine(transform.position, endPoint, Color.green, Time.deltaTime, false);
+        //Debug.DrawRay(transform.position, _moveDir, Color.green, Time.deltaTime, false);
+        //check what's in fron using Raycast
+        if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
+            //don't change direction if I'm looking at the player
+            if (hit.transform.tag == "Wall") {
+                isFacingWall = true;
+            }
+            //am I hitting myself?
+            else if (hit.transform.name == transform.GetChild(0).name) {
+                Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
             }
         }
         return isFacingWall;

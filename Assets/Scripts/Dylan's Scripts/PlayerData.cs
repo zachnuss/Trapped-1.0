@@ -57,7 +57,7 @@ public class PlayerData : ScriptableObject
     // public Scene endScreenScene;
     //public Scene storeScene;
     [Header("Player Color")]
-    public int materialChoice;
+    public int materialChoice = 0;
 
     //initial setup for playerdata on lvl 1
     public void OnLevel1Load()
@@ -191,24 +191,7 @@ public class PlayerData : ScriptableObject
 
     }
 
-    public void SaveHighscore() //Wesley
-    {
-        if (score > highScore1)
-        {
-            highScore3 = highScore2;
-            highScore2 = highScore1;
-            highScore1 = score;
-        }
-        else if (score > highScore2)
-        {
-            highScore3 = highScore2;
-            highScore2 = score;
-        }
-        else if (score > highScore3)
-        {
-            highScore3 = score;
-        }
-    }
+    
 
     public void TrackEnemyScore()
     {

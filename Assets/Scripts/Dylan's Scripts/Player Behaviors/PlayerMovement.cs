@@ -65,9 +65,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animation State")]
     public playerBottomState animBottomState;
     public playerTopState animTopState;
-
+    public int bulletDamage;
     //Camera
-   // public CamLookAt playerCam;
+    // public CamLookAt playerCam;
     //level setup script
 
     //when we have successfully rotated
@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator[] transition; //Transition animator
     public float transitionTime = 1;
     private int rng;
-    bool firingState;
+    public bool firingState;
     bool _repeatedFire;
     //set to time to run full animation before repeat, may be a bit shorter so it works better
     float fireAnimationTime = 1f;
@@ -133,10 +133,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animators")]
     public Animator top;
     public GameObject topObj;
-    public Animator legs;
+    //public Animator legs;
     public PlayerAnimations playerAnimations;
 
     //public GameObject top;
+    public AnimatorStateInfo stateInfo;
+    public float shootingAnimLength = 1.5f;
 
     //awake
     private void Awake()
@@ -145,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Olivia did this...if everything breaks I'm so sorry so just delete this.
-    public int bulletDamage;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -182,6 +184,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    float firingTimer = 0;
+
     // used for updating values and variables
     private void Update()
     {
@@ -200,16 +204,25 @@ public class PlayerMovement : MonoBehaviour
             checkToCalculate = true;
         }
 
-
         //temp commented out
-
+        if(firingState)
+        {
+            firingTimer += Time.deltaTime;
+            if(firingTimer >= shootingAnimLength)
+            {
+                firingState = false;
+                firingTimer = 0;
+               // Debug.Log(stateInfo.length);
+            }
+        }
         //IsName = name of firing animation for top
         //TEMPORARY COMMENTED CAUSE I DONT HAVE ANIMATIONS YET (0 is base state)
-        //     if (top.GetCurrentAnimatorStateInfo(0).IsName("isFiring"))
-        //     {
+       // if (top.GetCurrentAnimatorStateInfo(0).IsName("isFiring"))
+      //  {
+        //    Debug.Log("waiting while firing");
         // turn of state when animation is done
-        //        firingState = false;
-        //   }
+       //     firingState = false;
+       //  }
 
         SetAnimation();
     }
@@ -334,13 +347,13 @@ public class PlayerMovement : MonoBehaviour
             RotateMovement(movement);
             animBottomState = playerBottomState.walking;
             //turned off temp cause we dont have animations lol
-            //if(!firingState)
+            if(!firingState)
                 animTopState = playerTopState.moving;
         }
         else
         {
             animBottomState = playerBottomState.idle;
-           // if (!firingState)
+            if (!firingState)
                 animTopState = playerTopState.idle;
         }
     }
@@ -445,13 +458,15 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(bullet.transform.forward * 1000);
        // _repeatedFire = true;
         //when we fire we run fire animation once (firing state is active while animation is active)
-        //StartCoroutine(FireState());
+       // StartCoroutine(FireState());
 
         //start animation
         firingState = true;
-
+        Debug.Log("fire");
         //temporary turned off cause i dont have animations (will ignore firing for now)
-       // animTopState = playerTopState.firing;
+        animTopState = playerTopState.firing;
+        playerAnimations.isFiringTop();
+        firingTimer = 0;
     }
     
     private void OnTriggerEnter(Collider other)
@@ -726,13 +741,15 @@ public class PlayerMovement : MonoBehaviour
     //will be in update
     void SetAnimation()
     {
-        playerAnimations.isIdlingTop();
+        //playerAnimations.isIdlingTop();
         //based on status enum
         switch (animBottomState)
         {
             case playerBottomState.idle:
+                //playerAnimations.isIdlingTop();
                 break;
             case playerBottomState.walking:
+                //playerAnimations.isIdlingTop();
                 break;
             default:
                 break;
@@ -741,11 +758,17 @@ public class PlayerMovement : MonoBehaviour
         switch (animTopState)
         {
             case playerTopState.idle:
+                playerAnimations.isIdlingTop();
+                stateInfo = top.GetCurrentAnimatorStateInfo(0);
                 break;
             case playerTopState.moving:
+                playerAnimations.IsMovingTop();
+                stateInfo = top.GetCurrentAnimatorStateInfo(0);
                 break;
             case playerTopState.firing:
-
+                playerAnimations.isFiringTop();
+                stateInfo = top.GetCurrentAnimatorStateInfo(0);
+               // Debug.Log(stateInfo.length);
                 break;
             case playerTopState.interacting:
                 break;
@@ -768,10 +791,10 @@ public class PlayerMovement : MonoBehaviour
         firingState = true;
 
         //however long the animation is
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(top.GetCurrentAnimatorStateInfo(0).length);
 
         //if we havent fired again in the last sec, we can turn this off
-        if (_repeatedFire == false)
-            firingState = false;
+        //if (_repeatedFire == false)
+           // firingState = false;
     }
 }

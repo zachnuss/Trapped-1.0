@@ -68,10 +68,9 @@ public class ForceFieldsEnemy : MonoBehaviour
     //CODE FOR BASE ENEMY HERE
     //function for enemy script
     //if enemy takes damage, begin timer, once timer is reached sheild can regen health
-    //will go in update
-    //bool is active when takes damage, turns off when timer is done
-    //
 
+    //will run in update
+    //bool is active when takes damage, turns off when timer is done
     private bool damageStbTimer = false;
     float damageTimer = 0f;
     public GameObject sheildObj;
@@ -86,7 +85,6 @@ public class ForceFieldsEnemy : MonoBehaviour
                 damageTimer = 0;
                 sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = true;
             }
-
         }
     }
 
@@ -103,6 +101,7 @@ public class ForceFieldsEnemy : MonoBehaviour
 
     //add in start
     //_lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
+    //runs in start also
     void SetModifiers()
     {
         for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)

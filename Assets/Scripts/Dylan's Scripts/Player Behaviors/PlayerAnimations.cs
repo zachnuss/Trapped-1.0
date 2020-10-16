@@ -21,7 +21,7 @@ public class PlayerAnimations : MonoBehaviour
         animatorTop.SetBool("isIdling", false);
         animatorTop.SetBool("Death", false);
         animatorTop.SetBool("isMoving", true);
-        animatorTop.SetBool("isFiring", true);
+        animatorTop.SetBool("isFiring", false);
     }
     public void isIdlingTop()
     {

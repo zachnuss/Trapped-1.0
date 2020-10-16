@@ -6,21 +6,26 @@ using UnityEngine;
 
 public class CommonGuard : BaseEnemy {
     //new public values
-    public float shootCoolDown = 2f;
-    public GameObject projectilePrefab;
+    //public float shootCoolDown = 2f;
+    //public GameObject projectilePrefab;
     [Header("How far away can I see the player?")]
     public float playerRangeCheck = 10.0f;
 
     ///protected
     protected bool _canSprint = true;
     protected bool _isTrackingPlayer = false;
-    protected bool _canShootPlayer = false;
+    //protected bool _canShootPlayer = false;
+    protected float _storeRegSpeed;
     ///private
-    private float _storeRegSpeed;
-    private float _shootTimer = 0f;
+    //private float _shootTimer = 0f;
     private GameObject _leftDirGO, _rightDirGO, _fwdDirGO;
 
-    void Awake() {
+    ///variables necessary if this instance shoots
+    private bool _doesEnemyShoot = false;
+    public GameObject fwdDirGo { get { return _fwdDirGO; } }
+    private EnemyShooting _shooterScript;
+
+    protected void Awake() {
         //store start speed for sprinting
         _storeRegSpeed = speed;
         //get directional children
@@ -37,6 +42,12 @@ public class CommonGuard : BaseEnemy {
                 _fwdDirGO = assigningGO;
             }
         }
+
+        /**     Check if this instance shoots   **/
+        if (TryGetComponent<EnemyShooting>(out EnemyShooting myES)) {
+            _shooterScript = myES;
+            _doesEnemyShoot = true;
+        }
     }
 
     protected override void Update() {
@@ -52,19 +63,16 @@ public class CommonGuard : BaseEnemy {
             ///suspend changing behavior
             CancelInvoke("_changeBehavior");
 
-            //sprint
-            if (false) {//_canSprint) { //commenting our for debugging shooting
-                //increase speed for tracking
-                speed = _storeRegSpeed * 1.5f;
-                Invoke("_sprintCoolDown", 2.5f); //returns speed back when invoked
-                _canSprint = false;
-            }
-
             //check for conditions, then shoot and reset vals
-            if (_canShootPlayer && dirOfPlayer == Direction.Forward) {
-                _shootPlayer();
-                _shootTimer = Time.time + shootCoolDown;
-                _canShootPlayer = false;
+            if (_doesEnemyShoot) {
+                //this code will be unreachable if EnemyShooting is not attached
+                //to this GameObject
+                if (_shooterScript.canShootPlayer 
+                    && dirOfPlayer == Direction.Forward) {
+                    _shooterScript.shootPlayer();
+                    _shooterScript.shootTimer = Time.time + _shooterScript.shootCoolDown;
+                    _shooterScript.canShootPlayer = false;
+                }
             }
         }
         else {
@@ -74,11 +82,6 @@ public class CommonGuard : BaseEnemy {
             }
 
             _isTrackingPlayer = false;
-        }
-
-        ///check timer for shooting
-        if (Time.time > _shootTimer) {
-            _canShootPlayer = true;
         }
 
         ///check before movement
@@ -129,48 +132,6 @@ public class CommonGuard : BaseEnemy {
         return dirOfPlayer;
     }
 
-    //shoot in front of the enemy
-    protected void _shootPlayer() {
-        //gather local vals for instantiation
-        GameObject newBullet;
-        Quaternion zerodQ = new Quaternion(0f, 0f, 0f, 1f);
-        Vector3 fireDir = (_fwdDirGO.transform.position - transform.position);
-        fireDir = fireDir.normalized;
-        //instantiate
-        newBullet = Instantiate(projectilePrefab, _fwdDirGO.transform.position,
-                                zerodQ, null) as GameObject;
-        //pass bullet speed value as 
-        newBullet.GetComponent<EnemyProjectile>().assignStats(speed * 2f,
-                                                                damage,
-                                                                fireDir);
-        //set a new timer
-        _shootTimer = Time.time + shootCoolDown;
-    }
-
-    //call as invoke so the boolean will get swapped back
-    protected void _sprintCoolDown() {
-        speed = _storeRegSpeed;
-        _canSprint = true;
-    }
 
 
-    ///private helper functions
-    private GameObject _getDirChild(Direction dir) {
-        GameObject dirChild;
-        switch (dir) {
-            case Direction.Forward:
-                dirChild = _fwdDirGO;
-                break;
-            case Direction.Right:
-                dirChild = _rightDirGO;
-                break;
-            case Direction.Left:
-                dirChild = _leftDirGO;
-                break;
-            default:
-                dirChild = null;
-                break;
-        }
-        return dirChild;
-    }
 }

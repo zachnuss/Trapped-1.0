@@ -44,22 +44,25 @@ public class BaseEnemy : MonoBehaviour {
     private Vector3 _rotVal; //rotation
     private float _wallDetectRay = 1.0f;
     private bool _hasHitWall = false;
-    private GameObject _playerGO; //initialize in start
+    //private static GameObject _playerGO; //initialize in start ************
+    //public static GameObject playerGO { get { return _playerGO; } }
 
     /**
      * CLASS FUNCTIONS
      */
     ///public
-    public void takeDamage(int attackDamage) {
+    public virtual void takeDamage(GameObject player) {
         //take health away
-        health -= attackDamage;
+        health -= player.GetComponent<PlayerMovement>().damage;
         //did the enemy die?
         if (health < 1) {
             health = 0;
-            Destroy(gameObject);
             //give score to player
-            _playerGO.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
+            player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             //Debug.Log("Enemy killed, " + pointValue + " points added to PlayerData.");
+
+            //destroy enemy last to avoid bugs
+            Destroy(gameObject);
         }
     }
     
@@ -86,7 +89,7 @@ public class BaseEnemy : MonoBehaviour {
             case Behavior.Idle:
                 //increase randWaitTime randomly
                 if (Random.Range(0, 3) == 0) {
-                    randWaitTime += 0.75f; //*****************
+                    randWaitTime += 0.75f;
                 }
                 //enemy will remain in position (see Update())
                 break;
@@ -202,14 +205,14 @@ public class BaseEnemy : MonoBehaviour {
 
     private void Start() {
         //initialize variables
-        _playerGO = GameObject.FindWithTag("Player");
         //get where I'm facing for initial variables
         Vector3 childDir = transform.GetChild(0).position;
         Vector3 initialDir = childDir - transform.position;
         _moveDir = initialDir.normalized;
 
         //get my level based on index (i.e. level 1 = 0)
-        int curLevelIndex = _playerGO.GetComponent<PlayerMovement>().playerData.OnLevel;
+        int curLevelIndex = GameObject.FindWithTag("Player").
+                            GetComponent<PlayerMovement>().playerData.OnLevel;
         //level up based on level index
         levelUp(curLevelIndex);
 
@@ -253,12 +256,12 @@ public class BaseEnemy : MonoBehaviour {
             _turnThisDirection(Direction.Backwards);
         }
 
-        //enemy will take damage from the player through the ProjectileScript
+        ///enemy will take damage from the player through the ProjectileScript
     }
 
 
     ///DEBUGGING FUNCTION TO ONLY CALL FROM A SINGLE ENEMY
-    void oneEnemyPrint(string enemyName, string printing) {
+    private void oneEnemyPrint(string enemyName, string printing) {
         if (name == enemyName) {
             Debug.Log(enemyName + ": " + printing);
         }

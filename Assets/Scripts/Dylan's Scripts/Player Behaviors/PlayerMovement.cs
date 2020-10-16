@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animation State")]
     public playerBottomState animBottomState;
     public playerTopState animTopState;
+    playerTopState _localTopState = playerTopState.idle;
     public int bulletDamage;
     //Camera
     // public CamLookAt playerCam;
@@ -140,6 +141,9 @@ public class PlayerMovement : MonoBehaviour
     public AnimatorStateInfo stateInfo;
     public float shootingAnimLength = 1.5f;
 
+    bool _fireCoolDown;
+    [Header("Fire Rate")]
+    public float fireRate = 0.2f;
     //awake
     private void Awake()
     {
@@ -224,7 +228,12 @@ public class PlayerMovement : MonoBehaviour
        //     firingState = false;
        //  }
 
-        SetAnimation();
+       // SetAnimation();
+       if(_localTopState != animTopState)
+        {
+            _localTopState = animTopState;
+            SetAnimation();
+        }
     }
 
     //moves player based on equation
@@ -448,25 +457,29 @@ public class PlayerMovement : MonoBehaviour
 
     void OnAttack()
     {
-        //runs everytime our char attacks
-        //Wesley-Code
-        GameObject bullet = Object.Instantiate(Player_Bullet, transform.position, transform.rotation);
-        //ZACHARY ADDED THIS
-        StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
-        //just to destroy stray bullets if they escape the walls
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.AddForce(bullet.transform.forward * 1000);
-       // _repeatedFire = true;
-        //when we fire we run fire animation once (firing state is active while animation is active)
-       // StartCoroutine(FireState());
+        if (!_fireCoolDown)
+        {
+            //runs everytime our char attacks
+            //Wesley-Code
+            GameObject bullet = Object.Instantiate(Player_Bullet, transform.position, transform.rotation);
+            //ZACHARY ADDED THIS
+            StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
+            //just to destroy stray bullets if they escape the walls
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.AddForce(bullet.transform.forward * 1000);
+            // _repeatedFire = true;
+            //when we fire we run fire animation once (firing state is active while animation is active)
+            // StartCoroutine(FireState());
 
-        //start animation
-        firingState = true;
-        Debug.Log("fire");
-        //temporary turned off cause i dont have animations (will ignore firing for now)
-        animTopState = playerTopState.firing;
-        playerAnimations.isFiringTop();
-        firingTimer = 0;
+            //start animation
+            firingState = true;
+            Debug.Log("fire");
+            //temporary turned off cause i dont have animations (will ignore firing for now)
+            animTopState = playerTopState.firing;
+            playerAnimations.isFiringTop();
+            firingTimer = 0;
+            StartCoroutine(FireCoolDown());
+        }
     }
     
     private void OnTriggerEnter(Collider other)
@@ -783,7 +796,13 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    //NOT IN USE - UNUSED
+    public IEnumerator FireCoolDown()
+    {
+        _fireCoolDown = true;
+        yield return new WaitForSeconds(fireRate);
+        _fireCoolDown = false;
+    }
+
     //when we fire, we launch the firing animation, while the bool is on (the anim is playing) we cannot switch to topIdle or topMoving until its done
     IEnumerator FireState()
     {

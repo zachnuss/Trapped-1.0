@@ -473,8 +473,13 @@ public class PlayerMovement : MonoBehaviour
         speedMultiplier = (playerData.speedUpgrade)/10;
         //Debug.Log(speedMultiplier);
 
+        ChangeColor(); //Sets in scene start
+    }
+
+    //Wesley - Setting player color
+    public void ChangeColor()
+    {
         character.GetComponent<Renderer>().material = playerColor[playerData.materialChoice];
-        
     }
 
     public void takeDamage(int damageTaken)

@@ -7,7 +7,7 @@ using UnityEngine;
 public class SaveData : ScriptableObject
 {
     [SerializeField]
-    private SaveData _SaveData = new SaveData();
+    //private SaveData _SaveData = new SaveData();
 
     private int highScore1 = 0;
     private int highScore2 = 0;
@@ -84,8 +84,8 @@ public class SaveData : ScriptableObject
     {
         
         Debug.Log("Saving game");
-        string saveGame = JsonUtility.ToJson(_SaveData);
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/SaveData.json", saveGame);
+        //string saveGame = JsonUtility.ToJson(_SaveData);
+        //System.IO.File.WriteAllText(Application.persistentDataPath + "/SaveData.json", saveGame);
     }
 
     private void LoadSaveJson()

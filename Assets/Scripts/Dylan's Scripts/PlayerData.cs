@@ -222,4 +222,13 @@ public class PlayerData : ScriptableObject
     {
 
     }
+
+    public void SetPlayerColor(int input)
+    {
+        materialChoice = input;
+        if(GameObject.FindGameObjectWithTag("Player") == true)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().ChangeColor();
+        }
+    }
 }

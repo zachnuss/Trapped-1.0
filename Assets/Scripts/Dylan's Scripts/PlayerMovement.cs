@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Parent object of this player obj")]
     public GameObject parent;
     public GameObject follower;
+    private GameObject character;
     //new rotation orientation player moves to
     Quaternion targetRotation;
     //PlayerInputActions controls;
@@ -81,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
     //player data scriptable obj
     [Header("Player Data")]
     public PlayerData playerData;
+    public Material[] playerColor;
 
     /// <summary>
     /// Scene Transition and endgame
@@ -112,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        character = this.gameObject.transform.Find("mainCharacter_low").gameObject;
 
         SetPlayerStats();
 
@@ -469,6 +472,8 @@ public class PlayerMovement : MonoBehaviour
 
         speedMultiplier = (playerData.speedUpgrade)/10;
         //Debug.Log(speedMultiplier);
+
+        character.GetComponent<Renderer>().material = playerColor[playerData.materialChoice];
         
     }
 

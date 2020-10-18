@@ -133,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Player Animators")]
     public Animator top;
-    public GameObject topObj;
+    private GameObject topObj;
     //public Animator legs;
     public PlayerAnimations playerAnimations;
 
@@ -219,14 +219,6 @@ public class PlayerMovement : MonoBehaviour
                // Debug.Log(stateInfo.length);
             }
         }
-        //IsName = name of firing animation for top
-        //TEMPORARY COMMENTED CAUSE I DONT HAVE ANIMATIONS YET (0 is base state)
-       // if (top.GetCurrentAnimatorStateInfo(0).IsName("isFiring"))
-      //  {
-        //    Debug.Log("waiting while firing");
-        // turn of state when animation is done
-       //     firingState = false;
-       //  }
 
        // SetAnimation();
        if(_localTopState != animTopState)
@@ -473,7 +465,7 @@ public class PlayerMovement : MonoBehaviour
 
             //start animation
             firingState = true;
-            Debug.Log("fire");
+            //Debug.Log("fire");
             //temporary turned off cause i dont have animations (will ignore firing for now)
             animTopState = playerTopState.firing;
             playerAnimations.isFiringTop();

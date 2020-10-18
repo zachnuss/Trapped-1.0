@@ -181,6 +181,9 @@ public class BaseEnemy : MonoBehaviour {
             //move enemy
             _move(_moveDir);
         }
+
+        //sheild mod
+        DamageStandbyTimer();
     }
 
     //this function will act like onDeath (doesn't need to be called manually)
@@ -218,6 +221,11 @@ public class BaseEnemy : MonoBehaviour {
 
         //loop to change behavior sporatically
         InvokeRepeating("_changeBehavior", 0.5f, rateOfBehaviorChange);
+
+
+        //get mods from level obj
+
+        SetModifiers();
     }
 
     //get random int to cast to Direction enum
@@ -265,5 +273,52 @@ public class BaseEnemy : MonoBehaviour {
         if (name == enemyName) {
             Debug.Log(enemyName + ": " + printing);
         }
+    }
+
+    // Enemy Modifiers - Added By Dylan
+    //if enemy takes damage, begin timer, once timer is reached sheild can regen health
+    //will run in update, bool is active when takes damage, turns off when timer is done
+    bool damageStbTimer = false;
+    float damageTimer = 0f;
+    public GameObject sheildObj;
+    void DamageStandbyTimer()
+    {
+        if (damageStbTimer)
+        {
+            damageTimer += Mathf.RoundToInt(Time.deltaTime);
+            if (damageTimer >= 5)
+            {
+                damageStbTimer = false;
+                damageTimer = 0;
+                sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = true;
+            }
+        }
+    }
+
+    //this runs when enemy takes damage from player
+    public void SheildRegenStop()
+    {
+        damageStbTimer = true;
+        sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = false;
+    }
+
+    //for double damage in enemy script
+    bool doubleDamageMod = false;
+    LevelSetup _lvlSetUp;
+
+    //add in start
+    void SetModifiers()
+    {
+        _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
+        for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)
+        {
+            if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD)
+            {
+                doubleDamageMod = true;
+                sheildObj.SetActive(true);
+            }
+        }
+        if (!doubleDamageMod)
+            sheildObj.SetActive(false);
     }
 }

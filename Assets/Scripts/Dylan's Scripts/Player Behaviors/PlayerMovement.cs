@@ -518,7 +518,7 @@ public class PlayerMovement : MonoBehaviour
             if(other.gameObject.GetComponent<BaseEnemy>().doubleDamageMod)
                 takeDamage(other.GetComponent<BaseEnemy>().damage);
 
-            Debug.Log("Current health: " + health);
+            //Debug.Log("Current health: " + health);
         }
 
         if(other.gameObject.tag == "PowerUp")

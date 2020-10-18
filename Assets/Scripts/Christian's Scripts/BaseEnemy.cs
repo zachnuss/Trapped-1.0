@@ -48,11 +48,13 @@ public class BaseEnemy : MonoBehaviour {
     //public static GameObject playerGO { get { return _playerGO; } }
 
     [Header("Modifers")]
+    public bool doubleDamageMod = false;
+    public bool sheildMod = false;
     bool damageStbTimer = false;
     float damageTimer = 0f;
     public GameObject sheildObj;
     //for double damage in enemy script
-    public bool doubleDamageMod = false;
+    
     LevelSetup _lvlSetUp;
 
     /**
@@ -320,10 +322,11 @@ public class BaseEnemy : MonoBehaviour {
             }
             if(_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.shields_and_regainMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
             {
+                sheildMod = true;
                 sheildObj.SetActive(true);
             }
         }
-        if (!doubleDamageMod)
+        if (!sheildMod)
             sheildObj.SetActive(false);
     }
 }

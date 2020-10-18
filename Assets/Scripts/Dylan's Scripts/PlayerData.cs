@@ -29,10 +29,10 @@ public class PlayerData : ScriptableObject
 
     [Header("Player score")]
     public int score = 0;
-    public int scoreFromTime;
-    public int scoreFromEnemies;
-    public int enemiesKilled;
-    public int powerUpsCollected;
+    public int matchScoreFromTime;
+    public int matchScoreFromEnemies;
+    public int matchEnemiesKilled;
+    public int matchPowerUpsCollected;
     public int matchCurrencyCollected;
     public int matchSpecialCoinCollected;
     private int highScore1 = 0;
@@ -193,34 +193,35 @@ public class PlayerData : ScriptableObject
 
     
 
-    public void TrackEnemyScore()
+    //Wesley - update match values with several easy tricks!
+    public void TrackEnemyScore(int input)
+    {
+        matchScoreFromEnemies += input;
+    }
+
+    public void TrackTimeScore(int input)
     {
 
     }
 
-    public void TrackTimeScore()
+    public void TrackCurrencyGains(int input)
     {
-
+        matchCurrencyCollected += input;
     }
 
-    public void TrackCurrencyGains()
+    public void TrackSpecialCoinGains(int input)
     {
-
+        matchSpecialCoinCollected += input;
     }
 
-    public void TrackSpecialCoinGains()
+    public void TrackEnemyKills(int input)
     {
-
+        matchEnemiesKilled += input;
     }
 
-    public void TrackEnemyKills()
+    public void TrackPowerupGains(int input)
     {
-
-    }
-
-    public void TrackPowerupGains()
-    {
-
+        matchPowerUpsCollected += input;
     }
 
     public void SetPlayerColor(int input)

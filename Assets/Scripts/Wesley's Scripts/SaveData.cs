@@ -28,7 +28,6 @@ public class SaveData : ScriptableObject
     public void AddSpecialCoin(int input)
     {
         specialCoin += input;
-        AddTotalSpecialCoinsCollected(input);
     }
 
     public void UseSpecialCoin(int input)

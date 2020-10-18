@@ -23,8 +23,8 @@ MonoBehaviour:
   totalHealthBase: 100
   totalDamageBase: 20
   localHealth: 100
-  OnLevel: 0
-  score: 723
+  OnLevel: 2
+  score: 0
   currency: 10
   levelsS:
   - Level1
@@ -32,3 +32,5 @@ MonoBehaviour:
   - Level3
   nextLevelStr: Level1
   prevLevelStr: Level3
+  levelsBeaten: 2
+  gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}

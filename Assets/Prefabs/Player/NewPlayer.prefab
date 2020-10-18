@@ -1226,7 +1226,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 11.859985, y: -97.98999}
+  m_AnchoredPosition: {x: 11.859863, y: -97.98999}
   m_SizeDelta: {x: 114.63, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8462077299761066633
@@ -1594,7 +1594,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 11.859985, y: -97.98999}
+  m_AnchoredPosition: {x: 11.859863, y: -97.98999}
   m_SizeDelta: {x: 63.4, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &5573424727354924878
@@ -1997,6 +1997,7 @@ MonoBehaviour:
   speedMultiplier: 0
   animBottomState: 0
   animTopState: 0
+  bulletDamage: 15
   overTheEdge: 0
   checkToCalculate: 0
   easingTypeC: 1
@@ -2010,15 +2011,15 @@ MonoBehaviour:
   - {fileID: 37654996280752494}
   - {fileID: 1574875929280012953}
   transitionTime: 1
+  firingState: 0
   localTimer: 0
   healthRegen: 0
   doubleScoreMod: 0
   timerText: {fileID: 5599595034058128049}
-  top: {fileID: 0}
-  topObj: {fileID: 0}
-  legs: {fileID: 0}
+  top: {fileID: 5565231554061494154}
   playerAnimations: {fileID: 8163862454945102983}
-  bulletDamage: 15
+  shootingAnimLength: 1.5
+  fireRate: 0.2
 --- !u!54 &7571365785918509568
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2601,7 +2602,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 11.859985, y: -97.98999}
+  m_AnchoredPosition: {x: 11.859863, y: -97.98999}
   m_SizeDelta: {x: 11.8, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4043616809069372707

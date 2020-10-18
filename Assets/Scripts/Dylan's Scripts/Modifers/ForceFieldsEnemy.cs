@@ -15,16 +15,19 @@ public class ForceFieldsEnemy : MonoBehaviour
     public bool ableToRecharge = false;
 
     //as health is lower, sheild oppacity is lower
-    public GameObject sheild;
+    GameObject _sheild;
     public float trans;
     public Color col;
+    public float sheildRegenTick = 5;
 
     // Start is called before the first frame update
     void Start()
     {
-        col = sheild.GetComponent<Renderer>().material.color;
+        _sheild = this.gameObject;
+        col = _sheild.GetComponent<Renderer>().material.color;
         //recharges slowly every second after a time where enemy is damaged
         InvokeRepeating("SheildRegen", 0f, 1f);
+
     }
 
     // Update is called once per frame
@@ -38,19 +41,10 @@ public class ForceFieldsEnemy : MonoBehaviour
             inactive = true;
         }
 
-        if(inactive)
-        {
-            sheild.GetComponent<SphereCollider>().isTrigger = false;
-            sheild.GetComponent<SphereCollider>().enabled = false;
-        }
-        else
-        {
-            sheild.GetComponent<SphereCollider>().isTrigger = true;
-            sheild.GetComponent<SphereCollider>().enabled = true;
-        }
-
         col.a = trans;
-        sheild.GetComponent<Renderer>().material.color = col;
+        _sheild.GetComponent<Renderer>().material.color = col;
+
+        //SheildRegen();
     }
 
     void SheildRegen()
@@ -59,59 +53,9 @@ public class ForceFieldsEnemy : MonoBehaviour
         {
             if(currentHealth < maxHealth)
             {
-                currentHealth += 2;
+                currentHealth += sheildRegenTick;
             }
         }
     }
 
-
-    //CODE FOR BASE ENEMY HERE
-    //function for enemy script
-    //if enemy takes damage, begin timer, once timer is reached sheild can regen health
-    //will go in update
-    //bool is active when takes damage, turns off when timer is done
-    //
-
-    private bool damageStbTimer = false;
-    float damageTimer = 0f;
-    public GameObject sheildObj;
-    void DamageStandbyTimer()
-    {
-        if(damageStbTimer)
-        {
-            damageTimer += Mathf.RoundToInt(Time.deltaTime);
-            if(damageTimer >= 5)
-            {
-                damageStbTimer = false;
-                damageTimer = 0;
-                sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = true;
-            }
-
-        }
-    }
-
-    //this runs when enemy takes damage from player
-    void SheildRegenStop()
-    {
-        damageStbTimer = true;
-        sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = false;
-    }
-
-    //for double damage in enemy script
-    bool doubleDamageMod = false;
-    LevelSetup _lvlSetUp;
-
-    //add in start
-    //_lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
-    void SetModifiers()
-    {
-        for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)
-        {
-            if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD)
-            {
-                doubleDamageMod = true;
-                return;
-            }
-        }
-    }
 }

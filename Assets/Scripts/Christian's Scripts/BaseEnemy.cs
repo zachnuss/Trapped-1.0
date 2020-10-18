@@ -36,7 +36,6 @@ public class BaseEnemy : MonoBehaviour {
     [Range(1f, 5f)] public float rateOfBehaviorChange = 2f;
 
     ///protected
-    protected int _maxHealth;
     protected Behavior _myBehavior;
     protected float _trackingSpeed;
     protected Vector3 _moveDir; //movement
@@ -45,22 +44,33 @@ public class BaseEnemy : MonoBehaviour {
     private Vector3 _rotVal; //rotation
     private float _wallDetectRay = 1.0f;
     private bool _hasHitWall = false;
-    private GameObject _playerGO; //initialize in start
+    //private static GameObject _playerGO; //initialize in start ************
+    //public static GameObject playerGO { get { return _playerGO; } }
+
+    [Header("Modifers")]
+    bool damageStbTimer = false;
+    float damageTimer = 0f;
+    public GameObject sheildObj;
+    //for double damage in enemy script
+    public bool doubleDamageMod = false;
+    LevelSetup _lvlSetUp;
 
     /**
      * CLASS FUNCTIONS
      */
     ///public
-    public void takeDamage(int attackDamage) {
+    public virtual void takeDamage(GameObject player) {
         //take health away
-        health -= attackDamage;
+        health -= player.GetComponent<PlayerMovement>().damage;
         //did the enemy die?
         if (health < 1) {
             health = 0;
-            Destroy(gameObject);
             //give score to player
-            _playerGO.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
+            player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             //Debug.Log("Enemy killed, " + pointValue + " points added to PlayerData.");
+
+            //destroy enemy last to avoid bugs
+            Destroy(gameObject);
         }
     }
     
@@ -85,8 +95,10 @@ public class BaseEnemy : MonoBehaviour {
 
         switch (_myBehavior) {
             case Behavior.Idle:
-                //increase randWaitTime
-                randWaitTime += 3.0f;
+                //increase randWaitTime randomly
+                if (Random.Range(0, 3) == 0) {
+                    randWaitTime += 0.75f;
+                }
                 //enemy will remain in position (see Update())
                 break;
             case Behavior.ChangeDirection:
@@ -177,6 +189,9 @@ public class BaseEnemy : MonoBehaviour {
             //move enemy
             _move(_moveDir);
         }
+
+        //sheild mod
+        DamageStandbyTimer();
     }
 
     //this function will act like onDeath (doesn't need to be called manually)
@@ -201,19 +216,24 @@ public class BaseEnemy : MonoBehaviour {
 
     private void Start() {
         //initialize variables
-        _playerGO = GameObject.FindWithTag("Player");
         //get where I'm facing for initial variables
         Vector3 childDir = transform.GetChild(0).position;
         Vector3 initialDir = childDir - transform.position;
         _moveDir = initialDir.normalized;
 
         //get my level based on index (i.e. level 1 = 0)
-        int curLevelIndex = _playerGO.GetComponent<PlayerMovement>().playerData.OnLevel;
+        int curLevelIndex = GameObject.FindWithTag("Player").
+                            GetComponent<PlayerMovement>().playerData.OnLevel;
         //level up based on level index
         levelUp(curLevelIndex);
 
         //loop to change behavior sporatically
         InvokeRepeating("_changeBehavior", 0.5f, rateOfBehaviorChange);
+
+
+        //get mods from level obj
+
+        SetModifiers();
     }
 
     //get random int to cast to Direction enum
@@ -226,22 +246,19 @@ public class BaseEnemy : MonoBehaviour {
         //local vars
         bool isFacingWall = false;
         RaycastHit hit;
-        //check Behavior
-        if (_myBehavior != Behavior.AttackPlayer && _myBehavior != Behavior.TrackPlayer) {
-            //draw line for debugging
-            Vector3 endPoint = transform.position + _moveDir;
-            //Debug.DrawLine(transform.position, endPoint, Color.green, Time.deltaTime, false);
-            Debug.DrawRay(transform.position, _moveDir, Color.green, Time.deltaTime, false);
-            //check what's in fron using Raycast
-            if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
-                //don't change direction if I'm looking at the player
-                if (hit.transform.tag == "Wall") {
-                    isFacingWall = true;
-                }
-                //am I hitting myself?
-                else if (hit.transform.name == transform.GetChild(0).name) {
-                    Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
-                }
+        ///draw line for debugging
+        //Vector3 endPoint = transform.position + _moveDir;
+        //Debug.DrawLine(transform.position, endPoint, Color.green, Time.deltaTime, false);
+        //Debug.DrawRay(transform.position, _moveDir, Color.green, Time.deltaTime, false);
+        //check what's in fron using Raycast
+        if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
+            //don't change direction if I'm looking at the player
+            if (hit.transform.tag == "Wall") {
+                isFacingWall = true;
+            }
+            //am I hitting myself?
+            else if (hit.transform.name == transform.GetChild(0).name) {
+                Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
             }
         }
         return isFacingWall;
@@ -255,14 +272,58 @@ public class BaseEnemy : MonoBehaviour {
             _turnThisDirection(Direction.Backwards);
         }
 
-        //enemy will take damage from the player through the ProjectileScript
+        ///enemy will take damage from the player through the ProjectileScript
     }
 
 
     ///DEBUGGING FUNCTION TO ONLY CALL FROM A SINGLE ENEMY
-    void oneEnemyPrint(string enemyName, string printing) {
+    private void oneEnemyPrint(string enemyName, string printing) {
         if (name == enemyName) {
             Debug.Log(enemyName + ": " + printing);
         }
+    }
+
+
+    // Enemy Modifiers - Added By Dylan
+    //if enemy takes damage, begin timer, once timer is reached sheild can regen health
+    //will run in update, bool is active when takes damage, turns off when timer is done
+    void DamageStandbyTimer()
+    {
+        if (damageStbTimer)
+        {
+            damageTimer += Mathf.RoundToInt(Time.deltaTime);
+            if (damageTimer >= 5)
+            {
+                damageStbTimer = false;
+                damageTimer = 0;
+                sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = true;
+            }
+        }
+    }
+
+    //this runs when enemy takes damage from player
+    public void SheildRegenStop()
+    {
+        damageStbTimer = true;
+        sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = false;
+    }
+
+    //initial setup of modifiers
+    void SetModifiers()
+    {
+        _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
+        for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)
+        {
+            if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+            {
+                doubleDamageMod = true;
+            }
+            if(_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.shields_and_regainMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+            {
+                sheildObj.SetActive(true);
+            }
+        }
+        if (!doubleDamageMod)
+            sheildObj.SetActive(false);
     }
 }

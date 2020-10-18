@@ -48,10 +48,13 @@ public class PlayerData : ScriptableObject
     public string prevLevelStr;
     [Header("Levels Beaten")]
     public int levelsBeaten = 0;
+    [Header("Game Level Data Obj")]
+    public GameLevelData gameLevelData;
 
     //called when level beat
     public void BeatLevel()
     {
+        bool takeToModSelection = false;
         if (OnLevel <= levelsS.Length - 1)
         {
             timerBetweenLevels = timerSec;
@@ -67,6 +70,9 @@ public class PlayerData : ScriptableObject
                 OnLevel = 0;
                 //finished one loop of levels 1 - 3, now at reset we can add the thing for high risk/high reward and increase difficulty
 
+                //take us to mod selection screen 
+                takeToModSelection = true;
+
                 //INCREASE DIFFICULTY HERE
 
             }
@@ -78,7 +84,10 @@ public class PlayerData : ScriptableObject
             levelsBeaten++;
 
             //load store scene?
-            SceneManager.LoadScene("StoreScene");
+            if (!takeToModSelection)
+                SceneManager.LoadScene("StoreScene");
+            else
+                SceneManager.LoadScene("GameLoopModSelection");
         }
     }
 
@@ -137,6 +146,7 @@ public class PlayerData : ScriptableObject
         //score starts at 0
         score = 0; //added by wesley
         localHealth = totalHealthBase;
+        gameLevelData.InitialModSetup();
         SceneManager.LoadScene("Level1");
     }
 

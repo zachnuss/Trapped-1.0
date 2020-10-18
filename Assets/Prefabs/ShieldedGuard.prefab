@@ -239,8 +239,9 @@ MonoBehaviour:
   speed: 3.25
   pointValue: 50
   rateOfBehaviorChange: 2
-  sheildObj: {fileID: 2726049127555622096}
   doubleDamageMod: 0
+  sheildMod: 0
+  sheildObj: {fileID: 2726049127555622096}
   playerRangeCheck: 10
 --- !u!1 &7858288221219031826
 GameObject:
@@ -343,6 +344,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999296805499784811, guid: 45c38bcfc1b1fe14b8f597513451793c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999296805499784811, guid: 45c38bcfc1b1fe14b8f597513451793c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999296805499784811, guid: 45c38bcfc1b1fe14b8f597513451793c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45c38bcfc1b1fe14b8f597513451793c, type: 3}

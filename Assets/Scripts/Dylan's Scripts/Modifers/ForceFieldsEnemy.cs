@@ -28,7 +28,6 @@ public class ForceFieldsEnemy : MonoBehaviour
         //recharges slowly every second after a time where enemy is damaged
         InvokeRepeating("SheildRegen", 0f, 1f);
 
-        
     }
 
     // Update is called once per frame
@@ -40,17 +39,6 @@ public class ForceFieldsEnemy : MonoBehaviour
         {
             currentHealth = 0;
             inactive = true;
-        }
-
-        if(inactive)
-        {
-           // _sheild.GetComponent<SphereCollider>().isTrigger = false;
-          //  _sheild.GetComponent<SphereCollider>().enabled = false;
-        }
-        else
-        {
-           // _sheild.GetComponent<SphereCollider>().isTrigger = true;
-           // _sheild.GetComponent<SphereCollider>().enabled = true;
         }
 
         col.a = trans;

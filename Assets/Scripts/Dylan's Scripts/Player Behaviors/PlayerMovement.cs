@@ -144,25 +144,17 @@ public class PlayerMovement : MonoBehaviour
     bool _fireCoolDown;
     [Header("Fire Rate")]
     public float fireRate = 0.2f;
-    //awake
-    private void Awake()
-    {
- 
-    }
-
-    //Olivia did this...if everything breaks I'm so sorry so just delete this.
     
 
     // Start is called before the first frame update
     void Start()
     {
-        SetPlayerModifiers();
+        //SetPlayerModifiers(); Player Mods set up in LevelSetup obj and script
         SetPlayerStats();
 
         teleporterTracker = GameObject.FindGameObjectWithTag("GoalCheck"); //assumes we check on construction of the player, with a new player every level - Wesley
         rng = Random.Range(0, transition.Length);
         localTimer = playerData.timerBetweenLevels;
-        // StartCoroutine(timerCount());
         InvokeRepeating("PerSecond", 0f, 1f); //Every second, give score equal to 1*the level count. - Wesley
     }
 
@@ -234,7 +226,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (checkToCalculate)
         {
-            //Debug.Log("Moving to next side YEET");
             c0 = this.transform;
             c1 = _rotationTrans;
 
@@ -250,9 +241,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (moving)
         {
-            //Debug.Log("moving");
             u = (Time.time - timeStart) / timeDuration;
-           // u2 = (Time.time - timeStart2) / timeDurationCamera;
 
             if (u >= 1)
             {
@@ -263,14 +252,12 @@ public class PlayerMovement : MonoBehaviour
                 moving = false;
                 _rotationTrans = null;
                 overTheEdge = false;
-                //Debug.Log("IT REACHED THE END HOLY CRAP IT WORKED IMMA SLEEP NOW GGS");
             }
 
             //adjsut u value to the ranger from uMin to uMax
             //different types of eases to avoid snaps and rigidness
             u2 = EaseU(u2, easingTypeC, easingMod);
             //interpolation equation (with min and max)
-            //u = ((1 - u) * uMin) + (u * uMax);
 
             //standard linear inter
             //position
@@ -291,6 +278,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
    
+    /*
+     * Movement and Player Looking Rotation
+     * Uses player controller and both joysticks for movement and for player sights
+     */
     //for movement
     private void OnMove1(InputValue value)
     {
@@ -416,6 +407,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    //once player reaches new side
     void OnPlayerRotation()
     {
         //runs when player moves to next cube (runs only once)
@@ -447,6 +439,7 @@ public class PlayerMovement : MonoBehaviour
         return noFloor;
     }
 
+    //when player hits the attack button
     void OnAttack()
     {
         if (!_fireCoolDown)
@@ -474,6 +467,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
+    //triggers
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Door")
@@ -602,6 +596,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    //player takes damage
     public void takeDamage(int damageTaken)
     {
         //damage player
@@ -676,7 +671,7 @@ public class PlayerMovement : MonoBehaviour
 
         
     }
-
+    //update and display timer 
     void DisplayTime()
     {
         //update text here with info from playerdata
@@ -684,7 +679,7 @@ public class PlayerMovement : MonoBehaviour
         timerText.text = string.Format("{0:00}:{1:00}:{2:00}", playerData.timerHour, playerData.timerMin, playerData.timerSec);
 
     }
-
+    //timer counter
     IEnumerator timerCount()
     {
         yield return new WaitForSeconds(1.0f);
@@ -705,7 +700,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(PowerUpDuration(type, duration));
         }
     }
-
+    //how long the powerups last
     IEnumerator PowerUpDuration(powerUpType type, int duration)
     {
         //turn on
@@ -786,13 +781,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
-
-    //sets up player stats based on which mods are active in level setup
-    void SetPlayerModifiers()
-    {
-
-    }
-
+    //to prevent spam fire and prevent issues with firing animations
     public IEnumerator FireCoolDown()
     {
         _fireCoolDown = true;
@@ -809,8 +798,5 @@ public class PlayerMovement : MonoBehaviour
         //however long the animation is
         yield return new WaitForSeconds(top.GetCurrentAnimatorStateInfo(0).length);
 
-        //if we havent fired again in the last sec, we can turn this off
-        //if (_repeatedFire == false)
-           // firingState = false;
     }
 }

@@ -47,6 +47,14 @@ public class BaseEnemy : MonoBehaviour {
     //private static GameObject _playerGO; //initialize in start ************
     //public static GameObject playerGO { get { return _playerGO; } }
 
+    [Header("Modifers")]
+    bool damageStbTimer = false;
+    float damageTimer = 0f;
+    public GameObject sheildObj;
+    //for double damage in enemy script
+    public bool doubleDamageMod = false;
+    LevelSetup _lvlSetUp;
+
     /**
      * CLASS FUNCTIONS
      */
@@ -275,12 +283,10 @@ public class BaseEnemy : MonoBehaviour {
         }
     }
 
+
     // Enemy Modifiers - Added By Dylan
     //if enemy takes damage, begin timer, once timer is reached sheild can regen health
     //will run in update, bool is active when takes damage, turns off when timer is done
-    bool damageStbTimer = false;
-    float damageTimer = 0f;
-    public GameObject sheildObj;
     void DamageStandbyTimer()
     {
         if (damageStbTimer)
@@ -302,11 +308,7 @@ public class BaseEnemy : MonoBehaviour {
         sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = false;
     }
 
-    //for double damage in enemy script
-    public bool doubleDamageMod = false;
-    LevelSetup _lvlSetUp;
-
-    //add in start
+    //initial setup of modifiers
     void SetModifiers()
     {
         _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();

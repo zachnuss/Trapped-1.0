@@ -510,6 +510,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelSetup
       objectReference: {fileID: 0}
+    - target: {fileID: 2343487794215749180, guid: 81e0651b76b5ea4408356f546eae757c,
+        type: 3}
+      propertyPath: currentModsInLevel.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2343487794215749181, guid: 81e0651b76b5ea4408356f546eae757c,
         type: 3}
       propertyPath: m_LocalPosition.x

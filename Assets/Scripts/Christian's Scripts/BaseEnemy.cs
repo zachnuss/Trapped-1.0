@@ -303,7 +303,7 @@ public class BaseEnemy : MonoBehaviour {
     }
 
     //for double damage in enemy script
-    bool doubleDamageMod = false;
+    public bool doubleDamageMod = false;
     LevelSetup _lvlSetUp;
 
     //add in start
@@ -312,9 +312,12 @@ public class BaseEnemy : MonoBehaviour {
         _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
         for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)
         {
-            if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD)
+            if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
             {
                 doubleDamageMod = true;
+            }
+            if(_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.shields_and_regainMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+            {
                 sheildObj.SetActive(true);
             }
         }

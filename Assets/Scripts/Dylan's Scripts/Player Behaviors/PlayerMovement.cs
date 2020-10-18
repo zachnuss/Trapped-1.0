@@ -519,6 +519,11 @@ public class PlayerMovement : MonoBehaviour
         {
             //in the future damage will need to be derived specifically from the enemy type
             takeDamage(other.GetComponent<BaseEnemy>().damage);
+
+            //could apply a random percentage of extra damage for future iterations
+            if(other.gameObject.GetComponent<BaseEnemy>().doubleDamageMod)
+                takeDamage(other.GetComponent<BaseEnemy>().damage);
+
             Debug.Log("Current health: " + health);
         }
 

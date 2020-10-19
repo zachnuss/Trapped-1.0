@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Parent object of this player obj")]
     public GameObject parent;
     public GameObject follower;
+    private GameObject[] character = new GameObject[8];
     //new rotation orientation player moves to
     //Quaternion targetRotation;
     //PlayerInputActions controls;
@@ -149,6 +150,11 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        for(int i = 0; i < character.Length; i++)
+        {
+            character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+        }
+
         //SetPlayerModifiers(); Player Mods set up in LevelSetup obj and script
         SetPlayerStats();
 
@@ -593,7 +599,18 @@ public class PlayerMovement : MonoBehaviour
 
         speedMultiplier = (playerData.speedUpgrade)/10;
         //Debug.Log(speedMultiplier);
-        
+
+        //Wesley
+        ChangeColor(); //Sets in scene start
+    }
+
+    //Wesley - Setting player color
+    public void ChangeColor()
+    {
+        for (int i = 0; i < character.Length; i++)
+        {
+            character[i].GetComponent<SkinnedMeshRenderer>().material = playerData.playerColor[playerData.materialChoice];
+        }
     }
 
     //player takes damage

@@ -19,7 +19,7 @@ public class PlayerAnimations : MonoBehaviour
     public void IsMovingTop()
     {
         animatorTop.SetBool("isIdling", false);
-        animatorTop.SetBool("Death", false);
+        //animatorTop.SetBool("Death", false);
         animatorTop.SetBool("isMoving", true);
         animatorTop.SetBool("isFiring", false);
         //Debug.Log("Set Moving Top Animation");
@@ -27,7 +27,7 @@ public class PlayerAnimations : MonoBehaviour
     public void isIdlingTop()
     {
         animatorTop.SetBool("isIdling", true);
-        animatorTop.SetBool("Death", false);
+        //animatorTop.SetBool("Death", false);
         animatorTop.SetBool("isMoving", false);
         animatorTop.SetBool("isFiring", false);
         //Debug.Log("Set Idling Top Animation");
@@ -35,7 +35,7 @@ public class PlayerAnimations : MonoBehaviour
     public void isFiringTop()
     {
         animatorTop.SetBool("isIdling", false);
-        animatorTop.SetBool("Death", false);
+       // animatorTop.SetBool("Death", false);
         animatorTop.SetBool("isMoving", false);
         animatorTop.SetBool("isFiring", true);
         //Debug.Log("Start Firing Animation");
@@ -43,7 +43,7 @@ public class PlayerAnimations : MonoBehaviour
     public void DeathAnimatorTop()
     {
         animatorTop.SetBool("isIdling", false);
-        animatorTop.SetBool("Death", true);
+        //animatorTop.SetBool("Death", true);
         animatorTop.SetBool("isMoving", false);
         animatorTop.SetBool("isFiring", false);
         //Debug.Log("Death");

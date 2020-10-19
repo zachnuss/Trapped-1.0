@@ -97,4 +97,12 @@ public class GameLevelData : ScriptableObject
         }
         return false;
     }
+
+    public void InitialModSetup()
+    {
+        for (int modIndex = 0; modIndex < mods.Length; modIndex++)
+        {
+            mods[modIndex].modActive = false;
+        }
+    }
 }

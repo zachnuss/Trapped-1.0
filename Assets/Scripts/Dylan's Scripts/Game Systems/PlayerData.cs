@@ -30,12 +30,19 @@ public class PlayerData : ScriptableObject
 
     [Header("Player score")]
     public int score = 0;
+    public int matchScoreFromTime;
+    public int matchScoreFromEnemies;
+    public int matchEnemiesKilled;
+    public int matchPowerUpsCollected;
+    public int matchCurrencyCollected;
+    public int matchSpecialCoinCollected;
     private int highScore1 = 0;
     private int highScore2 = 0;
     private int highScore3 = 0;
 
     [Header("Player Currency")]
     public int currency;
+    public int specialCoins;
 
     [Header("Player Currency")]
    // public Scene[] levels;
@@ -48,10 +55,17 @@ public class PlayerData : ScriptableObject
     public string prevLevelStr;
     [Header("Levels Beaten")]
     public int levelsBeaten = 0;
+    [Header("Game Level Data Obj")]
+    public GameLevelData gameLevelData;
+
+    [Header("Player Color")]
+    public int materialChoice = 0;
+    public Material[] playerColor;
 
     //called when level beat
     public void BeatLevel()
     {
+        bool takeToModSelection = false;
         if (OnLevel <= levelsS.Length - 1)
         {
             timerBetweenLevels = timerSec;
@@ -67,6 +81,9 @@ public class PlayerData : ScriptableObject
                 OnLevel = 0;
                 //finished one loop of levels 1 - 3, now at reset we can add the thing for high risk/high reward and increase difficulty
 
+                //take us to mod selection screen 
+                takeToModSelection = true;
+
                 //INCREASE DIFFICULTY HERE
 
             }
@@ -78,7 +95,10 @@ public class PlayerData : ScriptableObject
             levelsBeaten++;
 
             //load store scene?
-            SceneManager.LoadScene("StoreScene");
+            if (!takeToModSelection)
+                SceneManager.LoadScene("StoreScene");
+            else
+                SceneManager.LoadScene("GameLoopModSelection");
         }
     }
 
@@ -137,6 +157,7 @@ public class PlayerData : ScriptableObject
         //score starts at 0
         score = 0; //added by wesley
         localHealth = totalHealthBase;
+        gameLevelData.InitialModSetup();
         SceneManager.LoadScene("Level1");
     }
 
@@ -177,27 +198,51 @@ public class PlayerData : ScriptableObject
         }
     }
 
-    public void SaveHighscore() //Wesley
+    //Wesley - update match values with several easy tricks!
+    public void TrackEnemyScore(int input)
     {
-        if (score > highScore1)
-        {
-            highScore3 = highScore2;
-            highScore2 = highScore1;
-            highScore1 = score;
-        }
-        else if (score > highScore2)
-        {
-            highScore3 = highScore2;
-            highScore2 = score;
-        }
-        else if (score > highScore3)
-        {
-            highScore3 = score;
-        }
+        matchScoreFromEnemies += input;
     }
 
-    public void SaveHighscoresToFile()
+    public void TrackTimeScore(int input)
     {
 
+    }
+
+    public void TrackCurrencyGains(int input)
+    {
+        matchCurrencyCollected += input;
+    }
+
+    public void TrackSpecialCoinGains(int input)
+    {
+        matchSpecialCoinCollected += input;
+    }
+
+    public void TrackEnemyKills(int input)
+    {
+        matchEnemiesKilled += input;
+    }
+
+    public void TrackPowerupGains(int input)
+    {
+        matchPowerUpsCollected += input;
+    }
+
+    public void SetMenuColor(int input)
+    {
+        materialChoice = input;
+        if (GameObject.Find("MainCharacter_Geo") == true)
+        {
+            GameObject[] character = new GameObject[8];
+            for (int i = 0; i < character.Length; i++)
+            {
+                character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+            }
+            for (int i = 0; i < character.Length; i++)
+            {
+                character[i].GetComponent<SkinnedMeshRenderer>().material = playerColor[materialChoice];
+            }
+        }
     }
 }

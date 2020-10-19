@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Parent object of this player obj")]
     public GameObject parent;
     public GameObject follower;
+    private GameObject[] character = new GameObject[8];
     //new rotation orientation player moves to
     //Quaternion targetRotation;
     //PlayerInputActions controls;
@@ -65,9 +66,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animation State")]
     public playerBottomState animBottomState;
     public playerTopState animTopState;
-
+    playerTopState _localTopState = playerTopState.idle;
+    public int bulletDamage;
     //Camera
-   // public CamLookAt playerCam;
+    // public CamLookAt playerCam;
     //level setup script
 
     //when we have successfully rotated
@@ -115,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator[] transition; //Transition animator
     public float transitionTime = 1;
     private int rng;
-    bool firingState;
+    public bool firingState;
     bool _repeatedFire;
     //set to time to run full animation before repeat, may be a bit shorter so it works better
     float fireAnimationTime = 1f;
@@ -132,31 +134,33 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Player Animators")]
     public Animator top;
-    public GameObject topObj;
-    public Animator legs;
+    private GameObject topObj;
+    //public Animator legs;
     public PlayerAnimations playerAnimations;
 
     //public GameObject top;
+    public AnimatorStateInfo stateInfo;
+    public float shootingAnimLength = 1.5f;
 
-    //awake
-    private void Awake()
-    {
- 
-    }
-
-    //Olivia did this...if everything breaks I'm so sorry so just delete this.
-    public int bulletDamage;
+    bool _fireCoolDown;
+    [Header("Fire Rate")]
+    public float fireRate = 0.2f;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        SetPlayerModifiers();
+        for(int i = 0; i < character.Length; i++)
+        {
+            character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+        }
+
+        //SetPlayerModifiers(); Player Mods set up in LevelSetup obj and script
         SetPlayerStats();
 
         teleporterTracker = GameObject.FindGameObjectWithTag("GoalCheck"); //assumes we check on construction of the player, with a new player every level - Wesley
         rng = Random.Range(0, transition.Length);
         localTimer = playerData.timerBetweenLevels;
-        // StartCoroutine(timerCount());
         InvokeRepeating("PerSecond", 0f, 1f); //Every second, give score equal to 1*the level count. - Wesley
     }
 
@@ -182,6 +186,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    float firingTimer = 0;
+
     // used for updating values and variables
     private void Update()
     {
@@ -200,18 +206,24 @@ public class PlayerMovement : MonoBehaviour
             checkToCalculate = true;
         }
 
-
         //temp commented out
+        if(firingState)
+        {
+            firingTimer += Time.deltaTime;
+            if(firingTimer >= shootingAnimLength)
+            {
+                firingState = false;
+                firingTimer = 0;
+               // Debug.Log(stateInfo.length);
+            }
+        }
 
-        //IsName = name of firing animation for top
-        //TEMPORARY COMMENTED CAUSE I DONT HAVE ANIMATIONS YET (0 is base state)
-        //     if (top.GetCurrentAnimatorStateInfo(0).IsName("isFiring"))
-        //     {
-        // turn of state when animation is done
-        //        firingState = false;
-        //   }
-
-        SetAnimation();
+       // SetAnimation();
+       if(_localTopState != animTopState)
+        {
+            _localTopState = animTopState;
+            SetAnimation();
+        }
     }
 
     //moves player based on equation
@@ -220,7 +232,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (checkToCalculate)
         {
-            //Debug.Log("Moving to next side YEET");
             c0 = this.transform;
             c1 = _rotationTrans;
 
@@ -236,9 +247,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (moving)
         {
-            //Debug.Log("moving");
             u = (Time.time - timeStart) / timeDuration;
-           // u2 = (Time.time - timeStart2) / timeDurationCamera;
 
             if (u >= 1)
             {
@@ -249,14 +258,12 @@ public class PlayerMovement : MonoBehaviour
                 moving = false;
                 _rotationTrans = null;
                 overTheEdge = false;
-                //Debug.Log("IT REACHED THE END HOLY CRAP IT WORKED IMMA SLEEP NOW GGS");
             }
 
             //adjsut u value to the ranger from uMin to uMax
             //different types of eases to avoid snaps and rigidness
             u2 = EaseU(u2, easingTypeC, easingMod);
             //interpolation equation (with min and max)
-            //u = ((1 - u) * uMin) + (u * uMax);
 
             //standard linear inter
             //position
@@ -277,6 +284,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
    
+    /*
+     * Movement and Player Looking Rotation
+     * Uses player controller and both joysticks for movement and for player sights
+     */
     //for movement
     private void OnMove1(InputValue value)
     {
@@ -334,13 +345,13 @@ public class PlayerMovement : MonoBehaviour
             RotateMovement(movement);
             animBottomState = playerBottomState.walking;
             //turned off temp cause we dont have animations lol
-            //if(!firingState)
+            if(!firingState)
                 animTopState = playerTopState.moving;
         }
         else
         {
             animBottomState = playerBottomState.idle;
-           // if (!firingState)
+            if (!firingState)
                 animTopState = playerTopState.idle;
         }
     }
@@ -402,6 +413,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    //once player reaches new side
     void OnPlayerRotation()
     {
         //runs when player moves to next cube (runs only once)
@@ -433,27 +445,35 @@ public class PlayerMovement : MonoBehaviour
         return noFloor;
     }
 
+    //when player hits the attack button
     void OnAttack()
     {
-        //runs everytime our char attacks
-        //Wesley-Code
-        GameObject bullet = Object.Instantiate(Player_Bullet, transform.position, transform.rotation);
-        //ZACHARY ADDED THIS
-        StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
-        //just to destroy stray bullets if they escape the walls
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.AddForce(bullet.transform.forward * 1000);
-       // _repeatedFire = true;
-        //when we fire we run fire animation once (firing state is active while animation is active)
-        //StartCoroutine(FireState());
+        if (!_fireCoolDown)
+        {
+            //runs everytime our char attacks
+            //Wesley-Code
+            GameObject bullet = Object.Instantiate(Player_Bullet, transform.position, transform.rotation);
+            //ZACHARY ADDED THIS
+            StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
+            //just to destroy stray bullets if they escape the walls
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.AddForce(bullet.transform.forward * 1000);
+            // _repeatedFire = true;
+            //when we fire we run fire animation once (firing state is active while animation is active)
+            // StartCoroutine(FireState());
 
-        //start animation
-        firingState = true;
-
-        //temporary turned off cause i dont have animations (will ignore firing for now)
-       // animTopState = playerTopState.firing;
+            //start animation
+            firingState = true;
+            //Debug.Log("fire");
+            //temporary turned off cause i dont have animations (will ignore firing for now)
+            animTopState = playerTopState.firing;
+            playerAnimations.isFiringTop();
+            firingTimer = 0;
+            StartCoroutine(FireCoolDown());
+        }
     }
     
+    //triggers
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Door")
@@ -499,7 +519,12 @@ public class PlayerMovement : MonoBehaviour
         {
             //in the future damage will need to be derived specifically from the enemy type
             takeDamage(other.GetComponent<BaseEnemy>().damage);
-            Debug.Log("Current health: " + health);
+
+            //could apply a random percentage of extra damage for future iterations
+            if(other.gameObject.GetComponent<BaseEnemy>().doubleDamageMod)
+                takeDamage(other.GetComponent<BaseEnemy>().damage);
+
+            //Debug.Log("Current health: " + health);
         }
 
         if(other.gameObject.tag == "PowerUp")
@@ -574,9 +599,21 @@ public class PlayerMovement : MonoBehaviour
 
         speedMultiplier = (playerData.speedUpgrade)/10;
         //Debug.Log(speedMultiplier);
-        
+
+        //Wesley
+        ChangeColor(); //Sets in scene start
     }
 
+    //Wesley - Setting player color
+    public void ChangeColor()
+    {
+        for (int i = 0; i < character.Length; i++)
+        {
+            character[i].GetComponent<SkinnedMeshRenderer>().material = playerData.playerColor[playerData.materialChoice];
+        }
+    }
+
+    //player takes damage
     public void takeDamage(int damageTaken)
     {
         //damage player
@@ -651,7 +688,7 @@ public class PlayerMovement : MonoBehaviour
 
         
     }
-
+    //update and display timer 
     void DisplayTime()
     {
         //update text here with info from playerdata
@@ -659,7 +696,7 @@ public class PlayerMovement : MonoBehaviour
         timerText.text = string.Format("{0:00}:{1:00}:{2:00}", playerData.timerHour, playerData.timerMin, playerData.timerSec);
 
     }
-
+    //timer counter
     IEnumerator timerCount()
     {
         yield return new WaitForSeconds(1.0f);
@@ -680,7 +717,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(PowerUpDuration(type, duration));
         }
     }
-
+    //how long the powerups last
     IEnumerator PowerUpDuration(powerUpType type, int duration)
     {
         //turn on
@@ -726,13 +763,15 @@ public class PlayerMovement : MonoBehaviour
     //will be in update
     void SetAnimation()
     {
-        playerAnimations.isIdlingTop();
+        //playerAnimations.isIdlingTop();
         //based on status enum
         switch (animBottomState)
         {
             case playerBottomState.idle:
+                //playerAnimations.isIdlingTop();
                 break;
             case playerBottomState.walking:
+                //playerAnimations.isIdlingTop();
                 break;
             default:
                 break;
@@ -741,11 +780,17 @@ public class PlayerMovement : MonoBehaviour
         switch (animTopState)
         {
             case playerTopState.idle:
+                playerAnimations.isIdlingTop();
+                stateInfo = top.GetCurrentAnimatorStateInfo(0);
                 break;
             case playerTopState.moving:
+                playerAnimations.IsMovingTop();
+                stateInfo = top.GetCurrentAnimatorStateInfo(0);
                 break;
             case playerTopState.firing:
-
+                playerAnimations.isFiringTop();
+                stateInfo = top.GetCurrentAnimatorStateInfo(0);
+               // Debug.Log(stateInfo.length);
                 break;
             case playerTopState.interacting:
                 break;
@@ -753,14 +798,14 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
-
-    //sets up player stats based on which mods are active in level setup
-    void SetPlayerModifiers()
+    //to prevent spam fire and prevent issues with firing animations
+    public IEnumerator FireCoolDown()
     {
-
+        _fireCoolDown = true;
+        yield return new WaitForSeconds(fireRate);
+        _fireCoolDown = false;
     }
 
-    //NOT IN USE - UNUSED
     //when we fire, we launch the firing animation, while the bool is on (the anim is playing) we cannot switch to topIdle or topMoving until its done
     IEnumerator FireState()
     {
@@ -768,10 +813,7 @@ public class PlayerMovement : MonoBehaviour
         firingState = true;
 
         //however long the animation is
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(top.GetCurrentAnimatorStateInfo(0).length);
 
-        //if we havent fired again in the last sec, we can turn this off
-        if (_repeatedFire == false)
-            firingState = false;
     }
 }

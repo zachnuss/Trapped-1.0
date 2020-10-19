@@ -66,12 +66,12 @@ public class LevelSetup : MonoBehaviour
     {
         for (int modIndex = 0; modIndex < currentModsInLevel.Length; modIndex++)
         {
-            if (currentModsInLevel[modIndex].modType == modifierType.shields_and_regainMOD)
+            if (currentModsInLevel[modIndex].modType == modifierType.shields_and_regainMOD && currentModsInLevel[modIndex].modActive)
             {
                 //turn on health regen bool on player
                 _player.GetComponent<PlayerMovement>().healthRegen = true;
             }
-            if(currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD)
+            if(currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD && currentModsInLevel[modIndex].modActive)
             {
                 _player.GetComponent<PlayerMovement>().doubleScoreMod = true;
             }

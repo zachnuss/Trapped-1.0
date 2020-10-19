@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public UIInGame gamerUI;
+    
     //set up for rotation and new rotation orientation
     [Header("Parent object of this player obj")]
     public GameObject parent;
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     public playerBottomState animBottomState;
     public playerTopState animTopState;
     playerTopState _localTopState = playerTopState.idle;
-    public int bulletDamage;
+    //public int bulletDamage;
     //Camera
     // public CamLookAt playerCam;
     //level setup script
@@ -118,9 +118,9 @@ public class PlayerMovement : MonoBehaviour
     public float transitionTime = 1;
     private int rng;
     public bool firingState;
-    bool _repeatedFire;
+    //bool _repeatedFire;
     //set to time to run full animation before repeat, may be a bit shorter so it works better
-    float fireAnimationTime = 1f;
+    //float fireAnimationTime = 1f;
     public float localTimer;
 
     [Header("Player Modifiers")]
@@ -131,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
     //displays timer per level (resets at level start and ends at level end
     [Header("UI")]
     public Text timerText;
+    public UIInGame gamerUI;
 
     [Header("Player Animators")]
     public Animator top;
@@ -510,7 +511,9 @@ public class PlayerMovement : MonoBehaviour
             //destroy object
             Destroy(other.transform.gameObject);
             //decrement health
-            takeDamage(bulletDamage); //Olivia changed this
+            //takeDamage(bulletDamage); //Olivia changed this
+            takeDamage(other.GetComponent<TurretBullet>().damage);
+
             Debug.Log("Current health: " + health);
         }
 

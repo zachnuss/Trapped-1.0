@@ -11,7 +11,8 @@ public class TurretBullet : MonoBehaviour
     private Vector3 _fireDirection;
     private float _speed;
     private float _maxBulletDistance;
-
+    public bool doubleDamage = false;
+    public int damage = 15;
 
     /*
      * Start must be used instead of Awake to properly initialize
@@ -25,6 +26,8 @@ public class TurretBullet : MonoBehaviour
         _speed = GetComponentInParent<WallTurret>().bulletSpeed;
         _fireDirection = GetComponentInParent<WallTurret>().fireDirection;
         _maxBulletDistance = GetComponentInParent<WallTurret>().maxBulletDistance;
+        if (doubleDamage)
+            damage += damage;
     }
 
     void Update()

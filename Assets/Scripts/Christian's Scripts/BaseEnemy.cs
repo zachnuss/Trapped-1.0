@@ -70,7 +70,8 @@ public class BaseEnemy : MonoBehaviour {
             //give score to player
             player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             //Debug.Log("Enemy killed, " + pointValue + " points added to PlayerData.");
-
+            if(doubleDamageMod)
+                player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             //destroy enemy last to avoid bugs
             Destroy(gameObject);
         }

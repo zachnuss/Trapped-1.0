@@ -12,30 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ac9e01fa250f2469fa52ba507acdd1, type: 3}
   m_Name: PlayerDataObj
   m_EditorClassIdentifier: 
-  timerSec: 5
-  timerMin: 1
+  timerSec: 47
+  timerMin: 11
   timerHour: 0
-  timerBetweenLevels: 0
-  healthUpgrade: 2
-  damageUpgrade: 0
+  timerBetweenLevels: 37
+  totalTime: 650.8726
+  healthUpgrade: 0
+  damageUpgrade: 1
   speedUpgrade: 0
   totalHealthBase: 100
   totalDamageBase: 20
-  localHealth: 100
-  OnLevel: 1
-  score: 134
-  scoreFromTime: 0
-  scoreFromEnemies: 0
-  enemiesKilled: 0
-  powerUpsCollected: 0
-  matchCurrencyCollected: 0
-  matchSpecialCoinCollected: 0
-  currency: 3
-  specialCoins: 0
+  localHealth: 64
+  OnLevel: 2
+  score: 1080
+  currency: 15
   levelsS:
   - Level1
   - Level2
   - Level3
-  nextLevelStr: Level2
-  prevLevelStr: Level2
-  materialChoice: 1
+  nextLevelStr: Level1
+  prevLevelStr: Level3
+  levelsBeaten: 2
+  gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}

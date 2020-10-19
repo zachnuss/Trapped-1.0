@@ -29,7 +29,6 @@ public class UISceneTransition : MonoBehaviour
     //Changes scene to the options scene
     public void options()
     {
-        //SceneManager.LoadScene(1);
         Debug.Log("You have options.");
     }
 

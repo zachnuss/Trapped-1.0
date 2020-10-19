@@ -24,6 +24,7 @@ public class ProjectileScript : MonoBehaviour
     void FixedUpdate()
     {
         //Move_Forward();
+        
     }
 
 
@@ -34,25 +35,44 @@ public class ProjectileScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Enemy") //Assuming enemies will have this tag.
+        if (other.tag == "Enemy") //Assuming enemies will have this tag.
         {
             //other.GetComponent<BaseEnemy>().health -= damage; //This is normal damage
-            other.GetComponent<BaseEnemy>().takeDamage(damage); //Christian's code
-            if(Random.Range(0f,10f)< 1) //This is a crit
+            other.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code
+            if (Random.Range(0f, 10f) < 1) //This is a crit
             {
                 Debug.Log("I hit a crit!");
                 //other.GetComponent<BaseEnemy>().health -= damage;
-                other.GetComponent<BaseEnemy>().takeDamage(damage); //Christian's code
+                other.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code
             }
+            other.GetComponent<BaseEnemy>().SheildRegenStop();
             gameObject.SetActive(false);
+        }
+        //More of Christian's code below
+        else if (other.tag == "Shield")
+        {
+            //setactive false, don't destroy
+            gameObject.SetActive(false);
+        }
+        //For sheild mods on enemies
+        else if (other.tag == "ShieldMod") 
+        {
+            Debug.Log("hit sheild");
+            if (!other.gameObject.GetComponent<ForceFieldsEnemy>().inactive)
+            {
+                
+                other.gameObject.GetComponent<ForceFieldsEnemy>().currentHealth -= damage;
+                gameObject.SetActive(false);
+            }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Wall" )
         {
             gameObject.SetActive(false);
+            //Destroy(this.gameObject);
         }
     }
 

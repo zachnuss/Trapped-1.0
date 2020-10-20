@@ -3,6 +3,7 @@
  * Summary: A simple script that enables enemies to shoot.
  */ 
 using UnityEngine;
+using System.Collections;
 
 public class EnemyShooting : MonoBehaviour
 {
@@ -34,11 +35,13 @@ public class EnemyShooting : MonoBehaviour
     private int _damage;
     private Vector3 _fwdDir; //getter of child
 
-    void Start() {
-        _fwdDir = GetComponent<CommonGuard>().fwdDirGo.transform.position;
+    IEnumerator Start() {
         //initialize values
         CommonGuard cG = GetComponent<CommonGuard>();
-        assignStats(cG.speed, cG.damage, cG.fwdDirGo.transform.position);
+        yield return new WaitForSeconds(0.5f);
+        _fwdDir = cG.fwdDirGO.transform.position;
+        assignStats(cG.speed, cG.damage, cG.fwdDirGO.transform.position);
+        Debug.Log("ferp");
     }
 
     void Update()
@@ -75,10 +78,4 @@ public class EnemyShooting : MonoBehaviour
         _damage = damage;
         _fwdDir = fireDir;
      }
-
-    /**
-     * TO DO:
-     *      -Later implementation needs a function to grab enemy type
-     *          specific variables at start.
-     */
 }

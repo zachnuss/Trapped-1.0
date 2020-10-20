@@ -41,18 +41,21 @@ public class ProjectileScript : MonoBehaviour
             other.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code
             if (Random.Range(0f, 10f) < 1) //This is a crit
             {
-                Debug.Log("I hit a crit!");
+                //Debug.Log("I hit a crit!");
                 //other.GetComponent<BaseEnemy>().health -= damage;
                 other.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code
             }
             other.GetComponent<BaseEnemy>().SheildRegenStop();
             gameObject.SetActive(false);
+
+            ///Debug.Log("Enemy is taking damage.");
         }
         //More of Christian's code below
         else if (other.tag == "Shield")
         {
             //setactive false, don't destroy
             gameObject.SetActive(false);
+            ///Debug.Log("I hit the shield.");
         }
         //For sheild mods on enemies
         else if (other.tag == "ShieldMod") 

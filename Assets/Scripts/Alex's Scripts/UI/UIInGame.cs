@@ -156,7 +156,7 @@ public class UIInGame : MonoBehaviour
     public void UpdateObjText()
     {
         objectiveTracker += 1;
-        objectiveText.text = "-Find and press all the Yellow Buttons(" + objectiveTracker.ToString() + "/5).";
+        objectiveText.text = objectiveTracker.ToString() + "/5).";
     }
 
 }

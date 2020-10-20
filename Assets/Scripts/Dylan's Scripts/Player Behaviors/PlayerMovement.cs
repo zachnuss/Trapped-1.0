@@ -545,7 +545,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Hit powerup");
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
-
+            playerData.TrackPowerupGains(1);
             Destroy(other.gameObject);
         }
            

@@ -65,7 +65,6 @@ public class PlayerData : ScriptableObject
     public Material[] playerColor;
 
     //Player Persistent stats - Wesley
-    private int totalTimeAlive = 0;
     private int totalEnemiesKilled = 0;
     private int totalPowerupsCollected = 0;
     private int totalCurrencyCollected = 0;
@@ -73,7 +72,7 @@ public class PlayerData : ScriptableObject
     private int totalEnemyScore = 0;
     private float totalTimerSec;
     private float totalTimerMin;
-    private float totaltimerHour;
+    private float totalTimerHour;
 
 
 
@@ -144,6 +143,7 @@ public class PlayerData : ScriptableObject
         currency += addition;
         //curency adds score as well
         score += addition;
+        TrackCurrencyGains(addition);
     }
 
     public void ResetUpgrades()
@@ -272,6 +272,7 @@ public class PlayerData : ScriptableObject
     public void AddSpecialCoins(int input)
     {
         specialCoins += input;
+        TrackSpecialCoinGains(input);
     }
 
     public void UseSpecialCoin(int input)
@@ -281,11 +282,11 @@ public class PlayerData : ScriptableObject
 
     public void AddTotalTimeAlive()
     {
-        totaltimerHour += timerHour;
+        totalTimerHour += timerHour;
         totalTimerMin += timerMin;
         totalTimerSec += timerSec;
         totalTimerMin += Mathf.Floor(totalTimerSec / 60);
-        totaltimerHour += Mathf.Floor(totalTimerMin / 60);
+        totalTimerHour += Mathf.Floor(totalTimerMin / 60);
         totalTimerMin = totalTimerMin % 60;
         totalTimerSec = totalTimerSec % 60;
     }
@@ -360,7 +361,7 @@ public class PlayerData : ScriptableObject
 
         file = File.Create(destination);
 
-        PersistentData currentData = new PersistentData(highScore1, highScore2, highScore3, specialCoins, totalTimeAlive,
+        PersistentData currentData = new PersistentData(highScore1, highScore2, highScore3, specialCoins, totalTimerSec, totalTimerMin, totalTimerHour,
             totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice);
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file, currentData);
@@ -390,7 +391,9 @@ public class PlayerData : ScriptableObject
         highScore2 = loadData.highScore2;
         highScore3 = loadData.highScore3;
         specialCoins = loadData.specialCoin;
-        totalTimeAlive = loadData.totalTimeAlive;
+        totalTimerSec = loadData.totalTimeSec;
+        totalTimerMin = loadData.totalTimeMin;
+        totalTimerHour = loadData.totalTimeHour;
         totalEnemiesKilled = loadData.totalEnemiesKilled;
         totalPowerupsCollected = loadData.totalPowerupsCollected;
         totalCurrencyCollected = loadData.totalCurrencyCollected;

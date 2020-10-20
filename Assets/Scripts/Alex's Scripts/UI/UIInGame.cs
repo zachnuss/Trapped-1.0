@@ -11,6 +11,7 @@ public class UIInGame : MonoBehaviour
 
     //Text Variables to change the text of the On-Screen Items
     public Text currencyText;
+    public Text specialCurrencyText; //Added by Wesley for special currency, change this how you want later.
     public Text healthText;
 
     //Image Variable to change the health bar to match the missing health percentage
@@ -91,6 +92,9 @@ public class UIInGame : MonoBehaviour
         //When the scene starts it will display the current currency total that is stored in the player data
         currencyText.text = "" + playerData.currency;
 
+        //When the scene starts it will display the current special currency total that is stored in the player data - Added by Wesley
+        specialCurrencyText.text = "" + playerData.specialCoins;
+
         //When the scene starts it will display the current health total that is stored in the player data
         healthText.text = "" + playerData.localHealth;
 
@@ -124,10 +128,20 @@ public class UIInGame : MonoBehaviour
         //Checks to see if the other tag is Currency
         if(other.gameObject.tag == "Currency")
         {
-            //Debug.Log("Got Currency!");
-            playerData.currency += 1; //VARIABLE LOCATION TO CHANGE THE AMOUNT THAT CURRENCY IS WORTH *TEMP*
-            Destroy(other.gameObject); //Destroys the currency obj
-            currencyText.text = "" + playerData.currency; //Updates currency UI
+            if (other.GetComponent<CurrencyType>().special == false) //added by Wesley, checks currency type.
+            {
+                //Debug.Log("Got Currency!");
+                playerData.AddCurrency(1); //VARIABLE LOCATION TO CHANGE THE AMOUNT THAT CURRENCY IS WORTH *TEMP* //We have a function that does this + adds score and tracks data, updated it - Wesley
+                Destroy(other.gameObject); //Destroys the currency obj
+                currencyText.text = "" + playerData.currency; //Updates currency UI
+            }
+            if(other.GetComponent<CurrencyType>().special == true)
+            {
+                playerData.AddSpecialCoins(1);
+                Destroy(other.gameObject);
+                specialCurrencyText.text = "" + playerData.specialCoins; //Update special currency in the UI
+            }
+
         }
 
         //Checks if it was a bullet or enemy to adjust HP UI

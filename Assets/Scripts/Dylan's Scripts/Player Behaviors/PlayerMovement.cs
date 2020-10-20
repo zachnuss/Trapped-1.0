@@ -265,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //when we reach new pos
                 parent.transform.rotation = _rotationTrans.transform.rotation;
-              
+              topObj.transform.rotation = _rotationTrans.transform.rotation;
                 u = 1;
                 moving = false;
                 _rotationTrans = null;

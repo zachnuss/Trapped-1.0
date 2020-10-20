@@ -419,7 +419,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
+        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(topObj.transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
 
     }
 

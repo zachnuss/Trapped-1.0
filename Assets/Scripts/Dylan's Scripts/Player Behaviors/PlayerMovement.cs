@@ -265,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //when we reach new pos
                 parent.transform.rotation = _rotationTrans.transform.rotation;
-              topObj.transform.rotation = _rotationTrans.transform.rotation;
+             
                 u = 1;
                 moving = false;
                 _rotationTrans = null;
@@ -419,7 +419,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(topObj.transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
+        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(topObj.transform.localEulerAngles.y+45, _angle2, Time.deltaTime * lookSpeed), 0);
 
 
         //FIRE HERE
@@ -465,7 +465,8 @@ public class PlayerMovement : MonoBehaviour
         {
             //runs everytime our char attacks
             //Wesley-Code
-            GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.localRotation);
+            GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.rotation);
+
             Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
             //ZACHARY ADDED THIS
             StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());

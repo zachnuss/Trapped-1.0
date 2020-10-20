@@ -721,19 +721,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     //how long the powerups last
-    IEnumerator PowerUpDuration(powerUpType type, int duration)
+    IEnumerator PowerUpDuration(powerUpType type, float duration)
     {
         //turn on
         switch (type)
         {
             case powerUpType.damage:
+                gamerUI.vDamage.SetActive(true);
                 damage += 5;
                 break;
             case powerUpType.speed:
+                gamerUI.vSpeed.SetActive(true);
                 speedMultiplier += 0.5f;
                // Debug.Log(speedMultiplier);
                 break;
             case powerUpType.health:
+                gamerUI.vHealth.SetActive(true);
+                duration = .5f;
                 if (health < playerData.totalHealthBase)
                 {
                     health += 20;
@@ -751,10 +755,15 @@ public class PlayerMovement : MonoBehaviour
         switch (type)
         {
             case powerUpType.damage:
+                gamerUI.vDamage.SetActive(false);
                 damage -= 5;
                 break;
             case powerUpType.speed:
+                gamerUI.vSpeed.SetActive(false);
                 speedMultiplier -= 0.5f;
+                break;
+            case powerUpType.health:
+                gamerUI.vHealth.SetActive(false);
                 break;
             default:
                 break;

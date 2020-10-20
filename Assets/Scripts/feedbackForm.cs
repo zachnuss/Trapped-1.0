@@ -6,6 +6,6 @@ public class feedbackForm : MonoBehaviour
 {
     public void openLink()
     {
-        Application.OpenURL("https://forms.gle/TDokzRWrZYbJkiN26");
+        Application.OpenURL("https://forms.gle/WJs6USubUTEwvF8Y9");
     }
 }

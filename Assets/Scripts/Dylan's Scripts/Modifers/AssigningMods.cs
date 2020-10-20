@@ -14,6 +14,7 @@ public class AssigningMods : MonoBehaviour
     public GameLevelData gameLevelData;
 
     public Button[] buttonArray;
+    public Text[] appliedText;
     public Text modsText;
 
     public int numberOfModsToSelect;
@@ -22,8 +23,9 @@ public class AssigningMods : MonoBehaviour
 
     private void Start()
     {
+        ToStore();
         numberOfModsToSelect = Mathf.FloorToInt(playerData.levelsBeaten/3);
-        Debug.Log(numberOfModsToSelect);
+        //Debug.Log(numberOfModsToSelect);
         //_myEventSystem = GameObject.Find("EventSystem");
         disabledColor.highlightedColor = buttonArray[0].colors.highlightedColor;
         disabledColor.pressedColor = buttonArray[0].colors.pressedColor;
@@ -41,12 +43,15 @@ public class AssigningMods : MonoBehaviour
     //buttons are unclickable if they have already been applied
     void ButtonsActiveInitial()
     {
+       // Debug.Log("yes");
         for(int buttonIndex = 0; buttonIndex <= buttonArray.Length - 1; buttonIndex++)
         {
             if(gameLevelData.mods[buttonIndex].modActive)
             {
                // buttonArray[buttonIndex].interactable = false;
                 buttonArray[buttonIndex].colors = disabledColor;
+               // Debug.Log(appliedText[buttonIndex].name);
+                appliedText[buttonIndex].text = "APPLIED";
                 numberOfModsToSelect--;
             }
         }
@@ -60,6 +65,9 @@ public class AssigningMods : MonoBehaviour
             {
                 // buttonArray[buttonIndex].interactable = false;
                 buttonArray[buttonIndex].colors = disabledColor;
+                //appliedText[buttonIndex].enabled = false;
+                appliedText[buttonIndex].text = "APPLIED";
+                //Debug.Log("here");
                 //numberOfModsToSelect--;
             }
         }
@@ -73,6 +81,7 @@ public class AssigningMods : MonoBehaviour
             if (gameLevelData.mods[modIndex].modType == type)
             {
                 gameLevelData.mods[modIndex].modActive = true;
+               // Debug.Log("yes");
             }
         }
     }

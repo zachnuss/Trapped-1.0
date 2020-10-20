@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Rotation Speed")]
     public float turnSpeed = 20f;
     public float lookSpeed = 30f;
-    float _angle;
+    public float _angle, _angle2;
     //player looking rotation
     Vector2 lookingInput;
 
@@ -135,7 +135,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Player Animators")]
     public Animator top;
-    private GameObject topObj;
+    public GameObject topObj;
+   // public Transform firePos;
     //public Animator legs;
     public PlayerAnimations playerAnimations;
 
@@ -145,13 +146,18 @@ public class PlayerMovement : MonoBehaviour
 
     bool _fireCoolDown;
     [Header("Fire Rate")]
-    public float fireRate = 0.2f;
+    public float fireRate = 0.1f;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < character.Length; i++)
+
+        //cap refresh rate on those computers that believe themselves to be above us
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
+
+        for (int i = 0; i < character.Length; i++)
         {
             character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
         }
@@ -176,6 +182,7 @@ public class PlayerMovement : MonoBehaviour
         if (!overTheEdge && !moving)
         {
             Movement();
+            Looking();
         }
 
         Timer();
@@ -185,6 +192,10 @@ public class PlayerMovement : MonoBehaviour
         {
             Interpolation();
         }
+
+        //so the looky thing does go over there
+       // topObj.transform.position = this.transform.position;
+        
     }
 
     float firingTimer = 0;
@@ -223,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
        if(_localTopState != animTopState)
         {
             _localTopState = animTopState;
-            SetAnimation();
+            //SetAnimation();
         }
     }
 
@@ -254,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //when we reach new pos
                 parent.transform.rotation = _rotationTrans.transform.rotation;
-              
+             
                 u = 1;
                 moving = false;
                 _rotationTrans = null;
@@ -298,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnLook(InputValue value)
     {
         lookingInput = value.Get<Vector2>();
-        Debug.Log(lookingInput);
+       // Debug.Log(lookingInput);
     }
     //joysticks
     public float JoystickH()
@@ -371,14 +382,14 @@ public class PlayerMovement : MonoBehaviour
     public float JoystickLookingH()
     {
         //float r = 0.0f;
-        float h = movementInput.x;
+        float h = lookingInput.x;
         //r += Mathf.Round(h);
         return Mathf.Clamp(h, -1.0f, 1.0f);
     }
     public float JoystickLookingV()
     {
         //float r = 0.0f;
-        float v = movementInput.y;
+        float v = lookingInput.y;
         //r += Mathf.Round(v);
         return Mathf.Clamp(v, -1.0f, 1.0f);
     }
@@ -400,18 +411,19 @@ public class PlayerMovement : MonoBehaviour
           //  animTopState = playerTopState.idle;
     }
 
-    void LookMovement(Vector3 movement)
+    void LookMovement(Vector3 looking)
     {
         //convert joystick movements to angles that we can apply to player rotation
-        _angle = Mathf.Atan2(movement.x, movement.z);
-        _angle = Mathf.Rad2Deg * _angle;
-
+        _angle2 = Mathf.Atan2(looking.x, looking.z);
+        _angle2 = Mathf.Rad2Deg * _angle2;
+        Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-        if(topObj != null)
-            topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * lookSpeed), 0);
+        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(topObj.transform.localEulerAngles.y+45, _angle2, Time.deltaTime * lookSpeed), 0);
 
-        
+
+        //FIRE HERE
+        OnStickAttack();
     }
 
     //once player reaches new side
@@ -447,13 +459,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //when player hits the attack button
-    void OnAttack()
+    void OnStickAttack()
     {
         if (!_fireCoolDown)
         {
             //runs everytime our char attacks
             //Wesley-Code
-            GameObject bullet = Object.Instantiate(Player_Bullet, transform.position, transform.rotation);
+            GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.rotation);
+
+            Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
             //ZACHARY ADDED THIS
             StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
             //just to destroy stray bullets if they escape the walls
@@ -545,7 +559,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Hit powerup");
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
-
+            playerData.TrackPowerupGains(1);
             Destroy(other.gameObject);
         }
            
@@ -641,6 +655,7 @@ public class PlayerMovement : MonoBehaviour
             //int gameOverInt = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
 
             //Set Highscore
+            playerData.EndGameScoring();
 
             UnityEngine.SceneManagement.SceneManager.LoadScene(6);
             //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
@@ -661,10 +676,16 @@ public class PlayerMovement : MonoBehaviour
     //Score - Wesley
     void PerSecond()
     {
-        if(!doubleScoreMod)
-            playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1.
+        if (!doubleScoreMod)
+        {
+            playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1. //add to total score
+            playerData.TrackTimeScore(1 * (playerData.OnLevel + 1)); //add to time only score
+        }
         else
+        {
             playerData.AddScore(2 * (playerData.OnLevel + 1));
+            playerData.TrackTimeScore(2 * (playerData.OnLevel + 1));
+        }
 
         //other things it should do every second
 

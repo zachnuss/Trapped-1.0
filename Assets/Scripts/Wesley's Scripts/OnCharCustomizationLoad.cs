@@ -9,7 +9,7 @@ public class OnCharCustomizationLoad : MonoBehaviour
     public UnityEngine.UI.Toggle choiceToggle;
     void Start()
     {
-        playerData.SetCharacterChoice(choiceToggle);
+        playerData.SetCharacterChoiceMenu(choiceToggle);
         playerData.SetMenuColor(playerData.materialChoice);
     }
 }

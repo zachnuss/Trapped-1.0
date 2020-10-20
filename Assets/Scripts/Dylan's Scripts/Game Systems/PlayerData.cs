@@ -474,7 +474,7 @@ public class PlayerData : ScriptableObject
         }
         else
         {
-            Debug.LogError("No save data");
+            Debug.Log("No save data");
             return;
         }
 

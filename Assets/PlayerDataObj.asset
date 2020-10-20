@@ -24,8 +24,8 @@ MonoBehaviour:
   totalDamageBase: 20
   localHealth: 100
   OnLevel: 0
-  score: 8
-  matchScoreFromTime: 8
+  score: 4
+  matchScoreFromTime: 4
   matchScoreFromEnemies: 0
   matchEnemiesKilled: 0
   matchPowerUpsCollected: 0
@@ -54,4 +54,4 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f0edfb879c5b1074d8e6fb573ce24770, type: 2}
   - {fileID: 2100000, guid: a1456dd2421c9544585704f2e8c496df, type: 2}
   - {fileID: 2100000, guid: e1f17faa68945464ca4e37c7f8579977, type: 2}
-  characterModelSwitch: 1
+  characterModelSwitch: 0

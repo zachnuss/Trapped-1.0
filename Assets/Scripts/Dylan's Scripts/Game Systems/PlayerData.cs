@@ -62,6 +62,7 @@ public class PlayerData : ScriptableObject
 
     [Header("Player Color")]
     public int materialChoice = 0;
+    public int materialChoice2 = 0;
     public Material[] playerColor;
     public Material[] player2Color;
     public bool characterModelSwitch;
@@ -252,17 +253,42 @@ public class PlayerData : ScriptableObject
         matchPowerUpsCollected += input;
     }
 
-    public void SetCharacterChoice(bool choice)
+    public void SetCharacterChoice(UnityEngine.UI.Toggle choice)
     {
-        characterModelSwitch = choice;
+        GameObject[] character1 = new GameObject[8];
+        for (int i = 0; i < character1.Length; i++)
+        {
+            character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+        }
+        GameObject character2 = GameObject.Find("secondCharacter_low");
+        if (choice.isOn == false)
+        {
+            characterModelSwitch = false;
+            character2.GetComponent<MeshRenderer>().enabled = false;
+            for (int i = 0; i < character1.Length; i++)
+            {
+                character1[i].GetComponent<SkinnedMeshRenderer>().enabled = true;
+            }
+            SetMenuColor(materialChoice);
+        }
+        else
+        {
+            characterModelSwitch = true;
+            for (int i = 0; i < character1.Length; i++)
+            {
+                character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
+            }
+            character2.GetComponent<MeshRenderer>().enabled = true;
+            SetMenuColor(materialChoice2);
+        }
     }
 
     //Sets colors on player - Wesley
     public void SetMenuColor(int input)
     {
-        materialChoice = input;
         if (characterModelSwitch == false)
         {
+            materialChoice = input;
             if (GameObject.Find("MainCharacter_Geo") == true)
             {
                 GameObject[] character = new GameObject[8];
@@ -278,6 +304,7 @@ public class PlayerData : ScriptableObject
         }
         else
         {
+            materialChoice2 = input;
             if (GameObject.Find("MainCharacter_Geo") == true)
             {
                 GameObject[] character = new GameObject[1];
@@ -287,7 +314,7 @@ public class PlayerData : ScriptableObject
                 }
                 for (int i = 0; i < character.Length; i++)
                 {
-                    character[i].GetComponent<MeshRenderer>().material = player2Color[materialChoice];
+                    character[i].GetComponent<MeshRenderer>().material = player2Color[materialChoice2];
                 }
             }
         }
@@ -387,7 +414,7 @@ public class PlayerData : ScriptableObject
         file = File.Create(destination);
 
         PersistentData currentData = new PersistentData(highScore1, highScore2, highScore3, specialCoins, totalTimerSec, totalTimerMin, totalTimerHour,
-            totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice, characterModelSwitch);
+            totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice, materialChoice2, characterModelSwitch);
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file, currentData);
         file.Close();
@@ -424,7 +451,9 @@ public class PlayerData : ScriptableObject
         totalCurrencyCollected = loadData.totalCurrencyCollected;
         totalSpecialCoinsCollected = loadData.totalSpecialCoinsCollected;
         materialChoice = loadData.materialChoice;
+        materialChoice2 = loadData.materialChoice2;
         characterModelSwitch = loadData.characterChoice;
+
         file.Close();
     }
 }

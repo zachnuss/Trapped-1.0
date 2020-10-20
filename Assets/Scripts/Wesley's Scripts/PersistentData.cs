@@ -20,12 +20,13 @@ public class PersistentData
     public int totalCurrencyCollected = 0;
     public int totalSpecialCoinsCollected = 0;
     public int materialChoice = 0;
+    public int materialChoice2 = 0;
     public bool characterChoice = false;
 
     
 
     public PersistentData(int highScore1Int, int highScore2Int, int highScore3Int, int specialCoinInt, float totalTimeSecFloat, float totalTimeMinFloat, float totalTimeHourFloat,
-        int totalEnemiesKilledInt, int totalPowerupsCollectedInt, int totalCurrencyCollectedInt, int totalSpecialCoinsCollectedInt, int materialChoiceInt, bool characterChoiceBool)
+        int totalEnemiesKilledInt, int totalPowerupsCollectedInt, int totalCurrencyCollectedInt, int totalSpecialCoinsCollectedInt, int materialChoiceInt, int materialChoice2Int, bool characterChoiceBool)
     {
         highScore1 = highScore1Int;
         highScore2 = highScore2Int;
@@ -39,6 +40,7 @@ public class PersistentData
         totalCurrencyCollected = totalCurrencyCollectedInt;
         totalSpecialCoinsCollected = totalSpecialCoinsCollectedInt;
         materialChoice = materialChoiceInt;
+        materialChoice2 = materialChoice2Int;
         characterChoice = characterChoiceBool;
     }
 

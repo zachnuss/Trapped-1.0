@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Rotation Speed")]
     public float turnSpeed = 20f;
     public float lookSpeed = 30f;
-    float _angle;
+    public float _angle, _angle2;
     //player looking rotation
     Vector2 lookingInput;
 
@@ -135,7 +135,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Player Animators")]
     public Animator top;
-    private GameObject topObj;
+    public GameObject topObj;
+   // public Transform firePos;
     //public Animator legs;
     public PlayerAnimations playerAnimations;
 
@@ -151,7 +152,12 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < character.Length; i++)
+
+        //cap refresh rate on those computers that believe themselves to be above us
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
+
+        for (int i = 0; i < character.Length; i++)
         {
             character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
         }
@@ -176,6 +182,7 @@ public class PlayerMovement : MonoBehaviour
         if (!overTheEdge && !moving)
         {
             Movement();
+            Looking();
         }
 
         Timer();
@@ -185,6 +192,10 @@ public class PlayerMovement : MonoBehaviour
         {
             Interpolation();
         }
+
+        //so the looky thing does go over there
+       // topObj.transform.position = this.transform.position;
+        
     }
 
     float firingTimer = 0;
@@ -298,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnLook(InputValue value)
     {
         lookingInput = value.Get<Vector2>();
-        Debug.Log(lookingInput);
+       // Debug.Log(lookingInput);
     }
     //joysticks
     public float JoystickH()
@@ -371,14 +382,14 @@ public class PlayerMovement : MonoBehaviour
     public float JoystickLookingH()
     {
         //float r = 0.0f;
-        float h = movementInput.x;
+        float h = lookingInput.x;
         //r += Mathf.Round(h);
         return Mathf.Clamp(h, -1.0f, 1.0f);
     }
     public float JoystickLookingV()
     {
         //float r = 0.0f;
-        float v = movementInput.y;
+        float v = lookingInput.y;
         //r += Mathf.Round(v);
         return Mathf.Clamp(v, -1.0f, 1.0f);
     }
@@ -400,18 +411,16 @@ public class PlayerMovement : MonoBehaviour
           //  animTopState = playerTopState.idle;
     }
 
-    void LookMovement(Vector3 movement)
+    void LookMovement(Vector3 looking)
     {
         //convert joystick movements to angles that we can apply to player rotation
-        _angle = Mathf.Atan2(movement.x, movement.z);
-        _angle = Mathf.Rad2Deg * _angle;
-
+        _angle2 = Mathf.Atan2(looking.x, looking.z);
+        _angle2 = Mathf.Rad2Deg * _angle2;
+        //Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-        if(topObj != null)
-            topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * lookSpeed), 0);
+        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
 
-        
     }
 
     //once player reaches new side
@@ -453,7 +462,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //runs everytime our char attacks
             //Wesley-Code
-            GameObject bullet = Object.Instantiate(Player_Bullet, transform.position, transform.rotation);
+            GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.localRotation);
             //ZACHARY ADDED THIS
             StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
             //just to destroy stray bullets if they escape the walls

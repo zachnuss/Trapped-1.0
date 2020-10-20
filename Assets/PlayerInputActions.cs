@@ -95,6 +95,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""cea856f6-8afc-41dd-84f6-0c9e84b1cda8"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""aa935b3d-0d1b-42f4-b20c-e63db2120dbb"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",

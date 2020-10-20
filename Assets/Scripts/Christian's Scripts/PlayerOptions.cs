@@ -28,8 +28,10 @@ public class PlayerOptions : MonoBehaviour
         //initialize values
         isFullScreen = Screen.fullScreen;
         //grab AudioListener and AudioSource
-        _musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
-        _listener = Camera.main.GetComponent<AudioListener>();
+        if (true/*SceneManager.*/) {
+            _musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
+            _listener = Camera.main.GetComponent<AudioListener>();
+        }
     }
 
     /*    BUTTON FUNCTIONS    */
@@ -74,11 +76,9 @@ public class PlayerOptions : MonoBehaviour
 
     //go back to the main menu scene
     public void backToMainMenu() {
+        //store option values to persistent data
 
-    }
-
-    public void restoreDefault() {
-
+        //move back to original scene
     }
 
     /**

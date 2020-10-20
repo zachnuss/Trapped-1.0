@@ -9892,10 +9892,9 @@ GameObject:
   - component: {fileID: 6989828641607529937}
   - component: {fileID: 6246219492671699572}
   - component: {fileID: 8163883461455761086}
-  - component: {fileID: 5291360879620547634}
   m_Layer: 0
   m_Name: containment_cell
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9961,20 +9960,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &5291360879620547634
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7659229546653052779}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2511027912640179505, guid: 1bf22038315efc7409a750968771f909, type: 3}
 --- !u!1 &7961131734564686853
 GameObject:
   m_ObjectHideFlags: 0

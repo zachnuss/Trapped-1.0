@@ -138,9 +138,9 @@ public class CommonGuard : BaseEnemy {
 
         ///draw raycast in space to debug
         //draw forward
-        Debug.DrawRay(transform.position, lookForward.normalized, Color.black, 0.2f, false);
-        Debug.DrawRay(rightHip, lookForward.normalized, Color.red, 0.2f, false);
-        Debug.DrawRay(leftHip, lookForward.normalized, Color.blue, 0.2f, false);
+        //Debug.DrawRay(transform.position, lookForward.normalized, Color.black, 0.2f, false);
+        //Debug.DrawRay(rightHip, lookForward.normalized, Color.red, 0.2f, false);
+        //Debug.DrawRay(leftHip, lookForward.normalized, Color.blue, 0.2f, false);
         //draw left
         //Debug.DrawRay(transform.position, lookLeft.normalized, Color.red, 0.2f, false);
         //draw right
@@ -149,39 +149,40 @@ public class CommonGuard : BaseEnemy {
         return dirOfPlayer;
     }
 
-    /** CURRENT TRACKING FUNCTION CAN BE SWITCHED TO SEARCHING **/
-    ///function for tracking the player
-    ///     This will "override" the current movement function in Update
-    protected void _trackPlayer() {
+    ///** CURRENT TRACKING FUNCTION CAN BE SWITCHED TO SEARCHING **/
+    /////function for tracking the player
+    /////     This will "override" the current movement function in Update
+    //protected void _trackPlayer() {
 
-    }
-    ///bool function checking if enemy should reset their state
-    protected bool _hasLostPlayer() {
-        return false; //standin value
-    }
-    ///function to reset enemy state to searching
-    protected void _resetBehaviors() {
-        //reset rotation
-        Vector3 resetVec = -transform.localEulerAngles;
-        transform.Rotate(resetVec, Space.Self);
-        //reset _moveDir
-        Vector3 newMoveDir = (_fwdDirGO.transform.position 
-                                - transform.position).normalized;
-        _moveDir = newMoveDir;
-        //change _isTracking bool to reset InvokeRepeating in Update()
-        _isTrackingPlayer = false;
-        //change behavior
-        _myBehavior = Behavior.ChangeDirection;
-    }
+    //}
+    /////bool function checking if enemy should reset their state
+    //protected bool _hasLostPlayer() {
+    //    return false; //standin value
+    //}
+    /////function to reset enemy state to searching
+    //protected void _resetBehaviors() {
+    //    //reset rotation
+    //    Vector3 resetVec = -transform.localEulerAngles;
+    //    transform.Rotate(resetVec, Space.Self);
+    //    //reset _moveDir
+    //    Vector3 newMoveDir = (_fwdDirGO.transform.position 
+    //                            - transform.position).normalized;
+    //    _moveDir = newMoveDir;
+    //    //change _isTracking bool to reset InvokeRepeating in Update()
+    //    _isTrackingPlayer = false;
+    //    //change behavior
+    //    _myBehavior = Behavior.ChangeDirection;
+    //}
 
-    ///Dirty bug fix for running off the level
-    ///     periodically check raycast below, if nothing is hit by the raycast
-    ///     (this means that the enemy is off the map) reset to the start playing
-    ///     position on the level
-    private void _resetEnemy() {
-        //change my position back to start position
+    /////Dirty bug fix for running off the level
+    /////     periodically check raycast below, if nothing is hit by the raycast
+    /////     (this means that the enemy is off the map) reset to the start playing
+    /////     position on the level
+    //private void _resetEnemy() {
+    //    //change my position back to start position
 
-        //reset everything else
-        _resetBehaviors();
-    }
+    //    //reset everything else
+    //    _resetBehaviors();
+    //}
+    
 }

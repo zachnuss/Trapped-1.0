@@ -33,19 +33,26 @@ public class EnemyShooting : MonoBehaviour
     private float _shootTimer = 0f;
     private float _speed;
     private int _damage;
-    private Vector3 _fwdDir; //getter of child
+    private GameObject _fwdDirGO; //getter of child
 
+    //public getters for the bullet
+    public float speed { get { return _speed; } }
+    public int damage { get { return _damage; } }
+    public GameObject fwdDirGO { get { return _fwdDirGO; } }
+
+    //For some reason cG.fwdDirGO doesn't exist until a few frames after start
+    //IEnumerator Start solves this issue
     IEnumerator Start() {
         //initialize values
         CommonGuard cG = GetComponent<CommonGuard>();
-        yield return new WaitForSeconds(0.5f);
-        _fwdDir = cG.fwdDirGO.transform.position;
-        assignStats(cG.speed, cG.damage, cG.fwdDirGO.transform.position);
-        Debug.Log("ferp");
+        yield return new WaitForSeconds(0.1f);
+        _fwdDirGO = cG.fwdDirGO;
+        //assignStats(cG.speed, cG.damage);//, cG.fwdDirGO.transform.position);
+        _speed = cG.speed * 2f;
+        _damage = cG.damage;
     }
 
-    void Update()
-    {
+    void Update() {
         ///check timer for shooting
         if (Time.time > _shootTimer) {
             _canShootPlayer = true;
@@ -58,24 +65,17 @@ public class EnemyShooting : MonoBehaviour
         //gather local vals for instantiation
         GameObject newBullet;
         Quaternion zerodQ = new Quaternion(0f, 0f, 0f, 1f);
-        Vector3 fireDir = (_fwdDir - transform.position);
+        Vector3 fireDir = (_fwdDirGO.transform.position - transform.position);
         fireDir = fireDir.normalized;
         //instantiate
-        newBullet = Instantiate(projectilePrefab, _fwdDir,
-                                zerodQ, null) as GameObject;
-        //pass bullet speed value as 
-        newBullet.GetComponent<EnemyProjectile>().assignStats(_speed,
-                                                              _damage,
-                                                              fireDir);
+        newBullet = Instantiate(projectilePrefab, _fwdDirGO.transform.position,
+                                                    zerodQ, null) as GameObject;
+        //pass bullet stats off 
+        newBullet.GetComponent<EnemyProjectile>().firedFrom = this;
+        //newBullet.GetComponent<EnemyProjectile>().assignStats(_speed * 10f,
+        //                                                      _damage,
+        //                                                      fireDir);
         //set a new timer
         _shootTimer = Time.time + shootCoolDown;
     }
-
-
-     //call in start
-     public void assignStats(float speed, int damage, Vector3 fireDir) {
-        _speed = speed;
-        _damage = damage;
-        _fwdDir = fireDir;
-     }
 }

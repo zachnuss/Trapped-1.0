@@ -520,14 +520,24 @@ public class PlayerMovement : MonoBehaviour
         ///added by Christian to take damage when colliding with an enemy
         if (other.gameObject.tag == "Enemy")
         {
-            //in the future damage will need to be derived specifically from the enemy type
-            takeDamage(other.GetComponent<BaseEnemy>().damage);
+            //check if I'm colliding with an actual enemy or just a bullet
+            if (other.TryGetComponent<BaseEnemy>(out BaseEnemy BE)) {
+                takeDamage(BE.damage);
 
-            //could apply a random percentage of extra damage for future iterations
-            if(other.gameObject.GetComponent<BaseEnemy>().doubleDamageMod)
-                takeDamage(other.GetComponent<BaseEnemy>().damage);
+                //could apply a random percentage of extra damage for future iterations
+                if(other.gameObject.GetComponent<BaseEnemy>().doubleDamageMod) {
+                    takeDamage(other.GetComponent<BaseEnemy>().damage);
+                }
 
-            //Debug.Log("Current health: " + health);
+                //Debug.Log("Current health: " + health);
+            }
+            else if (other.TryGetComponent<EnemyProjectile>(out EnemyProjectile EP)) {
+                takeDamage(EP.damage);
+                other.gameObject.SetActive(false);
+            }
+            //check if I'm colliding with the enemy or the bullet
+
+
         }
 
         if(other.gameObject.tag == "PowerUp")

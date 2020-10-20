@@ -29,6 +29,11 @@ public class UIInGame : MonoBehaviour
     public Image progressBarHalf; //Progress bar second level image
     public Image progressBarFull; //Progress bar third level image
 
+    //ADDED BY ZACHARY
+    public GameObject vDamage;
+    public GameObject vHealth;
+    public GameObject vSpeed;
+
 
     //Function to keep track of the health bar removal
     public void healthBarStatus(float health)

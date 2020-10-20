@@ -21,4 +21,6 @@ public class PlayerFollow : MonoBehaviour
         transform.position = player.transform.position;
 
     }
+
+    
 }

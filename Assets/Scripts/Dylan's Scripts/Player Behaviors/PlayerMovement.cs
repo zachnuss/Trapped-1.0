@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Rotation Speed")]
     public float turnSpeed = 20f;
     public float lookSpeed = 30f;
-    float _angle, _angle2;
+    public float _angle, _angle2;
     //player looking rotation
     Vector2 lookingInput;
 
@@ -151,7 +151,12 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < character.Length; i++)
+
+        //cap refresh rate on those computers that believe themselves to be above us
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
+
+        for (int i = 0; i < character.Length; i++)
         {
             character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
         }
@@ -410,11 +415,11 @@ public class PlayerMovement : MonoBehaviour
         //convert joystick movements to angles that we can apply to player rotation
         _angle2 = Mathf.Atan2(looking.x, looking.z);
         _angle2 = Mathf.Rad2Deg * _angle2;
-        Debug.Log(_angle);
+        //Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-        if(topObj != null)
-            topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
+        //if(topObj != null)
+        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
 
         
     }

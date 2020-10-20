@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 8999062932056142702}
   - component: {fileID: 3086897071181862910}
   m_Layer: 0
-  m_Name: FrontChild(Shield)
-  m_TagString: Untagged
+  m_Name: FrontChild
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,8 +121,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000004, y: 2.0000005, z: 1.0000002}
-  m_Center: {x: 0.00000005960466, y: -0.0000019073486, z: -0.00000008940697}
+  m_Size: {x: 1.21, y: 1.68, z: 1.12}
+  m_Center: {x: 0.00000005960466, y: -0.0000019073486, z: 0.03}
 --- !u!1 &7681786834547070983
 GameObject:
   m_ObjectHideFlags: 0

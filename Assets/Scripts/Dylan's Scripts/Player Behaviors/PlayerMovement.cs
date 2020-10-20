@@ -628,6 +628,7 @@ public class PlayerMovement : MonoBehaviour
             //int gameOverInt = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
 
             //Set Highscore
+            playerData.EndGameScoring();
 
             UnityEngine.SceneManagement.SceneManager.LoadScene(6);
             //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
@@ -648,10 +649,16 @@ public class PlayerMovement : MonoBehaviour
     //Score - Wesley
     void PerSecond()
     {
-        if(!doubleScoreMod)
-            playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1.
+        if (!doubleScoreMod)
+        {
+            playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1. //add to total score
+            playerData.TrackTimeScore(1 * (playerData.OnLevel + 1)); //add to time only score
+        }
         else
+        {
             playerData.AddScore(2 * (playerData.OnLevel + 1));
+            playerData.TrackTimeScore(2 * (playerData.OnLevel + 1));
+        }
 
         //other things it should do every second
 

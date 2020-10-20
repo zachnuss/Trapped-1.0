@@ -16,7 +16,9 @@ public enum modifierType
 {
    none,
    doubleDamageMOD,
-   shields_and_regainMOD
+   shields_and_regainMOD,
+   SerratedAmmunition,
+   AdvancedSimulant
 };
 
 [System.Serializable]

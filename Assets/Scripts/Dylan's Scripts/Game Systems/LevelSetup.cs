@@ -75,6 +75,10 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().doubleScoreMod = true;
             }
+            if(currentModsInLevel[modIndex].modType == modifierType.SerratedAmmunition && currentModsInLevel[modIndex].modActive)
+            {
+                _player.GetComponent<PlayerMovement>().serratedMod = true;
+            }
         }
 
         Debug.Log("Mods Now Active in Level");

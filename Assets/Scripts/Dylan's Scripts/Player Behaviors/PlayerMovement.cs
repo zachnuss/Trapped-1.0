@@ -127,6 +127,11 @@ public class PlayerMovement : MonoBehaviour
     //player choosen mods
     public bool healthRegen = false;
     public bool doubleScoreMod = false;
+    public bool serratedMod = false;
+    //player takes damage and applies bleed, while active every second does 1 damage for 5 seconds. Each stack adds 1 damage
+    int bleedStacks = 0;
+    float bleedTimer = 0;
+    bool _bleedCooldown = false;
     
     //displays timer per level (resets at level start and ends at level end
     [Header("UI")]
@@ -236,6 +241,19 @@ public class PlayerMovement : MonoBehaviour
             _localTopState = animTopState;
             //SetAnimation();
         }
+
+       //bleed stacks can only be active when bleed mod is on
+       if(bleedStacks >= 1)
+       {
+            bleedTimer += Time.deltaTime;
+            if(bleedTimer >= 1.0)
+            {
+                Debug.Log("took bleed damage");
+                bleedTimer = 0;
+                //do damage based on stacks
+                health -= 1 * bleedStacks;
+            }
+       }
     }
 
     //moves player based on equation
@@ -644,7 +662,14 @@ public class PlayerMovement : MonoBehaviour
     public void takeDamage(int damageTaken)
     {
         //damage player
-        health -= damageTaken;
+        if(!serratedMod)
+            health -= damageTaken;
+        else if(bleedStacks <= 5)
+        {
+            //start bleed out
+            if(!_bleedCooldown)
+                StartCoroutine(BleedDamage());
+        }
         //playerData.localHealth -= damageTaken;
         if (health < 1)
         {
@@ -773,6 +798,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     health += 20;
                     playerData.localHealth = health;
+                    if (serratedMod)
+                        playerData.totalHealthBase++;
                 }
                 if (health > playerData.totalHealthBase)
                     health = playerData.totalHealthBase;
@@ -858,5 +885,21 @@ public class PlayerMovement : MonoBehaviour
         //however long the animation is
         yield return new WaitForSeconds(top.GetCurrentAnimatorStateInfo(0).length);
 
+    }
+
+    //if mod is active, damage now has bleed
+    IEnumerator BleedDamage()
+    {
+        StartCoroutine(BleedApplyCooldown());
+        bleedStacks++;
+        yield return new WaitForSeconds(5.0f);
+        bleedStacks--;
+    }
+    //so bleed cant be active REALLY fast
+    IEnumerator BleedApplyCooldown()
+    {
+        _bleedCooldown = true;
+        yield return new WaitForSeconds(0.5f);
+        _bleedCooldown = false;
     }
 }

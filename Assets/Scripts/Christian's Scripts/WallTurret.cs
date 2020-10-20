@@ -48,6 +48,11 @@ public class WallTurret : MonoBehaviour
         if (isFiring) startShooting();
     }
 
+    private void Start()
+    {
+        SetModifiers();
+    }
+
     //call to start firing and change boolean value
     public void startShooting()
     {

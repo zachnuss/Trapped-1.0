@@ -64,7 +64,7 @@ public class PlayerData : ScriptableObject
     public int materialChoice = 0;
     public Material[] playerColor;
     public Material[] player2Color;
-    private bool characterModelSwitch;
+    public bool characterModelSwitch;
 
     //Player Persistent stats - Wesley
     private int totalEnemiesKilled = 0;

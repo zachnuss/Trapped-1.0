@@ -416,7 +416,7 @@ public class PlayerMovement : MonoBehaviour
         //convert joystick movements to angles that we can apply to player rotation
         _angle2 = Mathf.Atan2(looking.x, looking.z);
         _angle2 = Mathf.Rad2Deg * _angle2;
-        //Debug.Log(_angle);
+        Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
         topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
@@ -554,7 +554,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Hit powerup");
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
-
+            playerData.TrackPowerupGains(1);
             Destroy(other.gameObject);
         }
            
@@ -650,6 +650,7 @@ public class PlayerMovement : MonoBehaviour
             //int gameOverInt = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
 
             //Set Highscore
+            playerData.EndGameScoring();
 
             UnityEngine.SceneManagement.SceneManager.LoadScene(6);
             //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
@@ -670,10 +671,16 @@ public class PlayerMovement : MonoBehaviour
     //Score - Wesley
     void PerSecond()
     {
-        if(!doubleScoreMod)
-            playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1.
+        if (!doubleScoreMod)
+        {
+            playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1. //add to total score
+            playerData.TrackTimeScore(1 * (playerData.OnLevel + 1)); //add to time only score
+        }
         else
+        {
             playerData.AddScore(2 * (playerData.OnLevel + 1));
+            playerData.TrackTimeScore(2 * (playerData.OnLevel + 1));
+        }
 
         //other things it should do every second
 

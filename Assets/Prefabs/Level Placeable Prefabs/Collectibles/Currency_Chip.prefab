@@ -4798,6 +4798,7 @@ GameObject:
   - component: {fileID: 4517972368715313298}
   - component: {fileID: 1925408390372982018}
   - component: {fileID: 5801137320280376620}
+  - component: {fileID: 5215406640088404108}
   m_Layer: 0
   m_Name: Currency_Chip
   m_TagString: Currency
@@ -4893,3 +4894,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 1
+--- !u!114 &5215406640088404108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7991491234861598593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f3b33817b228a4ba0253662aa8c2c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  special: 0

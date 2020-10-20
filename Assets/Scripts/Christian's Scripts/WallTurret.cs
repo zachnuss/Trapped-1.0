@@ -21,6 +21,11 @@ public class WallTurret : MonoBehaviour
     private GameObject _turretBarrel;
     private float _maxBulletDistance = 25f;
 
+    public int bulletDamage = 15;
+    [Header("Modifers")]
+    public bool doubleDamageMod = false;
+    LevelSetup _lvlSetUp;
+
     void Awake()
     {
         //initialize values
@@ -72,5 +77,22 @@ public class WallTurret : MonoBehaviour
         GameObject newBullet = Instantiate(bulletPrefab, spawnPos, zeroedQuat);
         //now parent the object
         newBullet.transform.parent = transform;
+        newBullet.GetComponent<TurretBullet>().damage = bulletDamage;
+        //double damage mod
+        if(doubleDamageMod)
+            newBullet.GetComponent<TurretBullet>().doubleDamage = true;
+    }
+
+    //initial setup of modifiers
+    void SetModifiers()
+    {
+        _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
+        for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)
+        {
+            if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+            {
+                doubleDamageMod = true;
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3147948298627174402}
   - component: {fileID: 3147948298627174403}
   m_Layer: 2
-  m_Name: EnemyFace
+  m_Name: FrontChild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,8 +207,9 @@ MonoBehaviour:
   speed: 5
   pointValue: 0
   rateOfBehaviorChange: 2
-  sheildObj: {fileID: 3178716022751835501}
   doubleDamageMod: 0
+  sheildMod: 0
+  sheildObj: {fileID: 3178716022751835501}
 --- !u!1001 &2114517017696067192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -452,6 +453,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999296805499784811, guid: 45c38bcfc1b1fe14b8f597513451793c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999296805499784811, guid: 45c38bcfc1b1fe14b8f597513451793c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999296805499784811, guid: 45c38bcfc1b1fe14b8f597513451793c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45c38bcfc1b1fe14b8f597513451793c, type: 3}

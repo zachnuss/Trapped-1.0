@@ -7,42 +7,49 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour {
     //private variables that will be passed down by the firing enemy
-    private float speed;
-    private int damage;
-    private Vector3 fireDir;
+    private float _speed;
+    private int _damage;
+    private Vector3 _fireDir;
+    public EnemyShooting firedFrom;
+
+    //public getters
+    public int damage { get { return _damage; } }
 
     /**       Assign initial variables before function call      **/
-    void Awake() {
-        //set variables to prevent potential errors
-        speed = 0;
-        damage = 0;
-        fireDir = Vector3.zero;
+    void Start() {
+        //set variables
+        _speed = firedFrom.speed;
+        _damage = firedFrom.damage;
+        _fireDir = (firedFrom.fwdDirGO.transform.position 
+                    - firedFrom.transform.position).normalized;
     }
 
     void Update() {
         //movement of the bullet
-        transform.position += speed * fireDir.normalized * Time.deltaTime;
+        transform.position += _speed * _fireDir * Time.deltaTime;
 
-        //check for collisiongs using raycast
-        if (_isColliding()) {
+        //check if I'm going to collide with the wall
+        if (_didHitWall()) {
             Destroy(gameObject);
         }
     }
 
     //functions
     /**      Call from the shooter's script and assign       **/
-    public void assignStats(float newSpeed, int newDamage, Vector3 newDir) {
-        speed = newSpeed;
-        damage = newDamage;
-        fireDir = newDir;
+    public void assignStats(float newSpeed, int newDamage, Vector3 newFireDir) {
+        _speed = newSpeed;
+        _damage = newDamage;
+        _fireDir = newFireDir.normalized;
     }
 
-    //not all Objects 
-    private bool _isColliding() {
+    private bool _didHitWall() {
         RaycastHit hit;
-        //check for collision using Raycasting
-        if (Physics.Raycast(transform.position, fireDir, 0.75f)) {
-            return true;
+        //raycast short distance
+        if (Physics.Raycast(transform.position, _fireDir, out hit, 0.75f)) {
+            //check for wall
+            if (hit.transform.tag == "Wall") {
+                return true;
+            }
         }
         return false;
     }

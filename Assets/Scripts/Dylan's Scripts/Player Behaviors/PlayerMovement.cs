@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public UIInGame gamerUI;
+    
     //set up for rotation and new rotation orientation
     [Header("Parent object of this player obj")]
     public GameObject parent;
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     public playerBottomState animBottomState;
     public playerTopState animTopState;
     playerTopState _localTopState = playerTopState.idle;
-    public int bulletDamage;
+    //public int bulletDamage;
     //Camera
     // public CamLookAt playerCam;
     //level setup script
@@ -118,9 +118,9 @@ public class PlayerMovement : MonoBehaviour
     public float transitionTime = 1;
     private int rng;
     public bool firingState;
-    bool _repeatedFire;
+    //bool _repeatedFire;
     //set to time to run full animation before repeat, may be a bit shorter so it works better
-    float fireAnimationTime = 1f;
+    //float fireAnimationTime = 1f;
     public float localTimer;
 
     [Header("Player Modifiers")]
@@ -131,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
     //displays timer per level (resets at level start and ends at level end
     [Header("UI")]
     public Text timerText;
+    public UIInGame gamerUI;
 
     [Header("Player Animators")]
     public Animator top;
@@ -325,7 +326,7 @@ public class PlayerMovement : MonoBehaviour
         _angle = Mathf.Rad2Deg * _angle;
 
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
-        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * turnSpeed), 0 ); //transform.localEulerAngles.x 
+        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle+45, Time.deltaTime * turnSpeed), 0 ); //transform.localEulerAngles.x 
 
         //base movement is just 1.0
         float boost = movementSpeed * speedMultiplier;
@@ -510,21 +511,33 @@ public class PlayerMovement : MonoBehaviour
             //destroy object
             Destroy(other.transform.gameObject);
             //decrement health
-            takeDamage(bulletDamage); //Olivia changed this
+            //takeDamage(bulletDamage); //Olivia changed this
+            takeDamage(other.GetComponent<TurretBullet>().damage);
+
             Debug.Log("Current health: " + health);
         }
 
         ///added by Christian to take damage when colliding with an enemy
         if (other.gameObject.tag == "Enemy")
         {
-            //in the future damage will need to be derived specifically from the enemy type
-            takeDamage(other.GetComponent<BaseEnemy>().damage);
+            //check if I'm colliding with an actual enemy or just a bullet
+            if (other.TryGetComponent<BaseEnemy>(out BaseEnemy BE)) {
+                takeDamage(BE.damage);
 
-            //could apply a random percentage of extra damage for future iterations
-            if(other.gameObject.GetComponent<BaseEnemy>().doubleDamageMod)
-                takeDamage(other.GetComponent<BaseEnemy>().damage);
+                //could apply a random percentage of extra damage for future iterations
+                if(other.gameObject.GetComponent<BaseEnemy>().doubleDamageMod) {
+                    takeDamage(other.GetComponent<BaseEnemy>().damage);
+                }
 
-            //Debug.Log("Current health: " + health);
+                //Debug.Log("Current health: " + health);
+            }
+            else if (other.TryGetComponent<EnemyProjectile>(out EnemyProjectile EP)) {
+                takeDamage(EP.damage);
+                other.gameObject.SetActive(false);
+            }
+            //check if I'm colliding with the enemy or the bullet
+
+
         }
 
         if(other.gameObject.tag == "PowerUp")
@@ -718,19 +731,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     //how long the powerups last
-    IEnumerator PowerUpDuration(powerUpType type, int duration)
+    IEnumerator PowerUpDuration(powerUpType type, float duration)
     {
         //turn on
         switch (type)
         {
             case powerUpType.damage:
+                gamerUI.vDamage.SetActive(true);
                 damage += 5;
                 break;
             case powerUpType.speed:
+                gamerUI.vSpeed.SetActive(true);
                 speedMultiplier += 0.5f;
                // Debug.Log(speedMultiplier);
                 break;
             case powerUpType.health:
+                gamerUI.vHealth.SetActive(true);
+                duration = .5f;
                 if (health < playerData.totalHealthBase)
                 {
                     health += 20;
@@ -748,10 +765,15 @@ public class PlayerMovement : MonoBehaviour
         switch (type)
         {
             case powerUpType.damage:
+                gamerUI.vDamage.SetActive(false);
                 damage -= 5;
                 break;
             case powerUpType.speed:
+                gamerUI.vSpeed.SetActive(false);
                 speedMultiplier -= 0.5f;
+                break;
+            case powerUpType.health:
+                gamerUI.vHealth.SetActive(false);
                 break;
             default:
                 break;

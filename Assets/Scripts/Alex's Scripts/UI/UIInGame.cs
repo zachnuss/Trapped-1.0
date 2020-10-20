@@ -29,13 +29,23 @@ public class UIInGame : MonoBehaviour
     public Image progressBarHalf; //Progress bar second level image
     public Image progressBarFull; //Progress bar third level image
 
+    //ADDED BY ZACHARY
+    public GameObject vDamage;
+    public GameObject vHealth;
+    public GameObject vSpeed;
+
+    //text for upgrades
+    public Text speedUp;
+    public Text healthUp;
+    public Text damageUp;
+
 
     //Function to keep track of the health bar removal
     public void healthBarStatus(float health)
     {
-        healthText.text = "" + health; //Sets health to be displayed correctly on the HP bar
+        healthText.text = "" + (int)health; //Sets health to be displayed correctly on the HP bar
         float totalHealth = playerData.totalHealthBase; //sets a total health variable to the health base for fractioning
-        float result = (int)health / totalHealth; //Sets the fraction for the scaling 
+        float result = health / totalHealth; //Sets the fraction for the scaling 
         healthBar.rectTransform.localScale = new Vector3 ((result * hpBarX),0.38f,0.38f); //Scales the hpBar image
         //Debug.Log(healthBar.rectTransform.localScale.x);
     }
@@ -91,7 +101,21 @@ public class UIInGame : MonoBehaviour
 
         //Initializes the progress bar
         progressStatus();
+
+        updateUpgrades();
+
+
+
     }
+
+    //ADDED BY ZACHARY
+    public void updateUpgrades()
+    {
+        speedUp.text = playerData.speedUpgrade.ToString();
+        healthUp.text = playerData.healthUpgrade.ToString();
+        damageUp.text = playerData.damageUpgrade.ToString();
+    }
+
 
 
     //Collision function for currency tracking

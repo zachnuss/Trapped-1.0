@@ -11,14 +11,14 @@ GameObject:
   - component: {fileID: 4020322655216575599}
   - component: {fileID: 1355866662859821279}
   - component: {fileID: 6336551145452513939}
-  - component: {fileID: 275411725485176306}
+  - component: {fileID: 7626475834278605269}
   m_Layer: 0
-  m_Name: Cube_1
+  m_Name: BaseCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4020322655216575599
 Transform:
   m_ObjectHideFlags: 0
@@ -80,8 +80,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &275411725485176306
-MeshCollider:
+--- !u!65 &7626475834278605269
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -90,10 +90,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -387298209978578080, guid: e6b504ddfd831814bb5aa36480bb6664, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 4499.999, y: 4499.999, z: 4500.002}
+  m_Center: {x: 0, y: 0, z: -0.00048828125}
 --- !u!1 &304265825527618212
 GameObject:
   m_ObjectHideFlags: 0

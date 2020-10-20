@@ -146,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool _fireCoolDown;
     [Header("Fire Rate")]
-    public float fireRate = 0.2f;
+    public float fireRate = 0.1f;
     
 
     // Start is called before the first frame update
@@ -416,11 +416,14 @@ public class PlayerMovement : MonoBehaviour
         //convert joystick movements to angles that we can apply to player rotation
         _angle2 = Mathf.Atan2(looking.x, looking.z);
         _angle2 = Mathf.Rad2Deg * _angle2;
-        //Debug.Log(_angle);
+        Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
+        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(topObj.transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
 
+
+        //FIRE HERE
+        OnAttack();
     }
 
     //once player reaches new side
@@ -463,6 +466,7 @@ public class PlayerMovement : MonoBehaviour
             //runs everytime our char attacks
             //Wesley-Code
             GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.localRotation);
+            Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
             //ZACHARY ADDED THIS
             StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
             //just to destroy stray bullets if they escape the walls

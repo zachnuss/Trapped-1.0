@@ -105,13 +105,11 @@ public class BaseEnemy : MonoBehaviour {
                     randWaitTime += 0.75f;
                 }
                 //enemy will remain in position (see Update())
-                oneEnemyPrint("CommonGuard", "is idle.");
                 break;
             case Behavior.ChangeDirection:
                 //get random direction to move
                 Direction randDir = _goLeftOrRightDirection();
                 _turnThisDirection(randDir);
-                oneEnemyPrint("CommonGuard", "changing direction");
                 break;
             case Behavior.GoForward:
                 //don't change action in any way

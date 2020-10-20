@@ -9455,6 +9455,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 0}
+  isGlobal: 0
+  blendDistance: 0
+  weight: 1
+  priority: 0
 --- !u!65 &1312552953
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10045,7 +10050,7 @@ MonoBehaviour:
   m_PointAction: {fileID: 0}
   m_MoveAction: {fileID: 2559116655499274079, guid: 72a0b41bc20552e4caf45be435fb949b,
     type: 3}
-  m_SubmitAction: {fileID: -7176508791770457611, guid: 72a0b41bc20552e4caf45be435fb949b,
+  m_SubmitAction: {fileID: -3175737763381597659, guid: 72a0b41bc20552e4caf45be435fb949b,
     type: 3}
   m_CancelAction: {fileID: -2409624011181962898, guid: 72a0b41bc20552e4caf45be435fb949b,
     type: 3}

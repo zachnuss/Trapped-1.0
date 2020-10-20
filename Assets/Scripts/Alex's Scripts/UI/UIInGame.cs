@@ -156,7 +156,7 @@ public class UIInGame : MonoBehaviour
     public void UpdateObjText()
     {
         objectiveTracker += 1;
-        objectiveText.text = objectiveTracker.ToString() + "/5).";
+        objectiveText.text = "("+objectiveTracker.ToString() + "/5)";
     }
 
 }

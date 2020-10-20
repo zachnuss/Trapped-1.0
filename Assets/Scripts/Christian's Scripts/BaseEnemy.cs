@@ -73,7 +73,7 @@ public class BaseEnemy : MonoBehaviour {
             player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             player.GetComponent<PlayerMovement>().playerData.TrackEnemyScore(pointValue);
             player.GetComponent<PlayerMovement>().playerData.TrackEnemyKills(1);
-            if (Random.Range(0f, 100f) <= 90)
+            if (Random.Range(0f, 100f) <= 5)
             {
                 Debug.Log("Currency Test Complete!");
                 Instantiate(specialCoin, this.transform.position, this.transform.rotation);

@@ -423,7 +423,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //FIRE HERE
-        OnAttack();
+        OnStickAttack();
     }
 
     //once player reaches new side
@@ -459,7 +459,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //when player hits the attack button
-    void OnAttack()
+    void OnStickAttack()
     {
         if (!_fireCoolDown)
         {

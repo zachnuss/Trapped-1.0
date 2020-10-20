@@ -35,11 +35,14 @@ public class ForceFieldsEnemy : MonoBehaviour
     {
         trans = (currentHealth / maxHealth) * 0.5f;
         //Debug.Log(currentHealth / maxHealth);
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
+            this.GetComponent<MeshRenderer>().enabled = false;
             inactive = true;
         }
+        else
+            this.GetComponent<MeshRenderer>().enabled = true;
 
         col.a = trans;
         _sheild.GetComponent<Renderer>().material.color = col;

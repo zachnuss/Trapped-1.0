@@ -1,13 +1,15 @@
 ﻿/*
  * Author: Christian Mullins
  * Summary: Inheritance of the CommonGuard that will omit shooting the player.
- */ 
+ */
 
-public class ShieldedGuard : CommonGuard
-{
+ //defining NOTSHOOTER prevents the parent script from running the shooting
+ //portion of the script
+#define NOTSHOOTER
+
+public class ShieldedGuard : CommonGuard {
     //incorporate sprinting into this script
-    protected override void Update()
-    {
+    protected override void Update() {
         //check direction to player
         Direction dirOfPlayer = _isPlayerInRange();
         if (dirOfPlayer != Direction.NULL) {

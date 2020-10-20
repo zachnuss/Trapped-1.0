@@ -22,7 +22,7 @@ public class UISceneTransition : MonoBehaviour
     //Changes scene to the Character Select scene
     public void charSelect()
     {
-        //SceneManager.LoadScene(8);
+        SceneManager.LoadScene(8);
         Debug.Log("Time to pick a character!");
     }
 

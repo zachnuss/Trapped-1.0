@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScritableObjects/PlayerData", order = 1)]
 public class PlayerData : ScriptableObject
@@ -30,19 +32,19 @@ public class PlayerData : ScriptableObject
 
     [Header("Player score")]
     public int score = 0;
-    public int matchScoreFromTime;
-    public int matchScoreFromEnemies;
-    public int matchEnemiesKilled;
-    public int matchPowerUpsCollected;
-    public int matchCurrencyCollected;
-    public int matchSpecialCoinCollected;
-    private int highScore1 = 0;
-    private int highScore2 = 0;
-    private int highScore3 = 0;
+    public int matchScoreFromTime = 0;
+    public int matchScoreFromEnemies = 0;
+    public int matchEnemiesKilled = 0;
+    public int matchPowerUpsCollected = 0;
+    public int matchCurrencyCollected = 0;
+    public int matchSpecialCoinCollected = 0;
+    public int highScore1 = 0;
+    public int highScore2 = 0;
+    public int highScore3 = 0;
 
     [Header("Player Currency")]
     public int currency;
-    public int specialCoins;
+    public int specialCoins = 0;
 
     [Header("Player Currency")]
    // public Scene[] levels;
@@ -61,6 +63,18 @@ public class PlayerData : ScriptableObject
     [Header("Player Color")]
     public int materialChoice = 0;
     public Material[] playerColor;
+
+    //Player Persistent stats - Wesley
+    private int totalEnemiesKilled = 0;
+    private int totalPowerupsCollected = 0;
+    private int totalCurrencyCollected = 0;
+    private int totalSpecialCoinsCollected = 0;
+    private int totalEnemyScore = 0;
+    private float totalTimerSec;
+    private float totalTimerMin;
+    private float totalTimerHour;
+
+
 
     //called when level beat
     public void BeatLevel()
@@ -129,6 +143,7 @@ public class PlayerData : ScriptableObject
         currency += addition;
         //curency adds score as well
         score += addition;
+        TrackCurrencyGains(addition);
     }
 
     public void ResetUpgrades()
@@ -156,6 +171,12 @@ public class PlayerData : ScriptableObject
         currency = 0;
         //score starts at 0
         score = 0; //added by wesley
+        matchCurrencyCollected = 0;
+        matchEnemiesKilled = 0;
+        matchPowerUpsCollected = 0;
+        matchScoreFromEnemies = 0;
+        matchScoreFromTime = 0;
+        matchSpecialCoinCollected = 0;
         localHealth = totalHealthBase;
         gameLevelData.InitialModSetup();
         SceneManager.LoadScene("Level1");
@@ -198,7 +219,7 @@ public class PlayerData : ScriptableObject
         }
     }
 
-    //Wesley - update match values with several easy tricks!
+    //Wesley - update match values with several easy tricks! Also, they're private, so better to access through functions.
     public void TrackEnemyScore(int input)
     {
         matchScoreFromEnemies += input;
@@ -206,7 +227,7 @@ public class PlayerData : ScriptableObject
 
     public void TrackTimeScore(int input)
     {
-
+        matchScoreFromTime += input;
     }
 
     public void TrackCurrencyGains(int input)
@@ -229,6 +250,7 @@ public class PlayerData : ScriptableObject
         matchPowerUpsCollected += input;
     }
 
+    //Sets colors on player - Wesley
     public void SetMenuColor(int input)
     {
         materialChoice = input;
@@ -244,5 +266,140 @@ public class PlayerData : ScriptableObject
                 character[i].GetComponent<SkinnedMeshRenderer>().material = playerColor[materialChoice];
             }
         }
+    }
+
+    //Change persistent data tracking variables - Wesley
+    public void AddSpecialCoins(int input)
+    {
+        specialCoins += input;
+        TrackSpecialCoinGains(input);
+    }
+
+    public void UseSpecialCoin(int input)
+    {
+        specialCoins -= input;
+    }
+
+    public void AddTotalTimeAlive()
+    {
+        totalTimerHour += timerHour;
+        totalTimerMin += timerMin;
+        totalTimerSec += timerSec;
+        totalTimerMin += Mathf.Floor(totalTimerSec / 60);
+        totalTimerHour += Mathf.Floor(totalTimerMin / 60);
+        totalTimerMin = totalTimerMin % 60;
+        totalTimerSec = totalTimerSec % 60;
+    }
+
+    public void AddTotalEnemiesKilled(int input)
+    {
+        totalEnemiesKilled += input;
+    }
+
+    public void AddTotalPowerupsCollected(int input)
+    {
+        totalPowerupsCollected += input;
+    }
+
+    public void AddTotalCurrencyCollected(int input)
+    {
+        totalCurrencyCollected += input;
+    }
+
+    public void AddTotalSpecialCoinsCollected(int input)
+    {
+        totalSpecialCoinsCollected += input;
+    }
+
+    public void AddTotalEnemyScore(int input)
+    {
+        totalEnemyScore += input;
+    }
+
+    //Sets highscore values - Wesley
+    public void SaveHighscore()
+    {
+        if (score > highScore1)
+        {
+            highScore3 = highScore2;
+            highScore2 = highScore1;
+            highScore1 = score;
+        }
+        else if (score > highScore2)
+        {
+            highScore3 = highScore2;
+            highScore2 = score;
+        }
+        else if (score > highScore3)
+        {
+            highScore3 = score;
+        }
+    }
+
+    //Endgame tasks - update all score values
+
+    public void EndGameScoring()
+    {
+        SaveHighscore();
+        AddTotalTimeAlive();
+        AddTotalEnemiesKilled(matchEnemiesKilled);
+        AddTotalPowerupsCollected(matchPowerUpsCollected);
+        AddTotalCurrencyCollected(currency);
+        AddTotalEnemyScore(matchScoreFromEnemies);
+    }
+
+    
+
+
+    //Save Game - Wesley
+
+    public void SaveFile()
+    {
+        Debug.Log("Saving Data");
+        string destination = Application.persistentDataPath + "/TrappedSave.dat";
+        FileStream file;
+
+        file = File.Create(destination);
+
+        PersistentData currentData = new PersistentData(highScore1, highScore2, highScore3, specialCoins, totalTimerSec, totalTimerMin, totalTimerHour,
+            totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice);
+        BinaryFormatter bf = new BinaryFormatter();
+        bf.Serialize(file, currentData);
+        file.Close();
+    }
+
+    public void LoadFile()
+    {
+        Debug.Log("Loading Data");
+
+        string destination = Application.persistentDataPath + "/TrappedSave.dat";
+        FileStream file;
+
+        if (File.Exists(destination))
+        {
+            file = File.OpenRead(destination);
+        }
+        else
+        {
+            Debug.LogError("No save data");
+            return;
+        }
+
+        BinaryFormatter bf = new BinaryFormatter();
+        PersistentData loadData = (PersistentData)bf.Deserialize(file);
+        highScore1 = loadData.highScore1;
+        highScore2 = loadData.highScore2;
+        highScore3 = loadData.highScore3;
+        specialCoins = loadData.specialCoin;
+        totalTimerSec = loadData.totalTimeSec;
+        totalTimerMin = loadData.totalTimeMin;
+        totalTimerHour = loadData.totalTimeHour;
+        totalEnemiesKilled = loadData.totalEnemiesKilled;
+        totalPowerupsCollected = loadData.totalPowerupsCollected;
+        totalCurrencyCollected = loadData.totalCurrencyCollected;
+        totalSpecialCoinsCollected = loadData.totalSpecialCoinsCollected;
+        materialChoice = loadData.materialChoice;
+
+        file.Close();
     }
 }

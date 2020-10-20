@@ -34,6 +34,7 @@ public class BaseEnemy : MonoBehaviour {
     public float speed;
     public int pointValue;
     [Range(1f, 5f)] public float rateOfBehaviorChange = 2f;
+    public GameObject specialCoin;
 
     ///protected
     protected Behavior _myBehavior;
@@ -70,8 +71,15 @@ public class BaseEnemy : MonoBehaviour {
             health = 0;
             //give score to player
             player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
+            player.GetComponent<PlayerMovement>().playerData.TrackEnemyScore(pointValue);
+            player.GetComponent<PlayerMovement>().playerData.TrackEnemyKills(1);
+            if (Random.Range(0f, 100f) <= 90)
+            {
+                Debug.Log("Currency Test Complete!");
+                Instantiate(specialCoin, this.transform.position, this.transform.rotation);
+            }
             //Debug.Log("Enemy killed, " + pointValue + " points added to PlayerData.");
-            if(doubleDamageMod) {
+            if (doubleDamageMod) {
                 player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             }
             //destroy enemy last to avoid bugs

@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Rotation Speed")]
     public float turnSpeed = 20f;
     public float lookSpeed = 30f;
-    float _angle, _angle2;
+    public float _angle, _angle2;
     //player looking rotation
     Vector2 lookingInput;
 
@@ -136,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animators")]
     public Animator top;
     public GameObject topObj;
+   // public Transform firePos;
     //public Animator legs;
     public PlayerAnimations playerAnimations;
 
@@ -151,7 +152,12 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < character.Length; i++)
+
+        //cap refresh rate on those computers that believe themselves to be above us
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
+
+        for (int i = 0; i < character.Length; i++)
         {
             character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
         }
@@ -410,13 +416,11 @@ public class PlayerMovement : MonoBehaviour
         //convert joystick movements to angles that we can apply to player rotation
         _angle2 = Mathf.Atan2(looking.x, looking.z);
         _angle2 = Mathf.Rad2Deg * _angle2;
-        Debug.Log(_angle);
+        //Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-        if(topObj != null)
-            topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
+        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
 
-        
     }
 
     //once player reaches new side
@@ -458,7 +462,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //runs everytime our char attacks
             //Wesley-Code
-            GameObject bullet = Object.Instantiate(Player_Bullet, transform.position, topObj.transform.localRotation);
+            GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.localRotation);
             //ZACHARY ADDED THIS
             StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
             //just to destroy stray bullets if they escape the walls
@@ -550,7 +554,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Hit powerup");
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
-
+            playerData.TrackPowerupGains(1);
             Destroy(other.gameObject);
         }
            
@@ -646,6 +650,7 @@ public class PlayerMovement : MonoBehaviour
             //int gameOverInt = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
 
             //Set Highscore
+            playerData.EndGameScoring();
 
             UnityEngine.SceneManagement.SceneManager.LoadScene(6);
             //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
@@ -666,10 +671,16 @@ public class PlayerMovement : MonoBehaviour
     //Score - Wesley
     void PerSecond()
     {
-        if(!doubleScoreMod)
-            playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1.
+        if (!doubleScoreMod)
+        {
+            playerData.AddScore(1 * (playerData.OnLevel + 1)); //because onlevel is 0 indexed, add 1. //add to total score
+            playerData.TrackTimeScore(1 * (playerData.OnLevel + 1)); //add to time only score
+        }
         else
+        {
             playerData.AddScore(2 * (playerData.OnLevel + 1));
+            playerData.TrackTimeScore(2 * (playerData.OnLevel + 1));
+        }
 
         //other things it should do every second
 

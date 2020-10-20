@@ -234,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
        if(_localTopState != animTopState)
         {
             _localTopState = animTopState;
-            SetAnimation();
+            //SetAnimation();
         }
     }
 

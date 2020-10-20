@@ -39,6 +39,7 @@ public class BaseEnemy : MonoBehaviour {
     protected Behavior _myBehavior;
     protected float _trackingSpeed;
     protected Vector3 _moveDir; //movement
+    protected GameObject _fwdDirGO;
 
     ///private
     private Vector3 _rotVal; //rotation
@@ -70,8 +71,9 @@ public class BaseEnemy : MonoBehaviour {
             //give score to player
             player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             //Debug.Log("Enemy killed, " + pointValue + " points added to PlayerData.");
-            if(doubleDamageMod)
+            if(doubleDamageMod) {
                 player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
+            }
             //destroy enemy last to avoid bugs
             Destroy(gameObject);
         }
@@ -103,11 +105,13 @@ public class BaseEnemy : MonoBehaviour {
                     randWaitTime += 0.75f;
                 }
                 //enemy will remain in position (see Update())
+                oneEnemyPrint("CommonGuard", "is idle.");
                 break;
             case Behavior.ChangeDirection:
                 //get random direction to move
                 Direction randDir = _goLeftOrRightDirection();
                 _turnThisDirection(randDir);
+                oneEnemyPrint("CommonGuard", "changing direction");
                 break;
             case Behavior.GoForward:
                 //don't change action in any way
@@ -178,11 +182,11 @@ public class BaseEnemy : MonoBehaviour {
             //transform.Rotate(turningVector); //mess with local vs world space
             transform.localEulerAngles += turningVector;
             //change facing dir to match rotation
-            Vector3 newMoveDir = Vector3.MoveTowards(transform.GetChild(0).position,
+            Vector3 newMoveDir = Vector3.MoveTowards(_fwdDirGO.transform.position,
                                                      transform.position,
                                                      Time.maximumDeltaTime);
             newMoveDir.y = 0; //restrict y-axis movement
-            _moveDir = (transform.GetChild(0).position
+            _moveDir = (_fwdDirGO.transform.position
                         - transform.position).normalized;
         }
     }
@@ -220,8 +224,14 @@ public class BaseEnemy : MonoBehaviour {
     private void Start() {
         //initialize variables
         //get where I'm facing for initial variables
-        Vector3 childDir = transform.GetChild(0).position;
-        Vector3 initialDir = childDir - transform.position;
+        int childrenNum = transform.childCount;
+        for (int i = 0; i < childrenNum; ++i) {
+            if (transform.GetChild(i).name == "FrontChild") {
+                _fwdDirGO = transform.GetChild(i).gameObject;
+            }
+        }
+
+        Vector3 initialDir = _fwdDirGO.transform.position - transform.position;
         _moveDir = initialDir.normalized;
 
         //get my level based on index (i.e. level 1 = 0)
@@ -260,7 +270,7 @@ public class BaseEnemy : MonoBehaviour {
                 isFacingWall = true;
             }
             //am I hitting myself?
-            else if (hit.transform.name == transform.GetChild(0).name) {
+            else if (hit.transform.name == _fwdDirGO.name) {
                 Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
             }
         }

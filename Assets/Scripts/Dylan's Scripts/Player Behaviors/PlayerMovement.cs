@@ -646,16 +646,8 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(speedMultiplier);
 
         //Wesley
-        ChangeColor(); //Sets in scene start
-    }
-
-    //Wesley - Setting player color
-    public void ChangeColor()
-    {
-        for (int i = 0; i < character.Length; i++)
-        {
-            character[i].GetComponent<SkinnedMeshRenderer>().material = playerData.playerColor[playerData.materialChoice];
-        }
+        playerData.SetCharacterChoiceGame();
+        playerData.SetColor(); //Sets in scene start
     }
 
     //player takes damage

@@ -84,6 +84,8 @@ public class AssigningMods : MonoBehaviour
                // Debug.Log("yes");
             }
         }
+
+
     }
 
 
@@ -96,14 +98,15 @@ public class AssigningMods : MonoBehaviour
             gameLevelData.mods[modNum - 1].modActive = true;
             numberOfModsToSelect--;
             ButtonsActiveCheck();
+            SceneManager.LoadScene("StoreScene");
         }
-
+        
     }
 
     public void ToStore()
     {
         //wont go until we have mods selected
-        if(numberOfModsToSelect <= 0)
+        //if(numberOfModsToSelect <= 0)
             SceneManager.LoadScene("StoreScene");
     }
 

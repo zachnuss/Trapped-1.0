@@ -156,6 +156,7 @@ public class PlayerData : ScriptableObject
         speedUpgrade = 0;
     }
 
+    //sets default of many variables to zero when game starts
     public void StartGame()
     {
         Debug.Log("Starting Game");

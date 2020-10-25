@@ -794,15 +794,20 @@ public class PlayerMovement : MonoBehaviour
             case powerUpType.health:
                 gamerUI.vHealth.SetActive(true);
                 duration = .5f;
-                if (health < playerData.totalHealthBase)
-                {
-                    health += 20;
-                    playerData.localHealth = health;
-                    if (serratedMod)
-                        playerData.totalHealthBase++;
-                }
-                if (health > playerData.totalHealthBase)
-                    health = playerData.totalHealthBase;
+
+                if (serratedMod)
+                    playerData.totalHealthBase++;
+              //  else
+               // {
+                    if (health < playerData.totalHealthBase)
+                    {
+                        health += 20;
+                        playerData.localHealth = health;
+
+                    }
+                    if (health > playerData.totalHealthBase)
+                        health = playerData.totalHealthBase;
+              //  }
                 gamerUI.healthBarStatus(health);
                 break;
             default:

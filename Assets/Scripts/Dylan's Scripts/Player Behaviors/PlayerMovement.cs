@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
     public EasingType easingTypeC = EasingType.linear;
     public bool moving = false;
     private float timeStart;
-    private float u, u2;
+    public float u, u2;
     float easingMod = 2f;
 
     //Shoot Code Variable
@@ -272,15 +272,17 @@ public class PlayerMovement : MonoBehaviour
             checkToCalculate = false;
             moving = true;
             timeStart = Time.time;
-            OnPlayerRotation();
+            //OnPlayerRotation();
+            Debug.Log("started");
         }
 
         if (moving)
         {
             u = (Time.time - timeStart) / timeDuration;
 
-            if (u >= 1)
+            if (u >= 0.5) //originally 1
             {
+                Debug.Log("reached");
                 //when we reach new pos
                 parent.transform.rotation = _rotationTrans.transform.rotation;
              
@@ -449,7 +451,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //runs when player moves to next cube (runs only once)
         //camera rotation
-        Transform newCameraTrans = _rotationTrans;
+       // Transform newCameraTrans = _rotationTrans;
     }
 
     //when player gets to edge

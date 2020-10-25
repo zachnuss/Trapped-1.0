@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine;
-
+using JetBrains.Annotations;
 
 /// <summary>
 /// Dylan Loe
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Rotation Speed")]
     public float turnSpeed = 20f;
     public float lookSpeed = 30f;
-    public float _angle, _angle2;
+    float _angle, _angle2;
     //player looking rotation
     Vector2 lookingInput;
 
@@ -73,7 +73,8 @@ public class PlayerMovement : MonoBehaviour
     //level setup script
 
     //when we have successfully rotated
-    [Header("Shows if player is off the edge")]
+    //[Header("Shows if player is off the edge")]
+    [HideInInspector]
     public bool overTheEdge = false;
     bool onDoor = false;
 
@@ -87,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform c0, c1;
     private Quaternion r01;
     private float timeDuration = 1.2f;
+    [HideInInspector]
     public bool checkToCalculate = false;
     private Vector3 p01;
 
@@ -94,10 +96,11 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion par01;
     private Transform pc1, pc0;
 
-    public EasingType easingTypeC = EasingType.linear;
+    EasingType easingTypeC = EasingType.linear;
+    [HideInInspector]
     public bool moving = false;
     private float timeStart;
-    public float u, u2;
+    private float u, u2;
     float easingMod = 2f;
 
     //Shoot Code Variable
@@ -346,14 +349,14 @@ public class PlayerMovement : MonoBehaviour
         //r += Mathf.Round(v);
         return Mathf.Clamp(v, -1.0f, 1.0f);
     }
-    public Vector3 MainJoystick()
+    public Vector2 MainJoystick()
     {
-        return new Vector3(JoystickH(), 0, JoystickV());
+        return new Vector2(JoystickH(), JoystickV());
     }
-    void RotateMovement(Vector3 movement)
+    void RotateMovement(Vector2 movement)
     {
         //convert joystick movements to angles that we can apply to player rotation
-        _angle = Mathf.Atan2(movement.x, movement.z);
+        _angle = Mathf.Atan2(movement.x, movement.y);
         _angle = Mathf.Rad2Deg * _angle;
 
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
@@ -369,10 +372,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Movement()
     {
-        Vector3 movement = MainJoystick();
+        float deadzone = 0.35f;
+        Vector2 movement = MainJoystick();
         //Debug.Log(movement);
+        if (movement.magnitude < deadzone)
+        {
+            movement = Vector2.zero;
+        }
+
+
         //only move if player gives input
-        if (movement != Vector3.zero)
+        if (movement != Vector2.zero)
         {
             RotateMovement(movement);
             animBottomState = playerBottomState.walking;
@@ -401,28 +411,33 @@ public class PlayerMovement : MonoBehaviour
     //looking rotation (Not running yet)
     public float JoystickLookingH()
     {
-        //float r = 0.0f;
         float h = lookingInput.x;
-        //r += Mathf.Round(h);
         return Mathf.Clamp(h, -1.0f, 1.0f);
     }
     public float JoystickLookingV()
     {
-        //float r = 0.0f;
         float v = lookingInput.y;
-        //r += Mathf.Round(v);
         return Mathf.Clamp(v, -1.0f, 1.0f);
     }
-    public Vector3 LookJoystick()
+    public Vector2 LookJoystick()
     {
-        return new Vector3(JoystickLookingH(), 0, JoystickLookingV());
+        return new Vector3(JoystickLookingH(), JoystickLookingV());
     }
     void Looking()
     {
-        Vector3 looking = LookJoystick();
+        float deadzone = 0.25f;
+        Vector2 looking = LookJoystick();
         //Debug.Log(movement);
         //only move if player gives input
-        if (looking != Vector3.zero)
+
+        //deadzones (high precision or radial?)
+        //RADIAL DEADZONE
+        if(looking.magnitude < deadzone)
+        {
+            looking = Vector2.zero;
+        }
+
+        if (looking != Vector2.zero)
         {
             LookMovement(looking);
             //animTopState = playerTopState.moving;
@@ -431,10 +446,10 @@ public class PlayerMovement : MonoBehaviour
           //  animTopState = playerTopState.idle;
     }
 
-    void LookMovement(Vector3 looking)
+    void LookMovement(Vector2 looking)
     {
         //convert joystick movements to angles that we can apply to player rotation
-        _angle2 = Mathf.Atan2(looking.x, looking.z);
+        _angle2 = Mathf.Atan2(looking.x, looking.y);
         _angle2 = Mathf.Rad2Deg * _angle2;
         Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation

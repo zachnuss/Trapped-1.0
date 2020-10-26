@@ -100,6 +100,10 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().serratedMod = true;
             }
+            if(currentModsInLevel[modIndex].modType == modifierType.AdvancedSimulant && currentModsInLevel[modIndex].modActive)
+            {
+                _player.GetComponent<PlayerMovement>().doubleDamage = true;
+            }
         }
 
         Debug.Log("Mods Now Active in Level");

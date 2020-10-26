@@ -131,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
     public bool healthRegen = false;
     public bool doubleScoreMod = false;
     public bool serratedMod = false;
+    public bool doubleDamage = false;
     //player takes damage and applies bleed, while active every second does 1 damage for 5 seconds. Each stack adds 1 damage
     int bleedStacks = 0;
     float bleedTimer = 0;
@@ -159,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
 
     /// <summary>
     /// Dylan Loe
-    /// Last Updated: 10-20-2020
+    /// Last Updated: 10-26-2020
     /// 
     /// - Sets stats to local player in level, establishes character custom, sets teleporters, rng, localtimer and starts the perSecond invokeRepeating
     /// </summary>
@@ -169,6 +170,9 @@ public class PlayerMovement : MonoBehaviour
         //cap refresh rate on those computers that believe themselves to be above us
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
 
+        //if mod is on we double local damage
+        if (doubleDamage)
+            damage += damage;
 
         for (int i = 0; i < character.Length; i++)
         {
@@ -215,7 +219,6 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    
     /// <summary>
     /// Dylan Loe
     /// Updated 10-25-2020
@@ -613,6 +616,7 @@ public class PlayerMovement : MonoBehaviour
             Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
             //ZACHARY ADDED THIS
             StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
+
             //just to destroy stray bullets if they escape the walls
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.AddForce(bullet.transform.forward * 1000);
@@ -789,7 +793,7 @@ public class PlayerMovement : MonoBehaviour
 
         gamerUI.healthBarStatus(health);
 
-        speedMultiplier = (playerData.speedUpgrade)/10;
+        speedMultiplier = (playerData.speedUpgrade)/20;
         //Debug.Log(speedMultiplier);
 
         //Wesley

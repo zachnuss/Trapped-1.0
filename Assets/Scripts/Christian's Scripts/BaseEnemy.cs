@@ -362,9 +362,10 @@ public class BaseEnemy : MonoBehaviour {
             if(_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.AdvancedSimulant && _lvlSetUp.currentModsInLevel[modIndex].modActive)
             {
                 advancedStimsMod = true;
-                //Debug.Log("old speed");
+                Debug.Log("OG SPEED: " + speed);
+                //increase to speed by 25%
                 speed = speed + (speed * 0.25f);
-                //Debug.Log("new speed");
+                Debug.Log("New speed yo: " + speed);
             }
         }
         if (!sheildMod)

@@ -77,9 +77,12 @@ public class PlayerData : ScriptableObject
     private float totalTimerMin;
     private float totalTimerHour;
 
-
-
-    //called when level beat
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Runs when leave is beat, sets next level/scene, updates varaibles
+    /// </summary>
     public void BeatLevel()
     {
         bool takeToModSelection = false;
@@ -119,7 +122,12 @@ public class PlayerData : ScriptableObject
         }
     }
 
-    //load next level
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Loads next scene
+    /// </summary>
     public void LoadNextLevel()
     {
         if (OnLevel != levelsS.Length)
@@ -134,13 +142,23 @@ public class PlayerData : ScriptableObject
         //Debug.Log("LOAD END SCREEN HERE UWU");
     }
 
-    //adds score
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Adds score
+    /// </summary>
     public void AddScore(int addition)
     {
         score += addition;
     }
 
-    //adds currency
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Adds to currency (and score based on currency)
+    /// </summary>
     public void AddCurrency(int addition)
     {
         currency += addition;
@@ -149,6 +167,12 @@ public class PlayerData : ScriptableObject
         TrackCurrencyGains(addition);
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// resets upgrades
+    /// </summary>
     public void ResetUpgrades()
     {
         //when player starts at beginning, we reset the upgrades
@@ -157,7 +181,12 @@ public class PlayerData : ScriptableObject
         speedUpgrade = 0;
     }
 
-    //sets default of many variables to zero when game starts
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Runs when game is initially started from menu, sets variables, loads level 1 and starts setting up the mods
+    /// </summary>
     public void StartGame()
     {
         Debug.Log("Starting Game");
@@ -187,10 +216,11 @@ public class PlayerData : ScriptableObject
     }
 
     /// <summary>
-    /// Upgrades are bought in the store scene, they call these 
+    /// Alexander & Dylan
+    /// Updated: 10-20-2020
     /// 
+    /// Upgrades health stat, as well as the local health of the player currently
     /// </summary>
-    /// <param name="addition"></param>
     public void UpgradeHealth()
     {
         healthUpgrade++;
@@ -198,17 +228,35 @@ public class PlayerData : ScriptableObject
         localHealth += 5;
         Debug.Log("Health Upgrade Purchased! New Health = " + localHealth + " out of " + totalHealthBase);
     }
+    /// <summary>
+    /// Alexander & Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// Upgrades damage stat
+    /// </summary>
     public void UpgradeDamage()
     {
         damageUpgrade++;
         Debug.Log("Damage Upgrade Purchased!");
     }
+    /// <summary>
+    /// Alexander & Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// Upgrades speed stat
+    /// </summary>
     public void UpgradeSpeed()
     {
         speedUpgrade++;
         Debug.Log("SPEED Upgrade Purchased!");
     }
 
+    /// <summary>
+    /// Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// time variables, broguth from player
+    /// </summary>
     public void UpdateTime()
     {      
             if (timerMin >= 60)
@@ -223,7 +271,12 @@ public class PlayerData : ScriptableObject
         }
     }
 
-    //Wesley - update match values with several easy tricks! Also, they're private, so better to access through functions.
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// update match values with several easy tricks! Also, they're private, so better to access through functions.
+    /// </summary>
     public void TrackEnemyScore(int input)
     {
         matchScoreFromEnemies += input;
@@ -254,7 +307,12 @@ public class PlayerData : ScriptableObject
         matchPowerUpsCollected += input;
     }
 
-    //Turns character models on or off in menus
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Turns character models on or off in menus
+    /// </summary>
     public void SetCharacterChoiceMenu(UnityEngine.UI.Toggle choice)
     {
         GameObject[] character1 = new GameObject[8];
@@ -285,7 +343,12 @@ public class PlayerData : ScriptableObject
         }
     }
 
-    //Sets character model on or off in game
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets character model on or off in game
+    /// </summary>
     public void SetCharacterChoiceGame()
     {
         GameObject[] character1 = new GameObject[8];
@@ -314,8 +377,12 @@ public class PlayerData : ScriptableObject
         }
     }
 
-
-    //Sets color choice, sets color on player - Wesley
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets color choice, sets color on player
+    /// </summary>
     public void SetMenuColor(int input)
     {
         if (characterModelSwitch == false)
@@ -329,7 +396,12 @@ public class PlayerData : ScriptableObject
         SetColor();
     }
 
-    //Sets color on player - Wesley
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets color on player
+    /// </summary>
     public void SetColor()
     {
         if (characterModelSwitch == false)

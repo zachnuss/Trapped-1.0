@@ -155,9 +155,14 @@ public class PlayerMovement : MonoBehaviour
     bool _fireCoolDown;
     [Header("Fire Rate")]
     public float fireRate = 0.1f;
-    
+    float firingTimer = 0;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Dylan Loe
+    /// Last Updated: 10-20-2020
+    /// 
+    /// - Sets stats to local player in level, establishes character custom, sets teleporters, rng, localtimer and starts the perSecond invokeRepeating
+    /// </summary>
     void Start()
     {
 
@@ -179,8 +184,12 @@ public class PlayerMovement : MonoBehaviour
         InvokeRepeating("PerSecond", 0f, 1f); //Every second, give score equal to 1*the level count. - Wesley
     }
 
-
-    // Used for physics 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated 10-25-2020
+    /// 
+    /// - Used Primarly for physics based movement and cube transversals
+    /// </summary> 
     private void FixedUpdate()
     {
         this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
@@ -206,9 +215,13 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    float firingTimer = 0;
-
-    // used for updating values and variables
+    
+    /// <summary>
+    /// Dylan Loe
+    /// Updated 10-25-2020
+    /// 
+    /// Runs checks for detections, firing state timers, setting animation states, and bleed damage timers
+    /// </summary>
     private void Update()
     {
         //movement
@@ -259,8 +272,13 @@ public class PlayerMovement : MonoBehaviour
        }
     }
 
-    //moves player based on equation
-    //may need to update to bezier for smoother rotation
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Used for interpolations for cube side transverals
+    /// - moves player based on equation
+    /// </summary>
     void Interpolation()
     {
         if (checkToCalculate)
@@ -319,29 +337,52 @@ public class PlayerMovement : MonoBehaviour
         }
     }
    
+    
     /*
      * Movement and Player Looking Rotation
      * Uses player controller and both joysticks for movement and for player sights
      */
-    //for movement
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Assigns movementInput vector from playercontroller for joystick movement
+    /// </summary>
     private void OnMove1(InputValue value)
     {
         movementInput = value.Get<Vector2>();
     }
-    //for looking
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Assigns lookingInput vector from playercontroller for joysticking looking (for firing)
+    /// </summary>
     private void OnLook(InputValue value)
     {
         lookingInput = value.Get<Vector2>();
        // Debug.Log(lookingInput);
     }
+
     //joysticks
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Takes x value from horizontal movementinput vector and clamps between -1 and 1
+    /// </summary>
     public float JoystickH()
     {
-        //float r = 0.0f;
         float h = movementInput.x;
-        //r += Mathf.Round(h);
         return Mathf.Clamp(h, -1.0f, 1.0f);
     }
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Takes x value from vertical movementinput vector and clamps between -1 and 1
+    /// </summary>
     public float JoystickV()
     {
         //float r = 0.0f;
@@ -349,10 +390,26 @@ public class PlayerMovement : MonoBehaviour
         //r += Mathf.Round(v);
         return Mathf.Clamp(v, -1.0f, 1.0f);
     }
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Returns vector2 from both clampsed values
+    /// </summary>
     public Vector2 MainJoystick()
     {
         return new Vector2(JoystickH(), JoystickV());
     }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Takes in vector2 movement as applies this to the player for rotational movement
+    /// - turns this value into a degree and assigns it 
+    /// - also has speedModifiers
+    /// - usss lerp for smoother rotations
+    /// </summary>
     void RotateMovement(Vector2 movement)
     {
         //convert joystick movements to angles that we can apply to player rotation
@@ -370,6 +427,12 @@ public class PlayerMovement : MonoBehaviour
         transform.position += transform.forward * newSpeed *speedAdjustment()* Time.deltaTime;
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// takes in movementintput and applies deadzone as well as animation states. Runs RotateMovement to apply to player
+    /// </summary>
     void Movement()
     {
         float deadzone = 0.35f;
@@ -397,7 +460,13 @@ public class PlayerMovement : MonoBehaviour
                 animTopState = playerTopState.idle;
         }
     }
-    //make movement not constant
+
+    /// <summary>
+    /// Zach and Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// - make movement not constant
+    /// </summary>
     public float speedAdjustment()
     {
         float speedMod = Mathf.Sqrt((movementInput.x * movementInput.x) + (movementInput.y * movementInput.y));
@@ -408,21 +477,47 @@ public class PlayerMovement : MonoBehaviour
         return speedMod;
     }
 
-    //looking rotation (Not running yet)
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Takes x value from horizontal lookinginput vector and clamps between -1 and 1
+    /// </summary>
     public float JoystickLookingH()
     {
         float h = lookingInput.x;
         return Mathf.Clamp(h, -1.0f, 1.0f);
     }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Takes x value from horizontal lookinginput vector and clamps between -1 and 1
+    /// </summary>
     public float JoystickLookingV()
     {
         float v = lookingInput.y;
         return Mathf.Clamp(v, -1.0f, 1.0f);
     }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Returns vector2 from both clampsed values
+    /// </summary>
     public Vector2 LookJoystick()
     {
         return new Vector3(JoystickLookingH(), JoystickLookingV());
     }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// takes in lookingintput and applies deadzone as well as animation states. Runs LookMovement to apply to player
+    /// </summary>
     void Looking()
     {
         float deadzone = 0.25f;
@@ -446,6 +541,15 @@ public class PlayerMovement : MonoBehaviour
           //  animTopState = playerTopState.idle;
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Takes in vector2 movement as applies this to the player for rotational looking movement
+    /// - turns this value into a degree and assigns it 
+    /// - uses lerp for smoother rotations
+    /// - runs attacking when active
+    /// </summary>
     void LookMovement(Vector2 looking)
     {
         //convert joystick movements to angles that we can apply to player rotation
@@ -461,15 +565,12 @@ public class PlayerMovement : MonoBehaviour
         OnStickAttack();
     }
 
-    //once player reaches new side
-    void OnPlayerRotation()
-    {
-        //runs when player moves to next cube (runs only once)
-        //camera rotation
-       // Transform newCameraTrans = _rotationTrans;
-    }
-
-    //when player gets to edge
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Returns bool if player crosses an edge for side transversal
+    /// </summary>
     bool DetectEdge()
     {
         bool noFloor = false;
@@ -493,7 +594,14 @@ public class PlayerMovement : MonoBehaviour
         return noFloor;
     }
 
-    //when player hits the attack button
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Player attack if cooldown is off
+    /// - fires prefab based on looking rotation (not mvoement rotation)
+    /// - runs when player is using right joystick or right sholder button
+    /// </summary>
     void OnStickAttack()
     {
         if (!_fireCoolDown)
@@ -524,6 +632,12 @@ public class PlayerMovement : MonoBehaviour
     }
     
     //triggers
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Handles triggers related to Door tag, goal tag, bullet tag, enemy tags and powerup tags
+    /// </summary>
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Door")
@@ -600,6 +714,12 @@ public class PlayerMovement : MonoBehaviour
            
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Handles when player leaves door tag for cube transveral
+    /// </summary>
     private void OnTriggerExit(Collider other)
     {
         if(other.gameObject.tag == "Door")
@@ -608,7 +728,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //easing types
+    /// <summary>
+    /// Dylan Loe & Jeff Underwood (Pulled from class assignment)
+    /// Updated: 10-20-2020
+    /// 
+    /// For changing easing types (equations) for interpolation testing
+    /// </summary>
     public float EaseU(float u, EasingType eType, float eMod)
     {
         float u2 = u;
@@ -649,7 +774,12 @@ public class PlayerMovement : MonoBehaviour
         return (u2);
     }
 
-    //setting player stats
+    /// <summary>
+    /// Dylan Loe
+    /// Updated 10-25-2020
+    /// 
+    /// Sets local player info from playerdata obj as well as gamerUI (on start)
+    /// </summary>
     void SetPlayerStats()
     {
         
@@ -668,6 +798,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //player takes damage
+    /// <summary>
+    /// Dylan Loe
+    /// Updated 10-25-2020
+    /// 
+    /// When player takes damage, remove health
+    /// - bleeding mod (coroutine starts here)
+    /// - if health 0 then gameover
+    /// </summary>
     public void takeDamage(int damageTaken)
     {
         //damage player
@@ -697,6 +835,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Scene Transitions
+    /// <summary>
+    /// Whesley and Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// when level is beat, scene transitions and run BeatLevel function from playerdata
+    /// </summary>
+    /// <returns></returns>
     IEnumerator LoadTargetLevel()
     {
         transition[rng].SetTrigger("Start"); //start animation
@@ -708,6 +853,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Score - Wesley
+    /// <summary>
+    /// Wesley and Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// Each second, adds score based on modifiers
+    /// - heath regen timer also occurs here
+    /// </summary>
     void PerSecond()
     {
         if (!doubleScoreMod)
@@ -735,7 +887,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //UI and TIMER
+    /// <summary>
+    /// Dylan Loe
+    /// Updated 10-20-2020
+    /// 
+    /// Runs and collects total time, applies this to playerData
+    /// - updats up as well
+    /// </summary>
     void Timer()
     {
         localTimer += Time.deltaTime;
@@ -751,12 +909,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         playerData.UpdateTime();
-      //  Debug.Log(_timer);
         DisplayTime();
-
-        
     }
-    //update and display timer 
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Updates timer in specific format
+    /// </summary>
     void DisplayTime()
     {
         //update text here with info from playerdata
@@ -764,6 +925,14 @@ public class PlayerMovement : MonoBehaviour
         timerText.text = string.Format("{0:00}:{1:00}:{2:00}", playerData.timerHour, playerData.timerMin, playerData.timerSec);
 
     }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Counts with timer and updates to playerData
+    /// </summary>
+    /// <returns></returns>
     //timer counter
     IEnumerator timerCount()
     {
@@ -777,7 +946,12 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(timerCount());
     }
 
-    //powerup
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// when player gets a powerup from ontrigger, runs this which passes info to start a corouinte for duration
+    /// </summary>
     void PickedPowerUp(powerUpType type, bool timer, int duration)
     {
         if(timer)
@@ -785,7 +959,13 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(PowerUpDuration(type, duration));
         }
     }
-    //how long the powerups last
+    
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Depending on powerup, certain effects happen such as damage/speed buff or increase to health
+    /// </summary>
     IEnumerator PowerUpDuration(powerUpType type, float duration)
     {
         //turn on
@@ -844,7 +1024,13 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(speedMultiplier);
     }
 
-    //will be in update
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Runs animations based on what state animatoins are in
+    /// - CURRENTLY NOT IN USE BECAUSE WE DONT HAVE ANIMATIONS TO RUN
+    /// </summary>
     void SetAnimation()
     {
         //playerAnimations.isIdlingTop();
@@ -882,7 +1068,14 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
-    //to prevent spam fire and prevent issues with firing animations
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Starts a cooldown to prevent to rapid of firing, prevents possible issues with firing animations looping on top as well
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator FireCoolDown()
     {
         _fireCoolDown = true;
@@ -890,7 +1083,14 @@ public class PlayerMovement : MonoBehaviour
         _fireCoolDown = false;
     }
 
-    //when we fire, we launch the firing animation, while the bool is on (the anim is playing) we cannot switch to topIdle or topMoving until its done
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// When firing, sets firing anim state and waits for anim duration int before returning to other states
+    /// - when we fire, we launch the firing animation, while the bool is on (the anim is playing) we cannot switch to topIdle or topMoving until its done
+    /// </summary>
+    /// <returns></returns>
     IEnumerator FireState()
     {
         animTopState = playerTopState.firing;
@@ -901,7 +1101,13 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    //if mod is active, damage now has bleed
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// When player takes damage with mod on, we run 1 bleeding effect stack that lasts for 5, IT CAN STACK FOR MORE DAMAGE
+    /// </summary>
+    /// <returns></returns>
     IEnumerator BleedDamage()
     {
         StartCoroutine(BleedApplyCooldown());
@@ -909,7 +1115,14 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         bleedStacks--;
     }
-    //so bleed cant be active REALLY fast
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Activates a fast cooldown to prevent multiple damage stacks being applied to fast (so its fair i guess)
+    /// </summary>
+    /// <returns></returns>
     IEnumerator BleedApplyCooldown()
     {
         _bleedCooldown = true;

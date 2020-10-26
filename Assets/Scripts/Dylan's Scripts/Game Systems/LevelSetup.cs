@@ -23,6 +23,12 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets variables, modifiers and brings in the level permutation to load
+    /// </summary>
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -35,6 +41,12 @@ public class LevelSetup : MonoBehaviour
         SetModifiers();
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets player to starting point beased on what level is loaded
+    /// </summary>
     void SetPlayer()
     {
         switch (type)
@@ -53,15 +65,24 @@ public class LevelSetup : MonoBehaviour
         }
     }
 
-    //if player choose mods at end of loop they go into each level here
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// if player choose mods at end of loop they go into each level here
+    /// </summary>
     void SetModifiers()
     {
         currentModsInLevel = gameLevelData.mods;
         ActivateModifiers();
     }
 
-
-    //physicall activate mods in level
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// physicall activate mods in level
+    /// </summary>
     void ActivateModifiers()
     {
         for (int modIndex = 0; modIndex < currentModsInLevel.Length; modIndex++)

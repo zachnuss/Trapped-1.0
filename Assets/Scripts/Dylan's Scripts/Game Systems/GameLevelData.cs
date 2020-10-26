@@ -73,6 +73,12 @@ public class GameLevelData : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Addes the modifer to the array of active mods
+    /// </summary>
     public void AddModifier(modifierType newMod)
     {
         //find mod with this enum then turn it on
@@ -87,6 +93,12 @@ public class GameLevelData : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Checks if a mod is active in the array
+    /// </summary>
     public bool CheckIfModActive(modifierType newMod)
     {
         //find mod with this enum then turn it on
@@ -100,6 +112,12 @@ public class GameLevelData : ScriptableObject
         return false;
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// sets ups by defaulting all mods to false (inactive)
+    /// </summary>
     public void InitialModSetup()
     {
         for (int modIndex = 0; modIndex < mods.Length; modIndex++)

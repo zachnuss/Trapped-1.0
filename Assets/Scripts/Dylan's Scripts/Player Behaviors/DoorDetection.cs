@@ -15,6 +15,13 @@ public class DoorDetection : MonoBehaviour
     //trans1 = true, etc
     public bool trans = true;
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// If player hits trigger then we set the direction of which way the player is going for cube trasnversal
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player" && !other.GetComponent<PlayerMovement>().checkToCalculate && !other.GetComponent<PlayerMovement>().moving)

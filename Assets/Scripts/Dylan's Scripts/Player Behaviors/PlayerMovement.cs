@@ -779,7 +779,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Dylan Loe
+    /// Dylan Loe & Whesley
     /// Updated 10-25-2020
     /// 
     /// Sets local player info from playerdata obj as well as gamerUI (on start)
@@ -794,14 +794,12 @@ public class PlayerMovement : MonoBehaviour
         gamerUI.healthBarStatus(health);
 
         speedMultiplier = (playerData.speedUpgrade)/20;
-        //Debug.Log(speedMultiplier);
 
         //Wesley
         playerData.SetCharacterChoiceGame();
         playerData.SetColor(); //Sets in scene start
     }
 
-    //player takes damage
     /// <summary>
     /// Dylan Loe
     /// Updated 10-25-2020
@@ -838,7 +836,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //Scene Transitions
     /// <summary>
     /// Whesley and Dylan
     /// Updated: 10-20-2020

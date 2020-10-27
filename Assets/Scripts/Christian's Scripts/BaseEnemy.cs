@@ -65,7 +65,7 @@ public class BaseEnemy : MonoBehaviour {
     ///public
     public virtual void takeDamage(GameObject player) {
         //take health away
-        health -= player.GetComponent<PlayerMovement>().damage;
+        health -= playerGO.GetComponent<PlayerMovement>().damage;
         //did the enemy die?
         if (health < 1) {
             health = 0;

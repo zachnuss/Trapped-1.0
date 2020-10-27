@@ -55,15 +55,25 @@ public class PlayerOptions : MonoBehaviour {
         
         //grab AudioListener and AudioSource if we're in game
         _buildIndex = SceneManager.GetActiveScene().buildIndex;
-        if (_buildIndex >= 1 && _buildIndex <= 3 && _backButtonText) {
-            _backButtonText.text = "Close";
+        if (_buildIndex >= 1 && _buildIndex <= 3) {
+            //get data and apply options where relavent in game
+            OptionsData savedData = _getOptionsData();
+            _musicSource.volume = savedData.s_musicVolume;
+            float enemyFXVolume = savedData.s_soundFXVolume;
+            if (_backButtonText) {
+                _backButtonText.text = "Close";
+            }
             //get all audiosources from enemies and store them
             GameObject[] enemiesArr = GameObject.FindGameObjectsWithTag("Enemy");
             int numOfEnemies = enemiesArr.Length;
+            _enemyFXs = new List<AudioSource>();
             for (int i = 0; i < numOfEnemies; ++i) {
                 //adjust val and store
-                enemiesArr[i].GetComponent<AudioSource>().volume = soundFXVolume;
-                _enemyFXs.Add(enemiesArr[i].GetComponent<AudioSource>());
+                AudioSource newSource = enemiesArr[i].GetComponent<AudioSource>();
+                newSource.volume = enemyFXVolume;
+                newSource.playOnAwake = false;
+                newSource.playOnAwake = false;
+                _enemyFXs.Add(newSource);
             }
         }
         else if (_buildIndex == 10) { //are we in the options scene?

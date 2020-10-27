@@ -47,21 +47,15 @@ public class PlayerOptions : MonoBehaviour {
         _numOfTracks = audioTracks.Length;
         _filePath = Application.persistentDataPath + "/PlayerOptions.dat";
         isFullScreen = Screen.fullScreen;
-        _curTrackText = nextTrackButton.GetComponentInChildren<Text>();
+        if (nextTrackButton)
+            _curTrackText = nextTrackButton.GetComponentInChildren<Text>();
         _musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
 
-        //get stored data and apply it to scene
-        OptionsData savedData = _getOptionsData();
-        musicVolume = savedData.s_musicVolume;
-        musicSlider.value = savedData.s_musicVolume;
-        soundFXVolume = savedData.s_soundFXVolume;
-        soundFXSlider.value = savedData.s_soundFXVolume;
-        isFullScreen = savedData.s_isFullScreen;
-        _curTrackIndex = savedData.s_curTrackIndex;
+
         
         //grab AudioListener and AudioSource if we're in game
         _buildIndex = SceneManager.GetActiveScene().buildIndex;
-        if (_buildIndex >= 1 && _buildIndex <= 3) {
+        if (_buildIndex >= 1 && _buildIndex <= 3 && _backButtonText) {
             _backButtonText.text = "Close";
             //get all audiosources from enemies and store them
             GameObject[] enemiesArr = GameObject.FindGameObjectsWithTag("Enemy");
@@ -74,20 +68,31 @@ public class PlayerOptions : MonoBehaviour {
         }
         else if (_buildIndex == 10) { //are we in the options scene?
             _testFX = Camera.main.gameObject.GetComponent<AudioSource>();
+
+            //get stored data and apply it to scene
+            OptionsData savedData = _getOptionsData();
+            musicVolume = savedData.s_musicVolume;
+            musicSlider.value = savedData.s_musicVolume;
+            soundFXVolume = savedData.s_soundFXVolume;
+            soundFXSlider.value = savedData.s_soundFXVolume;
+            isFullScreen = savedData.s_isFullScreen;
+            _curTrackIndex = savedData.s_curTrackIndex;
         }
 
         //set appropriate text for UI
-        _fullScreenText = screenButton.GetComponentInChildren<Text>();
-        _fullScreenText.text = "Screen: ";
-        _fullScreenText.text += (isFullScreen) ? "Full Screen" : "Windowed";
+        if (screenButton) {
+            _fullScreenText = screenButton.GetComponentInChildren<Text>();
+            _fullScreenText.text = "Screen: ";
+            _fullScreenText.text += (isFullScreen) ? "Full Screen" : "Windowed";
 
-        try {
-            _curTrackText.text = "Current Track: \n" + audioTracks[_curTrackIndex].name;
-        } catch (NullReferenceException) {
-            //how will I handle this error
-            _curTrackIndex = 0;
-            _curTrackText.text = "Current Track: \n N/A";
+            try {
+                _curTrackText.text = "Current Track: \n" + audioTracks[_curTrackIndex].name;
+            } catch (NullReferenceException) {
+                //how will I handle this error
+                _curTrackIndex = 0;
+                _curTrackText.text = "Current Track: \n N/A";
 
+            }
         }
     }
 

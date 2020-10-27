@@ -297,7 +297,7 @@ public class PlayerMovement : MonoBehaviour
             moving = true;
             timeStart = Time.time;
             //OnPlayerRotation();
-            Debug.Log("started");
+           // Debug.Log("started");
         }
 
         if (moving)
@@ -306,7 +306,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (u >= 0.5) //originally 1
             {
-                Debug.Log("reached");
+                //Debug.Log("reached");
                 //when we reach new pos
                 parent.transform.rotation = _rotationTrans.transform.rotation;
              

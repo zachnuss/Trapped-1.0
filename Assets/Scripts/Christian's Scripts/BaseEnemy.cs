@@ -35,6 +35,7 @@ public class BaseEnemy : MonoBehaviour {
     public int pointValue;
     [Range(1f, 5f)] public float rateOfBehaviorChange = 2f;
     public GameObject specialCoin;
+    public GameObject playerGO { get { return _playerGO; } }
 
     ///protected
     protected Behavior _myBehavior;
@@ -44,10 +45,9 @@ public class BaseEnemy : MonoBehaviour {
 
     ///private
     private Vector3 _rotVal; //rotation
-    private float _wallDetectRay = 1.0f;
+    private float _wallDetectRay = 0.75f;
     private bool _hasHitWall = false;
-    //private static GameObject _playerGO; //initialize in start ************
-    //public static GameObject playerGO { get { return _playerGO; } }
+    private GameObject _playerGO;
 
     [Header("Modifers")]
     public bool doubleDamageMod = false;
@@ -67,7 +67,7 @@ public class BaseEnemy : MonoBehaviour {
     ///public
     public virtual void takeDamage(GameObject player) {
         //take health away
-        health -= player.GetComponent<PlayerMovement>().damage;
+        health -= playerGO.GetComponent<PlayerMovement>().damage;
         //did the enemy die?
         if (health < 1) {
             health = 0;
@@ -112,7 +112,8 @@ public class BaseEnemy : MonoBehaviour {
             case Behavior.Idle:
                 //increase randWaitTime randomly
                 if (Random.Range(0, 3) == 0) {
-                    randWaitTime += 0.75f;
+                    randWaitTime /= 2f;
+                    //randWaitTime += 0.75f; // try to edit using division
                 }
                 //enemy will remain in position (see Update())
                 break;
@@ -134,7 +135,6 @@ public class BaseEnemy : MonoBehaviour {
         }
         //randomly change behavior the next time this is called
         _myBehavior = (Behavior)Random.Range(0, 3); //max limit is exclusive
-        //CHANGE RANGE WHEN RELEASING BUILD
     }
 
     //move the player in the direction specified
@@ -199,6 +199,28 @@ public class BaseEnemy : MonoBehaviour {
         }
     }
 
+    protected bool _isEnemyFacingWall() {
+        //local vars
+        bool isFacingWall = false;
+        RaycastHit hit;
+        ///draw line for debugging
+        //Vector3 endPoint = transform.position + _moveDir;
+        //Debug.DrawLine(transform.position, endPoint, Color.green, Time.deltaTime, false);
+        //Debug.DrawRay(transform.position, _moveDir, Color.green, Time.deltaTime, false);
+        //check what's in fron using Raycast
+        if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
+            //don't change direction if I'm looking at the player
+            if (hit.transform.tag == "Wall") {
+                isFacingWall = true;
+            }
+            //am I hitting myself?
+            else if (hit.transform.name == _fwdDirGO.name) {
+                Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
+            }
+        }
+        return isFacingWall;
+    }
+
     protected virtual void Update() {
         if (_myBehavior != Behavior.Idle) {
             //move enemy
@@ -231,6 +253,7 @@ public class BaseEnemy : MonoBehaviour {
 
     private void Start() {
         //initialize variables
+        _playerGO = GameObject.FindWithTag("Player");
         //get where I'm facing for initial variables
         int childrenNum = transform.childCount;
         for (int i = 0; i < childrenNum; ++i) {
@@ -261,28 +284,6 @@ public class BaseEnemy : MonoBehaviour {
     private Direction _goLeftOrRightDirection() {
         int randInt = Random.Range(1, 3);//left or right only
         return (Direction)randInt;
-    }
-
-    private bool _isEnemyFacingWall() {
-        //local vars
-        bool isFacingWall = false;
-        RaycastHit hit;
-        ///draw line for debugging
-        //Vector3 endPoint = transform.position + _moveDir;
-        //Debug.DrawLine(transform.position, endPoint, Color.green, Time.deltaTime, false);
-        //Debug.DrawRay(transform.position, _moveDir, Color.green, Time.deltaTime, false);
-        //check what's in fron using Raycast
-        if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
-            //don't change direction if I'm looking at the player
-            if (hit.transform.tag == "Wall") {
-                isFacingWall = true;
-            }
-            //am I hitting myself?
-            else if (hit.transform.name == _fwdDirGO.name) {
-                Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
-            }
-        }
-        return isFacingWall;
     }
 
     private void OnTriggerEnter(Collider other) {

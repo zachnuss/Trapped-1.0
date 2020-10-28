@@ -170,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
         //cap refresh rate on those computers that believe themselves to be above us
-        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+        //Application.targetFrameRate = Screen.currentResolution.refreshRate;
 
         //if mod is on we double local damage
         if (doubleDamage)
@@ -281,8 +281,9 @@ public class PlayerMovement : MonoBehaviour
 
     void SwapRotate()
     {
+        //PlayerRotate.transform.position = this.transform.position;
         //rotates the parent of both playerObj and PlayerFollower
-        PlayerRotate.transform.parent = null;
+        PlayerRotate.transform.parent = parent.transform;
         transform.parent = PlayerRotate.transform;
         follower.transform.parent = PlayerRotate.transform;
 
@@ -304,8 +305,8 @@ public class PlayerMovement : MonoBehaviour
             c1 = _rotationTrans;
 
             //smooth parent movement (for camera)
-            pc0 = parent.transform;
-            pc1 = _rotationTrans;
+            //pc0 = parent.transform;
+            //pc1 = _rotationTrans;
             
             checkToCalculate = false;
             moving = true;
@@ -318,21 +319,30 @@ public class PlayerMovement : MonoBehaviour
         {
             u = (Time.time - timeStart) / timeDuration;
 
-            if (u >= 0.5) //originally 1
+            if (u >= 1.0) //originally 1
             {
                 //Debug.Log("reached");
                 //when we reach new pos
-                parent.transform.rotation = _rotationTrans.transform.rotation;
-             
+                //parent.transform.rotation = _rotationTrans.transform.rotation;
+
+                
+
+                //PlayerRotate.transform.parent = null;
+                this.transform.parent = parent.transform;
+                Debug.Log("set this obj parent back to ParentObj");
+                PlayerRotate.transform.parent = this.transform;
+                Debug.Log("Player rotate parent is back to this obj");
+                //PlayerRotate.transform.localPosition = Vector3.zero;
+                follower.transform.parent = parent.transform;
+                Debug.Log("Follow parent is back to parent obj");
+                //PlayerRotate.transform.rotation = _rotationTrans.transform.rotation;
+                
+
                 u = 1;
                 moving = false;
                 _rotationTrans = null;
                 overTheEdge = false;
 
-                //PlayerRotate.transform.parent = null;
-                this.transform.parent = parent.transform;
-                PlayerRotate.transform.parent = this.transform;
-                follower.transform.parent = parent.transform;
             }
 
             //adjsut u value to the ranger from uMin to uMax
@@ -349,13 +359,13 @@ public class PlayerMovement : MonoBehaviour
             //SLERP
             r01 = Quaternion.Slerp(c0.rotation, c1.rotation, u);
 
-            par01 = Quaternion.Slerp(pc0.rotation, pc1.rotation, u2);
+           // par01 = Quaternion.Slerp(pc0.rotation, pc1.rotation, u2);
 
             //apply those new values
-            transform.position = p01;
-            transform.rotation = r01;
-            follower.transform.rotation = r01;
-            parent.transform.rotation = par01;
+            PlayerRotate.transform.position = p01;
+            PlayerRotate.transform.rotation = r01;
+            //follower.transform.rotation = r01;
+            //parent.transform.rotation = par01;
         }
     }
    

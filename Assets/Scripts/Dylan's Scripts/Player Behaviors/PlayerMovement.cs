@@ -133,8 +133,8 @@ public class PlayerMovement : MonoBehaviour
     public bool serratedMod = false;
     public bool doubleDamage = false;
     //player takes damage and applies bleed, while active every second does 1 damage for 5 seconds. Each stack adds 1 damage
-    int bleedStacks = 0;
-    float bleedTimer = 0;
+    public int bleedStacks = 0;
+    public float bleedTimer = 0;
     bool _bleedCooldown = false;
     
     //displays timer per level (resets at level start and ends at level end
@@ -262,18 +262,33 @@ public class PlayerMovement : MonoBehaviour
         }
 
        //bleed stacks can only be active when bleed mod is on
-       if(bleedStacks >= 1)
+       if(isBleeding && bleedStacks > 0)
        {
             bleedTimer += Time.deltaTime;
-            if(bleedTimer >= 1.0)
+            bleedTimer2 += Time.deltaTime;
+            
+            if(bleedTimer2 >= 1.0)
             {
+                bleedTimer2 = 0;
                 Debug.Log("took bleed damage");
-                bleedTimer = 0;
+                
                 //do damage based on stacks
                 health -= 1 * bleedStacks;
+                gamerUI.healthBarStatus(health);
+            }
+            else if(bleedTimer >= 5.0)
+            {
+                Debug.Log("Done bleeding");
+                bleedStacks = 0;
+                bleedTimer = 0;
+                isBleeding = false;
+                health -= 1 * bleedStacks;
+                gamerUI.healthBarStatus(health);
             }
        }
     }
+    float bleedTimer2 = 0;
+    bool isBleeding = false;
 
     /// <summary>
     /// Dylan Loe
@@ -816,8 +831,13 @@ public class PlayerMovement : MonoBehaviour
         else if(bleedStacks <= 5)
         {
             //start bleed out
-            if(!_bleedCooldown)
+            if (!_bleedCooldown)
+            {
+                Debug.Log("ow");
+                isBleeding = true;
+                bleedStacks++;
                 StartCoroutine(BleedDamage());
+            }
         }
         //playerData.localHealth -= damageTaken;
         if (health < 1)
@@ -883,6 +903,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 health += 0.1f;
                 gamerUI.healthBarStatus((int)health);
+               
                 Debug.Log("regen");
             }
         }
@@ -1112,9 +1133,11 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator BleedDamage()
     {
         StartCoroutine(BleedApplyCooldown());
-        bleedStacks++;
+        bleedTimer = 0;
+        //bleedStacks++;
         yield return new WaitForSeconds(5.0f);
-        bleedStacks--;
+        //bleedStacks = 0;
+        //bleedStacks--;
     }
 
     /// <summary>

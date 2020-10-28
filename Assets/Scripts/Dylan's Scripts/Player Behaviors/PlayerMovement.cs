@@ -74,9 +74,9 @@ public class PlayerMovement : MonoBehaviour
 
     //when we have successfully rotated
     //[Header("Shows if player is off the edge")]
-    [HideInInspector]
+    //[HideInInspector]
     public bool overTheEdge = false;
-    bool onDoor = false;
+    public bool onDoor = false;
 
     //when we hit a door the player rotates and moves to this transform taken from the door prefab
     private Transform _rotationTrans;
@@ -342,7 +342,7 @@ public class PlayerMovement : MonoBehaviour
                 moving = false;
                 _rotationTrans = null;
                 overTheEdge = false;
-
+                Debug.Log(overTheEdge);
             }
 
             //adjsut u value to the ranger from uMin to uMax

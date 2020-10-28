@@ -158,6 +158,8 @@ public class PlayerMovement : MonoBehaviour
     public float fireRate = 0.1f;
     float firingTimer = 0;
 
+    public GameObject PlayerRotate;
+
     /// <summary>
     /// Dylan Loe
     /// Last Updated: 10-26-2020
@@ -239,7 +241,9 @@ public class PlayerMovement : MonoBehaviour
         {
             //Debug.Log("got trans, start interpolation");
             //if we hit the door and are off the cube
-            checkToCalculate = true;
+
+            SwapRotate();
+            //checkToCalculate = true;
         }
 
         //temp commented out
@@ -275,6 +279,16 @@ public class PlayerMovement : MonoBehaviour
        }
     }
 
+    void SwapRotate()
+    {
+        //rotates the parent of both playerObj and PlayerFollower
+        PlayerRotate.transform.parent = null;
+        transform.parent = PlayerRotate.transform;
+        follower.transform.parent = PlayerRotate.transform;
+
+        checkToCalculate = true;
+    }
+
     /// <summary>
     /// Dylan Loe
     /// Updated: 10-25-2020
@@ -286,7 +300,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (checkToCalculate)
         {
-            c0 = this.transform;
+            c0 = PlayerRotate.transform;//this.transform;
             c1 = _rotationTrans;
 
             //smooth parent movement (for camera)
@@ -314,6 +328,11 @@ public class PlayerMovement : MonoBehaviour
                 moving = false;
                 _rotationTrans = null;
                 overTheEdge = false;
+
+                //PlayerRotate.transform.parent = null;
+                this.transform.parent = parent.transform;
+                PlayerRotate.transform.parent = this.transform;
+                follower.transform.parent = parent.transform;
             }
 
             //adjsut u value to the ranger from uMin to uMax
@@ -420,7 +439,7 @@ public class PlayerMovement : MonoBehaviour
         _angle = Mathf.Rad2Deg * _angle;
 
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
-        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle+45, Time.deltaTime * turnSpeed), 0 ); //transform.localEulerAngles.x 
+        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * turnSpeed), 0 ); //transform.localEulerAngles.x 
 
         //base movement is just 1.0
         float boost = movementSpeed * speedMultiplier;
@@ -561,7 +580,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(topObj.transform.localEulerAngles.y+45, _angle2, Time.deltaTime * lookSpeed), 0);
+        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(topObj.transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
 
 
         //FIRE HERE

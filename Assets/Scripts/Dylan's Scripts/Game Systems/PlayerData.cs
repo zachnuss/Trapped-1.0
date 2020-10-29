@@ -408,6 +408,40 @@ public class PlayerData : ScriptableObject
         totalEnemyScore += input;
     }
 
+    //This section returns private variables to the persistent data script
+    //I guess I could have made properties but thats another set of variables, and lines setting them up
+    public int ReturnTotalEnemiesKilled()
+    {
+        return totalEnemiesKilled;
+    }
+
+    public int ReturnTotalPowerUpsCollected()
+    {
+        return totalPowerupsCollected;
+    }
+
+    public int ReturnTotalCurrencyCollected()
+    {
+        return totalCurrencyCollected;
+    }
+
+    public int ReturnTotalEnemyValue()
+    {
+        return totalEnemyScore;
+    }
+
+    public int ReturnTotalSpecialCoins()
+    {
+        return totalSpecialCoinsCollected;
+    }
+
+    public string ReturnTotalTimePersistent()
+    {
+        string timeReadout;
+        timeReadout = totalTimerHour + " Hours, " + totalTimerMin + " Minutes, and " + totalTimerSec + "Seconds.";
+        return timeReadout;
+    }
+
     //Sets highscore values - Wesley
     public void SaveHighscore()
     {
@@ -445,7 +479,7 @@ public class PlayerData : ScriptableObject
 
 
     //Save Game - Wesley
-
+    //Using binary formatter because json didn't work
     public void SaveFile()
     {
         Debug.Log("Saving Data");
@@ -461,7 +495,7 @@ public class PlayerData : ScriptableObject
         file.Close();
     }
 
-    public void LoadFile()
+    public void LoadFile() //Loads file - Wesley
     {
         Debug.Log("Loading Data");
 

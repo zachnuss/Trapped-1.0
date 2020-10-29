@@ -31,6 +31,7 @@ public class CommonGuard : BaseEnemy {
     ///private
     private GameObject _leftDirGO, _rightDirGO;
     private float _trackingTimer;
+    private Transform _startTransform;
 
     ///variables necessary if this instance shoots
     //private bool _doesEnemyShoot = false;
@@ -43,6 +44,18 @@ public class CommonGuard : BaseEnemy {
         health -= player.GetComponent<PlayerMovement>().damage;
         ///CommonGuard will fight back as the player is "found"
         if (!_isTrackingPlayer) {
+            /**
+             * BUG TO FIX:
+             *      --Guard "wing flapping" upon tracking
+             *          -When a guard begins tracking the player they can stutter
+             *              in their rotation.
+             *        -Possible fixes
+             *          -Mess with the interpolation values
+             *          -Switch to another interpolation type
+             *          -adjusting clamping values on rotation***
+             *              --make a test case for finding where the enemy is
+             *                  facing in relation to the player.
+             */ 
             CancelInvoke("_changeBehavior");
             _isTrackingPlayer = true;
         }
@@ -72,8 +85,9 @@ public class CommonGuard : BaseEnemy {
 
     /**     PROTECTED FUNCTIONS     */
     protected void Awake() {
-        //store start speed for sprinting
+        //store startting values
         _storeRegSpeed = speed;
+        _startTransform = transform;
 
         //assign directional children
         int childrenNum = transform.childCount;
@@ -235,8 +249,8 @@ public class CommonGuard : BaseEnemy {
 
     ///function to reset enemy state to searching
     protected void _resetBehaviors() {
-        //reset rotation (should be constrained to the y-axis)
-        transform.Rotate(-transform.localEulerAngles, Space.Self);
+        //reset rotation to the stored position
+        transform.rotation = _startTransform.rotation;
         //reset _moveDir
         Vector3 newMoveDir = (_fwdDirGO.transform.position
                                 - transform.position).normalized;

@@ -274,8 +274,8 @@ public class BaseEnemy : MonoBehaviour {
 
 
         //get mods from level obj
-
-        SetModifiers();
+        
+        //SetModifiers();//commented out for debugging, feel free to uncomment
     }
 
     //get random int to cast to Direction enum

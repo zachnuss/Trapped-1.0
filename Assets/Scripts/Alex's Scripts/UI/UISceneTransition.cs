@@ -29,6 +29,7 @@ public class UISceneTransition : MonoBehaviour
     //Changes scene to the options scene
     public void options()
     {
+        SceneManager.LoadScene(10); //set by Christian
         Debug.Log("You have options.");
     }
 
@@ -68,7 +69,7 @@ public class UISceneTransition : MonoBehaviour
  * 
  * Main Menu = 0
  * Game = 1 - Empty scene to show the movement of stuff
- * Options - #
+ * Options - 10 // set by Christian
  * Credits - 7
  * End Scene for Playtest - 5
  * Game Over Scene - 6

@@ -20,6 +20,7 @@ public class SetButtonOnObj : MonoBehaviour
         if(button)
         {
             buttonObj.SetActive(true);
+            Instantiate(buttonObj, this.transform);
             this.name = "ButtonObj";
             Debug.Log(this.name + " activating true");
         }

@@ -170,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
         //cap refresh rate on those computers that believe themselves to be above us
-        //Application.targetFrameRate = Screen.currentResolution.refreshRate;
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
 
         //if mod is on we double local damage
         if (doubleDamage)
@@ -234,7 +234,10 @@ public class PlayerMovement : MonoBehaviour
         if (DetectEdge())
         {
             overTheEdge = true;
+            //Debug.Log("Over edge");
         }
+        else
+            overTheEdge = false;
         
         //Interpolation stuff, for rotation onto next side
         if (overTheEdge && onDoor && !checkToCalculate && !moving)
@@ -283,10 +286,26 @@ public class PlayerMovement : MonoBehaviour
     {
         //PlayerRotate.transform.position = this.transform.position;
         //rotates the parent of both playerObj and PlayerFollower
-        PlayerRotate.transform.parent = parent.transform;
-        transform.parent = PlayerRotate.transform;
-        follower.transform.parent = PlayerRotate.transform;
+        PlayerRotate.transform.parent = null;
 
+        PlayerRotate.transform.eulerAngles = _startingT.eulerAngles;
+
+
+        //make sure PlayerRotate is at 0, 0, 0 and ect for each door
+
+        transform.parent = PlayerRotate.transform;
+
+
+        //transform.position = PlayerRotate.transform.position;
+
+
+        follower.transform.parent = PlayerRotate.transform;
+        //Debug.Log(follower.transform.localEulerAngles);
+        //follower.transform.localEulerAngles = 
+       // PlayerRotate.transform.localRotation = follower.transform.localRotation;
+
+
+        //follower.transform.localEulerAngles = Vector3.zero;
         checkToCalculate = true;
     }
 
@@ -299,8 +318,14 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Interpolation()
     {
+        //rotate parent to same degree 
+
+
         if (checkToCalculate)
         {
+            //follower.transform.rotation = _rotationTrans.transform.rotation;
+
+
             c0 = PlayerRotate.transform;//this.transform;
             c1 = _rotationTrans;
 
@@ -319,22 +344,23 @@ public class PlayerMovement : MonoBehaviour
         {
             u = (Time.time - timeStart) / timeDuration;
 
-            if (u >= 1.0) //originally 1
+            if (u >= 1) //originally 1 - lowered u to speed up time, the small movements at the end can be essentially skipped maybe
             {
-                //Debug.Log("reached");
                 //when we reach new pos
-                //parent.transform.rotation = _rotationTrans.transform.rotation;
+                parent.transform.rotation = _rotationTrans.transform.rotation;
+                this.transform.position = _rotationTrans.transform.position;
 
-                
-
-                //PlayerRotate.transform.parent = null;
                 this.transform.parent = parent.transform;
+                follower.transform.parent = parent.transform;
+
                 Debug.Log("set this obj parent back to ParentObj");
                 PlayerRotate.transform.parent = this.transform;
-                Debug.Log("Player rotate parent is back to this obj");
+                //PlayerRotate.transform.position = Vector3.zero;
+
                 //PlayerRotate.transform.localPosition = Vector3.zero;
-                follower.transform.parent = parent.transform;
-                Debug.Log("Follow parent is back to parent obj");
+                PlayerRotate.transform.localEulerAngles = Vector3.zero;
+                PlayerRotate.transform.position = this.transform.position;
+
                 //PlayerRotate.transform.rotation = _rotationTrans.transform.rotation;
                 
 
@@ -342,7 +368,7 @@ public class PlayerMovement : MonoBehaviour
                 moving = false;
                 _rotationTrans = null;
                 overTheEdge = false;
-                Debug.Log(overTheEdge);
+               // Debug.Log(overTheEdge);
             }
 
             //adjsut u value to the ranger from uMin to uMax
@@ -448,8 +474,12 @@ public class PlayerMovement : MonoBehaviour
         _angle = Mathf.Atan2(movement.x, movement.y);
         _angle = Mathf.Rad2Deg * _angle;
 
+
+        float newAngle = _angle + follower.transform.localEulerAngles.y;
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
-        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle, Time.deltaTime * turnSpeed), 0 ); //transform.localEulerAngles.x 
+        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, newAngle, Time.deltaTime * turnSpeed), 0 ); 
+
+        // transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, Mathf.LerpAngle(this.gameObject.transform.localEulerAngles.y, _angle, Time.deltaTime * turnSpeed), transform.localEulerAngles.z);
 
         //base movement is just 1.0
         float boost = movementSpeed * speedMultiplier;
@@ -619,6 +649,7 @@ public class PlayerMovement : MonoBehaviour
             //if we dont hit anything, char is hanging over edge
             //if(hit.collider.tag != "Cube")
             noFloor = false;
+           // Debug.Log("Found edge");
         }
         else
             noFloor = true;
@@ -663,7 +694,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(FireCoolDown());
         }
     }
-    
+
     //triggers
     /// <summary>
     /// Dylan Loe
@@ -671,12 +702,15 @@ public class PlayerMovement : MonoBehaviour
     /// 
     /// Handles triggers related to Door tag, goal tag, bullet tag, enemy tags and powerup tags
     /// </summary>
+    Transform _startingT;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Door")
         {
             onDoor = true;
             _rotationTrans = other.gameObject.GetComponent<DoorTrigger>().moveLocation;
+            _startingT = other.gameObject.GetComponent<DoorTrigger>()._starting;
+            //_startingT = other.gameObject.GetComponent<DoorTrigger>().OnHit();
             //c2 = other.gameObject.GetComponent<DoorTrigger>().moveMid;
             //other.gameObject.GetComponent<DoorTrigger>().SwitchDirection();
 

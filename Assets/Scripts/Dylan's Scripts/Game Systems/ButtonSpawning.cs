@@ -5,8 +5,9 @@ using UnityEngine;
 public class ButtonSpawning : MonoBehaviour
 {
     //when level starts we choose one of the spots place in the level to be the button, the other spots
-
+    [Header("All the possible button children go here")]
     public GameObject[] possibleButtons;
+    [Header("The choosen button to spawn goes here")]
     public int indexChoosen;
 
     private void Start()

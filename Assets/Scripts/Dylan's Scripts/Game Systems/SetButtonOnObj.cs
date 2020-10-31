@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class SetButtonOnObj : MonoBehaviour
 {
+    [Header("Parent obj that runs whole system")]
     public GameObject buttonObj;
+    [Header("Put the possible level objs here")]
     public GameObject[] assetsArray;
 
     /// <summary>

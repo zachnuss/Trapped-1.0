@@ -78,6 +78,9 @@ public class PlayerData : ScriptableObject
     private float totalTimerMin;
     private float totalTimerHour;
 
+    [HideInInspector]
+    public bool godMode = false;
+
     /// <summary>
     /// Dylan Loe
     /// Updated: 10-25-2020
@@ -248,6 +251,21 @@ public class PlayerData : ScriptableObject
         matchScoreFromTime = 0;
         matchSpecialCoinCollected = 0;
         localHealth = totalHealthBase;
+        gameLevelData.InitialModSetup();
+    }
+
+    /// <summary>
+    /// Dylan loe
+    /// Updated: 10-31-2020
+    /// 
+    /// Activates a god mode that can be toggled on and off before unity plays
+    /// </summary>
+    public void DebugMode()
+    {
+        if (godMode)
+            godMode = false;
+        else
+            godMode = true;
     }
 
     /// <summary>

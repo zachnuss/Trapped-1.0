@@ -157,14 +157,19 @@ public class PlayerMovement : MonoBehaviour
     public GameObject PlayerRotate;
     float bleedTimer2 = 0;
     bool isBleeding = false;
+
+    //private bool _godMode = false;
+
     /// <summary>
     /// Dylan Loe
-    /// Last Updated: 10-26-2020
+    /// Last Updated: 10-31-2020
     /// 
     /// - Sets stats to local player in level, establishes character custom, sets teleporters, rng, localtimer and starts the perSecond invokeRepeating
     /// </summary>
     void Start()
     {
+        if (playerData.godMode)
+            Debug.Log("DEBUG MODE ON");
 
         //cap refresh rate on those computers that believe themselves to be above us
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
@@ -885,34 +890,39 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void takeDamage(int damageTaken)
     {
-        //damage player
-        if(!serratedMod)
-            health -= damageTaken;
-        else if(bleedStacks <= 5)
+        //if player has debug mode on, player cant die
+        if (!playerData.godMode)
         {
-            //start bleed out
-            if (!_bleedCooldown)
+            
+            //damage player
+            if (!serratedMod)
+                health -= damageTaken;
+            else if (bleedStacks <= 5)
             {
-                Debug.Log("ow");
-                isBleeding = true;
-                bleedStacks++;
-                StartCoroutine(BleedDamage());
+                //start bleed out
+                if (!_bleedCooldown)
+                {
+                    Debug.Log("ow");
+                    isBleeding = true;
+                    bleedStacks++;
+                    StartCoroutine(BleedDamage());
+                }
             }
-        }
-        //playerData.localHealth -= damageTaken;
-        if (health < 1)
-        {
-            health = 0; //because negative health looks bad
-            //send to GameOver Screen
-            Debug.Log("GAME OVER");
-            //call SceneManager to get the GameOverScene
-            //int gameOverInt = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
+            //playerData.localHealth -= damageTaken;
+            if (health < 1)
+            {
+                health = 0; //because negative health looks bad
+                            //send to GameOver Screen
+                Debug.Log("GAME OVER");
+                //call SceneManager to get the GameOverScene
+                //int gameOverInt = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
 
-            //Set Highscore
-            playerData.EndGameScoring();
+                //Set Highscore
+                playerData.EndGameScoring();
 
-            UnityEngine.SceneManagement.SceneManager.LoadScene(6);
-            //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
+                UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+                //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
+            }
         }
     }
 

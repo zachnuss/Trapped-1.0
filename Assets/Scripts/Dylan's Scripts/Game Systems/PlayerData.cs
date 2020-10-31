@@ -28,6 +28,8 @@ public class PlayerData : ScriptableObject
 
     [Header("Current level player is on: ZERO INDEXED")]
     public int OnLevel = 0;
+    [Header("Levels Beaten")]
+    public int levelsBeaten = 0;
     //0 = level 1 and so on
 
     [Header("Player score")]
@@ -55,8 +57,7 @@ public class PlayerData : ScriptableObject
     //public Scene prevLevel;
     public string nextLevelStr;
     public string prevLevelStr;
-    [Header("Levels Beaten")]
-    public int levelsBeaten = 0;
+
     [Header("Game Level Data Obj")]
     public GameLevelData gameLevelData;
 
@@ -213,6 +214,40 @@ public class PlayerData : ScriptableObject
         localHealth = totalHealthBase;
         gameLevelData.InitialModSetup();
         SceneManager.LoadScene("Level1");
+    }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-21-2020
+    /// 
+    /// Activated with gui, will reset values for testing and debugging, as if start game was activated
+    /// </summary>
+    public void ResetValues()
+    {
+        Debug.Log("Resetting Values");
+        ResetUpgrades();
+        totalHealthBase = 100;
+        totalDamageBase = 20;
+        //currently level 1 = scene 0
+        OnLevel = 0;
+        levelsBeaten = 0;
+        //timer starts at 0
+        timerHour = 0;
+        timerSec = 0;
+        timerMin = 0;
+        timerBetweenLevels = 0;
+        totalTime = 0;
+        //currency starts at 0
+        currency = 0;
+        //score starts at 0
+        score = 0; //added by wesley
+        matchCurrencyCollected = 0;
+        matchEnemiesKilled = 0;
+        matchPowerUpsCollected = 0;
+        matchScoreFromEnemies = 0;
+        matchScoreFromTime = 0;
+        matchSpecialCoinCollected = 0;
+        localHealth = totalHealthBase;
     }
 
     /// <summary>

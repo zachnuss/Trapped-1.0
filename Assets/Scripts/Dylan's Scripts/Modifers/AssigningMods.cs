@@ -29,8 +29,9 @@ public class AssigningMods : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        ToStore();
+        
         numberOfModsToSelect = Mathf.FloorToInt(playerData.levelsBeaten/3);
+        
         //Debug.Log(numberOfModsToSelect);
         //_myEventSystem = GameObject.Find("EventSystem");
         disabledColor.highlightedColor = buttonArray[0].colors.highlightedColor;
@@ -39,6 +40,7 @@ public class AssigningMods : MonoBehaviour
         disabledColor.selectedColor = buttonArray[0].colors.selectedColor;
         disabledColor.selectedColor = new Color(200, 200, 200);
         ButtonsActiveInitial();
+        ToStore();
     }
 
     /// <summary>

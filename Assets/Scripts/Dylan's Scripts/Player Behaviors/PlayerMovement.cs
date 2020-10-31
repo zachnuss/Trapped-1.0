@@ -74,9 +74,9 @@ public class PlayerMovement : MonoBehaviour
 
     //when we have successfully rotated
     //[Header("Shows if player is off the edge")]
-    [HideInInspector]
+    //[HideInInspector]
     public bool overTheEdge = false;
-    bool onDoor = false;
+    public bool onDoor = false;
 
     //when we hit a door the player rotates and moves to this transform taken from the door prefab
     private Transform _rotationTrans;
@@ -158,6 +158,8 @@ public class PlayerMovement : MonoBehaviour
     public float fireRate = 0.1f;
     float firingTimer = 0;
 
+    public GameObject PlayerRotate;
+
     /// <summary>
     /// Dylan Loe
     /// Last Updated: 10-26-2020
@@ -232,14 +234,19 @@ public class PlayerMovement : MonoBehaviour
         if (DetectEdge())
         {
             overTheEdge = true;
+            //Debug.Log("Over edge");
         }
+        else
+            overTheEdge = false;
         
         //Interpolation stuff, for rotation onto next side
         if (overTheEdge && onDoor && !checkToCalculate && !moving)
         {
             //Debug.Log("got trans, start interpolation");
             //if we hit the door and are off the cube
-            checkToCalculate = true;
+
+            SwapRotate();
+            //checkToCalculate = true;
         }
 
         //temp commented out
@@ -290,6 +297,33 @@ public class PlayerMovement : MonoBehaviour
     float bleedTimer2 = 0;
     bool isBleeding = false;
 
+    void SwapRotate()
+    {
+        //PlayerRotate.transform.position = this.transform.position;
+        //rotates the parent of both playerObj and PlayerFollower
+        PlayerRotate.transform.parent = null;
+
+        PlayerRotate.transform.eulerAngles = _startingT.eulerAngles;
+
+
+        //make sure PlayerRotate is at 0, 0, 0 and ect for each door
+
+        transform.parent = PlayerRotate.transform;
+
+
+        //transform.position = PlayerRotate.transform.position;
+
+
+        follower.transform.parent = PlayerRotate.transform;
+        //Debug.Log(follower.transform.localEulerAngles);
+        //follower.transform.localEulerAngles = 
+       // PlayerRotate.transform.localRotation = follower.transform.localRotation;
+
+
+        //follower.transform.localEulerAngles = Vector3.zero;
+        checkToCalculate = true;
+    }
+
     /// <summary>
     /// Dylan Loe
     /// Updated: 10-25-2020
@@ -299,14 +333,20 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Interpolation()
     {
+        //rotate parent to same degree 
+
+
         if (checkToCalculate)
         {
-            c0 = this.transform;
+            //follower.transform.rotation = _rotationTrans.transform.rotation;
+
+
+            c0 = PlayerRotate.transform;//this.transform;
             c1 = _rotationTrans;
 
             //smooth parent movement (for camera)
-            pc0 = parent.transform;
-            pc1 = _rotationTrans;
+            //pc0 = parent.transform;
+            //pc1 = _rotationTrans;
             
             checkToCalculate = false;
             moving = true;
@@ -319,16 +359,31 @@ public class PlayerMovement : MonoBehaviour
         {
             u = (Time.time - timeStart) / timeDuration;
 
-            if (u >= 0.5) //originally 1
+            if (u >= 1) //originally 1 - lowered u to speed up time, the small movements at the end can be essentially skipped maybe
             {
-                //Debug.Log("reached");
                 //when we reach new pos
                 parent.transform.rotation = _rotationTrans.transform.rotation;
-             
+                this.transform.position = _rotationTrans.transform.position;
+
+                this.transform.parent = parent.transform;
+                follower.transform.parent = parent.transform;
+
+                Debug.Log("set this obj parent back to ParentObj");
+                PlayerRotate.transform.parent = this.transform;
+                //PlayerRotate.transform.position = Vector3.zero;
+
+                //PlayerRotate.transform.localPosition = Vector3.zero;
+                PlayerRotate.transform.localEulerAngles = Vector3.zero;
+                PlayerRotate.transform.position = this.transform.position;
+
+                //PlayerRotate.transform.rotation = _rotationTrans.transform.rotation;
+                
+
                 u = 1;
                 moving = false;
                 _rotationTrans = null;
                 overTheEdge = false;
+               // Debug.Log(overTheEdge);
             }
 
             //adjsut u value to the ranger from uMin to uMax
@@ -345,13 +400,13 @@ public class PlayerMovement : MonoBehaviour
             //SLERP
             r01 = Quaternion.Slerp(c0.rotation, c1.rotation, u);
 
-            par01 = Quaternion.Slerp(pc0.rotation, pc1.rotation, u2);
+           // par01 = Quaternion.Slerp(pc0.rotation, pc1.rotation, u2);
 
             //apply those new values
-            transform.position = p01;
-            transform.rotation = r01;
-            follower.transform.rotation = r01;
-            parent.transform.rotation = par01;
+            PlayerRotate.transform.position = p01;
+            PlayerRotate.transform.rotation = r01;
+            //follower.transform.rotation = r01;
+            //parent.transform.rotation = par01;
         }
     }
    
@@ -434,8 +489,12 @@ public class PlayerMovement : MonoBehaviour
         _angle = Mathf.Atan2(movement.x, movement.y);
         _angle = Mathf.Rad2Deg * _angle;
 
+
+        float newAngle = _angle + follower.transform.localEulerAngles.y;
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
-        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, _angle+45, Time.deltaTime * turnSpeed), 0 ); //transform.localEulerAngles.x 
+        transform.localRotation = Quaternion.Euler(0 , Mathf.LerpAngle(transform.localEulerAngles.y, newAngle, Time.deltaTime * turnSpeed), 0 ); 
+
+        // transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, Mathf.LerpAngle(this.gameObject.transform.localEulerAngles.y, _angle, Time.deltaTime * turnSpeed), transform.localEulerAngles.z);
 
         //base movement is just 1.0
         float boost = movementSpeed * speedMultiplier;
@@ -576,7 +635,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
-        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(topObj.transform.localEulerAngles.y+45, _angle2, Time.deltaTime * lookSpeed), 0);
+        topObj.transform.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(topObj.transform.localEulerAngles.y, _angle2, Time.deltaTime * lookSpeed), 0);
 
 
         //FIRE HERE
@@ -605,6 +664,7 @@ public class PlayerMovement : MonoBehaviour
             //if we dont hit anything, char is hanging over edge
             //if(hit.collider.tag != "Cube")
             noFloor = false;
+           // Debug.Log("Found edge");
         }
         else
             noFloor = true;
@@ -649,7 +709,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(FireCoolDown());
         }
     }
-    
+
     //triggers
     /// <summary>
     /// Dylan Loe
@@ -657,12 +717,15 @@ public class PlayerMovement : MonoBehaviour
     /// 
     /// Handles triggers related to Door tag, goal tag, bullet tag, enemy tags and powerup tags
     /// </summary>
+    Transform _startingT;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Door")
         {
             onDoor = true;
             _rotationTrans = other.gameObject.GetComponent<DoorTrigger>().moveLocation;
+            _startingT = other.gameObject.GetComponent<DoorTrigger>()._starting;
+            //_startingT = other.gameObject.GetComponent<DoorTrigger>().OnHit();
             //c2 = other.gameObject.GetComponent<DoorTrigger>().moveMid;
             //other.gameObject.GetComponent<DoorTrigger>().SwitchDirection();
 

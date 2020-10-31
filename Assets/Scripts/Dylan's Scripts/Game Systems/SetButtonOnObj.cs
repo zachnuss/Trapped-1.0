@@ -19,11 +19,14 @@ public class SetButtonOnObj : MonoBehaviour
         {
             buttonObj.SetActive(true);
             this.name = "ButtonObj";
+            Debug.Log(this.name + " activating true");
         }
         else
         {
-            assetsArray[Random.Range(0, assetsArray.Length - 1)].SetActive(true);
+            //instantiate asset from array
+            assetsArray[Random.Range(0, assetsArray.Length)].SetActive(true);
             this.name = "NotButtonObj_LevelAsset";
+            Debug.Log(this.name + " activating false");
         }
     }
 }

@@ -9,6 +9,11 @@ public class ButtonSpawning : MonoBehaviour
     public GameObject[] possibleButtons;
     public int indexChoosen;
 
+    private void Start()
+    {
+        AssignButton();
+    }
+
     /// <summary>
     /// Dylan Loe
     /// 10-26-2020
@@ -17,16 +22,16 @@ public class ButtonSpawning : MonoBehaviour
     /// </summary>
     public void AssignButton()
     {
-        indexChoosen = Random.Range(0, possibleButtons.Length - 1);
-        
+        indexChoosen = Random.Range(0, possibleButtons.Length);
+        Debug.Log("choosen " + indexChoosen);
         for(int objs = 0; objs <= possibleButtons.Length - 1; objs++)
         {
             if(objs == indexChoosen)
             {
-                possibleButtons[indexChoosen].GetComponent<SetButtonOnObj>().SetUpObj(true);
+                possibleButtons[objs].GetComponent<SetButtonOnObj>().SetUpObj(true);
             }
             else
-                possibleButtons[indexChoosen].GetComponent<SetButtonOnObj>().SetUpObj(false);
+                possibleButtons[objs].GetComponent<SetButtonOnObj>().SetUpObj(false);
         }
     }
    

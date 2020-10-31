@@ -23,7 +23,7 @@ public class AssigningMods : MonoBehaviour
 
     /// <summary>
     /// Dylan Loe
-    /// Updated: 10-20-2020
+    /// Updated: 10-31-2020
     /// 
     /// Sets colors on buttons and establishes how many mods it can assign. Skips this if there are no mods to select
     /// </summary>

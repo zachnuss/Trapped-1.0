@@ -8,7 +8,7 @@ public class GameDataInspectorEditor : Editor
 {
     /// <summary>
     /// Dylan Loe
-    /// Updated 10-30-2020
+    /// Updated 10-31-2020
     /// 
     /// Adds more functionality to PlayerData scriptable obj
     /// </summary>

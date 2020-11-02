@@ -11,7 +11,6 @@ public class DisplayPersistentLabels : MonoBehaviour
     void Start()
     {
         ScoreTypes = gameObject.GetComponent<Text>();
-        ScoreTypes.text = "Highscore 1: \n" + "Highscore 2: \n" + "Highscore 3: \n" + "Enemies Killed: \n" + "Defeated Enemy Value: \n"
-           + "Power Ups Collected: \n" + "Total Special Coins: \n" + "Total Time Alive: \n";
+        ScoreTypes.text = "Highscore 1: \n" + "Highscore 2: \n" + "Highscore 3: \n";
     }
 }

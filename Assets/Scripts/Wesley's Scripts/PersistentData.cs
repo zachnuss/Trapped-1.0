@@ -22,11 +22,18 @@ public class PersistentData
     public int materialChoice = 0;
     public int materialChoice2 = 0;
     public bool characterChoice = false;
+    public bool character2Purchase = false;
+    public bool character1Color2 = false;
+    public bool character1Color3 = false;
+    public bool character2Color2 = false;
+    public bool character2Color3 = false;
 
-    
+
+
 
     public PersistentData(int highScore1Int, int highScore2Int, int highScore3Int, int specialCoinInt, float totalTimeSecFloat, float totalTimeMinFloat, float totalTimeHourFloat,
-        int totalEnemiesKilledInt, int totalPowerupsCollectedInt, int totalCurrencyCollectedInt, int totalSpecialCoinsCollectedInt, int materialChoiceInt, int materialChoice2Int, bool characterChoiceBool)
+        int totalEnemiesKilledInt, int totalPowerupsCollectedInt, int totalCurrencyCollectedInt, int totalSpecialCoinsCollectedInt, int materialChoiceInt, int materialChoice2Int, bool characterChoiceBool,
+        bool character2PurchaseBool, bool character1Color2Bool, bool character1Color3Bool, bool character2Color2Bool, bool character2Color3Bool)
     {
         highScore1 = highScore1Int;
         highScore2 = highScore2Int;
@@ -42,7 +49,12 @@ public class PersistentData
         materialChoice = materialChoiceInt;
         materialChoice2 = materialChoice2Int;
         characterChoice = characterChoiceBool;
-    }
+        character2Purchase = character2PurchaseBool;
+        character1Color2 = character1Color2Bool;
+        character1Color3 = character1Color3Bool;
+        character2Color2 = character2Color2Bool;
+        character2Color3 = character2Color3Bool;
+}
 
 
     

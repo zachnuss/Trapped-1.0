@@ -20,7 +20,12 @@ public class ForceFieldsEnemy : MonoBehaviour
     public Color col;
     public float sheildRegenTick = 5;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets the initial variables and starts the regen function
+    /// </summary>
     void Start()
     {
         _sheild = this.gameObject;
@@ -30,7 +35,12 @@ public class ForceFieldsEnemy : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// sets alpha of material based on its health (every frame)
+    /// </summary>
     void Update()
     {
         trans = (currentHealth / maxHealth) * 0.5f;
@@ -49,7 +59,12 @@ public class ForceFieldsEnemy : MonoBehaviour
 
         //SheildRegen();
     }
-
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// regen function that regens health based on if there is health to update and if amount of time has passed
+    /// </summary>
     void SheildRegen()
     {
         if(ableToRecharge && inactive)

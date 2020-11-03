@@ -24,14 +24,15 @@ MonoBehaviour:
   totalDamageBase: 20
   localHealth: 100
   OnLevel: 0
+  levelsBeaten: 0
   score: 0
-  matchScoreFromTime: 2
+  matchScoreFromTime: 0
   matchScoreFromEnemies: 0
   matchEnemiesKilled: 0
   matchPowerUpsCollected: 0
   matchCurrencyCollected: 0
   matchSpecialCoinCollected: 0
-  highScore1: 0
+  highScore1: 4
   highScore2: 0
   highScore3: 0
   currency: 0
@@ -42,7 +43,6 @@ MonoBehaviour:
   - Level3
   nextLevelStr: Level1
   prevLevelStr: Level3
-  levelsBeaten: 0
   gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}
   materialChoice: 0
   materialChoice2: 0
@@ -55,3 +55,4 @@ MonoBehaviour:
   - {fileID: 2100000, guid: a1456dd2421c9544585704f2e8c496df, type: 2}
   - {fileID: 2100000, guid: e1f17faa68945464ca4e37c7f8579977, type: 2}
   characterModelSwitch: 0
+  godMode: 0

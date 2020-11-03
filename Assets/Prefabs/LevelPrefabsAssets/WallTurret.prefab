@@ -421,6 +421,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_Turret_2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 48c21c2ddfe81bc43aec14d6084d2fff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48c21c2ddfe81bc43aec14d6084d2fff, type: 3}
 --- !u!4 &2618501336709285182 stripped
@@ -514,7 +519,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3c95d92a35eeac54680a367ac6259403,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c95d92a35eeac54680a367ac6259403, type: 3}

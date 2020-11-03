@@ -27,9 +27,17 @@ public class SetButtonOnObj : MonoBehaviour
         else
         {
             //instantiate asset from array
-            assetsArray[Random.Range(0, assetsArray.Length)].SetActive(true);
-            this.name = "NotButtonObj_LevelAsset";
-            Debug.Log(this.name + " activating false");
+            int index = Random.Range(0, assetsArray.Length);
+            if (assetsArray[index] != null)
+            {
+                assetsArray[index].SetActive(true);
+                this.name = "NotButtonObj_LevelAsset";
+                Debug.Log(this.name + " activating false");
+            }
+            else
+            {
+                this.name = "NotButtonObj_Empty";
+            }
         }
     }
 }

@@ -21,10 +21,17 @@ public class AssigningMods : MonoBehaviour
    // this ui is only temp 
     public ColorBlock disabledColor;
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-31-2020
+    /// 
+    /// Sets colors on buttons and establishes how many mods it can assign. Skips this if there are no mods to select
+    /// </summary>
     private void Start()
     {
-        ToStore();
+        
         numberOfModsToSelect = Mathf.FloorToInt(playerData.levelsBeaten/3);
+        
         //Debug.Log(numberOfModsToSelect);
         //_myEventSystem = GameObject.Find("EventSystem");
         disabledColor.highlightedColor = buttonArray[0].colors.highlightedColor;
@@ -33,14 +40,26 @@ public class AssigningMods : MonoBehaviour
         disabledColor.selectedColor = buttonArray[0].colors.selectedColor;
         disabledColor.selectedColor = new Color(200, 200, 200);
         ButtonsActiveInitial();
+        ToStore();
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets texts function every frame
+    /// </summary>
     private void Update()
     {
         SetText();
     }
 
-    //buttons are unclickable if they have already been applied
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// buttons are unclickable if they have already been applied
+    /// </summary>
     void ButtonsActiveInitial()
     {
        // Debug.Log("yes");
@@ -57,6 +76,12 @@ public class AssigningMods : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// sets buttons that already have the mods on
+    /// </summary>
     void ButtonsActiveCheck()
     {
         for (int buttonIndex = 0; buttonIndex <= buttonArray.Length - 1; buttonIndex++)
@@ -73,7 +98,12 @@ public class AssigningMods : MonoBehaviour
         }
     }
 
-    //looks up specific type we are turning on
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// looks up specific type we are turning on
+    /// </summary>
     public void AssignMod(modifierType type)
     {
         for (int modIndex = 0; modIndex < gameLevelData.mods.Length; modIndex++)
@@ -88,8 +118,12 @@ public class AssigningMods : MonoBehaviour
 
     }
 
-
-    //Assumes modNum is the number of mod not the index on array
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Assumes modNum is the number of mod not the index on array
+    /// </summary>
     public void AssignMod(int modNum)
     {
         if(gameLevelData.mods[modNum - 1].modActive != true)
@@ -103,13 +137,24 @@ public class AssigningMods : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// wont go to store scene until all the mods are selected
+    /// </summary>
     public void ToStore()
     {
-        //wont go until we have mods selected
-        //if(numberOfModsToSelect <= 0)
+        if(numberOfModsToSelect <= 0)
             SceneManager.LoadScene("StoreScene");
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// set text on which mods are avalible
+    /// </summary>
     public void SetText()
     {
         modsText.text = "Mods Avalible: " + numberOfModsToSelect.ToString();

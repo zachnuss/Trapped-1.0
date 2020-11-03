@@ -52,6 +52,8 @@ public class BaseEnemy : MonoBehaviour {
     [Header("Modifers")]
     public bool doubleDamageMod = false;
     public bool sheildMod = false;
+    //increase speed
+    public bool advancedStimsMod = false;
     bool damageStbTimer = false;
     float damageTimer = 0f;
     public GameObject sheildObj;
@@ -307,8 +309,13 @@ public class BaseEnemy : MonoBehaviour {
 
 
     // Enemy Modifiers - Added By Dylan
-    //if enemy takes damage, begin timer, once timer is reached sheild can regen health
-    //will run in update, bool is active when takes damage, turns off when timer is done
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// - if enemy takes damage, begin timer, once timer is reached sheild can regen health
+    /// - will run in update, bool is active when takes damage, turns off when timer is done
+    /// </summary>
     void DamageStandbyTimer()
     {
         if (damageStbTimer)
@@ -323,14 +330,24 @@ public class BaseEnemy : MonoBehaviour {
         }
     }
 
-    //this runs when enemy takes damage from player
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// this runs when enemy takes damage from player
+    /// </summary>
     public void SheildRegenStop()
     {
         damageStbTimer = true;
         sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = false;
     }
 
-    //initial setup of modifiers
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-26-2020
+    /// 
+    /// initial setup of modifiers
+    /// </summary>
     void SetModifiers()
     {
         _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
@@ -344,6 +361,14 @@ public class BaseEnemy : MonoBehaviour {
             {
                 sheildMod = true;
                 sheildObj.SetActive(true);
+            }
+            if(_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.AdvancedSimulant && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+            {
+                advancedStimsMod = true;
+                Debug.Log("OG SPEED: " + speed);
+                //increase to speed by 25%
+                speed = speed + (speed * 0.25f);
+                Debug.Log("New speed yo: " + speed);
             }
         }
         if (!sheildMod)

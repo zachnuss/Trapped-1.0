@@ -1150,6 +1150,36 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 0
   m_Text: '#'
+--- !u!1 &3766315288619899427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6685021155176006653}
+  m_Layer: 0
+  m_Name: PlayerRotate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6685021155176006653
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766315288619899427}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.46000004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7571365785918509582}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4166406923543359093
 GameObject:
   m_ObjectHideFlags: 0
@@ -3250,6 +3280,7 @@ Transform:
   - {fileID: 6925151645562367287}
   - {fileID: 4304442032066299930}
   - {fileID: 8306419822214427311}
+  - {fileID: 6685021155176006653}
   m_Father: {fileID: 7571365785621622438}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3330,8 +3361,6 @@ MonoBehaviour:
   movementSpeed: 10
   turnSpeed: 20
   lookSpeed: 30
-  _angle: 0
-  _angle2: 0
   health: 0
   damage: 0
   speedMultiplier: 0
@@ -3339,7 +3368,6 @@ MonoBehaviour:
   animTopState: 0
   overTheEdge: 0
   checkToCalculate: 0
-  easingTypeC: 1
   moving: 0
   Player_Bullet: {fileID: 4863383300861185225, guid: 6b6051a2accefa44580d0c03760a3626,
     type: 3}
@@ -3354,6 +3382,10 @@ MonoBehaviour:
   localTimer: 0
   healthRegen: 0
   doubleScoreMod: 0
+  serratedMod: 0
+  doubleDamage: 0
+  bleedStacks: 0
+  bleedTimer: 0
   timerText: {fileID: 5599595034058128049}
   gamerUI: {fileID: 5124650228125128711}
   top: {fileID: 5565231554061494154}
@@ -3361,6 +3393,7 @@ MonoBehaviour:
   playerAnimations: {fileID: 8163862454945102983}
   shootingAnimLength: 1.5
   fireRate: 0.2
+  PlayerRotate: {fileID: 3766315288619899427}
 --- !u!54 &7571365785918509568
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3375,7 +3408,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &7571365785918509583
 MonoBehaviour:
@@ -3510,7 +3543,9 @@ MonoBehaviour:
   isFullScreen: 0
   screenButton: {fileID: 0}
   nextTrackButton: {fileID: 0}
-  audioTracks: []
+  audioTracks:
+  - {fileID: 8300000, guid: debd9cef1637f4749b49f77a6f77f1ad, type: 3}
+  - {fileID: 8300000, guid: 8f63246aec87eec41bfba4f2eaba99a7, type: 3}
 --- !u!1 &7571365786826290777
 GameObject:
   m_ObjectHideFlags: 0
@@ -3536,13 +3571,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7571365786826290777}
-  m_LocalRotation: {x: 0.36290842, y: 0.36117557, z: -0.18041298, w: 0.839822}
-  m_LocalPosition: {x: -11.48, y: 18.6, z: -12.25}
+  m_LocalRotation: {x: 0.4647045, y: -0, z: -0, w: 0.8854658}
+  m_LocalPosition: {x: 0, y: 18.6, z: -15.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7571365785915738543}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 47.721, y: 45.000004, z: -3.4840002}
+  m_LocalEulerAnglesHint: {x: 55.382004, y: 0, z: 0}
 --- !u!20 &7571365786826290779
 Camera:
   m_ObjectHideFlags: 0

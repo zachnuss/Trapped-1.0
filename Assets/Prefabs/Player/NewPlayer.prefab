@@ -3384,6 +3384,8 @@ MonoBehaviour:
   doubleScoreMod: 0
   serratedMod: 0
   doubleDamage: 0
+  bleedStacks: 0
+  bleedTimer: 0
   timerText: {fileID: 5599595034058128049}
   gamerUI: {fileID: 5124650228125128711}
   top: {fileID: 5565231554061494154}
@@ -3541,7 +3543,9 @@ MonoBehaviour:
   isFullScreen: 0
   screenButton: {fileID: 0}
   nextTrackButton: {fileID: 0}
-  audioTracks: []
+  audioTracks:
+  - {fileID: 8300000, guid: debd9cef1637f4749b49f77a6f77f1ad, type: 3}
+  - {fileID: 8300000, guid: 8f63246aec87eec41bfba4f2eaba99a7, type: 3}
 --- !u!1 &7571365786826290777
 GameObject:
   m_ObjectHideFlags: 0

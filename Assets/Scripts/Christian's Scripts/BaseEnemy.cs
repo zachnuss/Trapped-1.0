@@ -35,19 +35,19 @@ public class BaseEnemy : MonoBehaviour {
     public int pointValue;
     [Range(1f, 5f)] public float rateOfBehaviorChange = 2f;
     public GameObject specialCoin;
-    public GameObject playerGO { get { return _playerGO; } }
+    //public GameObject playerGO { get { return _playerGO; } }
 
     ///protected
     protected Behavior _myBehavior;
     protected float _trackingSpeed;
     protected Vector3 _moveDir; //movement
     protected GameObject _fwdDirGO;
+    protected GameObject _playerGO;
 
     ///private
     private Vector3 _rotVal; //rotation
     private float _wallDetectRay = 0.75f;
     private bool _hasHitWall = false;
-    private GameObject _playerGO;
 
     [Header("Modifers")]
     public bool doubleDamageMod = false;
@@ -65,7 +65,7 @@ public class BaseEnemy : MonoBehaviour {
     ///public
     public virtual void takeDamage(GameObject player) {
         //take health away
-        health -= playerGO.GetComponent<PlayerMovement>().damage;
+        health -= _playerGO.GetComponent<PlayerMovement>().damage;
         //did the enemy die?
         if (health < 1) {
             health = 0;
@@ -274,8 +274,10 @@ public class BaseEnemy : MonoBehaviour {
 
 
         //get mods from level obj
-        
-        //SetModifiers();//commented out for debugging, feel free to uncomment
+        //if statement to prevent error with CommonGuard in MainMenu scene
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0) {
+            SetModifiers();
+        }
     }
 
     //get random int to cast to Direction enum

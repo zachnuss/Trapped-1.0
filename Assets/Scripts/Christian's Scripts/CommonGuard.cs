@@ -3,25 +3,11 @@
  * Summary: First instance of inheritance of the BaseEnemy class.
  */
 using UnityEngine;
-//using System; //remove later
-
-/**
- * TO DO:
- *      NEW ALGORITHM:
- *      - 2 enemy states, looking and tracking/attacking
- *      - When tracking/attacking, just run at the player, don't mess with
- *          your 4 way directional system.
- *      - If the enemy losses sight of the player, then reset your system
- *          (rotation on child dir position.
- *              - resetting the system should occur when the player leaves your
- *              level/face. Or use a timer (for time not tracked, or time not
- *              finding player with raycast.
- */ 
 
 public class CommonGuard : BaseEnemy {
 
     [Header("How far away can I see the player?")]
-    public float playerRangeCheck = 10.0f;
+    public float playerRangeCheck = 20.0f;
     public float playerSearchTimer = 15.0f;
 
     ///protected
@@ -36,6 +22,7 @@ public class CommonGuard : BaseEnemy {
     ///variables necessary if this instance shoots
     //private bool _doesEnemyShoot = false;
     public GameObject fwdDirGO { get { return _fwdDirGO; } }
+    public bool isTrackingPlayer { get { return _isTrackingPlayer; } }
 
 
     /**     PUBLIC FUNCTIONS    */
@@ -100,14 +87,11 @@ public class CommonGuard : BaseEnemy {
             if (assigningGO.name == "RightChild") {
                 _rightDirGO = assigningGO;
             }
-            //front child is in the BaseEnemy
+            //front child is stored in the BaseEnemy
         }
     }
 
     protected override void Update() {
-        if (_isTrackingPlayer) {
-            //Debug.Log("TRACKING THE PLAYER NOW");
-        }
         //start looking fo player
         //check if the player is in front of me or to the left or right
         Direction dirOfPlayer = _isPlayerInRange();
@@ -147,20 +131,30 @@ public class CommonGuard : BaseEnemy {
                 _resetBehaviors();
                 InvokeRepeating("_changeBehavior", 1.75f, rateOfBehaviorChange); 
                 _isTrackingPlayer = false;
+                Debug.Log("PLAYER LOST");
             }
         }
 
         ///check before movement
-        if (_myBehavior != Behavior.Idle && !_isTrackingPlayer) {
+        if (_myBehavior != Behavior.Idle && _myBehavior != Behavior.TrackPlayer
+            && !_isTrackingPlayer) {
             _move(_moveDir);
         }
         else if (_isTrackingPlayer) {
             //override _move() because the enemy will be too focuessed on
             //the player to turn around when hitting the wall
-            _trackPlayer(dirOfPlayer);
+            _trackPlayer();
+            //Debug.Log("TRACKING THE PLAYER NOW");
         }
     }
-
+    /*
+    private void FixedUpdate()
+    {
+        if (_isTrackingPlayer) {
+            _trackPlayer();
+        }
+    }
+    */
     //if the player is never hit, then return Direction.NULL
     protected Direction _isPlayerInRange() {
         Direction dirOfPlayer = Direction.NULL;
@@ -172,8 +166,14 @@ public class CommonGuard : BaseEnemy {
         Vector3 lookRight = _rightDirGO.transform.position - transform.position;
         Vector3 lookLeft = _leftDirGO.transform.position - transform.position;
 
+        //get approximate width of the player
+        Vector3 rightHip = (_rightDirGO.transform.position + transform.position) / 2f;
+        Vector3 leftHip = (_leftDirGO.transform.position + transform.position) / 2f;
+
         //look forward
-        if (Physics.Raycast(transform.position, lookForward, out hit, castDist)
+        if ((Physics.Raycast(transform.position, lookForward, out hit, castDist)
+            || Physics.Raycast(leftHip, lookForward, out hit, castDist)
+            || Physics.Raycast(rightHip, lookForward, out hit, castDist))
             && hit.transform.tag == "Player") {
             dirOfPlayer = Direction.Forward;
         }
@@ -187,7 +187,7 @@ public class CommonGuard : BaseEnemy {
             && hit.transform.tag == "Player") {
             dirOfPlayer = Direction.Right;
         }
-
+        
         ///draw raycast in space to debug
         //draw forward
         //Debug.DrawRay(transform.position, lookForward.normalized, Color.black, 0.2f, false);
@@ -197,43 +197,64 @@ public class CommonGuard : BaseEnemy {
         //Debug.DrawRay(transform.position, lookLeft.normalized, Color.red, 0.2f, false);
         //draw right
         //Debug.DrawRay(transform.position, lookRight.normalized, Color.blue, 0.2f, false);
-
+        
         return dirOfPlayer;
     }
 
     //will operate the exact same as the _move function, but won't turn around
     //when facing the wall
-    protected void _trackPlayer(Direction dirToPlayer) {
+    protected void _trackPlayer() {
         //apply rotation to face the player
-        Vector3 vecToPlayer = (playerGO.transform.position
-                                - transform.position).normalized;
+        Vector3 vecToPlayer = (_playerGO.transform.position
+                                - transform.position);
         //calculate new _moveDir
         Vector3 curMoveDir = (_fwdDirGO.transform.position
-                                - transform.position).normalized;
-        _moveDir = curMoveDir;
-
-        float yRotLerp = Vector3.SignedAngle(curMoveDir, vecToPlayer, Vector3.up);
-        yRotLerp = Mathf.LerpUnclamped(0f, yRotLerp, Time.deltaTime * 4.5f);
-        transform.Rotate(0f, yRotLerp, 0f, Space.Self);
-
+                                - transform.position);
+        _moveDir = curMoveDir.normalized;
+        //_moveDir = _moveDir.normalized;
         //set spacer between the enemy and player, value will change based on
         //what enemy is attacking
-        float spaceBetween = 1.5f;
+        float spaceBetween;
 #if NOTSHOOTER
         spaceBetween = 0.75f;
+#else
+        spaceBetween = 1.5f;
 #endif
 
         if (!_isEnemyFacingWall()) {
             //Enemies that don't shoot will simply ram in to the player
             //raycast to check if I'm too close to the player
             RaycastHit hit;
-            if (!(Physics.Raycast(transform.position, vecToPlayer, out hit, spaceBetween)
-                && hit.transform.tag == "Player")) {
+            bool hitSomething = Physics.Raycast(transform.position, 
+                                                vecToPlayer, out hit, spaceBetween);
+            if (!(hitSomething && hit.transform.tag == "Player")) {
                 //move the player
-                transform.position += _moveDir * speed * Time.deltaTime;
+                transform.position += _moveDir * speed * Time.fixedDeltaTime;
+                //return;
             }
         }
+
+        //handle differently depending on how large the rotational value is
+        //originally signed angle
+
+        float yRotLerp = Vector3.SignedAngle(curMoveDir, vecToPlayer, Vector3.up);
+        //Vector3 rotTo = new Vector3(0f, yRotLerp * Time.fixedDeltaTime, 0f) + transform.position;
+        //if the lerp val is negative, account for this in the minLerpVal
+        //yRotLerp = Mathf.Lerp(0f, yRotLerp, 0.4f);
+
+        //yRotLerp *= Time.fixedDeltaTime;
+        if (Mathf.Abs(yRotLerp) < 60f) {
+            yRotLerp *= Time.fixedDeltaTime;
+        }
+        else {
+            yRotLerp *= Time.fixedDeltaTime * 1.75f;
+        }
+
+        transform.Rotate(Vector3.up, yRotLerp, Space.Self);
+        //Debug.Log("yRotLerp: " + yRotLerp);
+        
     }
+
     ///bool function checking if enemy should reset their state
     protected bool _hasLostPlayer() {
         bool isLost = false;
@@ -241,7 +262,7 @@ public class CommonGuard : BaseEnemy {
         //and check if the enemy hasn't been in range for 5f seconds
         if (Time.time > _trackingTimer ||
             playerRangeCheck < Vector3.Distance(transform.position, 
-                                                playerGO.transform.position)) {
+                                                _playerGO.transform.position)) {
             isLost = true;
         }
         return isLost;

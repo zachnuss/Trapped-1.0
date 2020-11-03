@@ -12,6 +12,16 @@ public class DoorTrigger : MonoBehaviour
     public GameObject pos1;
     public GameObject pos2;
 
+    //sets starting point on player roation obj to movelocation - 180 degrees on local y
+   // public Transform starting;
+    public Transform _starting;
+    Transform temp;
+
+
+    public Transform starting1;
+    public Transform starting2;
+    //public Transform starting2;
+
     //public Transform mid1;
     //public Transform mid2;
 
@@ -22,20 +32,35 @@ public class DoorTrigger : MonoBehaviour
         if (direction)
         {
             moveLocation = pos1.transform;
+            _starting = starting1;
+           // temp = _starting;
+            //temp.localEulerAngles = new Vector3(temp.localEulerAngles.x, temp.localEulerAngles.y - 180, temp.localEulerAngles.z);
+            //_starting = temp;
+            //Debug.Log(starting.localEulerAngles);
+
             //moveMid = mid1;
         }
         else
         {
             moveLocation = pos2.transform;
+            _starting = starting2;
+           // temp = _starting;
+            //temp.localEulerAngles = new Vector3(temp.localEulerAngles.x, temp.localEulerAngles.y - 180, temp.localEulerAngles.z);
+           // _starting = temp;
             //moveMid = mid2;
         }
+       // Debug.Log(this.name + ": " +starting.localEulerAngles);
     }
 
-    public void SwitchDirection()
+    public Transform OnHit()
     {
-      //  if (direction)
-     //       direction = false;
-       // else
-         //   direction = true;
+        temp = Instantiate(_starting);
+        temp.transform.parent = this.transform;
+        if(direction)
+            temp.localEulerAngles = new Vector3(_starting.localEulerAngles.x, _starting.localEulerAngles.y - 180, _starting.localEulerAngles.z);
+        else
+            temp.localEulerAngles = new Vector3(_starting.localEulerAngles.x - 180, _starting.localEulerAngles.y, _starting.localEulerAngles.z);
+        Debug.Log(temp.localEulerAngles);
+        return temp;
     }
 }

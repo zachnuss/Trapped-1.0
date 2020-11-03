@@ -13,6 +13,11 @@ public enum levelTypeE {
 
 public class LevelSetup : MonoBehaviour
 {
+    //player can overide
+    [HideInInspector]
+    public bool overrideRandomLevel = false;
+    [HideInInspector]
+    public int permutationNum = 0;
     public GameLevelData gameLevelData;
 
     public levelTypeE type;
@@ -23,9 +28,11 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
+    
+
     /// <summary>
     /// Dylan Loe
-    /// Updated: 10-20-2020
+    /// Updated: 11-3-2020
     /// 
     /// Sets variables, modifiers and brings in the level permutation to load
     /// </summary>
@@ -33,10 +40,18 @@ public class LevelSetup : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         SetPlayer();
-        permutation = gameLevelData.ChooseLevelP(type);
-        Instantiate(permutation);
-        Debug.Log(permutation.name);
-
+        if (!overrideRandomLevel)
+        {
+            permutation = gameLevelData.ChooseLevelP(type);
+            Instantiate(permutation);
+            Debug.Log(permutation.name);
+        }
+        else
+        {
+            permutation = gameLevelData.GetPermutation(type, permutationNum);
+            Instantiate(permutation);
+            Debug.Log("Manual Override for Permutation: " + permutation.name);
+        }
         //set modifiers
         SetModifiers();
     }

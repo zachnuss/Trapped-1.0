@@ -125,4 +125,33 @@ public class GameLevelData : ScriptableObject
             mods[modIndex].modActive = false;
         }
     }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-3-2020
+    /// 
+    /// Get specific permutation for debug/testing
+    /// </summary>
+    public GameObject GetPermutation(levelTypeE levelType, int permutation)
+    {
+        
+        switch (levelType)
+        {
+            case levelTypeE.EasyLevel:
+                //permutation = Random.Range(0, level1Permutations.Length);
+                Debug.Log("Used p number: " + permutation);
+                return level1Permutations[permutation];
+            case levelTypeE.MidLevel:
+                //permutation = Random.Range(0, level2Permutations.Length);
+                Debug.Log("Used p number: " + permutation);
+                return level2Permutations[permutation];
+            case levelTypeE.Hardlevel:
+                //permutation = Random.Range(0, level3Permutations.Length);
+                Debug.Log("Used p number: " + permutation);
+                return level3Permutations[permutation];
+            default:
+                Debug.Log("Null Permutation");
+                return null;
+        }
+    }
 }

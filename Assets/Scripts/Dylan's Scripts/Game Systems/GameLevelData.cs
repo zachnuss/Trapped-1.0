@@ -50,7 +50,7 @@ public class GameLevelData : ScriptableObject
     public Modifier[] mods;
     private Modifier lastModActivated;
 
-    [HideInInspector]
+   // [HideInInspector]
     public bool overrideRandomLevel;
 
     public GameObject ChooseLevelP(levelTypeE levelType)

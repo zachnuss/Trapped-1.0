@@ -30,7 +30,7 @@ public class LevelSetup : MonoBehaviour
     public Modifier[] currentModsInLevel;
 
     //[HideInInspector]
-    public bool dontLoadPermutation = false;
+    public bool dontLoadPermutation;
 
     /// <summary>
     /// Dylan Loe

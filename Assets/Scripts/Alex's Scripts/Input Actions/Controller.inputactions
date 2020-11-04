@@ -11,7 +11,7 @@
                     "id": "8aa5eb23-a2d9-4bb8-bfea-9a31d02c37f8",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 },
                 {
                     "name": "Return",
@@ -19,7 +19,7 @@
                     "id": "98f918dd-d987-4830-9bae-fec1b89b03b4",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 },
                 {
                     "name": "Move",
@@ -41,6 +41,22 @@
                     "name": "TempDeathButton",
                     "type": "Button",
                     "id": "04e105ef-8821-436c-9130-15595a0bf1a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "NextPage[R]",
+                    "type": "Button",
+                    "id": "df039340-f5f6-4b5b-805d-f53b47bd2ff6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "NextPage[L]",
+                    "type": "Button",
+                    "id": "b99f622d-9377-4f78-b9a7-c9ae46675ef2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
@@ -110,6 +126,28 @@
                     "processors": "",
                     "groups": "Controller UI",
                     "action": "TempDeathButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dfffa2b4-d3a6-4c10-b3f9-52e195d425b0",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller UI",
+                    "action": "NextPage[R]",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c552aca9-3ba8-4eef-adad-75b725f82b2b",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller UI",
+                    "action": "NextPage[L]",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

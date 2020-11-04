@@ -8,7 +8,8 @@ using UnityEngine;
 public enum levelTypeE {
     EasyLevel,
     MidLevel,
-    Hardlevel
+    Hardlevel,
+    none
 };
 
 public class LevelSetup : MonoBehaviour

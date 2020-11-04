@@ -20,7 +20,8 @@ public class SetButtonOnObj : MonoBehaviour
         if(button)
         {
             buttonObj.SetActive(true);
-            Instantiate(buttonObj, this.transform);
+            GameObject key = Instantiate(buttonObj, this.transform);
+            key.transform.localPosition = new Vector3(0, 0, 0);
             this.name = "ButtonObj";
             Debug.Log(this.name + " activating true");
         }

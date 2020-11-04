@@ -28,7 +28,8 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
-    
+    [HideInInspector]
+    public bool dontLoadPermutation = false;
 
     /// <summary>
     /// Dylan Loe
@@ -46,7 +47,7 @@ public class LevelSetup : MonoBehaviour
             Instantiate(permutation);
             Debug.Log(permutation.name);
         }
-        else
+        else if(dontLoadPermutation)
         {
             permutation = gameLevelData.GetPermutation(type, permutationNum);
             Instantiate(permutation);

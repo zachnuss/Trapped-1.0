@@ -7,6 +7,12 @@ using UnityEngine;
 public class LevelSetupInspector : Editor
 {
     string overrideStatus;
+    /// <summary>
+    /// Dylan Loe
+    /// 11-3-2020
+    /// 
+    /// Added debug override for levelsetup script
+    /// </summary>
     public override void OnInspectorGUI()
     {
         LevelSetup myLevelData = (LevelSetup)target;
@@ -23,11 +29,27 @@ public class LevelSetupInspector : Editor
         {
             overrideStatus = "Override Active";
             EditorGUILayout.IntField("Permutation to Override: ", myLevelData.permutationNum);
+
+           // if (GUILayout.Button("No Permutation on Start"))
+         //   {
+           //     if (!myLevelData.dontLoadPermutation)
+            //    {
+            //        myLevelData.dontLoadPermutation = true;
+            //        EditorGUILayout.HelpBox("No Permutation to Load on Start.", MessageType.Warning);
+             //   }
+             //   else
+             //   {
+             //       myLevelData.dontLoadPermutation = false;
+             //   }
+           // }
+
+            
         }
         else
             overrideStatus = "Override Inctive";
 
         EditorGUILayout.LabelField("Override Status: ", overrideStatus);
+        
 
         EditorGUILayout.Space();
         base.OnInspectorGUI();

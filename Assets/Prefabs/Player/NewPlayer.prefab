@@ -3381,6 +3381,8 @@ MonoBehaviour:
   doubleScoreMod: 0
   serratedMod: 0
   doubleDamage: 0
+  bleedStacks: 0
+  bleedTimer: 0
   timerText: {fileID: 5599595034058128049}
   gamerUI: {fileID: 5124650228125128711}
   top: {fileID: 5565231554061494154}
@@ -3538,7 +3540,9 @@ MonoBehaviour:
   isFullScreen: 0
   screenButton: {fileID: 0}
   nextTrackButton: {fileID: 0}
-  audioTracks: []
+  audioTracks:
+  - {fileID: 8300000, guid: debd9cef1637f4749b49f77a6f77f1ad, type: 3}
+  - {fileID: 8300000, guid: 8f63246aec87eec41bfba4f2eaba99a7, type: 3}
 --- !u!1 &7571365786826290777
 GameObject:
   m_ObjectHideFlags: 0
@@ -3564,13 +3568,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7571365786826290777}
-  m_LocalRotation: {x: 0.377346, y: -0, z: -0, w: 0.92607236}
+  m_LocalRotation: {x: 0.4647045, y: -0, z: -0, w: 0.8854658}
   m_LocalPosition: {x: 0, y: 18.6, z: -15.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7571365785915738543}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 44.339, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 55.382004, y: 0, z: 0}
 --- !u!20 &7571365786826290779
 Camera:
   m_ObjectHideFlags: 0

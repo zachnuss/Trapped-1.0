@@ -30,7 +30,7 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
-    [SerializeField]
+    [SerializeField, HideInInspector]
     public bool dontLoadPermutation;
     [SerializeField, HideInInspector]
     public bool overrideRandomLevel;
@@ -121,6 +121,7 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().doubleScoreMod = true;
             }
+
             if(currentModsInLevel[modIndex].modType == modifierType.SerratedAmmunition && currentModsInLevel[modIndex].modActive)
             {
                 _player.GetComponent<PlayerMovement>().serratedMod = true;
@@ -129,8 +130,11 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().doubleDamage = true;
             }
-        }
 
+
+        }
+        if (!_player.GetComponent<PlayerMovement>().personalSheild)
+            _player.GetComponent<PlayerMovement>().sheildObj.SetActive(false);
         Debug.Log("Mods Now Active in Level");
     }
 }

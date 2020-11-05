@@ -16,8 +16,8 @@ public class SetButtonOnObj : MonoBehaviour
     [Header("Put the possible level objs here")]
     public GameObject[] assetsArray;
 
-    [SerializeField]
-    public bool spawnNothing;
+    [SerializeField, HideInInspector]
+    public bool spawnNothing =false;
 
     /// <summary>
     /// Dylan Loe

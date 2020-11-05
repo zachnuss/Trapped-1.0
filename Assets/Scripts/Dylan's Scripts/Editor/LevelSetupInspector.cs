@@ -19,13 +19,14 @@ public class LevelSetupInspector : Editor
 
         if(GUILayout.Button("Manual Permutation Override"))
         {
-            if (myLevelData.overrideRandomLevel)
-                myLevelData.overrideRandomLevel = false;
+            //Debug.Log("push");
+            if (myLevelData.gameLevelData.overrideRandomLevel)
+                myLevelData.gameLevelData.overrideRandomLevel = false;
             else
-                myLevelData.overrideRandomLevel = true;
+                myLevelData.gameLevelData.overrideRandomLevel = true;
         }
 
-        if (myLevelData.overrideRandomLevel)
+        if (myLevelData.gameLevelData.overrideRandomLevel)
         {
             overrideStatus = "Override Active";
             EditorGUILayout.IntField("Permutation to Override: ", myLevelData.permutationNum);

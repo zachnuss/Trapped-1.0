@@ -30,6 +30,7 @@ public class GameDataInspectorEditor : Editor
            // if(myPData.godMode)
            
         }
+
         if (myPData.godMode)
             debugMode = "Active";
         else

@@ -11,7 +11,6 @@ using UnityEngine;
 /// PlayerData takes from here to choose the next level
 /// </summary>
 /// 
-
 public enum modifierType
 {
    none,

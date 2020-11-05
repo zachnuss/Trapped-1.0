@@ -78,6 +78,16 @@ public class PlayerData : ScriptableObject
     private float totalTimerMin;
     private float totalTimerHour;
 
+    [Header("Character Customization")]
+    //Character Customization shopping - Wesley
+    public bool character2Purchase = false;
+    public bool character1Color2 = false;
+    public bool character1Color3 = false;
+    public bool character2Color2 = false;
+    public bool character2Color3 = false;
+    public int characterCost;
+    public int colorCost;
+
     [HideInInspector]
     public bool godMode = false;
 
@@ -365,6 +375,7 @@ public class PlayerData : ScriptableObject
     /// Updated: 10-20-2020
     /// 
     /// Turns character models on or off in menus
+    /// Also handles purchasing
     /// </summary>
     public void SetCharacterChoiceMenu(UnityEngine.UI.Toggle choice)
     {
@@ -386,13 +397,36 @@ public class PlayerData : ScriptableObject
         }
         else
         {
-            characterModelSwitch = true;
-            for (int i = 0; i < character1.Length; i++)
+            if (character2Purchase == true)
             {
-                character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
+                characterModelSwitch = true;
+                for (int i = 0; i < character1.Length; i++)
+                {
+                    character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
+                }
+                character2.GetComponent<MeshRenderer>().enabled = true;
+                SetMenuColor(materialChoice2);
             }
-            character2.GetComponent<MeshRenderer>().enabled = true;
-            SetMenuColor(materialChoice2);
+            else
+            {
+                if (specialCoins >= characterCost)
+                {
+                    UseSpecialCoin(characterCost);
+                    character2Purchase = true;
+                    //update with a purchase
+                    characterModelSwitch = true;
+                    for (int i = 0; i < character1.Length; i++)
+                    {
+                        character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
+                    }
+                    character2.GetComponent<MeshRenderer>().enabled = true;
+                    SetMenuColor(materialChoice2);
+                }
+                else
+                {
+                    choice.isOn = false;
+                }
+            }
         }
     }
 
@@ -435,16 +469,75 @@ public class PlayerData : ScriptableObject
     /// Updated: 10-20-2020
     /// 
     /// Sets color choice, sets color on player
+    /// Also purchases colors using coins now
     /// </summary>
     public void SetMenuColor(int input)
     {
         if (characterModelSwitch == false)
         {
-            materialChoice = input;
+            if (input == 0)
+            {
+                materialChoice = input;
+            }
+            else if (input == 1 && character1Color2 == true)
+            {
+                materialChoice = input;
+            }
+            else if (input == 1 && character1Color2 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    character1Color2 = true;
+                    materialChoice = input;
+                }
+            }
+            else if (input == 2 && character1Color3 == true)
+            {
+                materialChoice = input;
+            }
+            else if (input == 2 && character1Color3 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    character1Color3 = true;
+                    materialChoice = input;
+                }
+            }
         }
         if (characterModelSwitch == true)
         {
-            materialChoice2 = input;
+            if (input == 0)
+            {
+                materialChoice2 = input;
+            }
+            else if (input == 1 && character2Color2 == true)
+            {
+                materialChoice2 = input;
+            }
+            else if (input == 1 && character2Color2 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    character2Color2 = true;
+                    materialChoice2 = input;
+                }
+            }
+            else if (input == 2 && character2Color3 == true)
+            {
+                materialChoice2 = input;
+            }
+            else if (input == 2 && character2Color3 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    character2Color3 = true;
+                    materialChoice2 = input;
+                }
+            }
         }
         SetColor();
     }
@@ -534,6 +627,40 @@ public class PlayerData : ScriptableObject
         totalEnemyScore += input;
     }
 
+    //This section returns private variables to the persistent data script - Wesley
+    //I guess I could have made properties but thats another set of variables, and lines setting them up
+    public int ReturnTotalEnemiesKilled()
+    {
+        return totalEnemiesKilled;
+    }
+
+    public int ReturnTotalPowerUpsCollected()
+    {
+        return totalPowerupsCollected;
+    }
+
+    public int ReturnTotalCurrencyCollected()
+    {
+        return totalCurrencyCollected;
+    }
+
+    public int ReturnTotalEnemyValue()
+    {
+        return totalEnemyScore;
+    }
+
+    public int ReturnTotalSpecialCoins()
+    {
+        return totalSpecialCoinsCollected;
+    }
+
+    public string ReturnTotalTimePersistent()
+    {
+        string timeReadout;
+        timeReadout = totalTimerHour + " Hours, " + totalTimerMin + " Minutes, and " + totalTimerSec + "Seconds.";
+        return timeReadout;
+    }
+
     //Sets highscore values - Wesley
     public void SaveHighscore()
     {
@@ -581,7 +708,8 @@ public class PlayerData : ScriptableObject
         file = File.Create(destination);
 
         PersistentData currentData = new PersistentData(highScore1, highScore2, highScore3, specialCoins, totalTimerSec, totalTimerMin, totalTimerHour,
-            totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice, materialChoice2, characterModelSwitch);
+            totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice, materialChoice2,
+            characterModelSwitch, character2Purchase, character1Color2, character1Color3, character2Color2, character2Color3);
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file, currentData);
         file.Close();
@@ -620,6 +748,11 @@ public class PlayerData : ScriptableObject
         materialChoice = loadData.materialChoice;
         materialChoice2 = loadData.materialChoice2;
         characterModelSwitch = loadData.characterChoice;
+        character2Purchase = loadData.character2Purchase;
+        character1Color2 = loadData.character1Color2;
+        character1Color3 = loadData.character1Color3;
+        character2Color2 = loadData.character2Color2;
+        character2Color3 = loadData.character2Color3;
 
         file.Close();
     }

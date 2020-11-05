@@ -8,11 +8,17 @@ using UnityEngine;
 public enum levelTypeE {
     EasyLevel,
     MidLevel,
-    Hardlevel
+    Hardlevel,
+    none
 };
 
 public class LevelSetup : MonoBehaviour
 {
+    //player can overide
+    [HideInInspector]
+    public bool overrideRandomLevel = false;
+    [HideInInspector]
+    public int permutationNum = 0;
     public GameLevelData gameLevelData;
 
     public levelTypeE type;
@@ -23,18 +29,41 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
+    [HideInInspector]
+    public bool dontLoadPermutation = false;
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-3-2020
+    /// 
+    /// Sets variables, modifiers and brings in the level permutation to load
+    /// </summary>
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         SetPlayer();
-        permutation = gameLevelData.ChooseLevelP(type);
-        Instantiate(permutation);
-        Debug.Log(permutation.name);
-
+        if (!overrideRandomLevel)
+        {
+            permutation = gameLevelData.ChooseLevelP(type);
+            Instantiate(permutation);
+            Debug.Log(permutation.name);
+        }
+        else if(dontLoadPermutation)
+        {
+            permutation = gameLevelData.GetPermutation(type, permutationNum);
+            Instantiate(permutation);
+            Debug.Log("Manual Override for Permutation: " + permutation.name);
+        }
         //set modifiers
         SetModifiers();
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets player to starting point beased on what level is loaded
+    /// </summary>
     void SetPlayer()
     {
         switch (type)
@@ -53,15 +82,24 @@ public class LevelSetup : MonoBehaviour
         }
     }
 
-    //if player choose mods at end of loop they go into each level here
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// if player choose mods at end of loop they go into each level here
+    /// </summary>
     void SetModifiers()
     {
         currentModsInLevel = gameLevelData.mods;
         ActivateModifiers();
     }
 
-
-    //physicall activate mods in level
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// physicall activate mods in level
+    /// </summary>
     void ActivateModifiers()
     {
         for (int modIndex = 0; modIndex < currentModsInLevel.Length; modIndex++)
@@ -74,6 +112,14 @@ public class LevelSetup : MonoBehaviour
             if(currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD && currentModsInLevel[modIndex].modActive)
             {
                 _player.GetComponent<PlayerMovement>().doubleScoreMod = true;
+            }
+            if(currentModsInLevel[modIndex].modType == modifierType.SerratedAmmunition && currentModsInLevel[modIndex].modActive)
+            {
+                _player.GetComponent<PlayerMovement>().serratedMod = true;
+            }
+            if(currentModsInLevel[modIndex].modType == modifierType.AdvancedSimulant && currentModsInLevel[modIndex].modActive)
+            {
+                _player.GetComponent<PlayerMovement>().doubleDamage = true;
             }
         }
 

@@ -28,6 +28,8 @@ public class PlayerData : ScriptableObject
 
     [Header("Current level player is on: ZERO INDEXED")]
     public int OnLevel = 0;
+    [Header("Levels Beaten")]
+    public int levelsBeaten = 0;
     //0 = level 1 and so on
 
     [Header("Player score")]
@@ -55,8 +57,7 @@ public class PlayerData : ScriptableObject
     //public Scene prevLevel;
     public string nextLevelStr;
     public string prevLevelStr;
-    [Header("Levels Beaten")]
-    public int levelsBeaten = 0;
+
     [Header("Game Level Data Obj")]
     public GameLevelData gameLevelData;
 
@@ -77,19 +78,15 @@ public class PlayerData : ScriptableObject
     private float totalTimerMin;
     private float totalTimerHour;
 
-    [Header("Character Customization")]
-    //Character Customization shopping - Wesley
-    public bool character2Purchase = false;
-    public bool character1Color2 = false;
-    public bool character1Color3 = false;
-    public bool character2Color2 = false;
-    public bool character2Color3 = false;
-    public int characterCost;
-    public int colorCost;
+    [HideInInspector]
+    public bool godMode = false;
 
-
-
-    //called when level beat
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Runs when leave is beat, sets next level/scene, updates varaibles
+    /// </summary>
     public void BeatLevel()
     {
         bool takeToModSelection = false;
@@ -129,7 +126,12 @@ public class PlayerData : ScriptableObject
         }
     }
 
-    //load next level
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Loads next scene
+    /// </summary>
     public void LoadNextLevel()
     {
         if (OnLevel != levelsS.Length)
@@ -144,13 +146,23 @@ public class PlayerData : ScriptableObject
         //Debug.Log("LOAD END SCREEN HERE UWU");
     }
 
-    //adds score
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Adds score
+    /// </summary>
     public void AddScore(int addition)
     {
         score += addition;
     }
 
-    //adds currency
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Adds to currency (and score based on currency)
+    /// </summary>
     public void AddCurrency(int addition)
     {
         currency += addition;
@@ -159,6 +171,12 @@ public class PlayerData : ScriptableObject
         TrackCurrencyGains(addition);
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// resets upgrades
+    /// </summary>
     public void ResetUpgrades()
     {
         //when player starts at beginning, we reset the upgrades
@@ -167,6 +185,12 @@ public class PlayerData : ScriptableObject
         speedUpgrade = 0;
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// Runs when game is initially started from menu, sets variables, loads level 1 and starts setting up the mods
+    /// </summary>
     public void StartGame()
     {
         Debug.Log("Starting Game");
@@ -196,10 +220,60 @@ public class PlayerData : ScriptableObject
     }
 
     /// <summary>
-    /// Upgrades are bought in the store scene, they call these 
+    /// Dylan Loe
+    /// Updated: 10-21-2020
     /// 
+    /// Activated with gui, will reset values for testing and debugging, as if start game was activated
     /// </summary>
-    /// <param name="addition"></param>
+    public void ResetValues()
+    {
+        Debug.Log("Resetting Values");
+        ResetUpgrades();
+        totalHealthBase = 100;
+        totalDamageBase = 20;
+        //currently level 1 = scene 0
+        OnLevel = 0;
+        levelsBeaten = 0;
+        //timer starts at 0
+        timerHour = 0;
+        timerSec = 0;
+        timerMin = 0;
+        timerBetweenLevels = 0;
+        totalTime = 0;
+        //currency starts at 0
+        currency = 0;
+        //score starts at 0
+        score = 0; //added by wesley
+        matchCurrencyCollected = 0;
+        matchEnemiesKilled = 0;
+        matchPowerUpsCollected = 0;
+        matchScoreFromEnemies = 0;
+        matchScoreFromTime = 0;
+        matchSpecialCoinCollected = 0;
+        localHealth = totalHealthBase;
+        gameLevelData.InitialModSetup();
+    }
+
+    /// <summary>
+    /// Dylan loe
+    /// Updated: 10-31-2020
+    /// 
+    /// Activates a god mode that can be toggled on and off before unity plays
+    /// </summary>
+    public void DebugMode()
+    {
+        if (godMode)
+            godMode = false;
+        else
+            godMode = true;
+    }
+
+    /// <summary>
+    /// Alexander & Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// Upgrades health stat, as well as the local health of the player currently
+    /// </summary>
     public void UpgradeHealth()
     {
         healthUpgrade++;
@@ -207,17 +281,35 @@ public class PlayerData : ScriptableObject
         localHealth += 5;
         Debug.Log("Health Upgrade Purchased! New Health = " + localHealth + " out of " + totalHealthBase);
     }
+    /// <summary>
+    /// Alexander & Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// Upgrades damage stat
+    /// </summary>
     public void UpgradeDamage()
     {
         damageUpgrade++;
         Debug.Log("Damage Upgrade Purchased!");
     }
+    /// <summary>
+    /// Alexander & Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// Upgrades speed stat
+    /// </summary>
     public void UpgradeSpeed()
     {
         speedUpgrade++;
         Debug.Log("SPEED Upgrade Purchased!");
     }
 
+    /// <summary>
+    /// Dylan
+    /// Updated: 10-20-2020
+    /// 
+    /// time variables, broguth from player
+    /// </summary>
     public void UpdateTime()
     {      
             if (timerMin >= 60)
@@ -232,7 +324,12 @@ public class PlayerData : ScriptableObject
         }
     }
 
-    //Wesley - update match values with several easy tricks! Also, they're private, so better to access through functions.
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// update match values with several easy tricks! Also, they're private, so better to access through functions.
+    /// </summary>
     public void TrackEnemyScore(int input)
     {
         matchScoreFromEnemies += input;
@@ -263,7 +360,12 @@ public class PlayerData : ScriptableObject
         matchPowerUpsCollected += input;
     }
 
-    //Turns character models on or off in customization  - Wesley
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Turns character models on or off in menus
+    /// </summary>
     public void SetCharacterChoiceMenu(UnityEngine.UI.Toggle choice)
     {
         GameObject[] character1 = new GameObject[8];
@@ -284,40 +386,22 @@ public class PlayerData : ScriptableObject
         }
         else
         {
-            if (character2Purchase == true)
+            characterModelSwitch = true;
+            for (int i = 0; i < character1.Length; i++)
             {
-                characterModelSwitch = true;
-                for (int i = 0; i < character1.Length; i++)
-                {
-                    character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
-                }
-                character2.GetComponent<MeshRenderer>().enabled = true;
-                SetMenuColor(materialChoice2);
+                character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
             }
-            else
-            {
-                if (specialCoins >= characterCost)
-                {
-                    UseSpecialCoin(characterCost);
-                    character2Purchase = true;
-                    //update with a purchase
-                    characterModelSwitch = true;
-                    for (int i = 0; i < character1.Length; i++)
-                    {
-                        character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
-                    }
-                    character2.GetComponent<MeshRenderer>().enabled = true;
-                    SetMenuColor(materialChoice2);
-                }
-                else
-                {
-                    choice.isOn = false;
-                }
-            }
+            character2.GetComponent<MeshRenderer>().enabled = true;
+            SetMenuColor(materialChoice2);
         }
     }
 
-    //Sets character model on or off in game
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets character model on or off in game
+    /// </summary>
     public void SetCharacterChoiceGame()
     {
         GameObject[] character1 = new GameObject[8];
@@ -346,81 +430,31 @@ public class PlayerData : ScriptableObject
         }
     }
 
-
-    //Sets color choice, sets color on player - Wesley
-    //Also purchases coins now
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets color choice, sets color on player
+    /// </summary>
     public void SetMenuColor(int input)
     {
         if (characterModelSwitch == false)
         {
-            if (input == 0)
-            {
-                materialChoice = input;
-            }
-            else if (input == 1 && character1Color2 == true)
-            {
-                materialChoice = input;
-            }
-            else if (input == 1 && character1Color2 == false)
-            {
-                if (specialCoins >= colorCost)
-                {
-                    UseSpecialCoin(colorCost);
-                    character1Color2 = true;
-                    materialChoice = input;
-                }
-            }
-            else if(input == 2 && character1Color3 == true)
-            {
-                materialChoice = input;
-            }
-            else if (input == 2 && character1Color3 == false)
-            {
-                if (specialCoins >= colorCost)
-                {
-                    UseSpecialCoin(colorCost);
-                    character1Color3 = true;
-                    materialChoice = input;
-                }
-            }
+            materialChoice = input;
         }
         if (characterModelSwitch == true)
         {
-            if (input == 0)
-            {
-                materialChoice2 = input;
-            }
-            else if (input == 1 && character2Color2 == true)
-            {
-                materialChoice2 = input;
-            }
-            else if (input == 1 && character2Color2 == false)
-            {
-                if (specialCoins >= colorCost)
-                {
-                    UseSpecialCoin(colorCost);
-                    character2Color2 = true;
-                    materialChoice2 = input;
-                }
-            }
-            else if (input == 2 && character2Color3 == true)
-            {
-                materialChoice2 = input;
-            }
-            else if (input == 2 && character2Color3 == false)
-            {
-                if (specialCoins >= colorCost)
-                {
-                    UseSpecialCoin(colorCost);
-                    character2Color3 = true;
-                    materialChoice2 = input;
-                }
-            }
+            materialChoice2 = input;
         }
         SetColor();
     }
 
-    //Sets color on player - Wesley
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets color on player
+    /// </summary>
     public void SetColor()
     {
         if (characterModelSwitch == false)
@@ -500,40 +534,6 @@ public class PlayerData : ScriptableObject
         totalEnemyScore += input;
     }
 
-    //This section returns private variables to the persistent data script - Wesley
-    //I guess I could have made properties but thats another set of variables, and lines setting them up
-    public int ReturnTotalEnemiesKilled()
-    {
-        return totalEnemiesKilled;
-    }
-
-    public int ReturnTotalPowerUpsCollected()
-    {
-        return totalPowerupsCollected;
-    }
-
-    public int ReturnTotalCurrencyCollected()
-    {
-        return totalCurrencyCollected;
-    }
-
-    public int ReturnTotalEnemyValue()
-    {
-        return totalEnemyScore;
-    }
-
-    public int ReturnTotalSpecialCoins()
-    {
-        return totalSpecialCoinsCollected;
-    }
-
-    public string ReturnTotalTimePersistent()
-    {
-        string timeReadout;
-        timeReadout = totalTimerHour + " Hours, " + totalTimerMin + " Minutes, and " + totalTimerSec + "Seconds.";
-        return timeReadout;
-    }
-
     //Sets highscore values - Wesley
     public void SaveHighscore()
     {
@@ -571,7 +571,7 @@ public class PlayerData : ScriptableObject
 
 
     //Save Game - Wesley
-    //Using binary formatter because json didn't work
+
     public void SaveFile()
     {
         Debug.Log("Saving Data");
@@ -581,14 +581,13 @@ public class PlayerData : ScriptableObject
         file = File.Create(destination);
 
         PersistentData currentData = new PersistentData(highScore1, highScore2, highScore3, specialCoins, totalTimerSec, totalTimerMin, totalTimerHour,
-            totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice, materialChoice2,
-            characterModelSwitch, character2Purchase, character1Color2, character1Color3, character2Color2, character2Color3);
+            totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice, materialChoice2, characterModelSwitch);
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file, currentData);
         file.Close();
     }
 
-    public void LoadFile() //Loads file - Wesley
+    public void LoadFile()
     {
         Debug.Log("Loading Data");
 
@@ -621,11 +620,6 @@ public class PlayerData : ScriptableObject
         materialChoice = loadData.materialChoice;
         materialChoice2 = loadData.materialChoice2;
         characterModelSwitch = loadData.characterChoice;
-        character2Purchase = loadData.character2Purchase;
-        character1Color2 = loadData.character1Color2;
-        character1Color3 = loadData.character1Color3;
-        character2Color2 = loadData.character2Color2;
-        character2Color3 = loadData.character2Color3;
 
         file.Close();
     }

@@ -96,11 +96,11 @@ public class PlayerOptions : MonoBehaviour {
             _fullScreenText.text += (isFullScreen) ? "Full Screen" : "Windowed";
 
             try {
-                _curTrackText.text = "Current Track: \n" + audioTracks[_curTrackIndex].name;
+                _curTrackText.text = "Current Track: " + audioTracks[_curTrackIndex].name;
             } catch (NullReferenceException) {
                 //how will I handle this error
                 _curTrackIndex = 0;
-                _curTrackText.text = "Current Track: \n N/A";
+                _curTrackText.text = "Current Track: N/A";
 
             }
         }

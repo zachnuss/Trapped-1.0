@@ -4,12 +4,17 @@
  */
 using UnityEngine;
 
+///Enemy enums
 public enum Behavior {
     Idle, ChangeDirection, GoForward, TrackPlayer, AttackPlayer
 }
 
 public enum Direction {
     Forward, Right, Left, Backwards, NULL
+}
+
+public enum EnemyAnimation {
+    Idle, Walking, Running, Shooting
 }
 
 public class BaseEnemy : MonoBehaviour {
@@ -266,10 +271,11 @@ public class BaseEnemy : MonoBehaviour {
         _moveDir = initialDir.normalized;
 
         //get my level based on index (i.e. level 1 = 0)
-        int curLevelIndex = GameObject.FindWithTag("Player").
-                            GetComponent<PlayerMovement>().playerData.OnLevel;
-        //level up based on level index
-        levelUp(curLevelIndex);
+        if (_playerGO != null) {
+            int curLevelIndex = _playerGO.GetComponent<PlayerMovement>().playerData.OnLevel;
+            //level up based on level index
+            levelUp(curLevelIndex);
+        }
 
         //loop to change behavior sporatically
         InvokeRepeating("_changeBehavior", 0.5f, rateOfBehaviorChange);

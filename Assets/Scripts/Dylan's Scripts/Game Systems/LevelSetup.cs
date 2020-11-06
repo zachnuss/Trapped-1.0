@@ -12,6 +12,7 @@ public enum levelTypeE {
     none
 };
 
+
 public class LevelSetup : MonoBehaviour
 {
     //player can overide
@@ -29,8 +30,10 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
-    //[HideInInspector]
+    [SerializeField, HideInInspector]
     public bool dontLoadPermutation;
+    [SerializeField, HideInInspector]
+    public bool overrideRandomLevel;
 
     /// <summary>
     /// Dylan Loe
@@ -44,7 +47,7 @@ public class LevelSetup : MonoBehaviour
         SetPlayer();
         if (!dontLoadPermutation)
         {
-            if (gameLevelData.overrideRandomLevel)
+            if (overrideRandomLevel)
             {
                 Debug.Log("here");
                 permutation = gameLevelData.ChooseLevelP(type);
@@ -118,6 +121,7 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().doubleScoreMod = true;
             }
+
             if(currentModsInLevel[modIndex].modType == modifierType.SerratedAmmunition && currentModsInLevel[modIndex].modActive)
             {
                 _player.GetComponent<PlayerMovement>().serratedMod = true;
@@ -126,8 +130,11 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().doubleDamage = true;
             }
-        }
 
+
+        }
+        if (!_player.GetComponent<PlayerMovement>().personalSheild)
+            _player.GetComponent<PlayerMovement>().sheildObj.SetActive(false);
         Debug.Log("Mods Now Active in Level");
     }
 }

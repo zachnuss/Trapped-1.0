@@ -7,6 +7,11 @@ using UnityEngine;
 public class GameDataInspectorEditor : Editor
 {
     private string debugMode;
+
+    private void Awake()
+    {
+        
+    }
     /// <summary>
     /// Dylan Loe
     /// Updated 10-31-2020

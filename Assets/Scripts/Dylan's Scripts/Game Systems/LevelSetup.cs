@@ -43,8 +43,12 @@ public class LevelSetup : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+       
+
         _player = GameObject.FindGameObjectWithTag("Player");
         SetPlayer();
+        //set modifiers
+        SetModifiers();
         if (!dontLoadPermutation)
         {
             if (overrideRandomLevel)
@@ -62,8 +66,7 @@ public class LevelSetup : MonoBehaviour
                 Debug.Log("Manual Override for Permutation: " + permutation.name);
             }
         }
-        //set modifiers
-        SetModifiers();
+        
     }
 
     /// <summary>
@@ -132,9 +135,11 @@ public class LevelSetup : MonoBehaviour
             }
             if(currentModsInLevel[modIndex].modType == modifierType.LowPoweredGeneratorMOD && currentModsInLevel[modIndex].modActive)
             {
+                Debug.Log("health mod");
                 _player.GetComponent<PlayerMovement>().personalSheild = true;
                 _player.GetComponent<PlayerMovement>().sheildObj.SetActive(true);
-                //_player.GetComponent<PlayerMovement>().playerData.startAtHalf = true;
+
+                _player.GetComponent<PlayerMovement>().playerData.ActivateHalfHealthMod();
             }
 
         }

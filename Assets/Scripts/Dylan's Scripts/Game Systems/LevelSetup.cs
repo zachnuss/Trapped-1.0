@@ -130,11 +130,16 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().doubleDamage = true;
             }
-
+            if(currentModsInLevel[modIndex].modType == modifierType.LowPoweredGeneratorMOD && currentModsInLevel[modIndex].modActive)
+            {
+                _player.GetComponent<PlayerMovement>().personalSheild = true;
+                _player.GetComponent<PlayerMovement>().sheildObj.SetActive(true);
+                //_player.GetComponent<PlayerMovement>().playerData.startAtHalf = true;
+            }
 
         }
-        if (!_player.GetComponent<PlayerMovement>().personalSheild)
-            _player.GetComponent<PlayerMovement>().sheildObj.SetActive(false);
+    
+           
         Debug.Log("Mods Now Active in Level");
     }
 }

@@ -1238,9 +1238,9 @@ public class PlayerMovement : MonoBehaviour
     public GameObject sheildObj;
     /// <summary>
     /// Dylan Loe
-    /// Updated: 10-20-2020
+    /// Updated: 11-5-2020
     /// 
-    /// - if enemy takes damage, begin timer, once timer is reached sheild can regen health
+    /// - if player takes damage, begin timer, once timer is reached sheild can regen health
     /// - will run in update, bool is active when takes damage, turns off when timer is done
     /// </summary>
     void DamageStandbyTimer()
@@ -1259,9 +1259,9 @@ public class PlayerMovement : MonoBehaviour
 
     /// <summary>
     /// Dylan Loe
-    /// Updated: 10-20-2020
+    /// Updated: 11-5-2020
     /// 
-    /// this runs when enemy takes damage from player
+    /// this runs when player takes damage
     /// </summary>
     public void SheildRegenStop()
     {

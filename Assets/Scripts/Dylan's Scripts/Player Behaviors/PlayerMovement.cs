@@ -695,6 +695,8 @@ public class PlayerMovement : MonoBehaviour
             GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.rotation);
 
             Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
+            if (personalSheild)
+                Physics.IgnoreCollision(bullet.GetComponent<Collider>(), sheildObj.GetComponent<Collider>());
             //ZACHARY ADDED THIS
             StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
 

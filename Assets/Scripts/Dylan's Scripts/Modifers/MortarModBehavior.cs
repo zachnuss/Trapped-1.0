@@ -101,7 +101,7 @@ public class MortarModBehavior : MonoBehaviour
         int wIndex = Random.Range(0, width);
         int hIndex = Random.Range(0, height);
 
-        GameObject mortar = Instantiate(mortalPref, grid2DArray[wIndex, hIndex].transform.localPosition, this.transform.rotation);
+        GameObject mortar = Instantiate(mortalPref, grid2DArray[wIndex, hIndex].transform.position, this.transform.localRotation);
 
         StartCoroutine(SpawnMortar());
     }

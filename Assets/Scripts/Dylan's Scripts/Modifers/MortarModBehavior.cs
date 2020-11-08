@@ -23,7 +23,9 @@ public class MortarModBehavior : MonoBehaviour
     public GameObject[,] grid2DArray;
 
     Transform startingPoint;
-    public float distanceBetweenNodes = 5.0f;
+    float distanceBetweenNodes = 5.0f;
+
+    public int mortarShellDamage = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -33,12 +35,8 @@ public class MortarModBehavior : MonoBehaviour
         grid2DArray = new GameObject[width, height];
         //create size of grid based on size of level
         CreateGrid();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        StartCoroutine(SpawnMortar());
     }
 
     void CreateGrid()
@@ -78,6 +76,8 @@ public class MortarModBehavior : MonoBehaviour
         {
             case levelTypeE.EasyLevel:
                 this.transform.localPosition = new Vector3(-18, 40, -18);
+                width = 8;
+                height = 8;
                 break;
             case levelTypeE.MidLevel:
 
@@ -91,6 +91,19 @@ public class MortarModBehavior : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    //mortal spawning is done a timer that times a random range between 4 - 10 seconds
+    IEnumerator SpawnMortar()
+    {
+        float timeWaiting = Random.Range(4, 10);
+        yield return new WaitForSeconds(timeWaiting);
+        int wIndex = Random.Range(0, width);
+        int hIndex = Random.Range(0, height);
+
+        GameObject mortar = Instantiate(mortalPref, grid2DArray[wIndex, hIndex].transform.localPosition, this.transform.rotation);
+
+        StartCoroutine(SpawnMortar());
     }
 }
 

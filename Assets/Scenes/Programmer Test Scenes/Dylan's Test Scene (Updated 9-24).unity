@@ -1890,10 +1890,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myLevelSetUp: {fileID: 1472815944}
-  mortalPref: {fileID: 0}
+  mortalPref: {fileID: 8353328343940414077, guid: 4112d6baaf3d3a842b88184a82892e0e,
+    type: 3}
   width: 5
   height: 5
-  distanceBetweenNodes: 5
+  mortarShellDamage: 10
 --- !u!4 &2091926988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7571365785621622438, guid: 716f5c8b413961442a5458bad0fa68db,

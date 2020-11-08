@@ -135,7 +135,7 @@ public class LevelSetup : MonoBehaviour
             }
             if(currentModsInLevel[modIndex].modType == modifierType.LowPoweredGeneratorMOD && currentModsInLevel[modIndex].modActive)
             {
-                Debug.Log("health mod");
+               // Debug.Log("health mod");
                 _player.GetComponent<PlayerMovement>().personalSheild = true;
                 _player.GetComponent<PlayerMovement>().sheildObj.SetActive(true);
 

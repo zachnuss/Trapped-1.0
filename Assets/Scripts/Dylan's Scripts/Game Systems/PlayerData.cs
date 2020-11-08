@@ -631,7 +631,7 @@ public class PlayerData : ScriptableObject
     {
         if(!startAtHalf)
         {
-            Debug.Log("cut health in half");
+            //Debug.Log("cut health in half");
             startAtHalf = true;
             totalHealthBase = totalHealthBase / 2;
             localHealth = localHealth / 2;

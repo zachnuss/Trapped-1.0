@@ -665,7 +665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &828149604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1344,7 +1344,7 @@ PrefabInstance:
     - target: {fileID: 7571365785918509582, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.67
+      value: 2.7
       objectReference: {fileID: 0}
     - target: {fileID: 7571365785918509582, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
@@ -1359,27 +1359,27 @@ PrefabInstance:
     - target: {fileID: 7571365785918509582, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7571365785918509582, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.1280842
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7571365785918509582, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7571365785918509582, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9917633
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7571365785918509582, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 14.718
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7571365786826290780, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
@@ -1846,3 +1846,57 @@ Transform:
   m_Father: {fileID: 273220269}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1993349272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1993349273}
+  - component: {fileID: 1993349274}
+  m_Layer: 0
+  m_Name: MortarGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1993349273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993349272}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 40, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2091926988}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1993349274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993349272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c00b274709501f4fb1803603aab5250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myLevelSetUp: {fileID: 1472815944}
+  mortalPref: {fileID: 0}
+  width: 5
+  height: 5
+  distanceBetweenNodes: 5
+--- !u!4 &2091926988 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7571365785621622438, guid: 716f5c8b413961442a5458bad0fa68db,
+    type: 3}
+  m_PrefabInstance: {fileID: 1314346365}
+  m_PrefabAsset: {fileID: 0}

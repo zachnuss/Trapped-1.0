@@ -30,7 +30,8 @@ public class MortarShell : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.Translate(-this.transform.up * speed * Time.deltaTime);
+        //transform.Translate(-this.transform.up * speed * Time.deltaTime);
+        transform.position += speed * Time.deltaTime * -this.transform.up;
         //CastLine();
     }
 

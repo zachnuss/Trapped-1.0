@@ -22,6 +22,8 @@ public class MortarShell : MonoBehaviour
         mortarLine = GetComponent<LineRenderer>();
         mortarLine.positionCount = 2;
         mortarLine.startWidth = 0.45f;
+        mortarLine.SetPosition(0, this.transform.position);
+        mortarLine.SetPosition(1, this.transform.position);
         CastLine();
     }
 
@@ -82,7 +84,7 @@ public class MortarShell : MonoBehaviour
     //mortar will cast a raycast down until it hits the ground. Line renderer will go from this.transform.position to the hit.transform.position
     void CastLine()
     {
-        mortarLine.SetPosition(0, this.transform.position);
+        //mortarLine.SetPosition(0, this.transform.position);
         RaycastHit hit;
        // Debug.DrawRay(this.transform.position, -transform.up, Color.green, 10f);
         if (Physics.Raycast(transform.position, -transform.up, out hit))
@@ -93,12 +95,12 @@ public class MortarShell : MonoBehaviour
             distance = Vector3.Distance(this.transform.position, rayHitTrans);
             //mortarLine.SetPosition(1, rayHitTrans);
         }
-        else
-        {
-           // Debug.Log("no hit");
-            rayHitTrans = Vector3.zero;
-            mortarLine.enabled = false;
-        }
+      //  else
+       // {
+       //    // Debug.Log("no hit");
+       //     rayHitTrans = Vector3.zero;
+      //      mortarLine.enabled = false;
+       // }
     }
 
     private Transform[] collidersToTransforms(Collider[] colliders)

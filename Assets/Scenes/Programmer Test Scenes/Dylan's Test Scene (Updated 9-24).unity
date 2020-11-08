@@ -572,6 +572,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MortarShell
       objectReference: {fileID: 0}
+    - target: {fileID: 8353328343940414077, guid: 4112d6baaf3d3a842b88184a82892e0e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4112d6baaf3d3a842b88184a82892e0e, type: 3}
 --- !u!1 &510120385
@@ -1986,7 +1991,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1993349273
 Transform:
   m_ObjectHideFlags: 0

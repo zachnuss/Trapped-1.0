@@ -141,7 +141,14 @@ public class LevelSetup : MonoBehaviour
 
                 _player.GetComponent<PlayerMovement>().playerData.ActivateHalfHealthMod();
             }
+            if(currentModsInLevel[modIndex].modType == modifierType.TrackingAmmunitionMOD && currentModsInLevel[modIndex].modActive)
+            {
+                _player.GetComponent<PlayerMovement>().trackingAmmunitionMod = true;
+                _player.GetComponent<PlayerMovement>().mortarGrid.SetActive(true);
+                //FindObjectOfType<MortarModBehavior>().enabled = true;
+                //GameObject.Find("MortarGrid").SetActive(true);
 
+            }
         }
     
            

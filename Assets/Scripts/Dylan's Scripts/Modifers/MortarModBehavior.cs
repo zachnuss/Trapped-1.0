@@ -15,7 +15,7 @@ public class MortarModBehavior : MonoBehaviour
     /// 
     /// </summary>
 
-    public LevelSetup myLevelSetUp;
+    LevelSetup myLevelSetUp;
     public GameObject mortalPref;
 
     public int width;
@@ -27,9 +27,15 @@ public class MortarModBehavior : MonoBehaviour
 
     public int mortarShellDamage = 10;
 
+    public float tracingLineSpeed = 13f;
+
+    float minTime;
+    float maxTime;
+
     // Start is called before the first frame update
     void Start()
     {
+        myLevelSetUp = FindObjectOfType<LevelSetup>();
         SetGridStartPoint();
 
         grid2DArray = new GameObject[width, height];
@@ -76,14 +82,28 @@ public class MortarModBehavior : MonoBehaviour
         {
             case levelTypeE.EasyLevel:
                 this.transform.localPosition = new Vector3(-18, 40, -18);
+                //distanceBetweenNodes = 5.0f;
                 width = 8;
                 height = 8;
+                minTime = 4;
+                maxTime = 10;
                 break;
             case levelTypeE.MidLevel:
-
+                this.transform.localPosition = new Vector3(-25, 50, -25);
+                //distanceBetweenNodes = 5.03f;
+                width = 11;
+                height = 11;
+                minTime = 2;
+                maxTime = 8;
                 break;
             case levelTypeE.Hardlevel:
-
+                Debug.Log("hi");
+                this.transform.localPosition = new Vector3(-33.7f, 60, -33.7f);
+                distanceBetweenNodes = 4.5f;
+                width = 16;
+                height = 16;
+                minTime = 1;
+                maxTime = 6;
                 break;
             case levelTypeE.none:
 
@@ -96,13 +116,13 @@ public class MortarModBehavior : MonoBehaviour
     //mortal spawning is done a timer that times a random range between 4 - 10 seconds
     IEnumerator SpawnMortar()
     {
-        float timeWaiting = Random.Range(4, 10);
+        float timeWaiting = Random.Range(minTime, maxTime);
         yield return new WaitForSeconds(timeWaiting);
         int wIndex = Random.Range(0, width);
         int hIndex = Random.Range(0, height);
 
         GameObject mortar = Instantiate(mortalPref, grid2DArray[wIndex, hIndex].transform.position, this.transform.rotation);
-
+        mortar.GetComponent<MortarShell>().lineSpeed = tracingLineSpeed;
         StartCoroutine(SpawnMortar());
     }
 }

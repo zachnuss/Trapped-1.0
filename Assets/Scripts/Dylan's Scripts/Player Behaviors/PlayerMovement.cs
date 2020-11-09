@@ -129,6 +129,8 @@ public class PlayerMovement : MonoBehaviour
     public bool serratedMod = false;
     public bool doubleDamage = false;
     public bool personalSheild = false;
+    public bool trackingAmmunitionMod = false;
+    public GameObject mortarGrid;
     //player takes damage and applies bleed, while active every second does 1 damage for 5 seconds. Each stack adds 1 damage
     public int bleedStacks = 0;
     public float bleedTimer = 0;

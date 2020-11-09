@@ -8,12 +8,12 @@ public class MortarShell : MonoBehaviour
     public int damage;
     public float speed;
     public float checkRadius = 3;
-    public Vector3 rayHitTrans;
+    Vector3 rayHitTrans;
 
-    private LineRenderer mortarLine;
+    LineRenderer mortarLine;
 
     public float lineSpeed = 1.0f;
-    private float distance;
+    float distance;
     float increment;
 
     // Start is called before the first frame update

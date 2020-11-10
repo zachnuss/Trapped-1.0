@@ -7,6 +7,13 @@ using UnityEngine;
 public class LevelSetupInspector : Editor
 {
     string overrideStatus;
+    LevelSetup myLevelData;
+
+    private void Awake()
+    {
+        myLevelData = (LevelSetup)target;
+    }
+
     /// <summary>
     /// Dylan Loe
     /// 11-3-2020
@@ -15,33 +22,46 @@ public class LevelSetupInspector : Editor
     /// </summary>
     public override void OnInspectorGUI()
     {
-        LevelSetup myLevelData = (LevelSetup)target;
+        EditorGUILayout.LabelField("This Prefab must be unpacked completely when in your scene.");
+        EditorGUILayout.Space();
 
-        if(GUILayout.Button("Manual Permutation Override"))
+        string buttonStr;
+        if (!myLevelData.dontLoadPermutation)
+            buttonStr = "Permutation on Start";
+        else
+            buttonStr = "No Permutation on Start";
+
+
+        if (GUILayout.Button("Manual Permutation Override"))
         {
+            //Debug.Log("push");
             if (myLevelData.overrideRandomLevel)
                 myLevelData.overrideRandomLevel = false;
             else
                 myLevelData.overrideRandomLevel = true;
         }
 
+        EditorGUILayout.Space();
         if (myLevelData.overrideRandomLevel)
         {
             overrideStatus = "Override Active";
-            EditorGUILayout.IntField("Permutation to Override: ", myLevelData.permutationNum);
+            if(!myLevelData.dontLoadPermutation)
+                EditorGUILayout.IntField("Permutation to Override: ", myLevelData.permutationNum);
 
-           // if (GUILayout.Button("No Permutation on Start"))
-         //   {
-           //     if (!myLevelData.dontLoadPermutation)
-            //    {
-            //        myLevelData.dontLoadPermutation = true;
-            //        EditorGUILayout.HelpBox("No Permutation to Load on Start.", MessageType.Warning);
-             //   }
-             //   else
-             //   {
-             //       myLevelData.dontLoadPermutation = false;
-             //   }
-           // }
+            if (GUILayout.Button(buttonStr))
+            {
+                if (!myLevelData.dontLoadPermutation)
+                {
+                   // buttonStr = "No Permutation on Start";
+                    myLevelData.dontLoadPermutation = true;
+                    EditorGUILayout.HelpBox("No Permutation to Load on Start.", MessageType.Warning);
+                }
+                else
+                {
+                    //EditorGUILayout.HelpBox("Permutation to Load on Start.", MessageType.Warning);
+                    myLevelData.dontLoadPermutation = false;
+                }
+            }
 
             
         }

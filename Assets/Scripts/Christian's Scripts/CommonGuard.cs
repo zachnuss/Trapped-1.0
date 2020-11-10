@@ -67,6 +67,7 @@ public class CommonGuard : BaseEnemy {
     /**     PROTECTED FUNCTIONS     */
     protected void Awake() {
         //store startting values
+        _startQuat = transform.localRotation;
         _storeRegSpeed = speed;
         _trackingSpeed = _storeRegSpeed;
         _startLocPos = transform.localPosition;
@@ -272,11 +273,12 @@ public class CommonGuard : BaseEnemy {
         //change behavior
         _myBehavior = Behavior.Idle;
         //reset rotation and position to local
-        transform.rotation = _startQuat;
+        //transform.rotation = _startQuat;
         Vector3 resetPos = new Vector3(transform.localPosition.x,
                                        _startLocPos.y, 
                                        transform.localPosition.z);
         transform.localPosition = resetPos;
+        transform.localRotation = _startQuat;
         //reset _moveDir
         Vector3 newMoveDir = (_fwdDirGO.transform.position
                                 - transform.position).normalized;

@@ -47,7 +47,7 @@ public class ProjectileScript : MonoBehaviour
             }
             other.GetComponent<BaseEnemy>().SheildRegenStop();
             gameObject.SetActive(false);
-
+            
             ///Debug.Log("Enemy is taking damage.");
         }
         //More of Christian's code below

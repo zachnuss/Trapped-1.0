@@ -28,10 +28,9 @@ public class ShieldedGuard : CommonGuard {
             //sprint
             if (_canSprint && Time.time > _restTimer) {
                 //increase speed for tracking
-                speed = _storeRegSpeed * 1.5f;
+                speed = _storeRegSpeed * 1.75f;
                 Invoke("_sprintCoolDown", 2.0f); //returns speed back when invoked
                 _canSprint = false;
-                Debug.Log("SPRINTING");
                 _restTimer = Time.time + _timeForRest;
             }
         }
@@ -74,6 +73,5 @@ public class ShieldedGuard : CommonGuard {
     private void _sprintCoolDown() {
         speed = _storeRegSpeed;
         _canSprint = true;
-        Debug.Log("STOP SPRINTING");
     }
 }

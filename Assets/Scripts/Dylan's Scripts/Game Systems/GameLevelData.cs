@@ -11,7 +11,6 @@ using UnityEngine;
 /// PlayerData takes from here to choose the next level
 /// </summary>
 /// 
-
 public enum modifierType
 {
    none,
@@ -49,6 +48,9 @@ public class GameLevelData : ScriptableObject
     [Header("Mods Active")]
     public Modifier[] mods;
     private Modifier lastModActivated;
+
+   // [HideInInspector]
+   // public bool overrideRandomLevel;
 
     public GameObject ChooseLevelP(levelTypeE levelType)
     {

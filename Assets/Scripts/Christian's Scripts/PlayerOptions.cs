@@ -72,7 +72,6 @@ public class PlayerOptions : MonoBehaviour {
                 AudioSource newSource = enemiesArr[i].GetComponent<AudioSource>();
                 newSource.volume = enemyFXVolume;
                 newSource.playOnAwake = false;
-                newSource.playOnAwake = false;
                 _enemyFXs.Add(newSource);
             }
         }

@@ -40,7 +40,7 @@ public class BaseEnemy : MonoBehaviour {
     public int pointValue;
     [Range(1f, 5f)] public float rateOfBehaviorChange = 2f;
     public GameObject specialCoin;
-    //public GameObject playerGO { get { return _playerGO; } }
+    public CubemapFace myFaceLocation { get { return _myFaceLocation; } }
 
     ///protected
     protected Behavior _myBehavior;
@@ -53,6 +53,7 @@ public class BaseEnemy : MonoBehaviour {
     private Vector3 _rotVal; //rotation
     private float _wallDetectRay = 0.75f;
     private bool _hasHitWall = false;
+    private CubemapFace _myFaceLocation;
 
     [Header("Modifers")]
     public bool doubleDamageMod = false;
@@ -283,8 +284,25 @@ public class BaseEnemy : MonoBehaviour {
 
         //get mods from level obj
         //if statement to prevent error with CommonGuard in MainMenu scene
+        //check my current cubeface
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0) {
             SetModifiers();
+
+            //get this enemie's transform.up to check for cubeface
+            //use conditional to check if positive or negative
+            Vector3 myUp = transform.up;
+            if (myUp[0] != 0f) {
+                _myFaceLocation = (myUp[0] > 0f) ? CubemapFace.PositiveX 
+                                                 : CubemapFace.NegativeX;
+            }
+            else if (myUp[1] != 0f) {
+                _myFaceLocation = (myUp[1] > 0f) ? CubemapFace.PositiveY
+                                                 : CubemapFace.NegativeY;
+            }
+            else if (myUp[2] != 0f) {
+                _myFaceLocation = (myUp[2] > 0f) ? CubemapFace.PositiveZ
+                                                 : CubemapFace.NegativeZ;
+            }
         }
     }
 

@@ -27,6 +27,30 @@ public class DoorTrigger : MonoBehaviour
 
     //future idea: add one way doors that players have to manually turn on and off or switch which direcitons they can go
 
+    /** BEGIN CHRISTIAN'S CODE **/
+    //This code will determine the two faces that the door is the barrier between
+    //and tells the EnemyListener which face we're transitioning to so that the
+    //appropriate enemies are seen on screen.
+    [HideInInspector]
+    public CubemapFace faceA, faceB;
+    public bool isTransitioning;
+
+    void Start()
+    {
+        isTransitioning = false;
+        //calculate my faceA and faceB
+        //Assume (0f, 0f, 0f) is the center of the cube
+        /**
+         * To Do:
+         *      -Check the coordinates in-game for how to deal with the position
+         *      and how to assign them.
+         *      --Initial thought: if +Y or -Y, one face must be NegY or PosY, etc.
+         */ 
+
+    }
+
+    /** END CHRISTIAN'S CODE **/
+
     private void Update()
     {
         if (direction)

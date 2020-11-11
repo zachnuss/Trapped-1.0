@@ -18,8 +18,8 @@ public class LevelSetup : MonoBehaviour
     //player can overide
     //[HideInInspector]
     
-    [HideInInspector]
-    public int permutationNum = 0;
+    //[HideInInspector]
+    public int permutationNum;
     public GameLevelData gameLevelData;
 
     public levelTypeE type;
@@ -30,9 +30,9 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
-    [SerializeField, HideInInspector]
+    [SerializeField]
     public bool dontLoadPermutation;
-    [SerializeField, HideInInspector]
+    [SerializeField]
     public bool overrideRandomLevel;
 
     /// <summary>
@@ -51,9 +51,9 @@ public class LevelSetup : MonoBehaviour
         SetModifiers();
         if (!dontLoadPermutation)
         {
-            if (overrideRandomLevel)
+            if (!overrideRandomLevel)
             {
-                Debug.Log("here");
+                //Debug.Log("here");
                 permutation = gameLevelData.ChooseLevelP(type);
                 Instantiate(permutation);
                 Debug.Log(permutation.name);

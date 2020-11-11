@@ -702,6 +702,9 @@ public class PlayerMovement : MonoBehaviour
             //ZACHARY ADDED THIS
             StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
 
+            if(trackingAmmunitionMod)
+                bullet.GetComponent<ProjectileScript>().smartBullets = true;
+
             //just to destroy stray bullets if they escape the walls
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.AddForce(bullet.transform.forward * 1000);

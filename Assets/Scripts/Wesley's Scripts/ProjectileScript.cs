@@ -11,6 +11,12 @@ public class ProjectileScript : MonoBehaviour
     private int damage; //How much damage the projectile does, modifiable by power ups, get from player logic
     private GameObject playerRef; //reference to player
 
+    public bool smartBullets = false;
+    public float smartCheckRadius = 1.0f;
+
+    public GameObject target;
+    public GameObject tracker;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +31,23 @@ public class ProjectileScript : MonoBehaviour
     void FixedUpdate()
     {
         //Move_Forward();
-        
+        Debug.DrawRay(transform.position, transform.forward, Color.green);
+
+        //move angle towards target
+        //if there is a target, use lerp or something to point bullet towards target
+        if (smartBullets) {
+           
+
+            if(target != null)
+            {
+                Debug.Log(target.name);
+                //Quaternion lookingRot = Quaternion.LookRotation(transform.position, Vector3.forward);
+                tracker.transform.LookAt(target.transform, Vector3.forward);
+                transform.rotation = Quaternion.Lerp(transform.rotation, tracker.transform.rotation, Time.time * 100);
+            }
+            else
+                CheckForTarget();
+        }
     }
 
 
@@ -88,4 +110,39 @@ public class ProjectileScript : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    //if there is a target in sphere detection, make it target
+    void CheckForTarget()
+    {
+        if(target == null)
+        {
+            Transform[] _nearby = collidersToTransforms(Physics.OverlapSphere(transform.position, smartCheckRadius));
+            foreach (Transform potentialTarget in _nearby)
+            {
+                if (potentialTarget.gameObject.tag == "Enemy" || potentialTarget.gameObject.tag == "WallTurret")
+                {
+                    //player in range, damage player
+                    if(target == null)
+                    {
+                        target = potentialTarget.gameObject;
+                    }
+                }
+            }
+        }
+    }
+
+    private Transform[] collidersToTransforms(Collider[] colliders)
+    {
+        Transform[] transforms = new Transform[colliders.Length];
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            transforms[i] = colliders[i].transform;
+        }
+        return transforms;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, smartCheckRadius);
+    }
 }

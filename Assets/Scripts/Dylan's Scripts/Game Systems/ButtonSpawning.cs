@@ -15,7 +15,7 @@ public class ButtonSpawning : MonoBehaviour
     [Header("The choosen button to spawn goes here")]
     public int indexChoosen;
 
-    private void Start()
+    private void Awake()
     {
         AssignButton();
     }

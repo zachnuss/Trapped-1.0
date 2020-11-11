@@ -128,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
     public bool doubleScoreMod = false;
     public bool serratedMod = false;
     public bool doubleDamage = false;
+    public bool personalSheild = false;
     //player takes damage and applies bleed, while active every second does 1 damage for 5 seconds. Each stack adds 1 damage
     public int bleedStacks = 0;
     public float bleedTimer = 0;
@@ -231,6 +232,9 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        //sheild mod
+        DamageStandbyTimer();
+
         //movement
         //detects if player is over an edge
         if (DetectEdge())
@@ -923,6 +927,8 @@ public class PlayerMovement : MonoBehaviour
                 UnityEngine.SceneManagement.SceneManager.LoadScene(6);
                 //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
             }
+
+            SheildRegenStop();
         }
     }
 
@@ -1210,6 +1216,8 @@ public class PlayerMovement : MonoBehaviour
         //bleedStacks--;
     }
 
+
+
     /// <summary>
     /// Dylan Loe
     /// Updated: 10-20-2020
@@ -1222,5 +1230,42 @@ public class PlayerMovement : MonoBehaviour
         _bleedCooldown = true;
         yield return new WaitForSeconds(0.5f);
         _bleedCooldown = false;
+    }
+
+
+    bool damageStbTimer = false;
+    float damageTimer = 0f;
+    public GameObject sheildObj;
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// - if enemy takes damage, begin timer, once timer is reached sheild can regen health
+    /// - will run in update, bool is active when takes damage, turns off when timer is done
+    /// </summary>
+    void DamageStandbyTimer()
+    {
+        if (damageStbTimer)
+        {
+            damageTimer += Mathf.RoundToInt(Time.deltaTime);
+            if (damageTimer >= 5)
+            {
+                damageStbTimer = false;
+                damageTimer = 0;
+                sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-20-2020
+    /// 
+    /// this runs when enemy takes damage from player
+    /// </summary>
+    public void SheildRegenStop()
+    {
+        damageStbTimer = true;
+        sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = false;
     }
 }

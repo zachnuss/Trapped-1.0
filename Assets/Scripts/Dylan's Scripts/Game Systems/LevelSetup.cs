@@ -12,11 +12,12 @@ public enum levelTypeE {
     none
 };
 
+
 public class LevelSetup : MonoBehaviour
 {
     //player can overide
-    [HideInInspector]
-    public bool overrideRandomLevel = false;
+    //[HideInInspector]
+    
     [HideInInspector]
     public int permutationNum = 0;
     public GameLevelData gameLevelData;
@@ -29,8 +30,10 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
-    [HideInInspector]
-    public bool dontLoadPermutation = false;
+    [SerializeField, HideInInspector]
+    public bool dontLoadPermutation;
+    [SerializeField, HideInInspector]
+    public bool overrideRandomLevel;
 
     /// <summary>
     /// Dylan Loe
@@ -42,17 +45,22 @@ public class LevelSetup : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         SetPlayer();
-        if (!overrideRandomLevel)
+        if (!dontLoadPermutation)
         {
-            permutation = gameLevelData.ChooseLevelP(type);
-            Instantiate(permutation);
-            Debug.Log(permutation.name);
-        }
-        else if(dontLoadPermutation)
-        {
-            permutation = gameLevelData.GetPermutation(type, permutationNum);
-            Instantiate(permutation);
-            Debug.Log("Manual Override for Permutation: " + permutation.name);
+            if (overrideRandomLevel)
+            {
+                Debug.Log("here");
+                permutation = gameLevelData.ChooseLevelP(type);
+                Instantiate(permutation);
+                Debug.Log(permutation.name);
+            }
+            else
+            {
+                permutation = gameLevelData.GetPermutation(type, permutationNum);
+                //if(permutation != null)
+                Instantiate(permutation);
+                Debug.Log("Manual Override for Permutation: " + permutation.name);
+            }
         }
         //set modifiers
         SetModifiers();
@@ -113,6 +121,7 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().doubleScoreMod = true;
             }
+
             if(currentModsInLevel[modIndex].modType == modifierType.SerratedAmmunition && currentModsInLevel[modIndex].modActive)
             {
                 _player.GetComponent<PlayerMovement>().serratedMod = true;
@@ -121,8 +130,11 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().doubleDamage = true;
             }
-        }
 
+
+        }
+        if (!_player.GetComponent<PlayerMovement>().personalSheild)
+            _player.GetComponent<PlayerMovement>().sheildObj.SetActive(false);
         Debug.Log("Mods Now Active in Level");
     }
 }

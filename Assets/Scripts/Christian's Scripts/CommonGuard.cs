@@ -222,42 +222,28 @@ public class CommonGuard : BaseEnemy {
         Vector3 vecToPlayer = (_playerGO.transform.position
                                 - transform.position).normalized;
         _moveDir = vecToPlayer;
-
+        _moveDir.y = 0;
         float spaceBetween;
 #if NOTSHOOTER
         spaceBetween = 0.75f;
 #else
-        spaceBetween = 1.5f;
+        spaceBetween = 2.5f;
 #endif
         //try using only quaternions (NAH)
         if (!_isEnemyFacingWall()) {
             //Enemies that don't shoot will simply ram in to the player
             //raycast to check if I'm too close to the player
-            RaycastHit hit;
-            bool hitSomething = Physics.Raycast(transform.position, 
-                                                vecToPlayer, out hit, spaceBetween);
-            if (!(hitSomething && hit.transform.tag == "Player")) {
-                //move the player
-                _moveDir.y = 0f;
+            if (Vector3.Distance(transform.position, _playerGO.transform.position)
+                < spaceBetween) {
+                //move
                 transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
-                //return;
             }
-            hit = new RaycastHit(); //reset val
-
-            Debug.DrawRay(transform.position, _moveDir * 5f, Color.red, 0.5f);
             /**
-             * The direction of this raycast doesn't seem to point in the right direction
+             * ADDITIONAL FEATURES TO BE ADDED
              */ 
-            if (Physics.Raycast(transform.position, _moveDir, out hit, playerRangeCheck)) {
-                if (hit.transform.tag != "Player" && hit.transform.tag != "Wall") {
-                    //transform.localEulerAngles += rotTo;
-                }
-            }
+            transform.LookAt(lookAtMe, lookAtMe.up);
         }
-        /**
-         * ADDITIONAL FEATURES TO BE ADDED
-         */ 
-        transform.LookAt(lookAtMe, lookAtMe.up);
+
     }
 
     //bool function checking if enemy should reset their state

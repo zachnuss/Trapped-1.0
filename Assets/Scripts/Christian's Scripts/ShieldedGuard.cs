@@ -30,7 +30,7 @@ public class ShieldedGuard : CommonGuard {
         if (dirOfPlayer != Direction.NULL && !_isBashing) {
             //change behavior
             _myBehavior = Behavior.TrackPlayer;
-            ///suspend changing behavior and set trackingTimer
+            //suspend changing behavior and set trackingTimer
             if (!_isTrackingPlayer) {
                 CancelInvoke("_changeBehavior");
                 _isTrackingPlayer = true;
@@ -43,7 +43,7 @@ public class ShieldedGuard : CommonGuard {
             }
         }
         else if (_hasLostPlayer()) {
-            ///resume change behavior
+            //resume change behavior
             if (_isTrackingPlayer) {
                 _resetBehaviors();
                 InvokeRepeating("_changeBehavior", 1.75f, rateOfBehaviorChange);
@@ -82,18 +82,22 @@ public class ShieldedGuard : CommonGuard {
     //Once facing the player, maintain _moveDir and run until "Wall" is hit
     private void _shieldBash() {
         //run directly toward player
-        speed = _storeRegSpeed * 2.0f;
-        transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
+        speed = _storeRegSpeed * 1.8f;
+        if (Vector3.Distance(transform.position, _playerGO.transform.position)
+            > 0.5f) {
+                transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
+        }
 
         //if wall is hit, stun
         if (_isEnemyFacingWall()) {
             _isBashing = false;
             speed = _storeRegSpeed;
-            InvokeRepeating("_changeBehavior", _timeStunned, rateOfBehaviorChange);
             Invoke("_resetBehaviors", _timeStunned);
+            InvokeRepeating("_changeBehavior", _timeStunned, rateOfBehaviorChange);
         }
     }
 
+    //debugging function for using Invoke()
     private void _invokeDebug() {
         Debug.Log("INVOKED");
     }

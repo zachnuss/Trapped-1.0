@@ -32,7 +32,7 @@ public class EnemyListener : MonoBehaviour {
     }
 
     /**
-     * To Do:
+     * TO DO:
      *      -Figure out a way to set a value to each door collider so that
      *      -When the player collides with it, setEnemiesOnFace()
      * 

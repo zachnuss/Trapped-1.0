@@ -11,12 +11,23 @@ public class ShieldedGuard : CommonGuard {
     ///private
     private float _timeForRest = 4f;
     private float _restTimer = 0f;
+    private float _timeStunned = 2.75f;
+    private bool _isBashing = false;
+
+    /**
+     * TO DO:
+     *      -When the ShieldedGuard spots the player, run directly at where the
+     *       player is until they hit the wall. And then they are stunned for 3 seconds
+     */ 
 
     //incorporate sprinting into this script
     protected override void Update() {
         //check direction to player
-        Direction dirOfPlayer = _isPlayerInRange();
-        if (dirOfPlayer != Direction.NULL) {
+        Direction dirOfPlayer = Direction.NULL;
+        if (!_isBashing && _myBehavior != Behavior.Idle) {
+            dirOfPlayer = _isPlayerInRange();
+        }
+        if (dirOfPlayer != Direction.NULL && !_isBashing) {
             //change behavior
             _myBehavior = Behavior.TrackPlayer;
             ///suspend changing behavior and set trackingTimer
@@ -25,13 +36,10 @@ public class ShieldedGuard : CommonGuard {
                 _isTrackingPlayer = true;
             }
             _trackingTimer = Time.time + playerSearchTimer;
-            //sprint
-            if (_canSprint && Time.time > _restTimer) {
-                //increase speed for tracking
-                speed = _storeRegSpeed * 1.75f;
-                Invoke("_sprintCoolDown", 2.0f); //returns speed back when invoked
-                _canSprint = false;
-                _restTimer = Time.time + _timeForRest;
+            //if facing the player, begin charging
+            if (dirOfPlayer == Direction.Forward) {
+                _isBashing = true;
+                _isTrackingPlayer = false;
             }
         }
         else if (_hasLostPlayer()) {
@@ -48,10 +56,13 @@ public class ShieldedGuard : CommonGuard {
             && !_isTrackingPlayer) {
             _move(_moveDir);
         }
-        else if (_isTrackingPlayer) {
+        else if (_isTrackingPlayer && !_isBashing) {
             //override _move() because the enemy will be too focussed on
             //the player to turn around when hitting the wall
             _trackPlayer();
+        }
+        else if (!_isTrackingPlayer && _isBashing) {
+            _shieldBash();
         }
 
         ///set animation states when necessary
@@ -68,10 +79,23 @@ public class ShieldedGuard : CommonGuard {
         }
     }
 
+    //Once facing the player, maintain _moveDir and run until "Wall" is hit
+    private void _shieldBash() {
+        //run directly toward player
+        speed = _storeRegSpeed * 2.0f;
+        transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
 
-    //call as invoke so the boolean will get swapped back
-    private void _sprintCoolDown() {
-        speed = _storeRegSpeed;
-        _canSprint = true;
+        //if wall is hit, stun
+        if (_isEnemyFacingWall()) {
+            _isBashing = false;
+            speed = _storeRegSpeed;
+            InvokeRepeating("_changeBehavior", _timeStunned, rateOfBehaviorChange);
+            Invoke("_resetBehaviors", _timeStunned);
+            Invoke("_invokeDebug", _timeStunned);
+        }
+    }
+
+    private void _invokeDebug() {
+        Debug.Log("INVOKED");
     }
 }

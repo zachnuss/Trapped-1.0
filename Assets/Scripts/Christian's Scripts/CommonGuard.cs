@@ -166,6 +166,7 @@ public class CommonGuard : BaseEnemy {
 
         //get location of child GOs
         Vector3 lookForward = _fwdDirGO.transform.position - transform.position;
+        Vector3 lookBackward = transform.position - _fwdDirGO.transform.position;
         Vector3 lookRight = _rightDirGO.transform.position - transform.position;
         Vector3 lookLeft = _leftDirGO.transform.position - transform.position;
 
@@ -190,6 +191,11 @@ public class CommonGuard : BaseEnemy {
             && hit.transform.tag == "Player") {
             dirOfPlayer = Direction.Right;
         }
+        //look behind
+        else if (Physics.Raycast(transform.position, lookBackward, out hit, 3.5f)
+            && hit.transform.tag == "Player") {
+            dirOfPlayer = Direction.Backwards;
+        }
         
         ///draw raycast in space to debug
         //draw forward
@@ -202,6 +208,11 @@ public class CommonGuard : BaseEnemy {
         //Debug.DrawRay(transform.position, lookRight.normalized, Color.blue, 0.2f, false);
         
         return dirOfPlayer;
+    }
+
+    //if the player goes behind a wall and is trying
+    protected bool _trackHiddenPlayer() {
+        return false;
     }
 
     //will operate the exact same as the _move function, but won't turn around

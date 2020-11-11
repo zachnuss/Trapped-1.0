@@ -91,7 +91,6 @@ public class ShieldedGuard : CommonGuard {
             speed = _storeRegSpeed;
             InvokeRepeating("_changeBehavior", _timeStunned, rateOfBehaviorChange);
             Invoke("_resetBehaviors", _timeStunned);
-            Invoke("_invokeDebug", _timeStunned);
         }
     }
 

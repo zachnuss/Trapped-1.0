@@ -16,6 +16,7 @@ public class ProjectileScript : MonoBehaviour
 
     public GameObject target;
     public GameObject tracker;
+    Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,9 @@ public class ProjectileScript : MonoBehaviour
         Physics.IgnoreCollision(this.GetComponent<Collider>(), playerRef.GetComponent<Collider>());
         //Physics.IgnoreCollision(this.GetComponent<Collider>(), playerRef.GetComponent<PlayerMovement>().sheildObj.GetComponent<ForceFieldsEnemy>().GetComponent<Collider>());
         //StartCoroutine(destroyProjectile());
+        rb = GetComponent<Rigidbody>();
+        rb.AddForce(transform.forward * 1000);
+        StartCoroutine(destroyProjectile());
     }
 
     // Update is called once per frame
@@ -37,13 +41,17 @@ public class ProjectileScript : MonoBehaviour
         //if there is a target, use lerp or something to point bullet towards target
         if (smartBullets) {
            
-
             if(target != null)
             {
                 Debug.Log(target.name);
                 //Quaternion lookingRot = Quaternion.LookRotation(transform.position, Vector3.forward);
                 tracker.transform.LookAt(target.transform, Vector3.forward);
                 transform.rotation = Quaternion.Lerp(transform.rotation, tracker.transform.rotation, Time.time * 100);
+
+               // rb.
+                rb.isKinematic = true;
+                rb.isKinematic = false;
+                rb.AddForce(transform.forward * 1000);
             }
             else
                 CheckForTarget();
@@ -69,15 +77,18 @@ public class ProjectileScript : MonoBehaviour
                 other.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code
             }
             other.GetComponent<BaseEnemy>().SheildRegenStop();
-            gameObject.SetActive(false);
-            
+            //gameObject.SetActive(false);
+            // StartCoroutine(OnDestruction());
+            Destroy(this.gameObject);
             ///Debug.Log("Enemy is taking damage.");
         }
         //More of Christian's code below
         else if (other.tag == "Shield")
         {
             //setactive false, don't destroy
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+           // StartCoroutine(OnDestruction());
+            Destroy(this.gameObject);
             ///Debug.Log("I hit the shield.");
         }
         //For sheild mods on enemies
@@ -88,7 +99,9 @@ public class ProjectileScript : MonoBehaviour
             {
                 
                 other.gameObject.GetComponent<ForceFieldsEnemy>().currentHealth -= damage;
-                gameObject.SetActive(false);
+                // gameObject.SetActive(false);
+                //StartCoroutine(OnDestruction());
+                Destroy(this.gameObject);
             }
         }
     }
@@ -97,8 +110,9 @@ public class ProjectileScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall" )
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             //Destroy(this.gameObject);
+            Destroy(this.gameObject);
         }
     }
 
@@ -110,12 +124,19 @@ public class ProjectileScript : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    public IEnumerator OnDestruction()
+    {
+        gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        Destroy(this.gameObject);
+    }
+
     //if there is a target in sphere detection, make it target
     void CheckForTarget()
     {
         if(target == null)
         {
-            Transform[] _nearby = collidersToTransforms(Physics.OverlapSphere(transform.position, smartCheckRadius));
+            Transform[] _nearby = collidersToTransforms(Physics.OverlapCapsule(transform.position, new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + 3), smartCheckRadius));
             foreach (Transform potentialTarget in _nearby)
             {
                 if (potentialTarget.gameObject.tag == "Enemy" || potentialTarget.gameObject.tag == "WallTurret")
@@ -144,5 +165,6 @@ public class ProjectileScript : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, smartCheckRadius);
+        Gizmos.DrawWireSphere(new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + 3), smartCheckRadius);
     }
 }

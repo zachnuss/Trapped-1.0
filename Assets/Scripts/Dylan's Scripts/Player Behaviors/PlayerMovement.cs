@@ -700,14 +700,13 @@ public class PlayerMovement : MonoBehaviour
             if (personalSheild)
                 Physics.IgnoreCollision(bullet.GetComponent<Collider>(), sheildObj.GetComponent<Collider>());
             //ZACHARY ADDED THIS
-            StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
+            //
 
             if(trackingAmmunitionMod)
                 bullet.GetComponent<ProjectileScript>().smartBullets = true;
 
             //just to destroy stray bullets if they escape the walls
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            rb.AddForce(bullet.transform.forward * 1000);
+            
             // _repeatedFire = true;
             //when we fire we run fire animation once (firing state is active while animation is active)
             // StartCoroutine(FireState());

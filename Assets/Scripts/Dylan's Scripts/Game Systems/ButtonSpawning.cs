@@ -15,7 +15,7 @@ public class ButtonSpawning : MonoBehaviour
     [Header("The choosen button to spawn goes here")]
     public int indexChoosen;
 
-    private void Start()
+    private void Awake()
     {
         AssignButton();
     }
@@ -29,7 +29,7 @@ public class ButtonSpawning : MonoBehaviour
     public void AssignButton()
     {
         indexChoosen = Random.Range(0, possibleButtons.Length);
-        Debug.Log("choosen " + indexChoosen);
+        //Debug.Log("choosen " + indexChoosen);
         for(int objs = 0; objs <= possibleButtons.Length - 1; objs++)
         {
             if(objs == indexChoosen)

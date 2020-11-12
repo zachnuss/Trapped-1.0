@@ -18,8 +18,8 @@ public class LevelSetup : MonoBehaviour
     //player can overide
     //[HideInInspector]
     
-    [HideInInspector]
-    public int permutationNum = 0;
+    //[HideInInspector]
+    public int permutationNum;
     public GameLevelData gameLevelData;
 
     public levelTypeE type;
@@ -30,9 +30,9 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
-    [SerializeField, HideInInspector]
+    [SerializeField]
     public bool dontLoadPermutation;
-    [SerializeField, HideInInspector]
+    [SerializeField]
     public bool overrideRandomLevel;
 
     /// <summary>
@@ -43,13 +43,17 @@ public class LevelSetup : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+       
+
         _player = GameObject.FindGameObjectWithTag("Player");
         SetPlayer();
+        //set modifiers
+        SetModifiers();
         if (!dontLoadPermutation)
         {
-            if (overrideRandomLevel)
+            if (!overrideRandomLevel)
             {
-                Debug.Log("here");
+                //Debug.Log("here");
                 permutation = gameLevelData.ChooseLevelP(type);
                 Instantiate(permutation);
                 Debug.Log(permutation.name);
@@ -62,8 +66,7 @@ public class LevelSetup : MonoBehaviour
                 Debug.Log("Manual Override for Permutation: " + permutation.name);
             }
         }
-        //set modifiers
-        SetModifiers();
+        
     }
 
     /// <summary>
@@ -130,11 +133,25 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().doubleDamage = true;
             }
+            if(currentModsInLevel[modIndex].modType == modifierType.LowPoweredGeneratorMOD && currentModsInLevel[modIndex].modActive)
+            {
+               // Debug.Log("health mod");
+                _player.GetComponent<PlayerMovement>().personalSheild = true;
+                _player.GetComponent<PlayerMovement>().sheildObj.SetActive(true);
 
+                _player.GetComponent<PlayerMovement>().playerData.ActivateHalfHealthMod();
+            }
+            if(currentModsInLevel[modIndex].modType == modifierType.TrackingAmmunitionMOD && currentModsInLevel[modIndex].modActive)
+            {
+                _player.GetComponent<PlayerMovement>().trackingAmmunitionMod = true;
+                _player.GetComponent<PlayerMovement>().mortarGrid.SetActive(true);
+                //FindObjectOfType<MortarModBehavior>().enabled = true;
+                //GameObject.Find("MortarGrid").SetActive(true);
 
+            }
         }
-        if (!_player.GetComponent<PlayerMovement>().personalSheild)
-            _player.GetComponent<PlayerMovement>().sheildObj.SetActive(false);
+    
+           
         Debug.Log("Mods Now Active in Level");
     }
 }

@@ -50,6 +50,18 @@ public class EnemyProjectile : MonoBehaviour {
             if (hit.transform.tag == "Wall") {
                 return true;
             }
+            //when enemy bullets hit player sheild
+            if(hit.transform.tag == "PlayerShieldMod")
+            {
+                Debug.Log("hit sheild");
+                if (!hit.transform.gameObject.GetComponent<ForceFieldsEnemy>().inactive)
+                {
+
+                    hit.transform.gameObject.GetComponent<ForceFieldsEnemy>().currentHealth -= damage;
+                    return true;
+                }
+                
+            }
         }
         return false;
     }

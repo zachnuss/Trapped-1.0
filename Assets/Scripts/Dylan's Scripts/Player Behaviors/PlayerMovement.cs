@@ -129,6 +129,8 @@ public class PlayerMovement : MonoBehaviour
     public bool serratedMod = false;
     public bool doubleDamage = false;
     public bool personalSheild = false;
+    public bool trackingAmmunitionMod = false;
+    public GameObject mortarGrid;
     //player takes damage and applies bleed, while active every second does 1 damage for 5 seconds. Each stack adds 1 damage
     public int bleedStacks = 0;
     public float bleedTimer = 0;
@@ -695,12 +697,16 @@ public class PlayerMovement : MonoBehaviour
             GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.rotation);
 
             Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
+            if (personalSheild)
+                Physics.IgnoreCollision(bullet.GetComponent<Collider>(), sheildObj.GetComponent<Collider>());
             //ZACHARY ADDED THIS
-            StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
+            //
+
+            if(trackingAmmunitionMod)
+                bullet.GetComponent<ProjectileScript>().smartBullets = true;
 
             //just to destroy stray bullets if they escape the walls
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            rb.AddForce(bullet.transform.forward * 1000);
+            
             // _repeatedFire = true;
             //when we fire we run fire animation once (firing state is active while animation is active)
             // StartCoroutine(FireState());
@@ -1238,9 +1244,9 @@ public class PlayerMovement : MonoBehaviour
     public GameObject sheildObj;
     /// <summary>
     /// Dylan Loe
-    /// Updated: 10-20-2020
+    /// Updated: 11-5-2020
     /// 
-    /// - if enemy takes damage, begin timer, once timer is reached sheild can regen health
+    /// - if player takes damage, begin timer, once timer is reached sheild can regen health
     /// - will run in update, bool is active when takes damage, turns off when timer is done
     /// </summary>
     void DamageStandbyTimer()
@@ -1259,9 +1265,9 @@ public class PlayerMovement : MonoBehaviour
 
     /// <summary>
     /// Dylan Loe
-    /// Updated: 10-20-2020
+    /// Updated: 11-5-2020
     /// 
-    /// this runs when enemy takes damage from player
+    /// this runs when player takes damage
     /// </summary>
     public void SheildRegenStop()
     {

@@ -22,13 +22,13 @@ public class ShieldedGuard : CommonGuard {
             ///suspend changing behavior
             CancelInvoke("_changeBehavior");
 
-            ////sprint
-            //if (_canSprint) {
-            //    //increase speed for tracking
-            //    speed = _storeRegSpeed * 1.25f;
-            //    Invoke("_sprintCoolDown", 2.5f); //returns speed back when invoked
-            //    _canSprint = false;
-            //}
+            //sprint
+            if (_canSprint) {
+                //increase speed for tracking
+                speed = _storeRegSpeed * 1.25f;
+                Invoke("_sprintCoolDown", 2.5f); //returns speed back when invoked
+                _canSprint = false;
+            }
         }
         else {
             ///resume change behavior

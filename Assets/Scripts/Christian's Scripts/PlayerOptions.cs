@@ -9,7 +9,7 @@
  */
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; //check for Start()
+using UnityEngine.SceneManagement;
 //libraries for writing persistant data
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;

@@ -94,6 +94,8 @@ public class PlayerData : ScriptableObject
 
     [HideInInspector]
     public bool godMode = false;
+    [HideInInspector]
+    public bool startAtHalf = false;
 
     /// <summary>
     /// Dylan Loe
@@ -201,7 +203,7 @@ public class PlayerData : ScriptableObject
 
     /// <summary>
     /// Dylan Loe
-    /// Updated: 10-20-2020
+    /// Updated: 11-5-2020
     /// 
     /// Runs when game is initially started from menu, sets variables, loads level 1 and starts setting up the mods
     /// </summary>
@@ -230,6 +232,9 @@ public class PlayerData : ScriptableObject
         matchSpecialCoinCollected = 0;
         localHealth = totalHealthBase;
         gameLevelData.InitialModSetup();
+        startAtHalf = false;
+        //if (gameLevelData.CheckIfModActive(modifierType.LowPoweredGeneratorMOD))
+        // totalHealthBase = 50;
         SceneManager.LoadScene("Level1");
     }
 
@@ -265,6 +270,7 @@ public class PlayerData : ScriptableObject
         matchScoreFromTime = 0;
         matchSpecialCoinCollected = 0;
         localHealth = totalHealthBase;
+        startAtHalf = false;
         gameLevelData.InitialModSetup();
     }
 
@@ -764,11 +770,8 @@ public class PlayerData : ScriptableObject
         SaveFile();
     }
 
-    
-
 
     //Save Game - Wesley
-
     public void SaveFile()
     {
         Debug.Log("Saving Data");
@@ -825,5 +828,16 @@ public class PlayerData : ScriptableObject
         character2Color3 = loadData.character2Color3;
 
         file.Close();
+    }
+
+    public void ActivateHalfHealthMod()
+    {
+        if(!startAtHalf)
+        {
+            //Debug.Log("cut health in half");
+            startAtHalf = true;
+            totalHealthBase = totalHealthBase / 2;
+            localHealth = localHealth / 2;
+        }
     }
 }

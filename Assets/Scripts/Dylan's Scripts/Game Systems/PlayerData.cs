@@ -64,6 +64,7 @@ public class PlayerData : ScriptableObject
     [Header("Player Color")]
     public int materialChoice = 0;
     public int materialChoice2 = 0;
+    public int petChoice = 0;
     public Material[] playerColor;
     public Material[] player2Color;
     public bool characterModelSwitch;
@@ -81,12 +82,15 @@ public class PlayerData : ScriptableObject
     [Header("Character Customization")]
     //Character Customization shopping - Wesley
     public bool character2Purchase = false;
+    public bool characterPet2Purchase = false;
+    public bool characterPet3Purchase = false;
     public bool character1Color2 = false;
     public bool character1Color3 = false;
     public bool character2Color2 = false;
     public bool character2Color3 = false;
     public int characterCost;
     public int colorCost;
+    public int petCost;
 
     [HideInInspector]
     public bool godMode = false;
@@ -576,6 +580,72 @@ public class PlayerData : ScriptableObject
                 character = GameObject.Find("secondCharacter_low").gameObject;
                 character.GetComponent<MeshRenderer>().material = player2Color[materialChoice2];
             }
+        }
+    }
+
+    /// <summary>
+    /// Wesley
+    /// Updated: 11-12-2020
+    /// 
+    /// Sets Pet on player
+    /// Also controls purchasing of pets
+    /// </summary>
+    public void ChangePet(int input)
+    {
+        if(input == 0)
+        {
+            petChoice = input;
+        }
+        else if(input == 1 && characterPet2Purchase == true)
+        {
+            petChoice = input;
+        }
+        else if(input == 1 && characterPet2Purchase == false)
+        {
+            if (specialCoins >= petCost)
+            {
+                UseSpecialCoin(petCost);
+                characterPet2Purchase = true;
+                petChoice = input;
+            }
+        }
+        else if (input == 2 && characterPet3Purchase == true)
+        {
+            petChoice = input;
+        }
+        else if (input == 2 && characterPet3Purchase == false)
+        {
+            if (specialCoins >= petCost)
+            {
+                UseSpecialCoin(petCost);
+                characterPet3Purchase = true;
+                petChoice = input;
+            }
+        }
+        SetPet();
+    }
+
+    /// <summary>
+    /// Wesley
+    /// Updated: 11-12-2020
+    /// 
+    /// Sets Pet on player
+    /// </summary>
+    public void SetPet()
+    {
+        if(petChoice == 0)
+        {
+            //disable both pet models
+        }
+        if(petChoice == 1)
+        {
+            //disable pet model 2
+            //enable pet model 1
+        }
+        if(petChoice == 2)
+        {
+            //disable pet model 1
+            //endable pet model 2
         }
     }
 

@@ -32,7 +32,12 @@ public class MortarModBehavior : MonoBehaviour
     float minTime;
     float maxTime;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Dylan Loe
+    /// Updated 11-12-2020
+    /// 
+    /// Creates grid based on stats, starts bombing process
+    /// </summary>
     void Start()
     {
         myLevelSetUp = FindObjectOfType<LevelSetup>();
@@ -45,6 +50,12 @@ public class MortarModBehavior : MonoBehaviour
         StartCoroutine(SpawnMortar());
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// Spawns the nodes and creates the grid
+    /// </summary>
     void CreateGrid()
     {
         Debug.Log("Creating Mortar Grid");
@@ -67,7 +78,7 @@ public class MortarModBehavior : MonoBehaviour
                 nodeTile.transform.localPosition = new Vector3(x, 0, y);
                 
                 grid2DArray[rows, col] = nodeTile;
-                nodeTile.transform.parent = this.transform;
+                nodeTile.transform.parent = this.gameObject.transform;
                 
             }
         }
@@ -75,33 +86,38 @@ public class MortarModBehavior : MonoBehaviour
        // Destroy(node);
     }
 
-    //sets start point depending on level cube size
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// Initial setup based on size of level
+    /// </summary>
    void SetGridStartPoint()
    {
         switch (myLevelSetUp.type)
         {
             case levelTypeE.EasyLevel:
-                this.transform.localPosition = new Vector3(-18, 40, -18);
+               // this.transform.localPosition = new Vector3(-18, 40, -18);
                 //distanceBetweenNodes = 5.0f;
-                width = 8;
-                height = 8;
+               // width = 8;
+               // height = 8;
                 minTime = 4;
-                maxTime = 10;
+                maxTime = 9;
                 break;
             case levelTypeE.MidLevel:
-                this.transform.localPosition = new Vector3(-25, 50, -25);
+               // this.transform.localPosition = new Vector3(-25, 50, -25);
                 //distanceBetweenNodes = 5.03f;
-                width = 11;
-                height = 11;
+               // width = 11;
+              //  height = 11;
                 minTime = 2;
                 maxTime = 8;
                 break;
             case levelTypeE.Hardlevel:
-                Debug.Log("hi");
-                this.transform.localPosition = new Vector3(-33.7f, 60, -33.7f);
-                distanceBetweenNodes = 4.5f;
-                width = 16;
-                height = 16;
+                //Debug.Log("hi");
+                //this.transform.localPosition = new Vector3(-33.7f, 60, -33.7f);
+              //  distanceBetweenNodes = 4.5f;
+              //  width = 16;
+               // height = 16;
                 minTime = 1;
                 maxTime = 6;
                 break;
@@ -114,6 +130,13 @@ public class MortarModBehavior : MonoBehaviour
     }
 
     //mortal spawning is done a timer that times a random range between 4 - 10 seconds
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// Spawns a mortar prefab
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SpawnMortar()
     {
         float timeWaiting = Random.Range(minTime, maxTime);
@@ -123,10 +146,17 @@ public class MortarModBehavior : MonoBehaviour
 
         GameObject mortar = Instantiate(mortalPref, grid2DArray[wIndex, hIndex].transform.position, this.transform.rotation);
         mortar.GetComponent<MortarShell>().lineSpeed = tracingLineSpeed;
+        //mortar.transform.parent = this.gameObject.transform;
         StartCoroutine(SpawnMortar());
     }
 }
 
+/// <summary>
+/// Dylan Loe
+/// Updated: 11-12-2020
+/// 
+/// Each node is simply visible on gizmo
+/// </summary>
 public class NodeRef : MonoBehaviour
 {
     private void OnDrawGizmos()

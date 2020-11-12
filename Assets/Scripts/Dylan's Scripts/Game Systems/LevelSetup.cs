@@ -18,7 +18,7 @@ public class LevelSetup : MonoBehaviour
     //player can overide
     //[HideInInspector]
     
-    //[HideInInspector]
+    [HideInInspector]
     public int permutationNum;
     public GameLevelData gameLevelData;
 

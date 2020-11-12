@@ -15,15 +15,15 @@ public class SwitchPetText : MonoBehaviour
     {
         if (pet2 == true)
         {
-            //SwitchTextPet2();
+            SwitchTextPet2();
         }
         else
         {
-            //SwitchTextPet3();
+            SwitchTextPet3();
         }
     }
 
-    /*public void SwitchTextPet2()
+    public void SwitchTextPet2()
     {
         if (playerdata.characterPet2Purchase == false)
         {
@@ -45,6 +45,6 @@ public class SwitchPetText : MonoBehaviour
         {
             targetText.text = boolTrue;
         }
-    }*/
+    }
 
 }

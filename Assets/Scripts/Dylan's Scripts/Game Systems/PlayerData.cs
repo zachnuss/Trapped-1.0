@@ -637,27 +637,19 @@ public class PlayerData : ScriptableObject
     /// </summary>
     public void SetPet()
     {
-        GameObject pet1 = GameObject.Find("pet_wasp");
-        GameObject pet2 = GameObject.Find("Pet2");
         if(petChoice == 0)
         {
             //disable both pet models
-            pet1.GetComponent<Renderer>().enabled = false;
-            pet2.GetComponent<Renderer>().enabled = false;
         }
         if(petChoice == 1)
         {
             //disable pet model 2
             //enable pet model 1
-            pet2.GetComponent<Renderer>().enabled = false;
-            pet1.GetComponent<Renderer>().enabled = true;
         }
         if(petChoice == 2)
         {
             //disable pet model 1
             //endable pet model 2
-            pet1.GetComponent<Renderer>().enabled = false;
-            pet2.GetComponent<Renderer>().enabled = true;
         }
     }
 
@@ -774,7 +766,7 @@ public class PlayerData : ScriptableObject
         AddTotalEnemyScore(matchScoreFromEnemies);
         SaveFile();
     }
-    
+
     //Save Game - Wesley
 
     public void SaveFile()

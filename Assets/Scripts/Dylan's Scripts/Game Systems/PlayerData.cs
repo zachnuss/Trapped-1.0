@@ -233,14 +233,12 @@ public class PlayerData : ScriptableObject
         localHealth = totalHealthBase;
         gameLevelData.InitialModSetup();
         startAtHalf = false;
-        //if (gameLevelData.CheckIfModActive(modifierType.LowPoweredGeneratorMOD))
-        // totalHealthBase = 50;
         SceneManager.LoadScene("Level1");
     }
 
     /// <summary>
     /// Dylan Loe
-    /// Updated: 10-21-2020
+    /// Updated: 11-5-2020
     /// 
     /// Activated with gui, will reset values for testing and debugging, as if start game was activated
     /// </summary>
@@ -778,6 +776,7 @@ public class PlayerData : ScriptableObject
     }
 
     //Save Game - Wesley
+
     public void SaveFile()
     {
         Debug.Log("Saving Data");

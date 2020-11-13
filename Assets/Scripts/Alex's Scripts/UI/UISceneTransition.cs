@@ -26,6 +26,13 @@ public class UISceneTransition : MonoBehaviour
         Debug.Log("Time to pick a character!");
     }
 
+    //Changes scene to the Achievements scene
+    public void achieve()
+    {
+        SceneManager.LoadScene(11);
+        Debug.Log("Let's see those achievements!");
+    }
+
     //Changes scene to the options scene
     public void options()
     {
@@ -73,5 +80,5 @@ public class UISceneTransition : MonoBehaviour
  * Credits - 7
  * End Scene for Playtest - 5
  * Game Over Scene - 6
- * 
+ * Achievements - 11
  */

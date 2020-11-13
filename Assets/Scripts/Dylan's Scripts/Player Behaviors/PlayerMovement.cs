@@ -323,7 +323,7 @@ public class PlayerMovement : MonoBehaviour
 
         transform.localPosition = Vector3.zero;
         //this.GetComponent<Rigidbody>().isKinematic = true;
-        this.GetComponent<SphereCollider>().isTrigger = true;
+        this.GetComponent<Collider>().isTrigger = true;
 
         follower.transform.parent = PlayerRotate.transform;
         //Debug.Log(follower.transform.localEulerAngles);

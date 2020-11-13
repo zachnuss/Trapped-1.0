@@ -768,9 +768,6 @@ public class PlayerData : ScriptableObject
         SaveFile();
     }
 
-    
-
-
     //Save Game - Wesley
 
     public void SaveFile()

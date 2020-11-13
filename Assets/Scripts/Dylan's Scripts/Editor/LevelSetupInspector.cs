@@ -7,6 +7,7 @@ using UnityEngine;
 public class LevelSetupInspector : Editor
 {
     string overrideStatus;
+    
     LevelSetup myLevelData;
 
     private void Awake()
@@ -46,7 +47,7 @@ public class LevelSetupInspector : Editor
         {
             overrideStatus = "Override Active";
             if(!myLevelData.dontLoadPermutation)
-                EditorGUILayout.IntField("Permutation to Override: ", myLevelData.permutationNum);
+                myLevelData.permutationNum = EditorGUILayout.IntField("Permutation to Override: ", myLevelData.permutationNum);
 
             if (GUILayout.Button(buttonStr))
             {
@@ -69,8 +70,8 @@ public class LevelSetupInspector : Editor
             overrideStatus = "Override Inctive";
 
         EditorGUILayout.LabelField("Override Status: ", overrideStatus);
-        
 
+        // = permutation;
         EditorGUILayout.Space();
         base.OnInspectorGUI();
     }

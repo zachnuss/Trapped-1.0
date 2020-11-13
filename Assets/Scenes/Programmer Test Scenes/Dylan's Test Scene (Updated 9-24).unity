@@ -1293,7 +1293,7 @@ PrefabInstance:
     - target: {fileID: 1115879788792886702, guid: 6b6051a2accefa44580d0c03760a3626,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.06
+      value: 5.73
       objectReference: {fileID: 0}
     - target: {fileID: 1115879788792886702, guid: 6b6051a2accefa44580d0c03760a3626,
         type: 3}
@@ -1338,7 +1338,7 @@ PrefabInstance:
     - target: {fileID: 2266516961954485775, guid: 6b6051a2accefa44580d0c03760a3626,
         type: 3}
       propertyPath: smartCheckRadius
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2266516961954485775, guid: 6b6051a2accefa44580d0c03760a3626,
         type: 3}
@@ -1348,12 +1348,17 @@ PrefabInstance:
     - target: {fileID: 4490851108324524620, guid: 6b6051a2accefa44580d0c03760a3626,
         type: 3}
       propertyPath: m_Constraints
-      value: 0
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 4863383300861185225, guid: 6b6051a2accefa44580d0c03760a3626,
         type: 3}
       propertyPath: m_Name
       value: PlayerBullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863383300861185225, guid: 6b6051a2accefa44580d0c03760a3626,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b6051a2accefa44580d0c03760a3626, type: 3}
@@ -1554,7 +1559,12 @@ PrefabInstance:
     - target: {fileID: 2106834315843338599, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106834315843338599, guid: 716f5c8b413961442a5458bad0fa68db,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 2644171173463690856, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
@@ -2167,6 +2177,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HallwayBot
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147948300417047861, guid: c1f046e7d71197647a2a21d377efb485,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3147948300417047864, guid: c1f046e7d71197647a2a21d377efb485,
         type: 3}

@@ -1355,6 +1355,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerBullet
       objectReference: {fileID: 0}
+    - target: {fileID: 4863383300861185225, guid: 6b6051a2accefa44580d0c03760a3626,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b6051a2accefa44580d0c03760a3626, type: 3}
 --- !u!1 &1110607398
@@ -2172,6 +2177,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HallwayBot
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147948300417047861, guid: c1f046e7d71197647a2a21d377efb485,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3147948300417047864, guid: c1f046e7d71197647a2a21d377efb485,
         type: 3}

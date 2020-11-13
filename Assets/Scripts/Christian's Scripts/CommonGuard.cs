@@ -3,6 +3,7 @@
  * Summary: First instance of inheritance of the BaseEnemy class.
  */
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum CubeFace {
     PosX, PosY, PosZ, NegX, NegY, NegZ, NULL
@@ -62,6 +63,15 @@ public class CommonGuard : BaseEnemy {
             //destroy enemy last to avoid bugs
             Destroy(gameObject);
         }
+    }
+
+    //Set to replace the SetActive function as it's hard to call an object that's
+    //not active
+    public override void activateAI(bool isActive)
+    {
+        //execute inheritted version
+        base.activateAI(isActive);
+        GetComponent<CapsuleCollider>().enabled = isActive;
     }
 
     /**     PROTECTED FUNCTIONS     */
@@ -160,6 +170,14 @@ public class CommonGuard : BaseEnemy {
 
     //if the player is never hit, then return Direction.NULL
     protected Direction _isPlayerInRange() {
+        /**
+         * TO DO:
+         *   -Make another version of this range check function, but start by
+         *   looking at the far left and using interpolation, move the raycast
+         *   direction more and more to the right.
+         *   -Use yield return WaitForFixedUpdate()
+         * 
+         */ 
         Direction dirOfPlayer = Direction.NULL;
         float castDist = playerRangeCheck;
         RaycastHit hit;

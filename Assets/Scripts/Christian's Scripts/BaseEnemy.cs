@@ -77,6 +77,8 @@ public class BaseEnemy : MonoBehaviour {
         //did the enemy die?
         if (health < 1) {
             health = 0;
+            //remove from enemy listener
+            EnemyListener.Instance.deleteFromList(gameObject);
             //give score to player
             player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             player.GetComponent<PlayerMovement>().playerData.TrackEnemyScore(pointValue);
@@ -107,6 +109,28 @@ public class BaseEnemy : MonoBehaviour {
         damage = Mathf.FloorToInt(damage * multiplier);
         speed = Mathf.FloorToInt(speed * speedMultipler);
         pointValue = Mathf.FloorToInt(pointValue * multiplier);
+    }
+
+    //Set to replace the SetActive function as it's hard to call an object that's
+    //not active
+    public virtual void activateAI(bool isActive) {
+        //HallwayBot(Rumba) instance
+        int childCount = transform.childCount;
+        for (int i = 0; i < childCount; ++i) {
+            GameObject curGO = transform.GetChild(i).gameObject;
+            if (curGO.tag != "ShieldMod") {
+                curGO.SetActive(isActive);
+            }
+        }
+        //set behavior
+        if (isActive) {
+            InvokeRepeating("_changeBehavior", 0f, rateOfBehaviorChange);
+        }
+        else {
+            CancelInvoke("_changeBehavior");
+            _myBehavior = Behavior.Idle;
+        }
+        GetComponent<AudioSource>().enabled = isActive;
     }
 
     ///protected
@@ -287,9 +311,27 @@ public class BaseEnemy : MonoBehaviour {
         //check my current cubeface
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0) {
             SetModifiers();
-
+            _myFaceLocation = CubemapFace.Unknown;
+            string parentName = transform.parent.name;
+            switch (parentName)
+            {
+                //x axis and z axis are swapped
+                case "Z": //x-axis
+                    _myFaceLocation = (transform.position[0] > 0f) ? CubemapFace.PositiveX
+                                                                   : CubemapFace.NegativeX;
+                    break;
+                case "Y": //y-axis
+                    _myFaceLocation = (transform.position[1] > 0f) ? CubemapFace.PositiveY
+                                                                   : CubemapFace.NegativeY;
+                    break;
+                case "X": //z-axis
+                    _myFaceLocation = (transform.position[2] > 0f) ? CubemapFace.PositiveZ
+                                                                   : CubemapFace.NegativeZ;
+                    break;
+            }
             //get this enemie's transform.up to check for cubeface
             //use conditional to check if positive or negative
+            /*
             Vector3 myUp = transform.up;
             if (myUp[0] != 0f) {
                 _myFaceLocation = (myUp[0] > 0f) ? CubemapFace.PositiveX 
@@ -303,6 +345,7 @@ public class BaseEnemy : MonoBehaviour {
                 _myFaceLocation = (myUp[2] > 0f) ? CubemapFace.PositiveZ
                                                  : CubemapFace.NegativeZ;
             }
+            */
         }
     }
 

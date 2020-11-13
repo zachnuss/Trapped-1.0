@@ -45,7 +45,7 @@ public class EnemyShooting : MonoBehaviour
     IEnumerator Start() {
         //initialize values
         CommonGuard cG = GetComponent<CommonGuard>();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForFixedUpdate();
         _fwdDirGO = cG.fwdDirGO;
         //assignStats(cG.speed, cG.damage);//, cG.fwdDirGO.transform.position);
         _speed = cG.speed * 2f;

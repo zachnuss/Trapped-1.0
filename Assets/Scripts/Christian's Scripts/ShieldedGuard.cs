@@ -14,11 +14,23 @@ public class ShieldedGuard : CommonGuard {
     private float _timeStunned = 2.75f;
     private bool _isBashing = false;
 
-    /**
-     * TO DO:
-     *      -When the ShieldedGuard spots the player, run directly at where the
-     *       player is until they hit the wall. And then they are stunned for 3 seconds
-     */ 
+    //Set to replace the SetActive function as it's hard to call an object that's
+    //not active
+    public override void activateAI(bool isActive)
+    {
+        base.activateAI(isActive);
+        /*
+        MeshRenderer mObjectBody = transform.GetChild(4).gameObject.GetComponent<MeshRenderer>();
+        MeshRenderer mObjectShield = transform.GetChild(5).gameObject.GetComponent<MeshRenderer>();
+        CapsuleCollider cCollider = GetComponent<CapsuleCollider>();
+        BoxCollider bCollider = transform.GetChild(5).gameObject.GetComponent<BoxCollider>();
+
+        mObjectBody.enabled = isActive;
+        mObjectShield.enabled = isActive;
+        cCollider.enabled = isActive;
+        bCollider.enabled = isActive;
+        */
+    }
 
     //incorporate sprinting into this script
     protected override void Update() {

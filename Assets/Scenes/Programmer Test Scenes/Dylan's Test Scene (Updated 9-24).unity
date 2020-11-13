@@ -710,7 +710,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &750067429
 Light:
   m_ObjectHideFlags: 0
@@ -1591,6 +1591,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6685021155176006653, guid: 716f5c8b413961442a5458bad0fa68db,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7571365785621622437, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_Name
@@ -1941,8 +1946,8 @@ MonoBehaviour:
   - modActive: 0
     modDescription: 
     modType: 0
-  dontLoadPermutation: 1
-  overrideRandomLevel: 1
+  dontLoadPermutation: 0
+  overrideRandomLevel: 0
 --- !u!4 &1472815945
 Transform:
   m_ObjectHideFlags: 0

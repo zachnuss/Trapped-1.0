@@ -323,7 +323,7 @@ public class PlayerMovement : MonoBehaviour
 
         transform.localPosition = Vector3.zero;
         //this.GetComponent<Rigidbody>().isKinematic = true;
-        this.GetComponent<BoxCollider>().isTrigger = true;
+        this.GetComponent<Collider>().isTrigger = true;
 
         follower.transform.parent = PlayerRotate.transform;
         //Debug.Log(follower.transform.localEulerAngles);
@@ -389,7 +389,7 @@ public class PlayerMovement : MonoBehaviour
                 overTheEdge = false;
                 // Debug.Log(overTheEdge);
                 //this.GetComponent<Rigidbody>().isKinematic = false;
-                this.GetComponent<BoxCollider>().isTrigger = false;
+                this.GetComponent<Collider>().isTrigger = false;
             }
 
             //adjsut u value to the ranger from uMin to uMax

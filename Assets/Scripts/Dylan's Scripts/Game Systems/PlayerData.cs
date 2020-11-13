@@ -766,7 +766,6 @@ public class PlayerData : ScriptableObject
     }
 
     //Endgame tasks - update all score values
-
     public void EndGameScoring()
     {
         SaveHighscore();
@@ -777,7 +776,6 @@ public class PlayerData : ScriptableObject
         AddTotalEnemyScore(matchScoreFromEnemies);
         SaveFile();
     }
-
 
     //Save Game - Wesley
     public void SaveFile()

@@ -16,7 +16,12 @@ public class MortarShell : MonoBehaviour
     float distance;
     float increment;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// Sets line renderer inital values
+    /// </summary>
     void Start()
     {
         mortarLine = GetComponent<LineRenderer>();
@@ -27,7 +32,12 @@ public class MortarShell : MonoBehaviour
         CastLine();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// Moves downward 
+    /// </summary>
     void FixedUpdate()
     {
         //transform.Translate(-this.transform.up * speed * Time.deltaTime);
@@ -35,6 +45,12 @@ public class MortarShell : MonoBehaviour
         //CastLine();
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// Animate line as it moves downward
+    /// </summary>
     private void Update()
     {
         if(increment < distance)
@@ -52,6 +68,12 @@ public class MortarShell : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// If it hits anything
+    /// </summary>
     private void OnTriggerEnter(Collider other)
     {
         //if it hits anything
@@ -59,7 +81,12 @@ public class MortarShell : MonoBehaviour
             Detonation();
     }
 
-    
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// Looks for player in detection then damages them
+    /// </summary>
     void Detonation()
     {
 
@@ -82,7 +109,12 @@ public class MortarShell : MonoBehaviour
     }
 
 
-    //mortar will cast a raycast down until it hits the ground. Line renderer will go from this.transform.position to the hit.transform.position
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// Starts line detection based on if there is ground under them. Mortar will cast a raycast down until it hits the ground. Line renderer will go from this.transform.position to the hit.transform.position
+    /// </summary>
     void CastLine()
     {
         //mortarLine.SetPosition(0, this.transform.position);
@@ -96,14 +128,14 @@ public class MortarShell : MonoBehaviour
             distance = Vector3.Distance(this.transform.position, rayHitTrans);
             //mortarLine.SetPosition(1, rayHitTrans);
         }
-      //  else
-       // {
-       //    // Debug.Log("no hit");
-       //     rayHitTrans = Vector3.zero;
-      //      mortarLine.enabled = false;
-       // }
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-12-2020
+    /// 
+    /// takes colliders into transforms
+    /// </summary>
     private Transform[] collidersToTransforms(Collider[] colliders)
     {
         Transform[] transforms = new Transform[colliders.Length];
@@ -114,6 +146,12 @@ public class MortarShell : MonoBehaviour
         return transforms;
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Uodated: 11-12-2020
+    /// 
+    /// Show gizmos in scenen
+    /// </summary>
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

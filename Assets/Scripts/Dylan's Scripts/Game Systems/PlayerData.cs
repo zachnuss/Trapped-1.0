@@ -756,7 +756,6 @@ public class PlayerData : ScriptableObject
     }
 
     //Endgame tasks - update all score values
-
     public void EndGameScoring()
     {
         SaveHighscore();

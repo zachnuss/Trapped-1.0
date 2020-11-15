@@ -50,6 +50,7 @@ public class GameLevelData : ScriptableObject
     [Header("Mods Active")]
     public Modifier[] mods;
     private Modifier lastModActivated;
+    public int totalModsOn;
 
    // [HideInInspector]
    // public bool overrideRandomLevel;
@@ -116,6 +117,23 @@ public class GameLevelData : ScriptableObject
         return false;
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// 11-15-2020
+    /// 
+    /// Simplly finds total num of mods active and updates public var
+    /// </summary>
+    public void UpdateModCounter()
+    {
+        totalModsOn = 0;
+        for (int modIndex = 0; modIndex < mods.Length; modIndex++)
+        {
+            if (mods[modIndex].modActive)
+            {
+                totalModsOn++;
+            }
+        }
+    }
     /// <summary>
     /// Dylan Loe
     /// Updated: 10-20-2020

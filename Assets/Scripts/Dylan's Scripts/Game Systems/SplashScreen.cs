@@ -21,9 +21,9 @@ public class SplashScreen : MonoBehaviour
     [SerializeField] public PlayerInputActions myActions;
 
 
-    public GameObject text;
+   // public GameObject text;
     public TextMeshProUGUI text2;
-    Animator anim;
+   // Animator anim;
 
     public string pluggedIn = "";
     bool _controllerPlugged;
@@ -32,7 +32,7 @@ public class SplashScreen : MonoBehaviour
     private void Start()
     {
         var myActions = new PlayerInputActions();
-        anim = this.GetComponent<Animator>();
+        //anim = this.GetComponent<Animator>();
         StartCoroutine(ymove());
 
 

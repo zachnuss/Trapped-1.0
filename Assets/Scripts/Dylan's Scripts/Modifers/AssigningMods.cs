@@ -47,7 +47,7 @@ public class AssigningMods : MonoBehaviour
         disabledColor.selectedColor = buttonArray[0].colors.selectedColor;
         disabledColor.selectedColor = new Color(200, 200, 200);
 
-       // ButtonsActiveInitial();
+        ButtonsActiveInitial();
 
         gameLevelData.UpdateModCounter();
         ChooseRandomButton();
@@ -73,15 +73,15 @@ public class AssigningMods : MonoBehaviour
     /// </summary>
     void ButtonsActiveInitial()
     {
-       // Debug.Log("yes");
-        for(int buttonIndex = 0; buttonIndex <= buttonArray.Length - 1; buttonIndex++)
+        // Debug.Log("yes");
+        for (int modIndex = 0; modIndex < gameLevelData.mods.Length; modIndex++)
         {
-            if(gameLevelData.mods[buttonIndex].modActive)
+            if(gameLevelData.mods[modIndex].modActive)
             {
                // buttonArray[buttonIndex].interactable = false;
-                buttonArray[buttonIndex].colors = disabledColor;
+               // buttonArray[modIndex].colors = disabledColor;
                // Debug.Log(appliedText[buttonIndex].name);
-                appliedText[buttonIndex].text = "APPLIED";
+                //appliedText[modIndex].text = "APPLIED";
                 numberOfModsToSelect--;
             }
         }
@@ -123,6 +123,7 @@ public class AssigningMods : MonoBehaviour
     /// </summary>
     public void AssignMod(int buttonNum)
     {
+
         modifierType typeL;
         if (buttonNum == 0)
         {
@@ -130,20 +131,22 @@ public class AssigningMods : MonoBehaviour
         }
         else
             typeL = type2;
-        
-        for (int modIndex = 0; modIndex < gameLevelData.mods.Length; modIndex++)
+
+        if (typeL != modifierType.none)
         {
-            if (gameLevelData.mods[modIndex].modType == typeL)
+            for (int modIndex = 0; modIndex < gameLevelData.mods.Length; modIndex++)
             {
-                gameLevelData.mods[modIndex].modActive = true;
-               // gameLevelData.mods[modNum - 1].modActive = true;
-                numberOfModsToSelect--;
-                ButtonsActiveCheck();
-                gameLevelData.UpdateModCounter();
-                //         SceneManager.LoadScene("StoreScene");
+                if (gameLevelData.mods[modIndex].modType == typeL)
+                {
+                    gameLevelData.mods[modIndex].modActive = true;
+                    // gameLevelData.mods[modNum - 1].modActive = true;
+                    numberOfModsToSelect--;
+                    ButtonsActiveCheck();
+                    gameLevelData.UpdateModCounter();
+                    //         SceneManager.LoadScene("StoreScene");
+                }
             }
         }
-
 
     }
 
@@ -155,34 +158,54 @@ public class AssigningMods : MonoBehaviour
     /// </summary>
     void ChooseRandomButton()
     {
-        int randomMod1 = Random.Range(0, gameLevelData.mods.Length);
-        while(gameLevelData.mods[randomMod1].modActive == true)
+        if (gameLevelData.totalModsOn < 6)
         {
-            randomMod1 = Random.Range(0, gameLevelData.mods.Length);
+            int randomMod1 = Random.Range(0, gameLevelData.mods.Length);
+            while (gameLevelData.mods[randomMod1].modActive == true)
+            {
+                randomMod1 = Random.Range(0, gameLevelData.mods.Length);
+            }
+            type1 = gameLevelData.mods[randomMod1].modType;
+            //set text
+            string description = gameLevelData.mods[randomMod1].modDescription;
+            //description.Replace("~", "\n");
+            mod1Descript1.text = description.Replace("~", "\n");
+            //mod1Descript1.text.Replace("~", "\n");
+
+            Debug.Log("Modifier 1 = " + type1.ToString());
         }
-        type1 = gameLevelData.mods[randomMod1].modType;
-        //set text
-        string description = gameLevelData.mods[randomMod1].modDescription;
-        //description.Replace("~", "\n");
-        mod1Descript1.text = description.Replace("~", "\n");
-        //mod1Descript1.text.Replace("~", "\n");
-
-        Debug.Log("Modifier 1 = " + type1.ToString());
-
-        int randomMod2 = Random.Range(0, gameLevelData.mods.Length);
-        while (gameLevelData.mods[randomMod2].modActive == true || gameLevelData.mods[randomMod2].modType == type1)
+        else
         {
-            randomMod2 = Random.Range(0, gameLevelData.mods.Length);
+            buttonArray[0].colors = disabledColor;
+            //appliedText[buttonIndex].enabled = false;
+            appliedText[0].text = "APPLIED";
         }
-        type2 = gameLevelData.mods[randomMod2].modType;
-        //set text
-        string description2 = gameLevelData.mods[randomMod2].modDescription;
-        //description2.Replace("~", "\n");
-        mod2Descript2.text = description2.Replace("~", "\n");
-        //mod2Descript2.text.Replace("~", "\n");
 
-       // mod2Descript2.text = gameLevelData.mods[randomMod2].modDescription;
-        Debug.Log("Modifier 2 = " + type2.ToString());
+
+        if (gameLevelData.totalModsOn < 5)
+        {
+            int randomMod2 = Random.Range(0, gameLevelData.mods.Length);
+            while (gameLevelData.mods[randomMod2].modActive == true || gameLevelData.mods[randomMod2].modType == type1)
+            {
+                randomMod2 = Random.Range(0, gameLevelData.mods.Length);
+            }
+            type2 = gameLevelData.mods[randomMod2].modType;
+            //set text
+            string description2 = gameLevelData.mods[randomMod2].modDescription;
+            //description2.Replace("~", "\n");
+            mod2Descript2.text = description2.Replace("~", "\n");
+            //mod2Descript2.text.Replace("~", "\n");
+
+            // mod2Descript2.text = gameLevelData.mods[randomMod2].modDescription;
+            Debug.Log("Modifier 2 = " + type2.ToString());
+        }
+        else
+        {
+            mod2Descript2.text = "No More Mods Avalible...";
+            buttonArray[1].colors = disabledColor;
+            //appliedText[buttonIndex].enabled = false;
+            appliedText[1].text = "APPLIED";
+        }
     }
 
     /// <summary>

@@ -47,7 +47,7 @@ public class AssigningMods : MonoBehaviour
         disabledColor.selectedColor = buttonArray[0].colors.selectedColor;
         disabledColor.selectedColor = new Color(200, 200, 200);
 
-        ButtonsActiveInitial();
+       // ButtonsActiveInitial();
 
         gameLevelData.UpdateModCounter();
         ChooseRandomButton();
@@ -95,17 +95,23 @@ public class AssigningMods : MonoBehaviour
     /// </summary>
     void ButtonsActiveCheck()
     {
-        for (int buttonIndex = 0; buttonIndex <= buttonArray.Length - 1; buttonIndex++)
+        for (int modIndex = 0; modIndex < gameLevelData.mods.Length; modIndex++)
         {
-            if (gameLevelData.mods[buttonIndex].modActive)
+            if (gameLevelData.mods[modIndex].modType == type1 && gameLevelData.mods[modIndex].modActive)
             {
                 // buttonArray[buttonIndex].interactable = false;
-                buttonArray[buttonIndex].colors = disabledColor;
+                buttonArray[0].colors = disabledColor;
                 //appliedText[buttonIndex].enabled = false;
-                appliedText[buttonIndex].text = "APPLIED";
+                appliedText[0].text = "APPLIED";
                 //Debug.Log("here");
                 //numberOfModsToSelect--;
             }
+            if (gameLevelData.mods[modIndex].modType == type2 && gameLevelData.mods[modIndex].modActive)
+            {
+                buttonArray[1].colors = disabledColor;
+                appliedText[1].text = "APPLIED";
+            }
+
         }
     }
 

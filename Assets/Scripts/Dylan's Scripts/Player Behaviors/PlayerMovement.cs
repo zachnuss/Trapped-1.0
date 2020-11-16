@@ -802,7 +802,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Hit powerup");
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
-            playerData.TrackPowerupGains(1);
+            playerData.TrackPowerupGains(1, other.gameObject.GetComponent<PowerUpDrop>().type);
             Destroy(other.gameObject);
         }
            
@@ -929,6 +929,7 @@ public class PlayerMovement : MonoBehaviour
 
                 //Set Highscore
                 playerData.EndGameScoring();
+                playerData.AddDeath();
 
                 UnityEngine.SceneManagement.SceneManager.LoadScene(6);
                 //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
@@ -1058,6 +1059,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void PickedPowerUp(powerUpType type, bool timer, int duration)
     {
+        
         if(timer)
         {
             StartCoroutine(PowerUpDuration(type, duration));

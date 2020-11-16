@@ -12,5 +12,6 @@ public class OnCharCustomizationLoad : MonoBehaviour
         choiceToggle.isOn = playerData.characterModelSwitch;
         playerData.SetCharacterChoiceGame();
         playerData.SetColor();
+        playerData.SetPet();
     }
 }

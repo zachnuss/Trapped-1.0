@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class CharCustom : MonoBehaviour
 {
+    public PlayerData playerData;
+    
     //All the images needed to swap to during gameplay
     public Image Guard;
     public Image Prisoner;
@@ -87,4 +89,29 @@ public class CharCustom : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(maleColor1); //Sets the selected obj
         }
     }
+
+    /// <summary>
+    /// Alexander
+    /// Updated: 11-6-2020
+    /// 
+    /// Two Functions that have the same purpose
+    /// Switches models based on right or left bumper being pressed
+    /// </summary>
+    public void OnRB()
+    {
+        //Checks to see if the prisoner is active
+        if (playerActive == true) //If it is then it will go and adjust the players colors
+        {
+            playerData.SetCharacterChoiceMenu();
+        }
+    }
+    public void OnLB()
+    {
+        //Checks to see if the prisoner is active
+        if (playerActive == true) //If it is then it will go and adjust the players colors
+        {
+            playerData.SetCharacterChoiceMenu();
+        }
+    }
+
 }

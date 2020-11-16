@@ -892,7 +892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 301832738}
     m_SelectOnDown: {fileID: 1353616821}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -1250,14 +1250,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
-  m_ActionsAsset: {fileID: -944628639613478452, guid: 72a0b41bc20552e4caf45be435fb949b,
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 6fad2fb9178c9a2448bf901578fd2149,
     type: 3}
   m_PointAction: {fileID: 0}
-  m_MoveAction: {fileID: 2559116655499274079, guid: 72a0b41bc20552e4caf45be435fb949b,
+  m_MoveAction: {fileID: -7153097655987452777, guid: 6fad2fb9178c9a2448bf901578fd2149,
     type: 3}
-  m_SubmitAction: {fileID: -3175737763381597659, guid: 72a0b41bc20552e4caf45be435fb949b,
+  m_SubmitAction: {fileID: -1041763822346430947, guid: 6fad2fb9178c9a2448bf901578fd2149,
     type: 3}
-  m_CancelAction: {fileID: -2409624011181962898, guid: 72a0b41bc20552e4caf45be435fb949b,
+  m_CancelAction: {fileID: 5940721810375216976, guid: 6fad2fb9178c9a2448bf901578fd2149,
     type: 3}
   m_LeftClickAction: {fileID: 0}
   m_MiddleClickAction: {fileID: 0}
@@ -1385,7 +1385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 301832738}
     m_SelectOnDown: {fileID: 2136128167}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -2268,6 +2268,7 @@ GameObject:
   - component: {fileID: 949816042}
   - component: {fileID: 949816043}
   - component: {fileID: 949816044}
+  - component: {fileID: 949816045}
   m_Layer: 0
   m_Name: Script Manager
   m_TagString: Untagged
@@ -2315,6 +2316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b421dac3e7433fa44a355a761a4b5062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: f9b9357e87ed29948b25c9a1d8db1dcf, type: 2}
   Guard: {fileID: 666881205}
   Prisoner: {fileID: 2132553115}
   Korben: {fileID: 2112351161}
@@ -2326,6 +2328,37 @@ MonoBehaviour:
   femaleColor1: {fileID: 447544219}
   players: {fileID: 645044537}
   pets: {fileID: 15731346}
+--- !u!114 &949816045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949816041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 6fad2fb9178c9a2448bf901578fd2149,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 542437962}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Controller UI
+  m_DefaultActionMap: UI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &966484056
 GameObject:
   m_ObjectHideFlags: 0

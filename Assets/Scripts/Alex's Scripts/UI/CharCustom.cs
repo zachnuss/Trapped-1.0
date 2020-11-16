@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class CharCustom : MonoBehaviour
 {
+    
+    
+    /// <summary>
+    /// Name
+    /// Updated: x-x-2020
+    /// 
+    /// Description
+    /// </summary>
+
     // Start is called before the first frame update
     void Start()
     {

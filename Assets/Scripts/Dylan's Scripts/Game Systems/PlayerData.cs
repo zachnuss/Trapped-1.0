@@ -385,7 +385,7 @@ public class PlayerData : ScriptableObject
     /// Turns character models on or off in menus
     /// Also handles purchasing
     /// </summary>
-    public void SetCharacterChoiceMenu(UnityEngine.UI.Toggle choice)
+    public void SetCharacterChoiceMenu()
     {
         GameObject[] character1 = new GameObject[8];
         for (int i = 0; i < character1.Length; i++)
@@ -393,7 +393,7 @@ public class PlayerData : ScriptableObject
             character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
         }
         GameObject character2 = GameObject.Find("secondCharacter_low");
-        if (choice.isOn == false)
+        if (characterModelSwitch == false)
         {
             characterModelSwitch = false;
             character2.GetComponent<MeshRenderer>().enabled = false;
@@ -432,7 +432,7 @@ public class PlayerData : ScriptableObject
                 }
                 else
                 {
-                    choice.isOn = false;
+                    characterModelSwitch = false;
                 }
             }
         }

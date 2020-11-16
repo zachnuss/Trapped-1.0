@@ -436,6 +436,7 @@ public class PlayerData : ScriptableObject
     /// </summary>
     public void SetCharacterChoiceMenu()
     {
+        characterModelSwitch = !characterModelSwitch;
         GameObject[] character1 = new GameObject[8];
         for (int i = 0; i < character1.Length; i++)
         {
@@ -765,6 +766,11 @@ public class PlayerData : ScriptableObject
         deathCounter++;
         if (deathCounter >= 20)
             achievementJailBird = true;
+    }
+
+    public void GiveRedDead()
+    {
+        achievementRedDead = true;
     }
 
     //This section returns private variables to the persistent data script - Wesley

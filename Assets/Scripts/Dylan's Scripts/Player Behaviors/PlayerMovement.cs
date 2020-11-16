@@ -279,7 +279,9 @@ public class PlayerMovement : MonoBehaviour
        {
             bleedTimer += Time.deltaTime;
             bleedTimer2 += Time.deltaTime;
-            
+            if (bleedStacks >= 5)
+                playerData.GiveRedDead();
+
             if(bleedTimer2 >= 1.0)
             {
                 bleedTimer2 = 0;

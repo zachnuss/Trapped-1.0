@@ -545,29 +545,29 @@ public class PlayerData : ScriptableObject
             {
                 materialChoice = input;
             }
-            else if (input == 1 && character1Color2 == true)
+            else if (input == 1 && character1Color3 == true)
             {
                 materialChoice = input;
             }
-            else if (input == 1 && character1Color2 == false)
-            {
-                if (specialCoins >= colorCost)
-                {
-                    UseSpecialCoin(colorCost);
-                    character1Color2 = true;
-                    materialChoice = input;
-                }
-            }
-            else if (input == 2 && character1Color3 == true)
-            {
-                materialChoice = input;
-            }
-            else if (input == 2 && character1Color3 == false)
+            else if (input == 1 && character1Color3 == false)
             {
                 if (specialCoins >= colorCost)
                 {
                     UseSpecialCoin(colorCost);
                     character1Color3 = true;
+                    materialChoice = input;
+                }
+            }
+            else if (input == 2 && character1Color2 == true)
+            {
+                materialChoice = input;
+            }
+            else if (input == 2 && character1Color2 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    character1Color2 = true;
                     materialChoice = input;
                 }
             }

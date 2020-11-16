@@ -119,62 +119,9 @@ public class CharCustom : MonoBehaviour
         {
             playerData.SetCharacterChoiceMenu();
 
-            if(playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
+            if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
             {
                 StartCoroutine(waiting());
-            }
-
-            else //The player can switch between the models
-            {
-                if (playerData.characterModelSwitch == false) //False on the character model switch is Male, true is female
-                {
-                    //All the if else statments to check for the colors
-                    if (playerData.character1Color2 == false)
-                    {
-                        MColor2Label.SetActive(true);
-                    }
-                    else
-                    {
-                        MColor2Label.SetActive(false);
-                    }
-
-                    if (playerData.character1Color3 == false)
-                    {
-                        MColor3Label.SetActive(true);
-                    }
-                    else
-                    {
-                        MColor3Label.SetActive(false);
-                    }
-
-                    femaleColor.SetActive(false);
-                    maleColor.SetActive(true);
-                }
-
-                else //False on the character model switch is Male, true is female
-                {
-                    femaleColor.SetActive(true);
-                    maleColor.SetActive(false);
-
-                    //All the if else statments to check for the colors
-                    if (playerData.character2Color2 == false)
-                    {
-                        FColor2Label.SetActive(true);
-                    }
-                    else
-                    {
-                        FColor2Label.SetActive(false);
-                    }
-
-                    if (playerData.character2Color3 == false)
-                    {
-                        FColor3Label.SetActive(true);
-                    }
-                    else
-                    {
-                        FColor3Label.SetActive(false);
-                    }
-                }
             }
         }
     }
@@ -188,59 +135,6 @@ public class CharCustom : MonoBehaviour
             if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
             {
                 StartCoroutine(waiting());
-            }
-
-            else //The player can switch between the models
-            {
-                if (playerData.characterModelSwitch == false) //False on the character model switch is Male, true is female
-                {
-                    //All the if else statments to check for the colors
-                    if (playerData.character1Color2 == false)
-                    {
-                        MColor2Label.SetActive(true);
-                    }
-                    else
-                    {
-                        MColor2Label.SetActive(false);
-                    }
-
-                    if (playerData.character1Color3 == false)
-                    {
-                        MColor3Label.SetActive(true);
-                    }
-                    else
-                    {
-                        MColor3Label.SetActive(false);
-                    }
-
-                    femaleColor.SetActive(false);
-                    maleColor.SetActive(true);
-                }
-
-                else //False on the character model switch is Male, true is female
-                {
-                    //All the if else statments to check for the colors
-                    if (playerData.character2Color2 == false)
-                    {
-                        FColor2Label.SetActive(true);
-                    }
-                    else
-                    {
-                        FColor2Label.SetActive(false);
-                    }
-
-                    if (playerData.character2Color3 == false)
-                    {
-                        FColor3Label.SetActive(true);
-                    }
-                    else
-                    {
-                        FColor3Label.SetActive(false);
-                    }
-
-                    femaleColor.SetActive(true);
-                    maleColor.SetActive(false);
-                }
             }
         }
     }
@@ -271,8 +165,11 @@ public class CharCustom : MonoBehaviour
         {
             if (playerData.characterModelSwitch == false) //False on the character model switch is Male, true is female
             {
+                femaleColor.SetActive(false);
+                maleColor.SetActive(true);
+
                 //All the if else statments to check for the colors
-                if (playerData.character1Color2 == false)
+                if (playerData.character1Color3 == false)
                 {
                     MColor2Label.SetActive(true);
                 }
@@ -281,7 +178,7 @@ public class CharCustom : MonoBehaviour
                     MColor2Label.SetActive(false);
                 }
 
-                if (playerData.character1Color3 == false)
+                if (playerData.character1Color2 == false)
                 {
                     MColor3Label.SetActive(true);
                 }
@@ -293,23 +190,26 @@ public class CharCustom : MonoBehaviour
 
             else //False on the character model switch is Male, true is female
             {
+                femaleColor.SetActive(true);
+                maleColor.SetActive(false);
+
                 //All the if else statments to check for the colors
                 if (playerData.character2Color2 == false)
-                {
-                    FColor2Label.SetActive(true);
-                }
-                else
-                {
-                    FColor2Label.SetActive(false);
-                }
-
-                if (playerData.character2Color3 == false)
                 {
                     FColor3Label.SetActive(true);
                 }
                 else
                 {
                     FColor3Label.SetActive(false);
+                }
+
+                if (playerData.character2Color3 == false)
+                {
+                    FColor2Label.SetActive(true);
+                }
+                else
+                {
+                    FColor2Label.SetActive(false);
                 }
             }
         }

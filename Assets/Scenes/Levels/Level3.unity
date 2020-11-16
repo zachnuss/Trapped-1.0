@@ -335,7 +335,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3205010645766237246, guid: b0972353d59f9f6418ab35a1b50bf20f, type: 3}
+  - {fileID: 2100000, guid: 059fc25e6eb7af742b26083f8e577725, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1794186e0a81d31409f269530c74693f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  permutationNum: 1
+  permutationNum: 0
   gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}
   type: 2
   permutation: {fileID: 0}

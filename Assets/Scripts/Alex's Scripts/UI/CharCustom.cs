@@ -22,6 +22,11 @@ public class CharCustom : MonoBehaviour
     public GameObject femaleColor1;
     public GameObject players;
     public GameObject pets;
+    public GameObject MColor2Label;
+    public GameObject MColor3Label;
+    public GameObject FColor2Label;
+    public GameObject FColor3Label;
+    public GameObject PurchaseP2; //Text box to display that the player needs to purchase player 2
 
     //Bools to keep track of what is active
     private bool playerActive = true;
@@ -84,9 +89,19 @@ public class CharCustom : MonoBehaviour
         //Checks to see if the prisoner is active
         if (playerActive == true) //If it is then it will go to colors
         {
-            //Uses the event system to set the buttons for the UI
-            EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
-            EventSystem.current.SetSelectedGameObject(maleColor1); //Sets the selected obj
+            if (playerData.characterModelSwitch == false) //Checks to see if the Male model is up
+            {
+                //Uses the event system to set the buttons for the UI
+                EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+                EventSystem.current.SetSelectedGameObject(maleColor1); //Sets the selected obj
+            }
+
+            else //Checks to see if the Female model is up
+            {
+                //Uses the event system to set the buttons for the UI
+                EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+                EventSystem.current.SetSelectedGameObject(femaleColor1); //Sets the selected obj
+            }
         }
     }
 
@@ -103,6 +118,11 @@ public class CharCustom : MonoBehaviour
         if (playerActive == true) //If it is then it will go and adjust the players colors
         {
             playerData.SetCharacterChoiceMenu();
+
+            if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
+            {
+                StartCoroutine(waiting());
+            }
         }
     }
     public void OnLB()
@@ -111,7 +131,87 @@ public class CharCustom : MonoBehaviour
         if (playerActive == true) //If it is then it will go and adjust the players colors
         {
             playerData.SetCharacterChoiceMenu();
+
+            if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
+            {
+                StartCoroutine(waiting());
+            }
         }
     }
 
+    /// <summary>
+    /// Alexander
+    /// Updated: 11-6-2020
+    /// 
+    /// Courutine to keep track of seconds waiting to display that players need to purchase the second model
+    /// </summary>
+    IEnumerator waiting()
+    {
+        PurchaseP2.SetActive(true);
+        yield return new WaitForSeconds(2);
+        PurchaseP2.SetActive(false);
+    }
+
+    /// <summary>
+    /// Alexander
+    /// Updated: 11-6-2020
+    /// 
+    /// Updates to keep track of the color text box labels to see which ones should be active and which shouldn't
+    /// </summary>
+    private void Update()
+    {
+        //Checks to see if the prisoner is active
+        if (playerActive == true) //If it is then it will go and adjust the players colors
+        {
+            if (playerData.characterModelSwitch == false) //False on the character model switch is Male, true is female
+            {
+                femaleColor.SetActive(false);
+                maleColor.SetActive(true);
+
+                //All the if else statments to check for the colors
+                if (playerData.character1Color3 == false)
+                {
+                    MColor2Label.SetActive(true);
+                }
+                else
+                {
+                    MColor2Label.SetActive(false);
+                }
+
+                if (playerData.character1Color2 == false)
+                {
+                    MColor3Label.SetActive(true);
+                }
+                else
+                {
+                    MColor3Label.SetActive(false);
+                }
+            }
+
+            else //False on the character model switch is Male, true is female
+            {
+                femaleColor.SetActive(true);
+                maleColor.SetActive(false);
+
+                //All the if else statments to check for the colors
+                if (playerData.character2Color2 == false)
+                {
+                    FColor3Label.SetActive(true);
+                }
+                else
+                {
+                    FColor3Label.SetActive(false);
+                }
+
+                if (playerData.character2Color3 == false)
+                {
+                    FColor2Label.SetActive(true);
+                }
+                else
+                {
+                    FColor2Label.SetActive(false);
+                }
+            }
+        }
+    }
 }

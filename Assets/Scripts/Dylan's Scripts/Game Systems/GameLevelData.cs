@@ -17,7 +17,9 @@ public enum modifierType
    doubleDamageMOD,
    shields_and_regainMOD,
    SerratedAmmunition,
-   AdvancedSimulant
+   AdvancedSimulant,
+   LowPoweredGeneratorMOD,
+   TrackingAmmunitionMOD
 };
 
 [System.Serializable]

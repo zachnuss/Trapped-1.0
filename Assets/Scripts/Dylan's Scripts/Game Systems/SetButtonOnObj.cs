@@ -33,7 +33,7 @@ public class SetButtonOnObj : MonoBehaviour
             GameObject key = Instantiate(buttonObj, this.transform);
             key.transform.localPosition = new Vector3(0, 0, 0);
             this.name = "ButtonObj";
-            Debug.Log(this.name + " activating true");
+            //Debug.Log(this.name + " activating true");
         }
         else
         {
@@ -45,7 +45,7 @@ public class SetButtonOnObj : MonoBehaviour
                 {
                     assetsArray[index].SetActive(true);
                     this.name = "NotButtonObj_LevelAsset";
-                    Debug.Log(this.name + " activating false");
+                    //Debug.Log(this.name + " activating false");
                 }
                 else
                 {

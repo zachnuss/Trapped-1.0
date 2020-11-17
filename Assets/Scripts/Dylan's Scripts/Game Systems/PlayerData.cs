@@ -19,6 +19,7 @@ public class PlayerData : ScriptableObject
     public int healthUpgrade;
     public int damageUpgrade;
     public int speedUpgrade;
+    private bool upgradePurchased = false; //Did the player purchase an upgrade this run?
 
     [Header("Player base stats")]
     public int totalHealthBase;
@@ -30,8 +31,7 @@ public class PlayerData : ScriptableObject
     public int OnLevel = 0;
     [Header("Levels Beaten")]
     public int levelsBeaten = 0;
-    [Header("Loops Completed")]
-    public int loopsCompleted = 0;
+    private int loopCount = 0;
     //0 = level 1 and so on
 
     [Header("Player score")]
@@ -40,6 +40,7 @@ public class PlayerData : ScriptableObject
     public int matchScoreFromEnemies = 0;
     public int matchEnemiesKilled = 0;
     public int matchPowerUpsCollected = 0;
+    public int speedPowerupsCollected = 0;
     public int matchCurrencyCollected = 0;
     public int matchSpecialCoinCollected = 0;
     public int highScore1 = 0;
@@ -73,13 +74,29 @@ public class PlayerData : ScriptableObject
 
     //Player Persistent stats - Wesley
     private int totalEnemiesKilled = 0;
+    private int totalRoombasKilled = 0;
+    private int totalRegularsKilled = 0;
+    private int totalShieldsKilled = 0;
     private int totalPowerupsCollected = 0;
     private int totalCurrencyCollected = 0;
     private int totalSpecialCoinsCollected = 0;
     private int totalEnemyScore = 0;
+    private int maxLoops = 0;
+    private int deathCounter = 0;
     private float totalTimerSec;
     private float totalTimerMin;
     private float totalTimerHour;
+    private bool characterChoice = false;
+    private bool achievementFirstTimer = false;
+    private bool achievementVacuumMurderer = false;
+    private bool achievementRevenge1 = false;
+    private bool achievementRevenge2 = false;
+    private bool achievementDoesItEnd = false;
+    private bool achievementRedDead = false;
+    private bool achievementFullWallet = false;
+    private bool achievementRunner = false;
+    private bool achievementJailBird = false;
+    private bool achievementNoTrust = false;
 
     [Header("Character Customization")]
     //Character Customization shopping - Wesley
@@ -98,50 +115,6 @@ public class PlayerData : ScriptableObject
     public bool godMode = false;
     [HideInInspector]
     public bool startAtHalf = false;
-
-    //tracks
-    [SerializeField]
-    public int loops
-    {
-
-        get {
-            loopsCompleted = levelsBeaten / 3;
-            return levelsBeaten / 3;  
-        }
-        set { loopsCompleted = levelsBeaten / 3; }
-    }
-
-    //more efficient way of tracking current level than ++ on an int
-    public int currentLevel
-    {
-        get
-        {
-            if(SceneManager.GetActiveScene().name == "Level1")
-            {
-                OnLevel = 1;
-                return 1;
-            }
-            else if (SceneManager.GetActiveScene().name == "Level2")
-            {
-                OnLevel = 2;
-                return 2;
-            }
-            else
-            {
-                OnLevel = 3;
-                return 3;
-            }
-        }
-        set
-        {
-            if (SceneManager.GetActiveScene().name == "Level1")
-                OnLevel = 1;
-            else if (SceneManager.GetActiveScene().name == "Level2")
-                OnLevel = 2;
-            else
-                OnLevel = 3;
-        }
-    }
 
     /// <summary>
     /// Dylan Loe
@@ -166,7 +139,12 @@ public class PlayerData : ScriptableObject
             {
                 OnLevel = 0;
                 //finished one loop of levels 1 - 3, now at reset we can add the thing for high risk/high reward and increase difficulty
-
+                loopCount++;
+                if (loopCount >= 5)
+                    achievementDoesItEnd = true;
+                if (loopCount >= 2)
+                    if (upgradePurchased == false)
+                        achievementNoTrust = true;
                 //take us to mod selection screen 
                 takeToModSelection = true;
 
@@ -179,7 +157,7 @@ public class PlayerData : ScriptableObject
 
             //goes 1 - 3 then back to one
             levelsBeaten++;
-            
+
             //load store scene?
             if (!takeToModSelection)
                 SceneManager.LoadScene("StoreScene");
@@ -276,6 +254,9 @@ public class PlayerData : ScriptableObject
         matchScoreFromEnemies = 0;
         matchScoreFromTime = 0;
         matchSpecialCoinCollected = 0;
+        loopCount = 0;
+        speedPowerupsCollected = 0;
+        upgradePurchased = false;
         localHealth = totalHealthBase;
         gameLevelData.InitialModSetup();
         startAtHalf = false;
@@ -313,7 +294,6 @@ public class PlayerData : ScriptableObject
         matchScoreFromEnemies = 0;
         matchScoreFromTime = 0;
         matchSpecialCoinCollected = 0;
-        loopsCompleted = 0;
         localHealth = totalHealthBase;
         startAtHalf = false;
         gameLevelData.InitialModSetup();
@@ -344,6 +324,7 @@ public class PlayerData : ScriptableObject
         healthUpgrade++;
         totalHealthBase += 5;
         localHealth += 5;
+        upgradePurchased = true;
         Debug.Log("Health Upgrade Purchased! New Health = " + localHealth + " out of " + totalHealthBase);
     }
     /// <summary>
@@ -355,6 +336,7 @@ public class PlayerData : ScriptableObject
     public void UpgradeDamage()
     {
         damageUpgrade++;
+        upgradePurchased = true;
         Debug.Log("Damage Upgrade Purchased!");
     }
     /// <summary>
@@ -366,6 +348,7 @@ public class PlayerData : ScriptableObject
     public void UpgradeSpeed()
     {
         speedUpgrade++;
+        upgradePurchased = true;
         Debug.Log("SPEED Upgrade Purchased!");
     }
 
@@ -391,9 +374,10 @@ public class PlayerData : ScriptableObject
 
     /// <summary>
     /// Wesley
-    /// Updated: 10-20-2020
+    /// Updated: 11-15-2020
     /// 
     /// update match values with several easy tricks! Also, they're private, so better to access through functions.
+    /// Updated to manage achievements
     /// </summary>
     public void TrackEnemyScore(int input)
     {
@@ -413,16 +397,34 @@ public class PlayerData : ScriptableObject
     public void TrackSpecialCoinGains(int input)
     {
         matchSpecialCoinCollected += input;
+        if (totalSpecialCoinsCollected >= 30)
+            achievementFullWallet = true;
     }
-
-    public void TrackEnemyKills(int input)
+    
+    public void TrackEnemyKills(int input, GameObject enemy)
     {
         matchEnemiesKilled += input;
+        if (enemy.gameObject.GetComponent<CommonGuard>() == true)
+            totalRegularsKilled++;
+        if (totalRegularsKilled > 10)
+            achievementRevenge1 = true;
+        if (enemy.gameObject.GetComponent<HallwayBot>() == true)
+            totalRoombasKilled++;
+        if (totalRoombasKilled > 20)
+            achievementVacuumMurderer = true;
+        if (enemy.gameObject.GetComponent<ShieldedGuard>() == true)
+            totalShieldsKilled++;
+        if (totalShieldsKilled > 10)
+            achievementRevenge2 = true;
     }
 
-    public void TrackPowerupGains(int input)
+    public void TrackPowerupGains(int input, powerUpType type)
     {
         matchPowerUpsCollected += input;
+        if (type == powerUpType.speed)
+            speedPowerupsCollected++;
+        if (speedPowerupsCollected >= 5)
+            achievementRunner = true;
     }
 
     /// <summary>
@@ -432,15 +434,16 @@ public class PlayerData : ScriptableObject
     /// Turns character models on or off in menus
     /// Also handles purchasing
     /// </summary>
-    public void SetCharacterChoiceMenu(UnityEngine.UI.Toggle choice)
+    public void SetCharacterChoiceMenu()
     {
+        characterModelSwitch = !characterModelSwitch;
         GameObject[] character1 = new GameObject[8];
         for (int i = 0; i < character1.Length; i++)
         {
             character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
         }
         GameObject character2 = GameObject.Find("secondCharacter_low");
-        if (choice.isOn == false)
+        if (characterModelSwitch == false)
         {
             characterModelSwitch = false;
             character2.GetComponent<MeshRenderer>().enabled = false;
@@ -479,7 +482,7 @@ public class PlayerData : ScriptableObject
                 }
                 else
                 {
-                    choice.isOn = false;
+                    characterModelSwitch = false;
                 }
             }
         }
@@ -494,11 +497,19 @@ public class PlayerData : ScriptableObject
     public void SetCharacterChoiceGame()
     {
         GameObject[] character1 = new GameObject[8];
-        for (int i = 0; i < character1.Length; i++)
+
+        if (GameObject.Find("MainCharacter_Geo") == true)
         {
-            character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+            for (int i = 0; i < character1.Length; i++)
+            {
+                character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+            }
         }
-        GameObject character2 = GameObject.Find("secondCharacter_low");
+        GameObject character2 = null;
+        if (GameObject.Find("secondCharacter_low") == true)
+        {
+            character2 = GameObject.Find("secondCharacter_low");
+        }
         if (characterModelSwitch == false)
         {
             character2.GetComponent<MeshRenderer>().enabled = false;
@@ -534,29 +545,29 @@ public class PlayerData : ScriptableObject
             {
                 materialChoice = input;
             }
-            else if (input == 1 && character1Color2 == true)
+            else if (input == 1 && character1Color3 == true)
             {
                 materialChoice = input;
             }
-            else if (input == 1 && character1Color2 == false)
-            {
-                if (specialCoins >= colorCost)
-                {
-                    UseSpecialCoin(colorCost);
-                    character1Color2 = true;
-                    materialChoice = input;
-                }
-            }
-            else if (input == 2 && character1Color3 == true)
-            {
-                materialChoice = input;
-            }
-            else if (input == 2 && character1Color3 == false)
+            else if (input == 1 && character1Color3 == false)
             {
                 if (specialCoins >= colorCost)
                 {
                     UseSpecialCoin(colorCost);
                     character1Color3 = true;
+                    materialChoice = input;
+                }
+            }
+            else if (input == 2 && character1Color2 == true)
+            {
+                materialChoice = input;
+            }
+            else if (input == 2 && character1Color2 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    character1Color2 = true;
                     materialChoice = input;
                 }
             }
@@ -659,6 +670,8 @@ public class PlayerData : ScriptableObject
                 characterPet2Purchase = true;
                 petChoice = input;
             }
+            else if(specialCoins < petCost)
+                petChoice = 0;
         }
         else if (input == 2 && characterPet3Purchase == true)
         {
@@ -672,7 +685,10 @@ public class PlayerData : ScriptableObject
                 characterPet3Purchase = true;
                 petChoice = input;
             }
+            else if (specialCoins < petCost)
+                petChoice = 0;
         }
+        
         SetPet();
     }
 
@@ -684,19 +700,23 @@ public class PlayerData : ScriptableObject
     /// </summary>
     public void SetPet()
     {
-        if(petChoice == 0)
+        GameObject pet1 = GameObject.Find("pet_wasp");
+
+        //GameObject pet2 = GameObject.Find("Pet2");
+        if (petChoice == 0)
         {
-            //disable both pet models
+            pet1.GetComponent<Renderer>().enabled = false;
+            //pet2.GetComponent<Renderer>().enabled = false;
         }
-        if(petChoice == 1)
+        if (petChoice == 1)
         {
-            //disable pet model 2
-            //enable pet model 1
+            //pet2.GetComponent<Renderer>().enabled = false;
+            pet1.GetComponent<Renderer>().enabled = true;
         }
-        if(petChoice == 2)
+        if (petChoice == 2)
         {
-            //disable pet model 1
-            //endable pet model 2
+            pet1.GetComponent<Renderer>().enabled = false;
+            //pet2.GetComponent<Renderer>().enabled = true;
         }
     }
 
@@ -721,6 +741,8 @@ public class PlayerData : ScriptableObject
         totalTimerHour += Mathf.Floor(totalTimerMin / 60);
         totalTimerMin = totalTimerMin % 60;
         totalTimerSec = totalTimerSec % 60;
+        if (timerHour >= 1 || timerMin >= 30)
+            achievementFirstTimer = true;
     }
 
     public void AddTotalEnemiesKilled(int input)
@@ -746,6 +768,18 @@ public class PlayerData : ScriptableObject
     public void AddTotalEnemyScore(int input)
     {
         totalEnemyScore += input;
+    }
+
+    public void AddDeath()
+    {
+        deathCounter++;
+        if (deathCounter >= 20)
+            achievementJailBird = true;
+    }
+
+    public void GiveRedDead()
+    {
+        achievementRedDead = true;
     }
 
     //This section returns private variables to the persistent data script - Wesley
@@ -826,7 +860,9 @@ public class PlayerData : ScriptableObject
 
         PersistentData currentData = new PersistentData(highScore1, highScore2, highScore3, specialCoins, totalTimerSec, totalTimerMin, totalTimerHour,
             totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice, materialChoice2,
-            characterModelSwitch, character2Purchase, character1Color2, character1Color3, character2Color2, character2Color3);
+            characterModelSwitch, character2Purchase, character1Color2, character1Color3, character2Color2, character2Color3, achievementFirstTimer, achievementVacuumMurderer,
+            achievementRevenge1, achievementRevenge2, achievementDoesItEnd, achievementRedDead, achievementFullWallet, achievementRunner, achievementJailBird,
+            achievementNoTrust, maxLoops, deathCounter, totalRoombasKilled, totalRegularsKilled, totalShieldsKilled, speedPowerupsCollected);
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file, currentData);
         file.Close();
@@ -870,6 +906,21 @@ public class PlayerData : ScriptableObject
         character1Color3 = loadData.character1Color3;
         character2Color2 = loadData.character2Color2;
         character2Color3 = loadData.character2Color3;
+        achievementFirstTimer = loadData.achievementFirstTimer;
+        achievementVacuumMurderer = loadData.achievementVacuumMurderer;
+        achievementRevenge1 = loadData.achievementRevenge1;
+        achievementRevenge2 = loadData.achievementRevenge2;
+        achievementDoesItEnd = loadData.achievementDoesItEnd;
+        achievementRedDead = loadData.achievementRedDead;
+        achievementFullWallet = loadData.achievementFullWallet;
+        achievementRunner = loadData.achievementRunner;
+        achievementJailBird = loadData.achievementJailBird;
+        achievementNoTrust = loadData.achievementNoTrust;
+        maxLoops = loadData.maxLoops;
+        deathCounter = loadData.deathCounter;
+        totalRoombasKilled = loadData.totalRoombasKilled;
+        totalShieldsKilled = loadData.totalShieldsKilled;
+        speedPowerupsCollected = loadData.speedPowerupsCollected;
 
         file.Close();
     }

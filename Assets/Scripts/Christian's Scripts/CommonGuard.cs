@@ -4,27 +4,31 @@
  */
 using UnityEngine;
 
+public enum CubeFace {
+    PosX, PosY, PosZ, NegX, NegY, NegZ, NULL
+}
+
 public class CommonGuard : BaseEnemy {
     ///public
     public EnemyAnimation animationState = EnemyAnimation.Idle;
     [Header("How far away can I see the player?")]
     public float playerRangeCheck = 20.0f;
     public float playerSearchTimer = 15.0f;
-    
+    [HideInInspector]
+    public Transform lookAtMe;
     ///protected
     protected bool _canSprint = true;
     protected bool _isTrackingPlayer = false;
     protected float _storeRegSpeed;
+    protected float _trackingTimer;
     ///private
-    private GameObject _leftDirGO, _rightDirGO;
-    private float _trackingTimer;
-    private Transform _startTransform;
+    private Vector3 _startLocPos;
+    private Quaternion _startQuat;
 
     ///variables necessary if this instance shoots
     private bool _isShooting = false;
     public GameObject fwdDirGO { get { return _fwdDirGO; } }
     public bool isTrackingPlayer { get { return _isTrackingPlayer; } }
-
 
     /**     PUBLIC FUNCTIONS    */
     public override void takeDamage(GameObject player) {
@@ -43,7 +47,7 @@ public class CommonGuard : BaseEnemy {
             //give score to player
             player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             player.GetComponent<PlayerMovement>().playerData.TrackEnemyScore(pointValue);
-            player.GetComponent<PlayerMovement>().playerData.TrackEnemyKills(1);
+            player.GetComponent<PlayerMovement>().playerData.TrackEnemyKills(1, this.gameObject);
             if (Random.Range(0f, 100f) <= 5)
             {
                 Debug.Log("Currency Test Complete!");
@@ -58,75 +62,42 @@ public class CommonGuard : BaseEnemy {
         }
     }
 
+    //Set to replace the SetActive function as it's hard to call an object that's
+    //not active
+    public override void activateAI(bool isActive) {
+        //execute inheritted version
+        base.activateAI(isActive);
+        GetComponent<CapsuleCollider>().enabled = isActive;
+    }
 
     /**     PROTECTED FUNCTIONS     */
     protected void Awake() {
         //store startting values
+        _startQuat = transform.localRotation;
         _storeRegSpeed = speed;
         _trackingSpeed = _storeRegSpeed;
-        _startTransform = transform;
+        _startLocPos = transform.localPosition;
+        //get _lookAtMe reference from player's children
+        lookAtMe = GameObject.Find("EnemyLookReference").transform;
 
-        //assign directional children
-        int childrenNum = transform.childCount;
-        for (int i = 0; i < childrenNum; ++i) {
-            GameObject assigningGO = transform.GetChild(i).gameObject;
-            //assign gameObject to a child
-            if (assigningGO.name == "LeftChild") { 
-                _leftDirGO = assigningGO;
-            }
-            if (assigningGO.name == "RightChild") {
-                _rightDirGO = assigningGO;
-            }
-            //front child is stored in the BaseEnemy
-        }
+        //start scanning for the player
+        InvokeRepeating("_scanForPlayer", 0f, Time.fixedDeltaTime);
     }
 
     protected override void Update() {
-        //start looking fo player
-        //check if the player is in front of me or to the left or right
-        Direction dirOfPlayer = _isPlayerInRange();
-        if (dirOfPlayer != Direction.NULL) {
+        //check if player is found
+        if (_isTrackingPlayer) {
             //change behavior
             _myBehavior = Behavior.TrackPlayer;
-
-            ///suspend changing behavior and set trackingTimer
-            if (!_isTrackingPlayer) {
-                //move in the desired direction
-                CancelInvoke("_changeBehavior");
-                _isTrackingPlayer = true;
-            }
             _trackingTimer = Time.time + playerSearchTimer;
-
-            //check for conditions, then shoot and reset vals
-            //NOTSHOOTER is only defined in children scripts who won't shoot
-#if !NOTSHOOTER
-            if (TryGetComponent<EnemyShooting>(out EnemyShooting eS)) {
-                if (eS.canShootPlayer && dirOfPlayer == Direction.Forward) {
-                    eS.shootPlayer();
-                    eS.shootTimer = Time.time + eS.shootCoolDown;
-                    eS.canShootPlayer = false;
-                    //set shooting animation
-                    _isShooting = true;
-                    animationState = EnemyAnimation.Shooting;
-                    Invoke("_stopShootAnimation", 0.6f); //adjust to animation time
-                }
-            }
-            else {
-                Debug.LogError(name + ": doesn't contain EnemyShooting.cs " +
-                             "or NOTSHOOTER is not defined in child class.");
-            }
-#endif
-
-            transform.Rotate(_startTransform.eulerAngles, Space.Self);
         }
         else if (_hasLostPlayer()) {
             //the player has not be detected and we're not tracking
             ///resume change behavior
             if (_isTrackingPlayer) {
                 _resetBehaviors();
-                InvokeRepeating("_changeBehavior", 1.75f, rateOfBehaviorChange); 
+                InvokeRepeating("_changeBehavior", 1.75f, rateOfBehaviorChange);
                 _isTrackingPlayer = false;
-                Debug.Log("PLAYER LOST");
             }
         }
 
@@ -135,11 +106,11 @@ public class CommonGuard : BaseEnemy {
             && !_isTrackingPlayer) {
             _move(_moveDir);
         }
+        //MAYBE MOVE INTO FIRST IF STATEMENT
         else if (_isTrackingPlayer) {
-            //override _move() because the enemy will be too focuessed on
+            //override _move() because the enemy will be too focussed on
             //the player to turn around when hitting the wall
             _trackPlayer();
-            //Debug.Log("TRACKING THE PLAYER NOW");
         }
 
         ///set animation states when necessary
@@ -156,14 +127,65 @@ public class CommonGuard : BaseEnemy {
         }
     }
 
+    //global vars for this funciton
+    private Vector3 _currentLook = Vector3.zero;
+    private bool _isScanningRight = false;
+    private float _scanTimer = 0.15f;
+    //InvokeRepeating that will alter global vars above for tracking
+    protected void _scanForPlayer() {
+        //initializer
+        if (_currentLook == Vector3.zero) {
+            //set to left and start scanning right
+            _currentLook = transform.TransformDirection(_leftDirGO.transform.localPosition);
+            _isScanningRight = true;
+        }
+        //are we done looking right?
+        if (_isScanningRight && _isDirectionCloseEnough(_currentLook, 
+                                                        _rightDirGO.transform.localPosition)) {
+            _isScanningRight = false;
+        }
+        //are we done looking left?
+        else if (!_isScanningRight && _isDirectionCloseEnough(_currentLook, 
+                                                        _leftDirGO.transform.localPosition)) {
+            _isScanningRight = true;
+        }
+        //interpolate directions w/ conditional assignment
+        _currentLook = (_isScanningRight) ? 
+                       Vector3.Slerp(_currentLook, 
+                                     _rightDirGO.transform.localPosition,
+                                     _scanTimer) :// * Time.deltaTime) :
+                       Vector3.Slerp(_currentLook,
+                                     _leftDirGO.transform.localPosition,
+                                     _scanTimer);// * Time.deltaTime);
+        //Debug.Log("Looking at " + _currentLook);
+        //debugging
+        //Debug.DrawRay(transform.position, transform.TransformDirection(_currentLook) * 5f, Color.green, 0.75f, true);
+        //Debug.DrawRay(transform.position, transform.TransformDirection(-_fwdDirGO.transform.position) * 5f,
+        //                Color.green, 0.75f, true);
+        //now raycast, check forward scan and behind
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(_currentLook),
+                            out hit, playerRangeCheck)
+            || //OR
+            Physics.Raycast(transform.position, transform.TransformDirection(-_fwdDirGO.transform.position),
+                            out hit, 5f)) {
+            if (hit.transform.tag == "Player") {
+                _isTrackingPlayer = true;
+            }
+        }
+    }
+
     //if the player is never hit, then return Direction.NULL
+    [System.Obsolete("Use _scanForPlayer() instead.")]
     protected Direction _isPlayerInRange() {
+
         Direction dirOfPlayer = Direction.NULL;
         float castDist = playerRangeCheck;
         RaycastHit hit;
 
         //get location of child GOs
         Vector3 lookForward = _fwdDirGO.transform.position - transform.position;
+        Vector3 lookBackward = transform.position - _fwdDirGO.transform.position;
         Vector3 lookRight = _rightDirGO.transform.position - transform.position;
         Vector3 lookLeft = _leftDirGO.transform.position - transform.position;
 
@@ -188,88 +210,78 @@ public class CommonGuard : BaseEnemy {
             && hit.transform.tag == "Player") {
             dirOfPlayer = Direction.Right;
         }
+        //look behind
+        else if (Physics.Raycast(transform.position, lookBackward, out hit, 3.5f)
+            && hit.transform.tag == "Player") {
+            dirOfPlayer = Direction.Backwards;
+        }
         
         ///draw raycast in space to debug
         //draw forward
-        //Debug.DrawRay(transform.position, lookForward.normalized, Color.black, 0.2f, false);
-        //Debug.DrawRay(rightHip, lookForward.normalized, Color.red, 0.2f, false);
-        //Debug.DrawRay(leftHip, lookForward.normalized, Color.blue, 0.2f, false);
+        //Debug.DrawRay(transform.position, lookForward.normalized * 5f, Color.green, 0.2f, false);
+        //Debug.DrawRay(rightHip, lookForward.normalized * 5f, Color.green, 0.2f, false);
+        //Debug.DrawRay(leftHip, lookForward.normalized * 5f, Color.green, 0.2f, false);
         //draw left
-        //Debug.DrawRay(transform.position, lookLeft.normalized, Color.red, 0.2f, false);
+        //Debug.DrawRay(transform.position, lookLeft.normalized * 5f, Color.green, 0.2f, false);
         //draw right
-        //Debug.DrawRay(transform.position, lookRight.normalized, Color.blue, 0.2f, false);
+        //Debug.DrawRay(transform.position, lookRight.normalized * 5f, Color.green, 0.2f, false);
         
         return dirOfPlayer;
+    }
+
+    //if the player goes behind a wall and is trying
+    protected bool _trackHiddenPlayer() {
+        return false;
     }
 
     //will operate the exact same as the _move function, but won't turn around
     //when facing the wall
     protected void _trackPlayer() {
         //apply rotation to face the player
-        Vector3 vecToPlayer = (_playerGO.transform.position
-                                - transform.position);
-        Vector3 localVecToPlayer = (_playerGO.transform.localPosition
-                                     - transform.localPosition);
-        //calculate new _moveDir
-        Vector3 curMoveDir = (_fwdDirGO.transform.position
-                                - transform.position);
-        _moveDir = vecToPlayer.normalized;
-
-        //originally signed angle
-        //float yRotVal = Vector3.SignedAngle(curMoveDir, vecToPlayer, Vector3.up);
-        float yRotVal = Mathf.MoveTowardsAngle(transform.localEulerAngles.y,
-                                               localVecToPlayer.y, Time.maximumDeltaTime);
-
-        //yRotVal = Mathf.LerpAngle(0f, yRotVal, 0.15f);
-        
-        //yRotVal = Mathf.SmoothStep
-        Vector3 rotTo = new Vector3(0f, yRotVal, 0f) * Time.fixedDeltaTime;
-        //if the lerp val is negative, account for this in the minLerpVal
-
-        //set spacer between the enemy and player, value will change based on
-        //what enemy is attacking
+        Vector3 vecToPlayer = _playerGO.transform.position - transform.position;
+        _moveDir = transform.InverseTransformDirection(vecToPlayer).normalized;
+        _moveDir.y = 0;
         float spaceBetween;
 #if NOTSHOOTER
         spaceBetween = 0.75f;
+
 #else
-        spaceBetween = 1.5f;
+        spaceBetween = 1.75f;
+        if (TryGetComponent<EnemyShooting>(out EnemyShooting eS)) {
+            if (eS.canShootPlayer) {
+                //check if the player is in front of me for shooting
+                RaycastHit hit;
+                //Debug.DrawRay(transform.position, transform.TransformDirection(_fwdDirGO.transform.localPosition * 5f), Color.red, 0.15f);
+                if (Physics.Raycast(transform.position, 
+                    transform.TransformDirection(_fwdDirGO.transform.localPosition),
+                    out hit, playerRangeCheck)) {
+
+                    if (hit.transform.CompareTag("Player")) {
+                        eS.shootPlayer();
+                        eS.shootTimer = Time.time + eS.shootCoolDown;
+                        eS.canShootPlayer = false;
+                        //set shooting animation
+                        _isShooting = true;
+                        animationState = EnemyAnimation.Shooting;
+                        Invoke("_stopShootAnimation", 0.6f); //adjust to animation time
+                    }
+                }
+            }
+        }
 #endif
         //try using only quaternions (NAH)
         if (!_isEnemyFacingWall()) {
             //Enemies that don't shoot will simply ram in to the player
-            //raycast to check if I'm too close to the player
-            RaycastHit hit;
-            bool hitSomething = Physics.Raycast(transform.position, 
-                                                vecToPlayer, out hit, spaceBetween);
-            if (!(hitSomething && hit.transform.tag == "Player")) {
-                //move the player
-                _moveDir.y = 0f;
-                transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
-                //return;
+            //distance check to make sure we don't ram the player unless shielded guard
+            if (Vector3.Distance(transform.position, _playerGO.transform.position)
+                > spaceBetween) {
+                //move
+                transform.position += transform.TransformDirection(_moveDir) * speed * Time.fixedDeltaTime;
             }
-            hit = new RaycastHit(); //reset val
-
-            Debug.DrawRay(transform.position, _moveDir * 5f, Color.red, 0.5f);
-            /**
-             * The direction of this raycast doesn't seem to point in the right direction
-             * 
-             */ 
-            if (Physics.Raycast(transform.position, _moveDir, out hit, playerRangeCheck)) {
-                if (hit.transform.tag != "Player" && hit.transform.tag != "Wall") {
-                    //transform.localEulerAngles += rotTo;
-                }
-            }
-            //transform.localEulerAngles += rotTo;
-            //Below is a valid point to start at, but the enemy begins
-
-            /**
-             * BUG FIX:
-             *      -Preserve y-position when rotating around
-             *      -Reset rotation to when it was at the beginning.
-             */ 
-            transform.LookAt(_playerGO.transform, _playerGO.transform.up);
+            //look at the reference point on the player object
+            transform.LookAt(lookAtMe, lookAtMe.up);
         }
-        //Debug.Log("yRotLerp: " + yRotLerp);
+
     }
 
     //bool function checking if enemy should reset their state
@@ -296,14 +308,31 @@ public class CommonGuard : BaseEnemy {
         //change behavior
         _myBehavior = Behavior.Idle;
         //reset rotation and position to local
-        Debug.Log("RESETBEHAVIOR");
-        transform.localEulerAngles = _startTransform.localEulerAngles;
-        float yDiff = _startTransform.localPosition.y - transform.localPosition.y;
-        transform.Translate(0f, yDiff, 0f, Space.Self);
+        //transform.rotation = _startQuat;
+        Vector3 resetPos = new Vector3(transform.localPosition.x,
+                                       _startLocPos.y, 
+                                       transform.localPosition.z);
+        transform.localPosition = resetPos;
+        transform.localRotation = _startQuat;
         //reset _moveDir
         Vector3 newMoveDir = (_fwdDirGO.transform.position
                                 - transform.position).normalized;
         _moveDir = newMoveDir;
+        //invoke scanning 
+        InvokeRepeating("_scanForPlayer", 0f, Time.fixedDeltaTime);
+    }
+
+    //when using the _scanForPlayer() function, this function will check the current direction
+    //vs the desired direction and check if they're close enough
+    private bool _isDirectionCloseEnough(Vector3 vA, Vector3 vB) { 
+        if (Mathf.Abs(vA.x - vB.x) < 0.01f) {
+            if (Mathf.Abs(vA.y - vB.y) < 0.01f) {
+                if (Mathf.Abs(vA.z - vB.z) < 0.01f) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     //call using invoke and set time as time to animate

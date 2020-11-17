@@ -890,6 +890,7 @@ public class PlayerMovement : MonoBehaviour
         //Wesley
         playerData.SetCharacterChoiceGame();
         playerData.SetColor(); //Sets in scene start
+        playerData.SetPet();
     }
 
     /// <summary>

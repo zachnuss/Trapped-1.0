@@ -10,6 +10,5 @@ public class OnCharCustomizationLoad : MonoBehaviour
     {
         playerData.SetCharacterChoiceGame();
         playerData.SetColor();
-        playerData.SetPet();
     }
 }

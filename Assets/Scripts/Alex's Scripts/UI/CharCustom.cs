@@ -27,6 +27,7 @@ public class CharCustom : MonoBehaviour
     public GameObject FColor2Label;
     public GameObject FColor3Label;
     public GameObject PurchaseP2; //Text box to display that the player needs to purchase player 2
+    public GameObject PurchasePet; //Text box to display that the player needs to purchase pet
 
     //Bools to keep track of what is active
     private bool playerActive = true;
@@ -124,7 +125,28 @@ public class CharCustom : MonoBehaviour
                 StartCoroutine(waiting());
             }
         }
+
+        //Checks to see if pets is active
+        if (pets.activeInHierarchy == true)//If it is will adjust pet choice
+        {
+            playerData.petChoice++;//rb goes up, lb goes down
+            if (playerData.petChoice >= 3) //loops if goes too far
+                playerData.petChoice = 0;
+            int petAttempt = playerData.petChoice;
+            playerData.ChangePet(playerData.petChoice);//runs changepet
+            if (petAttempt == 1)
+            {
+                if (playerData.characterPet2Purchase == false)//checks if pet is purchased after running changepet
+                    StartCoroutine(waitingPet());
+            }
+            if (petAttempt == 2)
+            {
+                if (playerData.characterPet3Purchase == false)//checks if pet is purchased after running changepet
+                    StartCoroutine(waitingPet());
+            }
+        }
     }
+
     public void OnLB()
     {
         //Checks to see if the prisoner is active
@@ -135,6 +157,26 @@ public class CharCustom : MonoBehaviour
             if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
             {
                 StartCoroutine(waiting());
+            }
+        }
+
+        //Checks to see if pets is active
+        if (pets.activeInHierarchy == true)//If it is will adjust pet choice
+        {
+            playerData.petChoice--;//rb goes up, lb goes down
+            if (playerData.petChoice <= -1)//loops if goes too far
+                playerData.petChoice = 2;
+            int petAttempt = playerData.petChoice;
+            playerData.ChangePet(playerData.petChoice);//runs changepet
+            if (petAttempt == 1)
+            {
+                if (playerData.characterPet2Purchase == false)//checks if pet is purchased after running changepet
+                    StartCoroutine(waitingPet());
+            }
+            if (petAttempt == 2)
+            {
+                if (playerData.characterPet3Purchase == false)//checks if pet is purchased after running changepet
+                    StartCoroutine(waitingPet());
             }
         }
     }
@@ -150,6 +192,19 @@ public class CharCustom : MonoBehaviour
         PurchaseP2.SetActive(true);
         yield return new WaitForSeconds(2);
         PurchaseP2.SetActive(false);
+    }
+
+    /// <summary>
+    /// Wesley
+    /// Updated: 11-16-2020
+    /// 
+    /// Courutine to keep track of seconds waiting to display that players need to purchase a pet
+    /// </summary>
+    IEnumerator waitingPet()
+    {
+        PurchasePet.SetActive(true);
+        yield return new WaitForSeconds(2);
+        PurchasePet.SetActive(false);
     }
 
     /// <summary>

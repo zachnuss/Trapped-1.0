@@ -16,7 +16,7 @@ MonoBehaviour:
   timerMin: 0
   timerHour: 0
   timerBetweenLevels: 0
-  totalTime: 37.920677
+  totalTime: 48.620922
   healthUpgrade: 0
   damageUpgrade: 0
   speedUpgrade: 0
@@ -25,12 +25,12 @@ MonoBehaviour:
   localHealth: 100
   OnLevel: 0
   levelsBeaten: 0
-  score: 12
-  matchScoreFromTime: 12
+  score: 25
+  matchScoreFromTime: 25
   matchScoreFromEnemies: 0
   matchEnemiesKilled: 0
   matchPowerUpsCollected: 0
-  speedPowerupsCollected: 0
+  speedPowerupsCollected: 1
   matchCurrencyCollected: 0
   matchSpecialCoinCollected: 0
   highScore1: 2000
@@ -47,7 +47,7 @@ MonoBehaviour:
   gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}
   materialChoice: 0
   materialChoice2: 0
-  petChoice: 0
+  petChoice: 1
   playerColor:
   - {fileID: 2100000, guid: 8be3d9fac657a3c4f8d7517315ab4576, type: 2}
   - {fileID: 2100000, guid: 7d78cb4a02ea66e44a23665525fdc039, type: 2}
@@ -66,6 +66,6 @@ MonoBehaviour:
   character2Color3: 0
   characterCost: 10
   colorCost: 5
-  petCost: 0
+  petCost: 15
   godMode: 0
   startAtHalf: 0

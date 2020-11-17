@@ -670,6 +670,8 @@ public class PlayerData : ScriptableObject
                 characterPet2Purchase = true;
                 petChoice = input;
             }
+            else if(specialCoins < petCost)
+                petChoice = 0;
         }
         else if (input == 2 && characterPet3Purchase == true)
         {
@@ -683,7 +685,10 @@ public class PlayerData : ScriptableObject
                 characterPet3Purchase = true;
                 petChoice = input;
             }
+            else if (specialCoins < petCost)
+                petChoice = 0;
         }
+        
         SetPet();
     }
 

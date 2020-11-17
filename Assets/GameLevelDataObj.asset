@@ -26,20 +26,23 @@ MonoBehaviour:
   - {fileID: 6790258593695902375, guid: e542fdd206db4004ea6c97dbbc288c27, type: 3}
   mods:
   - modActive: 0
-    modDescription: enemies do double damage, but double score
+    modDescription: 'DOUBLE TROUBLE: ~Enemies do double damage but gain twice the
+      points'
     modType: 1
   - modActive: 0
-    modDescription: Health regen + enemies get sheilds
+    modDescription: 'ADVANCED NANO BOTS: ~Enemies gain rechargable shields but Player
+      gains health regen'
     modType: 2
   - modActive: 0
-    modDescription: enemies do bleed, increase max health
+    modDescription: 'SERRATED AMMUNITION: ~Enemies do bleed, increase max health'
     modType: 3
   - modActive: 0
-    modDescription: enemies fast bois, player does double dam
+    modDescription: 'ADVANCED SIMULANT: ~Enemies fast bois, player does double dam'
     modType: 4
   - modActive: 0
-    modDescription: lower health with rechargeable sheild
+    modDescription: 'LOW POWERED GENERATOR: ~Lower health with rechargeable sheild'
     modType: 5
   - modActive: 0
-    modDescription: Mortars and smart bullets
+    modDescription: 'TRACKING MUNITIONS: ~Mortars and smart bullets'
     modType: 6
+  totalModsOn: 0

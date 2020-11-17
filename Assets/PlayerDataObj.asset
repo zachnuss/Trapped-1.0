@@ -24,12 +24,13 @@ MonoBehaviour:
   totalDamageBase: 20
   localHealth: 100
   OnLevel: 1
-  levelsBeaten: 18
+  levelsBeaten: 0
   score: 0
   matchScoreFromTime: 0
   matchScoreFromEnemies: 0
   matchEnemiesKilled: 0
   matchPowerUpsCollected: 0
+  speedPowerupsCollected: 0
   matchCurrencyCollected: 0
   matchSpecialCoinCollected: 0
   highScore1: 2000
@@ -65,6 +66,6 @@ MonoBehaviour:
   character2Color3: 0
   characterCost: 10
   colorCost: 5
-  petCost: 0
+  petCost: 15
   godMode: 0
   startAtHalf: 0

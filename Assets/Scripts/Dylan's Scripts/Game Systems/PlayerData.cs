@@ -54,6 +54,8 @@ public class PlayerData : ScriptableObject
     [Header("Player Currency")]
    // public Scene[] levels;
     public string[] levelsS;
+    [Header("Loops Completed")]
+    public int loopsCompleted;
 
     [Header("Prev and Next")]
     //public Scene nextLevel;
@@ -115,6 +117,15 @@ public class PlayerData : ScriptableObject
     public bool godMode = false;
     [HideInInspector]
     public bool startAtHalf = false;
+
+    public int loops
+    {
+        get
+        {
+            loopsCompleted = levelsBeaten / 3;
+            return loopsCompleted;
+        }
+    }
 
     /// <summary>
     /// Dylan Loe

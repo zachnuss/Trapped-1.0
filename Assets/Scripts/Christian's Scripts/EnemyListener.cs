@@ -29,7 +29,7 @@ public class EnemyListener : MonoBehaviour {
         for (int i = 0; i < 6; ++i) {
             _enemyList[i] = new List<BaseEnemy>();
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForEndOfFrame();
         //wait a frame before callling <BaseEnemy>().myFace as enemies
         //calculate this variable in Start() as well.
         GameObject[] tempList = GameObject.FindGameObjectsWithTag("Enemy");
@@ -49,6 +49,8 @@ public class EnemyListener : MonoBehaviour {
             _enemyList[(int)_curFace][i].activateAI(true);
         }*/
         setEnemiesOnFace(CubemapFace.PositiveY);
+        _curFace = CubemapFace.PositiveY;
+
     }
 
     //replace curFace with the argument parameter and sets all enemies on face
@@ -78,7 +80,6 @@ public class EnemyListener : MonoBehaviour {
                 //Debug.Log("Deactivating: " + _enemyList[(int)oldFace][i].gameObject.name);
             }
         }
-        Debug.Log("Moving to new face: " + face);
     }
 
     //public function that will delete a give enemy from the array

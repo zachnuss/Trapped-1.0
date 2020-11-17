@@ -27,16 +27,13 @@ public class DoorDetection : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player") {
-                        /** START CHRISTIAN'S CODE **/
+            /** START CHRISTIAN'S CODE **/
             DoorTrigger parentDT = transform.parent.gameObject.GetComponent<DoorTrigger>();
             if (parentDT.isTransitioning) {
                 //Debug.Log("TRANSITIONING");
                 CubemapFace faceA = parentDT.faces[0];
                 CubemapFace faceB = parentDT.faces[1];
                 CubemapFace oldFace = EnemyListener.Instance.curFace;
-                //Debug.Log("-----------------------------------");
-                //Debug.Log("faceA: " + faceA);
-                //Debug.Log("faceB: " + faceB);
 
                 if (faceA == oldFace) {
                     EnemyListener.Instance.setEnemiesOnFace(faceB);

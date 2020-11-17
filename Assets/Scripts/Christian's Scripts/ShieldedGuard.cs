@@ -13,27 +13,11 @@ public class ShieldedGuard : CommonGuard {
     private float _restTimer = 0f;
     private float _timeStunned = 2.75f;
     private bool _isBashing = false;
-
-    //Set to replace the SetActive function as it's hard to call an object that's
-    //not active
-    public override void activateAI(bool isActive)
-    {
-        base.activateAI(isActive);
-        /*
-        MeshRenderer mObjectBody = transform.GetChild(4).gameObject.GetComponent<MeshRenderer>();
-        MeshRenderer mObjectShield = transform.GetChild(5).gameObject.GetComponent<MeshRenderer>();
-        CapsuleCollider cCollider = GetComponent<CapsuleCollider>();
-        BoxCollider bCollider = transform.GetChild(5).gameObject.GetComponent<BoxCollider>();
-
-        mObjectBody.enabled = isActive;
-        mObjectShield.enabled = isActive;
-        cCollider.enabled = isActive;
-        bCollider.enabled = isActive;
-        */
-    }
+    private bool _isStunned = false;
 
     //incorporate sprinting into this script
     protected override void Update() {
+        /*
         //check direction to player
         Direction dirOfPlayer = Direction.NULL;
         if (!_isBashing && _myBehavior != Behavior.Idle) {
@@ -62,20 +46,39 @@ public class ShieldedGuard : CommonGuard {
                 _isTrackingPlayer = false;
             }
         }
+        */
+        /**         OLD SHIT ABOVE      **/
+        //if stunned, do nothing
+        if (_isStunned) return;
 
         ///check before movement
         if (_myBehavior != Behavior.Idle && _myBehavior != Behavior.TrackPlayer
-            && !_isTrackingPlayer) {
+            && !_isTrackingPlayer && !_isBashing) {
             _move(_moveDir);
         }
         else if (_isTrackingPlayer && !_isBashing) {
             //override _move() because the enemy will be too focussed on
             //the player to turn around when hitting the wall
             _trackPlayer();
+
+            //raytrace to get if I'm in front of the player
+            _myBehavior = Behavior.TrackPlayer;
+
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, 
+                transform.TransformDirection(_fwdDirGO.transform.localPosition),
+                out hit, playerRangeCheck)) {
+                 //shield bash
+                _isTrackingPlayer = false;
+                _isBashing = true;
+                _moveDir = transform.TransformDirection(_fwdDirGO.transform.localPosition);
+                _moveDir = _moveDir.normalized;
+            }
         }
-        else if (!_isTrackingPlayer && _isBashing) {
+        if (_isBashing) {
             _shieldBash();
         }
+
 
         ///set animation states when necessary
         if (_myBehavior == Behavior.Idle) {
@@ -94,7 +97,7 @@ public class ShieldedGuard : CommonGuard {
     //Once facing the player, maintain _moveDir and run until "Wall" is hit
     private void _shieldBash() {
         //run directly toward player
-        speed = _storeRegSpeed * 1.8f;
+        speed = _storeRegSpeed * 1.75f;
         if (Vector3.Distance(transform.position, _playerGO.transform.position)
             > 0.5f) {
                 transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
@@ -105,8 +108,15 @@ public class ShieldedGuard : CommonGuard {
             _isBashing = false;
             speed = _storeRegSpeed;
             Invoke("_resetBehaviors", _timeStunned);
+            _myBehavior = Behavior.Idle;
             InvokeRepeating("_changeBehavior", _timeStunned, rateOfBehaviorChange);
+            _isStunned = true;
+            Invoke("_stunTimer", _timeStunned);
         }
+    }
+
+    private void _stunTimer() {
+        _isStunned = false;
     }
 
     //debugging function for using Invoke()

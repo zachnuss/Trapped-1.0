@@ -263,7 +263,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -27.328, y: -19.234}
+  m_AnchoredPosition: {x: -27.32788, y: -19.233887}
   m_SizeDelta: {x: 117.6, y: 124.9}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &3166417983749958618
@@ -337,7 +337,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 11.536124, y: 16.501335}
+  m_AnchoredPosition: {x: 11.536133, y: 16.50122}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &9040939519968187597
@@ -622,7 +622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -100.3, y: 45.2}
+  m_AnchoredPosition: {x: -100.30005, y: 45.19995}
   m_SizeDelta: {x: 183.03, y: 81.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3419854079397320106
@@ -686,7 +686,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976412923133584646}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.8, z: 0}
+  m_LocalPosition: {x: 0, y: 1.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7571365785918509582}
@@ -858,7 +858,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 4.494873, y: -29.799988}
+  m_AnchoredPosition: {x: 4.494873, y: -29.800049}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8359705069789775721
@@ -1136,7 +1136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 21.299805, y: 15.099976}
+  m_AnchoredPosition: {x: 21.299805, y: 15.100098}
   m_SizeDelta: {x: 120.640015, y: 39.64}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &2897991876456193128
@@ -3417,6 +3417,8 @@ MonoBehaviour:
   serratedMod: 0
   doubleDamage: 0
   personalSheild: 0
+  trackingAmmunitionMod: 0
+  mortarGrid: {fileID: 0}
   bleedStacks: 0
   bleedTimer: 0
   timerText: {fileID: 5599595034058128049}
@@ -4115,7 +4117,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 2.362793, y: 3.9818115}
+  m_AnchoredPosition: {x: 2.362793, y: 3.9819336}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6265582652163309413

@@ -46,7 +46,7 @@ public class BaseEnemy : MonoBehaviour {
     protected Behavior _myBehavior;
     protected float _trackingSpeed;
     protected Vector3 _moveDir; //movement
-    protected GameObject _fwdDirGO;
+    protected GameObject _fwdDirGO, _leftDirGO, _rightDirGO;
     protected GameObject _playerGO;
 
     ///private
@@ -238,14 +238,35 @@ public class BaseEnemy : MonoBehaviour {
         //Debug.DrawLine(transform.position, endPoint, Color.green, Time.deltaTime, false);
         //Debug.DrawRay(transform.position, _moveDir, Color.green, Time.deltaTime, false);
         //check what's in fron using Raycast
-        if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
-            //don't change direction if I'm looking at the player
-            if (hit.transform.tag == "Wall") {
-                isFacingWall = true;
+        //get approximate width of the player
+        if (_rightDirGO != null && _leftDirGO != null) {
+            Vector3 rightHip = (_rightDirGO.transform.position + transform.position) / 2f;
+            Vector3 leftHip = (_leftDirGO.transform.position + transform.position) / 2f;
+
+            if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)
+                || Physics.Raycast(rightHip, _moveDir, out hit, _wallDetectRay)
+                || Physics.Raycast(leftHip, _moveDir, out hit, _wallDetectRay)) {
+               //don't change direction if I'm looking at the player
+                if (hit.transform.tag == "Wall") {
+                    isFacingWall = true;
+                }
+                //am I hitting myself?
+                else if (hit.transform.name == _fwdDirGO.name) {
+                    Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
+                }
             }
-            //am I hitting myself?
-            else if (hit.transform.name == _fwdDirGO.name) {
-                Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
+        }
+        //for Hallway Bot
+        else {
+            if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
+               //don't change direction if I'm looking at the player
+                if (hit.transform.tag == "Wall") {
+                    isFacingWall = true;
+                }
+                //am I hitting myself?
+                else if (hit.transform.name == _fwdDirGO.name) {
+                    Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
+                }
             }
         }
         return isFacingWall;
@@ -290,6 +311,12 @@ public class BaseEnemy : MonoBehaviour {
             if (transform.GetChild(i).name == "FrontChild") {
                 _fwdDirGO = transform.GetChild(i).gameObject;
             }
+            if (transform.GetChild(i).name == "LeftChild") { 
+                _leftDirGO = transform.GetChild(i).gameObject;
+            }
+            if (transform.GetChild(i).name == "RightChild") {
+                _rightDirGO = transform.GetChild(i).gameObject;
+            }
         }
 
         Vector3 initialDir = _fwdDirGO.transform.position - transform.position;
@@ -315,7 +342,7 @@ public class BaseEnemy : MonoBehaviour {
             string parentName = transform.parent.name;
             switch (parentName)
             {
-                //x axis and z axis are swapped
+                /** x axis and z axis are swapped in scene!! **/
                 case "Z": //x-axis
                     _myFaceLocation = (transform.position[0] > 0f) ? CubemapFace.PositiveX
                                                                    : CubemapFace.NegativeX;
@@ -329,23 +356,6 @@ public class BaseEnemy : MonoBehaviour {
                                                                    : CubemapFace.NegativeZ;
                     break;
             }
-            //get this enemie's transform.up to check for cubeface
-            //use conditional to check if positive or negative
-            /*
-            Vector3 myUp = transform.up;
-            if (myUp[0] != 0f) {
-                _myFaceLocation = (myUp[0] > 0f) ? CubemapFace.PositiveX 
-                                                 : CubemapFace.NegativeX;
-            }
-            else if (myUp[1] != 0f) {
-                _myFaceLocation = (myUp[1] > 0f) ? CubemapFace.PositiveY
-                                                 : CubemapFace.NegativeY;
-            }
-            else if (myUp[2] != 0f) {
-                _myFaceLocation = (myUp[2] > 0f) ? CubemapFace.PositiveZ
-                                                 : CubemapFace.NegativeZ;
-            }
-            */
         }
     }
 

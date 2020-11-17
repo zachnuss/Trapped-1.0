@@ -670,6 +670,8 @@ public class PlayerData : ScriptableObject
                 characterPet2Purchase = true;
                 petChoice = input;
             }
+            else if(specialCoins < petCost)
+                petChoice = 0;
         }
         else if (input == 2 && characterPet3Purchase == true)
         {
@@ -683,7 +685,10 @@ public class PlayerData : ScriptableObject
                 characterPet3Purchase = true;
                 petChoice = input;
             }
+            else if (specialCoins < petCost)
+                petChoice = 0;
         }
+        
         SetPet();
     }
 
@@ -695,19 +700,23 @@ public class PlayerData : ScriptableObject
     /// </summary>
     public void SetPet()
     {
-        if(petChoice == 0)
+        GameObject pet1 = GameObject.Find("pet_wasp");
+
+        //GameObject pet2 = GameObject.Find("Pet2");
+        if (petChoice == 0)
         {
-            //disable both pet models
+            pet1.GetComponent<Renderer>().enabled = false;
+            //pet2.GetComponent<Renderer>().enabled = false;
         }
-        if(petChoice == 1)
+        if (petChoice == 1)
         {
-            //disable pet model 2
-            //enable pet model 1
+            //pet2.GetComponent<Renderer>().enabled = false;
+            pet1.GetComponent<Renderer>().enabled = true;
         }
-        if(petChoice == 2)
+        if (petChoice == 2)
         {
-            //disable pet model 1
-            //endable pet model 2
+            pet1.GetComponent<Renderer>().enabled = false;
+            //pet2.GetComponent<Renderer>().enabled = true;
         }
     }
 

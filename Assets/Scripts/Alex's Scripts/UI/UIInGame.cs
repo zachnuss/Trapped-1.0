@@ -47,7 +47,8 @@ public class UIInGame : MonoBehaviour
         healthText.text = "" + (int)health; //Sets health to be displayed correctly on the HP bar
         float totalHealth = playerData.totalHealthBase; //sets a total health variable to the health base for fractioning
         float result = health / totalHealth; //Sets the fraction for the scaling 
-        healthBar.rectTransform.localScale = new Vector3 ((result * hpBarX),1f,0.38f); //Scales the hpBar image
+        //healthBar.rectTransform.localScale = new Vector3 ((result * hpBarX),1f,0.38f); //Scales the hpBar image
+        healthBar.fillAmount = result;
         //Debug.Log(healthBar.rectTransform.localScale.x);
     }
 
@@ -97,8 +98,8 @@ public class UIInGame : MonoBehaviour
 
         //When the scene starts it will display the current health total that is stored in the player data
         healthText.text = "" + playerData.localHealth;
-
-        hpBarX = healthBar.rectTransform.localScale.x;
+        healthBar.fillAmount = playerData.localHealth / playerData.totalHealthBase;
+        //hpBarX = healthBar.rectTransform.localScale.x;
 
         //Set the text for loops completed *TEMP UNTIL LOOPS ARE ENABLED*
         loopsText.text = "" + loopsCompleted;

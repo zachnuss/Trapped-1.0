@@ -890,6 +890,7 @@ public class PlayerMovement : MonoBehaviour
         //Wesley
         playerData.SetCharacterChoiceGame();
         playerData.SetColor(); //Sets in scene start
+        playerData.SetPet();
     }
 
     /// <summary>
@@ -933,7 +934,7 @@ public class PlayerMovement : MonoBehaviour
                 playerData.EndGameScoring();
                 playerData.AddDeath();
 
-                UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(7);
                 //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
             }
 

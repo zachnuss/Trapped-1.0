@@ -233,41 +233,26 @@ public class BaseEnemy : MonoBehaviour {
         //local vars
         bool isFacingWall = false;
         RaycastHit hit;
-        ///draw line for debugging
-        //Vector3 endPoint = transform.position + _moveDir;
-        //Debug.DrawLine(transform.position, endPoint, Color.green, Time.deltaTime, false);
-        //Debug.DrawRay(transform.position, _moveDir, Color.green, Time.deltaTime, false);
         //check what's in fron using Raycast
         //get approximate width of the player
-        if (_rightDirGO != null && _leftDirGO != null) {
-            Vector3 rightHip = (_rightDirGO.transform.position + transform.position) / 2f;
-            Vector3 leftHip = (_leftDirGO.transform.position + transform.position) / 2f;
+        Vector3 rightHip = (_rightDirGO != null) ? (_rightDirGO.transform.position 
+                                                    + transform.position) / 2f
+                                                 : Vector3.zero;
+        Vector3 leftHip = (_leftDirGO != null) ? (_leftDirGO.transform.position
+                                                    + transform.position) / 2f
+                                                 : Vector3.zero;
 
-            if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)
-                || Physics.Raycast(rightHip, _moveDir, out hit, _wallDetectRay)
-                || Physics.Raycast(leftHip, _moveDir, out hit, _wallDetectRay)) {
-               //don't change direction if I'm looking at the player
-                if (hit.transform.tag == "Wall") {
-                    isFacingWall = true;
-                }
-                //am I hitting myself?
-                else if (hit.transform.name == _fwdDirGO.name) {
-                    Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
-                }
-            }
-        }
-        //for Hallway Bot
-        else {
-            if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
-               //don't change direction if I'm looking at the player
-                if (hit.transform.tag == "Wall") {
-                    isFacingWall = true;
-                }
-                //am I hitting myself?
-                else if (hit.transform.name == _fwdDirGO.name) {
-                    Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
-                }
-            }
+        if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)
+            || Physics.Raycast(rightHip, _moveDir, out hit, _wallDetectRay)
+            || Physics.Raycast(leftHip, _moveDir, out hit, _wallDetectRay)) {
+           //don't change direction if I'm looking at the player
+           if (hit.transform.CompareTag("Wall")) {
+                isFacingWall = true;
+           }
+           //am I hitting myself?
+           else if (hit.transform.name == _fwdDirGO.name) {
+                Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
+           }
         }
         return isFacingWall;
     }

@@ -68,6 +68,19 @@ public class CommonGuard : BaseEnemy {
         //execute inheritted version
         base.activateAI(isActive);
         GetComponent<CapsuleCollider>().enabled = isActive;
+        if (!isActive) {
+            ///baby shark bug fix
+            if (_isTrackingPlayer) {
+                //are we too close to where the player left?
+                if (Vector3.Distance(transform.position, _playerGO.transform.position)
+                    < 7.5f) {
+                    //reset enemy position completely
+                    transform.SetPositionAndRotation(transform.TransformDirection(_startLocPos),
+                                                     _startQuat);
+                }
+                _resetBehaviors();
+            }
+        }
     }
 
     /**     PROTECTED FUNCTIONS     */
@@ -244,7 +257,6 @@ public class CommonGuard : BaseEnemy {
         float spaceBetween;
 #if NOTSHOOTER
         spaceBetween = 0.75f;
-
 #else
         spaceBetween = 1.75f;
         if (TryGetComponent<EnemyShooting>(out EnemyShooting eS)) {
@@ -320,6 +332,29 @@ public class CommonGuard : BaseEnemy {
         _moveDir = newMoveDir;
         //invoke scanning 
         InvokeRepeating("_scanForPlayer", 0f, Time.fixedDeltaTime);
+    }
+
+    /**
+     *  PRIVATE HELPER FUNCTIONS
+     */
+    
+    //Physics replacement
+    private Vector3 _isClippingWall() {
+        RaycastHit[] hits;
+        CapsuleCollider myCap = GetComponent<CapsuleCollider>();
+        Vector3 top = transform.localPosition + (myCap.height/2f * Vector3.up);
+        Vector3 bottom = transform.localPosition + (myCap.height/2f * Vector3.down);
+
+        hits = Physics.CapsuleCastAll(top, bottom, myCap.radius, Vector3.down);
+        foreach (var h in hits) {
+            if (h.transform.CompareTag("Wall")) {
+                Debug.Log("point of collision: " +
+                           transform.InverseTransformDirection(h.point));
+                return transform.InverseTransformDirection(h.point);
+            }
+        }
+        //wasn't found
+        return Vector3.zero;
     }
 
     //when using the _scanForPlayer() function, this function will check the current direction

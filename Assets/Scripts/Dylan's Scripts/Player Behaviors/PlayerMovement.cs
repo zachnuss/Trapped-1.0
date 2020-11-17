@@ -934,7 +934,7 @@ public class PlayerMovement : MonoBehaviour
                 playerData.EndGameScoring();
                 playerData.AddDeath();
 
-                UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(7);
                 //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
             }
 

@@ -570,7 +570,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2343487795841342455}
   - component: {fileID: 2343487795841342454}
-  - component: {fileID: 2343487795841342458}
   m_Layer: 0
   m_Name: LevelSetup
   m_TagString: Untagged
@@ -578,18 +577,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2343487795841342458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2343487795841342457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4824442163960e94b89176629290829f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8339736451420967674
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -30,6 +30,8 @@ public class PlayerData : ScriptableObject
     public int OnLevel = 0;
     [Header("Levels Beaten")]
     public int levelsBeaten = 0;
+    [Header("Loops Completed")]
+    public int loopsCompleted = 0;
     //0 = level 1 and so on
 
     [Header("Player score")]
@@ -97,6 +99,50 @@ public class PlayerData : ScriptableObject
     [HideInInspector]
     public bool startAtHalf = false;
 
+    //tracks
+    [SerializeField]
+    public int loops
+    {
+
+        get {
+            loopsCompleted = levelsBeaten / 3;
+            return levelsBeaten / 3;  
+        }
+        set { loopsCompleted = levelsBeaten / 3; }
+    }
+
+    //more efficient way of tracking current level than ++ on an int
+    public int currentLevel
+    {
+        get
+        {
+            if(SceneManager.GetActiveScene().name == "Level1")
+            {
+                OnLevel = 1;
+                return 1;
+            }
+            else if (SceneManager.GetActiveScene().name == "Level2")
+            {
+                OnLevel = 2;
+                return 2;
+            }
+            else
+            {
+                OnLevel = 3;
+                return 3;
+            }
+        }
+        set
+        {
+            if (SceneManager.GetActiveScene().name == "Level1")
+                OnLevel = 1;
+            else if (SceneManager.GetActiveScene().name == "Level2")
+                OnLevel = 2;
+            else
+                OnLevel = 3;
+        }
+    }
+
     /// <summary>
     /// Dylan Loe
     /// Updated: 10-25-2020
@@ -133,7 +179,7 @@ public class PlayerData : ScriptableObject
 
             //goes 1 - 3 then back to one
             levelsBeaten++;
-
+            
             //load store scene?
             if (!takeToModSelection)
                 SceneManager.LoadScene("StoreScene");
@@ -267,6 +313,7 @@ public class PlayerData : ScriptableObject
         matchScoreFromEnemies = 0;
         matchScoreFromTime = 0;
         matchSpecialCoinCollected = 0;
+        loopsCompleted = 0;
         localHealth = totalHealthBase;
         startAtHalf = false;
         gameLevelData.InitialModSetup();

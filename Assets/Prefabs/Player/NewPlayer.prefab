@@ -419,17 +419,23 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 12.5, y: -15.75}
   m_SizeDelta: {x: 613.5471, y: 61.499977}
   m_Pivot: {x: 0, y: 0.5}
 =======
+=======
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 11.536133, y: 16.50122}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
+<<<<<<< HEAD
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
+=======
 >>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 --- !u!222 &9040939519968187597
 CanvasRenderer:
@@ -460,8 +466,13 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 3888cea4540042541b24877365a2e1f3, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Type: 3
   m_PreserveAspect: 1
+=======
+  m_Type: 0
+  m_PreserveAspect: 0
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
   m_Type: 0
   m_PreserveAspect: 0
@@ -582,11 +593,15 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
 <<<<<<< HEAD
+<<<<<<< HEAD
   - {fileID: 4576145229718424544}
   - {fileID: 6240048728093410924}
   - {fileID: 838029665903384844}
   - {fileID: 920701870565625582}
   - {fileID: 2760774215034870976}
+=======
+  - {fileID: 3725052744941848519}
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
   - {fileID: 3725052744941848519}
 >>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
@@ -1033,8 +1048,13 @@ RectTransform:
   m_LocalScale: {x: 0.9413098, y: 0.9413098, z: 0.9413098}
   m_Children: []
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Father: {fileID: 6133748901809509845}
   m_RootOrder: 3
+=======
+  m_Father: {fileID: 3725052744941848519}
+  m_RootOrder: 6
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
   m_Father: {fileID: 3725052744941848519}
   m_RootOrder: 6
@@ -1507,8 +1527,13 @@ RectTransform:
   m_LocalScale: {x: 0.9413098, y: 0.9413098, z: 0.9413098}
   m_Children: []
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Father: {fileID: 6133748901809509845}
   m_RootOrder: 4
+=======
+  m_Father: {fileID: 3725052744941848519}
+  m_RootOrder: 7
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
   m_Father: {fileID: 3725052744941848519}
   m_RootOrder: 7
@@ -1907,6 +1932,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_LocalScale: {x: 0.8645668, y: 0.8645668, z: 0.8645668}
   m_Children:
   - {fileID: 7092637336580726441}
@@ -1918,6 +1944,8 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -35}
   m_SizeDelta: {x: 1037.68, y: 172.52}
 =======
+=======
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
   m_LocalScale: {x: 1.3360097, y: 1.3360097, z: 1.3360097}
   m_Children: []
   m_Father: {fileID: 3725052744941848519}
@@ -1927,6 +1955,9 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -28.633766, y: -4.676758}
   m_SizeDelta: {x: 500, y: 150}
+<<<<<<< HEAD
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
+=======
 >>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6953602190859592785
@@ -1959,11 +1990,19 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: aca1307374c97404fa4db42bc7f1ca92, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_FontSize: 124
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 5
     m_MaxSize: 300
+=======
+    m_FontSize: 102
+    m_FontStyle: 1
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 135
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
     m_FontSize: 102
     m_FontStyle: 1
@@ -3631,7 +3670,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 <<<<<<< HEAD
+<<<<<<< HEAD
   PauseMenuUI: {fileID: 1027260117111857179}
+=======
+  PauseMenuUI: {fileID: 4636931176935386431}
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
   PauseMenuUI: {fileID: 4636931176935386431}
 >>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
@@ -3916,7 +3959,11 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_LocalScale: {x: 0.7283824, y: 0.7283824, z: 0.7283824}
+=======
+  m_LocalScale: {x: 0.86840624, y: 0.86840624, z: 0.86840624}
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
   m_LocalScale: {x: 0.86840624, y: 0.86840624, z: 0.86840624}
 >>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
@@ -3925,17 +3972,23 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -185}
   m_SizeDelta: {x: 722.3, y: 251.15}
   m_Pivot: {x: 0.5, y: 0}
 =======
+=======
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -28.633766, y: -133.97754}
   m_SizeDelta: {x: 1200, y: 150}
   m_Pivot: {x: 0.5, y: 1}
+<<<<<<< HEAD
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
+=======
 >>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 --- !u!222 &8379037595731443302
 CanvasRenderer:
@@ -3967,11 +4020,19 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: aca1307374c97404fa4db42bc7f1ca92, type: 3}
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_FontSize: 58
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 5
     m_MaxSize: 247
+=======
+    m_FontSize: 0
+    m_FontStyle: 1
+    m_BestFit: 1
+    m_MinSize: 0
+    m_MaxSize: 135
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
     m_FontSize: 0
     m_FontStyle: 1
@@ -4616,8 +4677,13 @@ RectTransform:
   m_LocalScale: {x: 0.9413098, y: 0.9413098, z: 0.9413098}
   m_Children: []
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Father: {fileID: 6133748901809509845}
   m_RootOrder: 2
+=======
+  m_Father: {fileID: 3725052744941848519}
+  m_RootOrder: 5
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
   m_Father: {fileID: 3725052744941848519}
   m_RootOrder: 5
@@ -5167,6 +5233,7 @@ RectTransform:
 --- !u!95 &7071982985252458202 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 8013161375454991324, guid: 5c93997a62315e040a889e7d28ed1b48,
+<<<<<<< HEAD
 =======
 >>>>>>> parent of a35f07c... PlayerPrefab has EnemyLookReference
 =======
@@ -5179,6 +5246,8 @@ Animator:
 --- !u!95 &7071982985252458202 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 8013161375454991324, guid: 5c93997a62315e040a889e7d28ed1b48,
+=======
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
     type: 3}
   m_PrefabInstance: {fileID: 941477579774516486}
   m_PrefabAsset: {fileID: 0}
@@ -5198,6 +5267,7 @@ Animator:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> parent of a35f07c... PlayerPrefab has EnemyLookReference
@@ -5207,11 +5277,15 @@ Animator:
 =======
 --- !u!95 &4576422744198040801 stripped
 >>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
+=======
+--- !u!95 &4576422744198040801 stripped
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 Animator:
   m_CorrespondingSourceObject: {fileID: 3644103570217046503, guid: 5c93997a62315e040a889e7d28ed1b48,
     type: 3}
   m_PrefabInstance: {fileID: 941477579774516486}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of a35f07c... PlayerPrefab has EnemyLookReference
 --- !u!1001 &3387244886067769894
@@ -5375,6 +5449,8 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4101632221001721868}
   m_PrefabAsset: {fileID: 0}
+=======
+>>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 =======
 >>>>>>> parent of 303803f... Merge branch 'dev' into Christian's-Branch
 --- !u!1001 &4338877691323215857

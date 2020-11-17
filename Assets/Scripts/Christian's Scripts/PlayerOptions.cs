@@ -191,8 +191,8 @@ public class PlayerOptions : MonoBehaviour {
 
         int buildIndex = SceneManager.GetActiveScene().buildIndex;
         //move back to MainMenu or go back to Pause
-        if (buildIndex == 10) {
-            SceneManager.LoadScene(0);
+        if (buildIndex == 11) {
+            SceneManager.LoadScene(1);
         }
         else if (buildIndex >= 1 && buildIndex <= 3) {
             //set my canvas to be SetActive(false);

@@ -279,7 +279,9 @@ public class PlayerMovement : MonoBehaviour
        {
             bleedTimer += Time.deltaTime;
             bleedTimer2 += Time.deltaTime;
-            
+            if (bleedStacks >= 5)
+                playerData.GiveRedDead();
+
             if(bleedTimer2 >= 1.0)
             {
                 bleedTimer2 = 0;
@@ -802,7 +804,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Hit powerup");
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
-            playerData.TrackPowerupGains(1);
+            playerData.TrackPowerupGains(1, other.gameObject.GetComponent<PowerUpDrop>().type);
             Destroy(other.gameObject);
         }
            
@@ -888,6 +890,7 @@ public class PlayerMovement : MonoBehaviour
         //Wesley
         playerData.SetCharacterChoiceGame();
         playerData.SetColor(); //Sets in scene start
+        playerData.SetPet();
     }
 
     /// <summary>
@@ -929,6 +932,7 @@ public class PlayerMovement : MonoBehaviour
 
                 //Set Highscore
                 playerData.EndGameScoring();
+                playerData.AddDeath();
 
                 UnityEngine.SceneManagement.SceneManager.LoadScene(6);
                 //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
@@ -1058,6 +1062,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void PickedPowerUp(powerUpType type, bool timer, int duration)
     {
+        
         if(timer)
         {
             StartCoroutine(PowerUpDuration(type, duration));

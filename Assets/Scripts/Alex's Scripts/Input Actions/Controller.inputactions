@@ -46,7 +46,7 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "RB",
+                    "name": "NextPage[R]",
                     "type": "Button",
                     "id": "df039340-f5f6-4b5b-805d-f53b47bd2ff6",
                     "expectedControlType": "Button",
@@ -54,7 +54,7 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "LB",
+                    "name": "NextPage[L]",
                     "type": "Button",
                     "id": "b99f622d-9377-4f78-b9a7-c9ae46675ef2",
                     "expectedControlType": "Button",
@@ -136,7 +136,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller UI",
-                    "action": "RB",
+                    "action": "NextPage[R]",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -147,7 +147,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller UI",
-                    "action": "LB",
+                    "action": "NextPage[L]",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

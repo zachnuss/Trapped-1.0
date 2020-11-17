@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class UIAchievements : MonoBehaviour
 {
-    public PlayerData playerdata;
-    
     //Public fields to input the Achivement description fields to be adjusted with achievements.
     public Text achievementTitle;
     public Text achievementDescription;

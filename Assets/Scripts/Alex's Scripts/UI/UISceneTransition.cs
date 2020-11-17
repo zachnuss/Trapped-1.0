@@ -22,28 +22,28 @@ public class UISceneTransition : MonoBehaviour
     //Changes scene to the Character Select scene
     public void charSelect()
     {
-        SceneManager.LoadScene(9);
+        SceneManager.LoadScene(8);
         Debug.Log("Time to pick a character!");
     }
 
     //Changes scene to the Achievements scene
     public void achieve()
     {
-        SceneManager.LoadScene(12);
+        SceneManager.LoadScene(11);
         Debug.Log("Let's see those achievements!");
     }
 
     //Changes scene to the options scene
     public void options()
     {
-        SceneManager.LoadScene(11); //set by Christian
+        SceneManager.LoadScene(10); //set by Christian
         Debug.Log("You have options.");
     }
 
     //Changes scene to the credits scene
     public void credits()
     {
-        SceneManager.LoadScene(8);
+        SceneManager.LoadScene(7);
         Debug.Log("We have the best team ever.");
     }
 
@@ -68,7 +68,7 @@ public class UISceneTransition : MonoBehaviour
 
        
         Time.timeScale = 1f;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 }
 

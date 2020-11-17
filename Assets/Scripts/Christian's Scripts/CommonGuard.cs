@@ -47,7 +47,7 @@ public class CommonGuard : BaseEnemy {
             //give score to player
             player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             player.GetComponent<PlayerMovement>().playerData.TrackEnemyScore(pointValue);
-            player.GetComponent<PlayerMovement>().playerData.TrackEnemyKills(1, this.gameObject);
+            player.GetComponent<PlayerMovement>().playerData.TrackEnemyKills(1);
             if (Random.Range(0f, 100f) <= 5)
             {
                 Debug.Log("Currency Test Complete!");

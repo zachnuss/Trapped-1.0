@@ -30,9 +30,9 @@ public class LevelSetup : MonoBehaviour
 
     public Modifier[] currentModsInLevel;
 
-    [SerializeField, HideInInspector]
+    [SerializeField]
     public bool dontLoadPermutation;
-    [SerializeField, HideInInspector]
+    [SerializeField]
     public bool overrideRandomLevel;
 
     /// <summary>

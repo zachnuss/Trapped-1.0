@@ -86,10 +86,7 @@ public class ProjectileScript : MonoBehaviour
         if (other.tag == "Enemy") //Assuming enemies will have this tag.
         {
             //other.GetComponent<BaseEnemy>().health -= damage; //This is normal damage
-            if (other.gameObject != null)
-            {
-                other.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code
-            }
+            other.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code
             if (Random.Range(0f, 10f) < 1) //This is a crit
             {
                 //Debug.Log("I hit a crit!");

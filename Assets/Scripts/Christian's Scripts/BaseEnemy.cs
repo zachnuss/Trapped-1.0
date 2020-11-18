@@ -241,12 +241,16 @@ public class BaseEnemy : MonoBehaviour {
         Vector3 leftHip = (_leftDirGO != null) ? (_leftDirGO.transform.position
                                                     + transform.position) / 2f
                                                  : Vector3.zero;
-
+        //if (rightHip != null && leftHip != null) {
+        //    Debug.DrawRay(transform.position, _moveDir * 2f, Color.red);
+        //    Debug.DrawRay(rightHip, _moveDir * 2f, Color.green);
+        //    Debug.DrawRay(leftHip, _moveDir * 2f, Color.green);
+        //}
         if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)
             || Physics.Raycast(rightHip, _moveDir, out hit, _wallDetectRay)
             || Physics.Raycast(leftHip, _moveDir, out hit, _wallDetectRay)) {
            //don't change direction if I'm looking at the player
-           if (hit.transform.CompareTag("Wall")) {
+           if (hit.transform.tag == "Wall") {
                 isFacingWall = true;
            }
            //am I hitting myself?

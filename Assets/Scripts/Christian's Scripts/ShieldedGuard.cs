@@ -17,44 +17,14 @@ public class ShieldedGuard : CommonGuard {
 
     //incorporate sprinting into this script
     protected override void Update() {
-        /*
-        //check direction to player
-        Direction dirOfPlayer = Direction.NULL;
-        if (!_isBashing && _myBehavior != Behavior.Idle) {
-            dirOfPlayer = _isPlayerInRange();
-        }
-        if (dirOfPlayer != Direction.NULL && !_isBashing) {
-            //change behavior
-            _myBehavior = Behavior.TrackPlayer;
-            //suspend changing behavior and set trackingTimer
-            if (!_isTrackingPlayer) {
-                CancelInvoke("_changeBehavior");
-                _isTrackingPlayer = true;
-            }
-            _trackingTimer = Time.time + playerSearchTimer;
-            //if facing the player, begin charging
-            if (dirOfPlayer == Direction.Forward) {
-                _isBashing = true;
-                _isTrackingPlayer = false;
-            }
-        }
-        else if (_hasLostPlayer()) {
-            //resume change behavior
-            if (_isTrackingPlayer) {
-                _resetBehaviors();
-                InvokeRepeating("_changeBehavior", 1.75f, rateOfBehaviorChange);
-                _isTrackingPlayer = false;
-            }
-        }
-        */
-        /**         OLD SHIT ABOVE      **/
         //if stunned, do nothing
         if (_isStunned) return;
-
         ///check before movement
         if (_myBehavior != Behavior.Idle && _myBehavior != Behavior.TrackPlayer
             && !_isTrackingPlayer && !_isBashing) {
-            _move(_moveDir);
+            if (!_isEnemyFacingWall()) {
+                _move(_moveDir);
+            }
         }
         else if (_isTrackingPlayer && !_isBashing) {
             //override _move() because the enemy will be too focussed on
@@ -63,16 +33,19 @@ public class ShieldedGuard : CommonGuard {
 
             //raytrace to get if I'm in front of the player
             _myBehavior = Behavior.TrackPlayer;
-
             RaycastHit hit;
             if (Physics.Raycast(transform.position, 
                 transform.TransformDirection(_fwdDirGO.transform.localPosition),
                 out hit, playerRangeCheck)) {
-                 //shield bash
-                _isTrackingPlayer = false;
-                _isBashing = true;
-                _moveDir = transform.TransformDirection(_fwdDirGO.transform.localPosition);
-                _moveDir = _moveDir.normalized;
+                if (hit.transform.tag == "Player") {
+                    //shield bash
+                    _isTrackingPlayer = false;
+                    _isBashing = true;
+                    Vector3 vecToPlayer = _playerGO.transform.position - transform.position;
+                    _moveDir = transform.TransformDirection(_fwdDirGO.transform.localPosition);
+                    _moveDir = _moveDir.normalized;
+                    _moveDir.y = 0f;
+                }
             }
         }
         if (_isBashing) {
@@ -96,13 +69,6 @@ public class ShieldedGuard : CommonGuard {
 
     //Once facing the player, maintain _moveDir and run until "Wall" is hit
     private void _shieldBash() {
-        //run directly toward player
-        speed = _storeRegSpeed * 1.75f;
-        if (Vector3.Distance(transform.position, _playerGO.transform.position)
-            > 0.5f) {
-                transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
-        }
-
         //if wall is hit, stun
         if (_isEnemyFacingWall()) {
             _isBashing = false;
@@ -112,6 +78,14 @@ public class ShieldedGuard : CommonGuard {
             InvokeRepeating("_changeBehavior", _timeStunned, rateOfBehaviorChange);
             _isStunned = true;
             Invoke("_stunTimer", _timeStunned);
+            return;
+        }
+
+        //run directly toward player
+        speed = _storeRegSpeed * 1.75f;
+        if (Vector3.Distance(transform.position, _playerGO.transform.position)
+            > 0.5f) {
+                transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
         }
     }
 

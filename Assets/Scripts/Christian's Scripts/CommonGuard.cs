@@ -253,7 +253,7 @@ public class CommonGuard : BaseEnemy {
         //apply rotation to face the player
         Vector3 vecToPlayer = _playerGO.transform.position - transform.position;
         _moveDir = transform.InverseTransformDirection(vecToPlayer).normalized;
-        _moveDir.y = 0;
+        _moveDir.y = 0f;
         float spaceBetween;
 #if NOTSHOOTER
         spaceBetween = 0.75f;
@@ -281,19 +281,19 @@ public class CommonGuard : BaseEnemy {
             }
         }
 #endif
-        //try using only quaternions (NAH)
         if (!_isEnemyFacingWall()) {
             //Enemies that don't shoot will simply ram in to the player
             //distance check to make sure we don't ram the player unless shielded guard
             if (Vector3.Distance(transform.position, _playerGO.transform.position)
                 > spaceBetween) {
                 //move
+                Vector3 physicsForces = _isClippingWall();
+                //if (physicsForces != Vector3.zero) Debug.Log("HIT");
                 transform.position += transform.TransformDirection(_moveDir) * speed * Time.fixedDeltaTime;
             }
             //look at the reference point on the player object
             transform.LookAt(lookAtMe, lookAtMe.up);
         }
-
     }
 
     //bool function checking if enemy should reset their state
@@ -348,8 +348,7 @@ public class CommonGuard : BaseEnemy {
         hits = Physics.CapsuleCastAll(top, bottom, myCap.radius, Vector3.down);
         foreach (var h in hits) {
             if (h.transform.CompareTag("Wall")) {
-                Debug.Log("point of collision: " +
-                           transform.InverseTransformDirection(h.point));
+                Debug.Log("point of collision: " + h.point);
                 return transform.InverseTransformDirection(h.point);
             }
         }

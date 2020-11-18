@@ -283,7 +283,9 @@ public class PlayerData : ScriptableObject
         localHealth = totalHealthBase;
         gameLevelData.InitialModSetup();
         startAtHalf = false;
-        SceneManager.LoadScene("Level1");
+
+        nextSceneStr = "Level1";
+        SceneManager.LoadScene("LoadingScene");
     }
 
     /// <summary>

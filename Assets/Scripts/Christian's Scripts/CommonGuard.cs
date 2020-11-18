@@ -266,7 +266,7 @@ public class CommonGuard : BaseEnemy {
                 //Debug.DrawRay(transform.position, transform.TransformDirection(_fwdDirGO.transform.localPosition * 5f), Color.red, 0.15f);
                 if (Physics.Raycast(transform.position, 
                     transform.TransformDirection(_fwdDirGO.transform.localPosition),
-                    out hit, playerRangeCheck)) {
+                    out hit, playerRangeCheck, 0)) {
 
                     if (hit.transform.CompareTag("Player")) {
                         eS.shootPlayer();

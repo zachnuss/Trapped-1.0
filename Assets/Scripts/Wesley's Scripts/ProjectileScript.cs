@@ -105,11 +105,8 @@ public class ProjectileScript : MonoBehaviour
         //More of Christian's code below
         else if (other.tag == "Shield")
         {
-            //setactive false, don't destroy
-            //gameObject.SetActive(false);
-           // StartCoroutine(OnDestruction());
             Destroy(this.gameObject);
-            ///Debug.Log("I hit the shield.");
+            Debug.Log("I hit the shield.");
         }
         //For sheild mods on enemies
         else if (other.tag == "ShieldMod") 

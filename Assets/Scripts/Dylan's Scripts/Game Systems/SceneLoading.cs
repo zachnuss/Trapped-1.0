@@ -21,7 +21,7 @@ public class SceneLoading : MonoBehaviour
     IEnumerator LoadAsyncOp()
     {
         //create an async op
-        AsyncOperation gameLevel = SceneManager.LoadSceneAsync(myPlayerData.nextLevelStr);
+        AsyncOperation gameLevel = SceneManager.LoadSceneAsync(myPlayerData.nextSceneStr);
         //update bar based on asynch op progress
         while(gameLevel.progress < 1)
         {

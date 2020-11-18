@@ -63,6 +63,8 @@ public class PlayerData : ScriptableObject
     public string nextLevelStr;
     public string prevLevelStr;
 
+    public string nextSceneStr;
+
     [Header("Game Level Data Obj")]
     public GameLevelData gameLevelData;
 
@@ -171,9 +173,17 @@ public class PlayerData : ScriptableObject
 
             //load store scene?
             if (!takeToModSelection)
-                SceneManager.LoadScene("StoreScene");
+            {
+                nextSceneStr = "StoreScene";
+                //SceneManager.LoadScene("StoreScene");
+                SceneManager.LoadScene("LoadingScene");
+            }
             else
-                SceneManager.LoadScene("GameLoopModSelection");
+            {
+                nextSceneStr = "GameLoopModSelection";
+                //SceneManager.LoadScene("GameLoopModSelection");
+                SceneManager.LoadScene("LoadingScene");
+            }
         }
     }
 
@@ -190,10 +200,12 @@ public class PlayerData : ScriptableObject
             Debug.Log("Loading Next Level: " + levelsS[OnLevel]);
             timerSec += timerBetweenLevels;
 
-            SceneManager.LoadScene(nextLevelStr);
+            nextSceneStr = nextLevelStr;
+            //SceneManager.LoadScene(nextLevelStr);
+            SceneManager.LoadScene("LoadingScene");
         }
-        else
-            SceneManager.LoadScene(5);    
+       // else
+          //  SceneManager.LoadScene(5);    
         //Debug.Log("LOAD END SCREEN HERE UWU");
     }
 

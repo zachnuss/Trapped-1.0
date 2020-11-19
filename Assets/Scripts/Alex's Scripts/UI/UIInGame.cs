@@ -101,6 +101,7 @@ public class UIInGame : MonoBehaviour
         healthBar.fillAmount = playerData.localHealth / playerData.totalHealthBase;
         //hpBarX = healthBar.rectTransform.localScale.x;
 
+        loopsCompleted = playerData.loops;
         //Set the text for loops completed *TEMP UNTIL LOOPS ARE ENABLED*
         loopsText.text = "" + loopsCompleted;
 
@@ -109,7 +110,7 @@ public class UIInGame : MonoBehaviour
 
         updateUpgrades();
 
-
+        
 
     }
 

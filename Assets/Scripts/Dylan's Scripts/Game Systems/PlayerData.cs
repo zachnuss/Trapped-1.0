@@ -94,16 +94,16 @@ public class PlayerData : ScriptableObject
     private float totalTimerMin;
     private float totalTimerHour;
     private bool characterChoice = false;
-    private bool achievementFirstTimer = false;
-    private bool achievementVacuumMurderer = false;
-    private bool achievementRevenge1 = false;
-    private bool achievementRevenge2 = false;
-    private bool achievementDoesItEnd = false;
-    private bool achievementRedDead = false;
-    private bool achievementFullWallet = false;
-    private bool achievementRunner = false;
-    private bool achievementJailBird = false;
-    private bool achievementNoTrust = false;
+    public bool achievementFirstTimer = false;
+    public bool achievementVacuumMurderer = false;
+    public bool achievementRevenge1 = false;
+    public bool achievementRevenge2 = false;
+    public bool achievementDoesItEnd = false;
+    public bool achievementRedDead = false;
+    public bool achievementFullWallet = false;
+    public bool achievementRunner = false;
+    public bool achievementJailBird = false;
+    public bool achievementNoTrust = false;
 
     [Header("Character Customization")]
     //Character Customization shopping - Wesley

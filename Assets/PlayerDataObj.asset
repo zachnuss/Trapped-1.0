@@ -13,20 +13,20 @@ MonoBehaviour:
   m_Name: PlayerDataObj
   m_EditorClassIdentifier: 
   timerSec: 2
-  timerMin: 0
+  timerMin: 3
   timerHour: 0
   timerBetweenLevels: 0
-  totalTime: 6.079995
+  totalTime: 183.64241
   healthUpgrade: 0
   damageUpgrade: 0
   speedUpgrade: 0
   totalHealthBase: 100
   totalDamageBase: 20
   localHealth: 100
-  OnLevel: 3
+  OnLevel: 0
   levelsBeaten: 0
-  score: 18
-  matchScoreFromTime: 18
+  score: 2
+  matchScoreFromTime: 2
   matchScoreFromEnemies: 0
   matchEnemiesKilled: 0
   matchPowerUpsCollected: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   loopsCompleted: 0
   nextLevelStr: Level3
   prevLevelStr: Level1
+  nextSceneStr: 
   gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}
   materialChoice: 0
   materialChoice2: 0

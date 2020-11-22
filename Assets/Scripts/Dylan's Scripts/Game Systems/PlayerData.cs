@@ -76,6 +76,12 @@ public class PlayerData : ScriptableObject
     public Material[] player2Color;
     public bool characterModelSwitch;
 
+    [Header("Player Animators")]
+    public Animator p1Animator;
+    public Animator p2Animator;
+    public AnimatorControllerParameter p1;
+    public AnimatorControllerParameter p2;
+
     //Player Persistent stats - Wesley
     private int totalEnemiesKilled = 0;
     private int totalRoombasKilled = 0;

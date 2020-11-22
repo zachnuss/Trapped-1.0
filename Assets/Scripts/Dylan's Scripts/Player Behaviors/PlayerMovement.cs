@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animation State")]
     public playerBottomState animBottomState;
     public playerTopState animTopState;
-    playerTopState _localTopState = playerTopState.idle;
+    public playerTopState _localTopState = playerTopState.idle;
 
     //when we have successfully rotated
     //[Header("Shows if player is off the edge")]
@@ -181,10 +181,12 @@ public class PlayerMovement : MonoBehaviour
         if (doubleDamage)
             damage += damage;
 
-        for (int i = 0; i < character.Length; i++)
-        {
-            character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-        }
+        //commented cause it sucks
+
+    //    for (int i = 0; i < character.Length; i++)
+    //    {
+    //        character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+    //    }
 
         //SetPlayerModifiers(); Player Mods set up in LevelSetup obj and script
         SetPlayerStats();
@@ -271,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
        if(_localTopState != animTopState)
         {
             _localTopState = animTopState;
-            //SetAnimation();
+           // SetAnimation();
         }
 
        //bleed stacks can only be active when bleed mod is on
@@ -303,6 +305,25 @@ public class PlayerMovement : MonoBehaviour
        }
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated 11-22-2020
+    /// 
+    /// Sets up animator, and rig for char
+    /// </summary>
+    void SetUpCharAppearance()
+    {
+        if(playerData.characterModelSwitch)
+        {
+            //set up char 1
+            //this.GetComponent<Animator>().
+        }
+        else
+        {
+            //set up char 2
+
+        }
+    }
 
     /// <summary>
     /// Dylan Loe
@@ -536,14 +557,19 @@ public class PlayerMovement : MonoBehaviour
             RotateMovement(movement);
             animBottomState = playerBottomState.walking;
             //turned off temp cause we dont have animations lol
-            if(!firingState)
+            //if(!firingState)
                 animTopState = playerTopState.moving;
+            //if(animTopState != playerTopState.moving)
+                SetAnimation();
         }
         else
         {
             animBottomState = playerBottomState.idle;
-            if (!firingState)
+            //if (!firingState)
                 animTopState = playerTopState.idle;
+
+            //if (animTopState != playerTopState.idle)
+                SetAnimation();
         }
     }
 
@@ -623,8 +649,8 @@ public class PlayerMovement : MonoBehaviour
             LookMovement(looking);
             //animTopState = playerTopState.moving;
         }
-       // else
-          //  animTopState = playerTopState.idle;
+      //  else
+           // animTopState = playerTopState.idle;
     }
 
     /// <summary>
@@ -717,7 +743,7 @@ public class PlayerMovement : MonoBehaviour
             firingState = true;
             //Debug.Log("fire");
             //temporary turned off cause i dont have animations (will ignore firing for now)
-            animTopState = playerTopState.firing;
+            //animTopState = playerTopState.firing;
             playerAnimations.isFiringTop();
             firingTimer = 0;
             StartCoroutine(FireCoolDown());
@@ -825,7 +851,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Dylan Loe & Jeff Underwood (Pulled from class assignment)
+    /// Dylan Loe
     /// Updated: 10-20-2020
     /// 
     /// For changing easing types (equations) for interpolation testing
@@ -888,9 +914,9 @@ public class PlayerMovement : MonoBehaviour
         speedMultiplier = (playerData.speedUpgrade)/20;
 
         //Wesley
-        playerData.SetCharacterChoiceGame();
-        playerData.SetColor(); //Sets in scene start
-        playerData.SetPet();
+       // playerData.SetCharacterChoiceGame();
+       // playerData.SetColor(); //Sets in scene start
+       // playerData.SetPet();
     }
 
     /// <summary>

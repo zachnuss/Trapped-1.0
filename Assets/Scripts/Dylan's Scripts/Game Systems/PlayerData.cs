@@ -679,7 +679,7 @@ public class PlayerData : ScriptableObject
                 //Debug.Log("Second step");
                 GameObject character;
                 character = GameObject.Find("secondCharacter_low").gameObject;
-                character.GetComponent<MeshRenderer>().material = player2Color[materialChoice2];
+                character.GetComponent<SkinnedMeshRenderer>().material = player2Color[materialChoice2];
             }
         }
     }

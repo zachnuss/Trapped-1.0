@@ -317,7 +317,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void SetUpCharAppearance()
     {
-        if(playerData.characterModelSwitch)
+        if(!playerData.characterModelSwitch)
         {
             //set up char 1
             this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p1Controller;
@@ -329,6 +329,9 @@ public class PlayerMovement : MonoBehaviour
             this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p2Controller;
             this.GetComponent<Animator>().avatar = myPlayerSetup.p2Avatar;
         }
+
+       // playerData.SetCharacterChoiceGame();
+       // playerData.SetColor();
     }
 
     /// <summary>
@@ -920,9 +923,9 @@ public class PlayerMovement : MonoBehaviour
         speedMultiplier = (playerData.speedUpgrade)/20;
 
         //Wesley
-       // playerData.SetCharacterChoiceGame();
-       // playerData.SetColor(); //Sets in scene start
-       // playerData.SetPet();
+        playerData.SetCharacterChoiceGame();
+        playerData.SetColor(); //Sets in scene start
+        playerData.SetPet();
     }
 
     /// <summary>

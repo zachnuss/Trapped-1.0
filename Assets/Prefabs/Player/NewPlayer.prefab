@@ -3122,6 +3122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: 0
+  isCam: 1
 --- !u!1 &7571365785918509577
 GameObject:
   m_ObjectHideFlags: 0
@@ -3251,6 +3252,7 @@ MonoBehaviour:
   Player_Bullet: {fileID: 4863383300861185225, guid: 6b6051a2accefa44580d0c03760a3626,
     type: 3}
   playerData: {fileID: 11400000, guid: f9b9357e87ed29948b25c9a1d8db1dcf, type: 2}
+  myPlayerSetup: {fileID: 11400000, guid: 5fb169d07e5b8634c923e9c257b11fd9, type: 2}
   transition:
   - {fileID: 7071982985252458202}
   - {fileID: 4576422744198040801}
@@ -3775,6 +3777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: 1.5
+  isCam: 0
 --- !u!1 &8097452650471491409
 GameObject:
   m_ObjectHideFlags: 0

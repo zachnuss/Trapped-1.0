@@ -106,6 +106,8 @@ public class PlayerMovement : MonoBehaviour
     //player data scriptable obj
     [Header("Player Data")]
     public PlayerData playerData;
+    [Header("Player Setup Obj")]
+    public PlayerSetUp myPlayerSetup;
 
     /// <summary>
     /// Scene Transition and endgame
@@ -171,6 +173,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Start()
     {
+        SetUpCharAppearance();
+
         if (playerData.godMode)
             Debug.Log("DEBUG MODE ON");
 
@@ -316,12 +320,14 @@ public class PlayerMovement : MonoBehaviour
         if(playerData.characterModelSwitch)
         {
             //set up char 1
-            //this.GetComponent<Animator>().
+            this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p1Controller;
+            this.GetComponent<Animator>().avatar = myPlayerSetup.p1Avatar;
         }
         else
         {
             //set up char 2
-
+            this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p2Controller;
+            this.GetComponent<Animator>().avatar = myPlayerSetup.p2Avatar;
         }
     }
 

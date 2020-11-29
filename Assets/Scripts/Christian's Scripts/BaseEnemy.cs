@@ -32,29 +32,27 @@ public class BaseEnemy : MonoBehaviour {
     /**
      * CLASS VARIABLES
      */
-    ///public
     //public variables below will be set in the inspector
-    public int health;
-    public int damage;
-    public float speed;
-    public int pointValue;
-    [Range(1f, 5f)] public float rateOfBehaviorChange = 2f;
-    public GameObject specialCoin;
-    public CubemapFace myFaceLocation { get { return _myFaceLocation; } }
-
-    ///protected
-    protected Behavior _myBehavior;
-    protected float _trackingSpeed;
-    protected Vector3 _moveDir; //movement
-    protected GameObject _fwdDirGO, _leftDirGO, _rightDirGO;
-    protected GameObject _playerGO;
-
-    ///private
-    private Vector3 _rotVal; //rotation
-    private float _wallDetectRay = 0.75f;
-    private bool _hasHitWall = false;
-    private CubemapFace _myFaceLocation;
-
+    public:
+        int health;
+        int damage;
+        float speed;
+        int pointValue;
+        [Range(1f, 5f)] float rateOfBehaviorChange = 2f;
+        GameObject specialCoin;
+        CubemapFace myFaceLocation { get { return _myFaceLocation; } }
+    protected:
+        Behavior _myBehavior;
+        float _trackingSpeed;
+        Vector3 _moveDir; //movement
+        GameObject _fwdDirGO, _leftDirGO, _rightDirGO;
+        GameObject _playerGO;
+    private:
+        Vector3 _rotVal; //rotation
+        float _wallDetectRay = 0.75f;
+        bool _hasHitWall = false;
+        CubemapFace _myFaceLocation;
+    //end Christian's vars
     [Header("Modifers")]
     public bool doubleDamageMod = false;
     public bool sheildMod = false;

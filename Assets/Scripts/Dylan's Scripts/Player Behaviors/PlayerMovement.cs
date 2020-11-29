@@ -160,6 +160,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject PlayerRotate;
     float bleedTimer2 = 0;
     bool isBleeding = false;
+    //delegate addition added by Christian for bleed particle effect
+    public bool pub_isBleeding { get { return isBleeding; } }
 
     //private bool _godMode = false;
 

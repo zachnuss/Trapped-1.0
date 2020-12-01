@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ac9e01fa250f2469fa52ba507acdd1, type: 3}
   m_Name: PlayerDataObj
   m_EditorClassIdentifier: 
-  timerSec: 2
-  timerMin: 0
+  timerSec: 16
+  timerMin: 1
   timerHour: 0
   timerBetweenLevels: 0
-  totalTime: 6.079995
+  totalTime: 221.85057
   healthUpgrade: 0
   damageUpgrade: 0
   speedUpgrade: 0
   totalHealthBase: 100
   totalDamageBase: 20
   localHealth: 100
-  OnLevel: 3
+  OnLevel: 0
   levelsBeaten: 0
-  score: 18
-  matchScoreFromTime: 18
+  score: 225
+  matchScoreFromTime: 225
   matchScoreFromEnemies: 0
   matchEnemiesKilled: 0
   matchPowerUpsCollected: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   loopsCompleted: 0
   nextLevelStr: Level3
   prevLevelStr: Level1
+  nextSceneStr: 
   gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}
   materialChoice: 0
   materialChoice2: 0
@@ -57,7 +58,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f0edfb879c5b1074d8e6fb573ce24770, type: 2}
   - {fileID: 2100000, guid: a1456dd2421c9544585704f2e8c496df, type: 2}
   - {fileID: 2100000, guid: e1f17faa68945464ca4e37c7f8579977, type: 2}
-  characterModelSwitch: 0
+  characterModelSwitch: 1
   achievementFirstTimer: 0
   achievementVacuumMurderer: 0
   achievementRevenge1: 0

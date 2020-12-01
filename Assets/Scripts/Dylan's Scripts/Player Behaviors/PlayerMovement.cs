@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animation State")]
     public playerBottomState animBottomState;
     public playerTopState animTopState;
-    playerTopState _localTopState = playerTopState.idle;
+    public playerTopState _localTopState = playerTopState.idle;
 
     //when we have successfully rotated
     //[Header("Shows if player is off the edge")]
@@ -108,6 +108,8 @@ public class PlayerMovement : MonoBehaviour
     //player data scriptable obj
     [Header("Player Data")]
     public PlayerData playerData;
+    [Header("Player Setup Obj")]
+    public PlayerSetUp myPlayerSetup;
 
     /// <summary>
     /// Scene Transition and endgame
@@ -146,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animators")]
     public Animator top;
     public GameObject topObj;
+    public GameObject anchorRef;
    // public Transform firePos;
     //public Animator legs;
     public PlayerAnimations playerAnimations;
@@ -163,6 +166,10 @@ public class PlayerMovement : MonoBehaviour
     float bleedTimer2 = 0;
     bool isBleeding = false;
 
+    bool damageStbTimer = false;
+    float damageTimer = 0f;
+    public GameObject sheildObj;
+
     //private bool _godMode = false;
 
     /// <summary>
@@ -173,6 +180,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Start()
     {
+        SetUpCharAppearance();
+
         if (playerData.godMode)
             Debug.Log("DEBUG MODE ON");
 
@@ -183,10 +192,12 @@ public class PlayerMovement : MonoBehaviour
         if (doubleDamage)
             damage += damage;
 
-        for (int i = 0; i < character.Length; i++)
-        {
-            character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-        }
+        //commented cause it sucks
+
+    //    for (int i = 0; i < character.Length; i++)
+    //    {
+    //        character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+    //    }
 
         //SetPlayerModifiers(); Player Mods set up in LevelSetup obj and script
         SetPlayerStats();
@@ -273,7 +284,7 @@ public class PlayerMovement : MonoBehaviour
        if(_localTopState != animTopState)
         {
             _localTopState = animTopState;
-            //SetAnimation();
+           // SetAnimation();
         }
 
        //bleed stacks can only be active when bleed mod is on
@@ -305,6 +316,30 @@ public class PlayerMovement : MonoBehaviour
        }
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated 11-22-2020
+    /// 
+    /// Sets up animator, and rig for char
+    /// </summary>
+    void SetUpCharAppearance()
+    {
+        if(!playerData.characterModelSwitch)
+        {
+            //set up char 1
+            this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p1Controller;
+            this.GetComponent<Animator>().avatar = myPlayerSetup.p1Avatar;
+        }
+        else
+        {
+            //set up char 2
+            this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p2Controller;
+            this.GetComponent<Animator>().avatar = myPlayerSetup.p2Avatar;
+        }
+
+       // playerData.SetCharacterChoiceGame();
+       // playerData.SetColor();
+    }
 
     /// <summary>
     /// Dylan Loe
@@ -538,14 +573,19 @@ public class PlayerMovement : MonoBehaviour
             RotateMovement(movement);
             animBottomState = playerBottomState.walking;
             //turned off temp cause we dont have animations lol
-            if(!firingState)
+            //if(!firingState)
                 animTopState = playerTopState.moving;
+            //if(animTopState != playerTopState.moving)
+                SetAnimation();
         }
         else
         {
             animBottomState = playerBottomState.idle;
-            if (!firingState)
+            //if (!firingState)
                 animTopState = playerTopState.idle;
+
+            //if (animTopState != playerTopState.idle)
+                SetAnimation();
         }
     }
 
@@ -625,8 +665,8 @@ public class PlayerMovement : MonoBehaviour
             LookMovement(looking);
             //animTopState = playerTopState.moving;
         }
-       // else
-          //  animTopState = playerTopState.idle;
+      //  else
+           // animTopState = playerTopState.idle;
     }
 
     /// <summary>
@@ -698,7 +738,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //runs everytime our char attacks
             //Wesley-Code
-            GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.rotation);
+            GameObject bullet = Object.Instantiate(Player_Bullet, anchorRef.transform.position, topObj.transform.rotation);
 
             Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
             if (personalSheild)
@@ -719,7 +759,7 @@ public class PlayerMovement : MonoBehaviour
             firingState = true;
             //Debug.Log("fire");
             //temporary turned off cause i dont have animations (will ignore firing for now)
-            animTopState = playerTopState.firing;
+            //animTopState = playerTopState.firing;
             playerAnimations.isFiringTop();
             firingTimer = 0;
             StartCoroutine(FireCoolDown());
@@ -828,7 +868,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Dylan Loe & Jeff Underwood (Pulled from class assignment)
+    /// Dylan Loe
     /// Updated: 10-20-2020
     /// 
     /// For changing easing types (equations) for interpolation testing
@@ -888,7 +928,27 @@ public class PlayerMovement : MonoBehaviour
 
         gamerUI.healthBarStatus(health);
 
-        speedMultiplier = (playerData.speedUpgrade)/20;
+        speedMultiplier += (playerData.speedUpgrade)/20;
+
+        //if pet is on add stats here
+        switch (playerData.petChoice)
+        {
+            case 0:
+                //no pet
+                break;
+            case 1:
+                //hornet
+                damage += damage/20;
+                Debug.Log("Hornet Buff");
+                break;
+            case 2:
+                //bunny
+                speedMultiplier += speedMultiplier / 20;
+                Debug.Log("Bunny Buff");
+                break;
+            default:
+                break;
+        }
 
         //Wesley
         playerData.SetCharacterChoiceGame();
@@ -1247,9 +1307,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    bool damageStbTimer = false;
-    float damageTimer = 0f;
-    public GameObject sheildObj;
+    
     /// <summary>
     /// Dylan Loe
     /// Updated: 11-5-2020

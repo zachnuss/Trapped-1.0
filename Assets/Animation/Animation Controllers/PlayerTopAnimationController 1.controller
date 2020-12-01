@@ -23,7 +23,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: 8679936a1a04451409a1b39120d615a4,
+  m_Motion: {fileID: 1827226128182048838, guid: e7c140a50d5757d41b5a53336af858d2,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -53,7 +53,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: 8679936a1a04451409a1b39120d615a4,
+  m_Motion: {fileID: 1827226128182048838, guid: 56761ebcaf7468043aee886e29bf6b16,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -166,7 +166,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerTopAnimationController
+  m_Name: PlayerTopAnimationController 1
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isIdling
@@ -226,7 +226,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.95
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -276,7 +276,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.95
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1

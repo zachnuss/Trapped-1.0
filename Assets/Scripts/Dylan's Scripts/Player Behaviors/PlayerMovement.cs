@@ -148,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animators")]
     public Animator top;
     public GameObject topObj;
+    public GameObject anchorRef;
    // public Transform firePos;
     //public Animator legs;
     public PlayerAnimations playerAnimations;
@@ -164,6 +165,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject PlayerRotate;
     float bleedTimer2 = 0;
     bool isBleeding = false;
+
+    bool damageStbTimer = false;
+    float damageTimer = 0f;
+    public GameObject sheildObj;
 
     //private bool _godMode = false;
 
@@ -733,7 +738,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //runs everytime our char attacks
             //Wesley-Code
-            GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.rotation);
+            GameObject bullet = Object.Instantiate(Player_Bullet, anchorRef.transform.position, topObj.transform.rotation);
 
             Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
             if (personalSheild)
@@ -923,7 +928,27 @@ public class PlayerMovement : MonoBehaviour
 
         gamerUI.healthBarStatus(health);
 
-        speedMultiplier = (playerData.speedUpgrade)/20;
+        speedMultiplier += (playerData.speedUpgrade)/20;
+
+        //if pet is on add stats here
+        switch (playerData.petChoice)
+        {
+            case 0:
+                //no pet
+                break;
+            case 1:
+                //hornet
+                damage += damage/20;
+                Debug.Log("Hornet Buff");
+                break;
+            case 2:
+                //bunny
+                speedMultiplier += speedMultiplier / 20;
+                Debug.Log("Bunny Buff");
+                break;
+            default:
+                break;
+        }
 
         //Wesley
         playerData.SetCharacterChoiceGame();
@@ -1282,9 +1307,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    bool damageStbTimer = false;
-    float damageTimer = 0f;
-    public GameObject sheildObj;
+    
     /// <summary>
     /// Dylan Loe
     /// Updated: 11-5-2020

@@ -19,6 +19,9 @@ public class StorePurchases : MonoBehaviour
     //Text Variable to display the current player currency value
     public Text currentMoneyText;
 
+    //ADDED BY TREVOR
+    public AudioSource purchaseChime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,6 +65,7 @@ public class StorePurchases : MonoBehaviour
 
             storeData.addDamagePrice(); //Adds to the damage price 
             damagePriceText.text = "" + storeData.damagePrice;  //Adjusts the price total
+            purchaseChime.Play(); //plays sound effect 
         }
 
         //else statement if the upgrade can't be purchased
@@ -82,6 +86,7 @@ public class StorePurchases : MonoBehaviour
 
             storeData.addHealthPrice(); //Adds to the damage price 
             healthPriceText.text = "" + storeData.healthPrice;  //Adjusts the price total
+            purchaseChime.Play(); //plays sound effect
         }
 
         //else statement if the upgrade can't be purchased
@@ -103,6 +108,7 @@ public class StorePurchases : MonoBehaviour
 
             storeData.addSpeedPrice(); //Adds to the damage price 
             speedPriceText.text = "" + storeData.speedPrice;  //Adjusts the price total
+            purchaseChime.Play(); //plays sound effect
         }
 
         //else statement if the upgrade can't be purchased

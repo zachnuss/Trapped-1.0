@@ -54,12 +54,16 @@ public class PlayerData : ScriptableObject
     [Header("Player Currency")]
    // public Scene[] levels;
     public string[] levelsS;
+    [Header("Loops Completed")]
+    public int loopsCompleted;
 
     [Header("Prev and Next")]
     //public Scene nextLevel;
     //public Scene prevLevel;
     public string nextLevelStr;
     public string prevLevelStr;
+
+    public string nextSceneStr;
 
     [Header("Game Level Data Obj")]
     public GameLevelData gameLevelData;
@@ -87,16 +91,16 @@ public class PlayerData : ScriptableObject
     private float totalTimerMin;
     private float totalTimerHour;
     private bool characterChoice = false;
-    private bool achievementFirstTimer = false;
-    private bool achievementVacuumMurderer = false;
-    private bool achievementRevenge1 = false;
-    private bool achievementRevenge2 = false;
-    private bool achievementDoesItEnd = false;
-    private bool achievementRedDead = false;
-    private bool achievementFullWallet = false;
-    private bool achievementRunner = false;
-    private bool achievementJailBird = false;
-    private bool achievementNoTrust = false;
+    public bool achievementFirstTimer = false;
+    public bool achievementVacuumMurderer = false;
+    public bool achievementRevenge1 = false;
+    public bool achievementRevenge2 = false;
+    public bool achievementDoesItEnd = false;
+    public bool achievementRedDead = false;
+    public bool achievementFullWallet = false;
+    public bool achievementRunner = false;
+    public bool achievementJailBird = false;
+    public bool achievementNoTrust = false;
 
     [Header("Character Customization")]
     //Character Customization shopping - Wesley
@@ -115,6 +119,15 @@ public class PlayerData : ScriptableObject
     public bool godMode = false;
     [HideInInspector]
     public bool startAtHalf = false;
+
+    public int loops
+    {
+        get
+        {
+            loopsCompleted = levelsBeaten / 3;
+            return loopsCompleted;
+        }
+    }
 
     /// <summary>
     /// Dylan Loe
@@ -160,9 +173,17 @@ public class PlayerData : ScriptableObject
 
             //load store scene?
             if (!takeToModSelection)
-                SceneManager.LoadScene("StoreScene");
+            {
+                nextSceneStr = "StoreScene";
+                //SceneManager.LoadScene("StoreScene");
+                SceneManager.LoadScene("LoadingScene");
+            }
             else
-                SceneManager.LoadScene("GameLoopModSelection");
+            {
+                nextSceneStr = "GameLoopModSelection";
+                //SceneManager.LoadScene("GameLoopModSelection");
+                SceneManager.LoadScene("LoadingScene");
+            }
         }
     }
 
@@ -179,10 +200,12 @@ public class PlayerData : ScriptableObject
             Debug.Log("Loading Next Level: " + levelsS[OnLevel]);
             timerSec += timerBetweenLevels;
 
-            SceneManager.LoadScene(nextLevelStr);
+            nextSceneStr = nextLevelStr;
+            //SceneManager.LoadScene(nextLevelStr);
+            SceneManager.LoadScene("LoadingScene");
         }
-        else
-            SceneManager.LoadScene(5);    
+       // else
+          //  SceneManager.LoadScene(5);    
         //Debug.Log("LOAD END SCREEN HERE UWU");
     }
 
@@ -260,7 +283,9 @@ public class PlayerData : ScriptableObject
         localHealth = totalHealthBase;
         gameLevelData.InitialModSetup();
         startAtHalf = false;
-        SceneManager.LoadScene("Level1");
+
+        nextSceneStr = "Level1";
+        SceneManager.LoadScene("LoadingScene");
     }
 
     /// <summary>

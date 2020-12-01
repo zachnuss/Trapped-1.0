@@ -20,6 +20,8 @@ using JetBrains.Annotations;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public AudioSource Powerup;
+
     //animation states for player
     //top
     public enum playerTopState
@@ -807,6 +809,7 @@ public class PlayerMovement : MonoBehaviour
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
             playerData.TrackPowerupGains(1, other.gameObject.GetComponent<PowerUpDrop>().type);
+            Powerup.Play();
             Destroy(other.gameObject);
         }
            

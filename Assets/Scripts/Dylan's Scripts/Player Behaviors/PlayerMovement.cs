@@ -216,6 +216,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary> 
     private void FixedUpdate()
     {
+        Physics.IgnoreCollision(anchorRef.GetComponent<Collider>(), GetComponent<Collider>());
         this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         this.GetComponent<Rigidbody>().velocity = Vector3.zero;
 

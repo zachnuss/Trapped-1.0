@@ -9,7 +9,7 @@
  */
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; //check for Start()
+using UnityEngine.SceneManagement;
 //libraries for writing persistant data
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -71,7 +71,6 @@ public class PlayerOptions : MonoBehaviour {
                 //adjust val and store
                 AudioSource newSource = enemiesArr[i].GetComponent<AudioSource>();
                 newSource.volume = enemyFXVolume;
-                newSource.playOnAwake = false;
                 newSource.playOnAwake = false;
                 _enemyFXs.Add(newSource);
             }
@@ -192,8 +191,8 @@ public class PlayerOptions : MonoBehaviour {
 
         int buildIndex = SceneManager.GetActiveScene().buildIndex;
         //move back to MainMenu or go back to Pause
-        if (buildIndex == 10) {
-            SceneManager.LoadScene(0);
+        if (buildIndex == 11) {
+            SceneManager.LoadScene(1);
         }
         else if (buildIndex >= 1 && buildIndex <= 3) {
             //set my canvas to be SetActive(false);

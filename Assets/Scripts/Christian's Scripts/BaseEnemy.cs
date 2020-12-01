@@ -4,12 +4,17 @@
  */
 using UnityEngine;
 
+///Enemy enums
 public enum Behavior {
     Idle, ChangeDirection, GoForward, TrackPlayer, AttackPlayer
 }
 
 public enum Direction {
     Forward, Right, Left, Backwards, NULL
+}
+
+public enum EnemyAnimation {
+    Idle, Walking, Running, Shooting
 }
 
 public class BaseEnemy : MonoBehaviour {
@@ -35,19 +40,20 @@ public class BaseEnemy : MonoBehaviour {
     public int pointValue;
     [Range(1f, 5f)] public float rateOfBehaviorChange = 2f;
     public GameObject specialCoin;
-    public GameObject playerGO { get { return _playerGO; } }
+    public CubemapFace myFaceLocation { get { return _myFaceLocation; } }
 
     ///protected
     protected Behavior _myBehavior;
     protected float _trackingSpeed;
     protected Vector3 _moveDir; //movement
-    protected GameObject _fwdDirGO;
+    protected GameObject _fwdDirGO, _leftDirGO, _rightDirGO;
+    protected GameObject _playerGO;
 
     ///private
     private Vector3 _rotVal; //rotation
     private float _wallDetectRay = 0.75f;
     private bool _hasHitWall = false;
-    private GameObject _playerGO;
+    private CubemapFace _myFaceLocation;
 
     [Header("Modifers")]
     public bool doubleDamageMod = false;
@@ -67,15 +73,17 @@ public class BaseEnemy : MonoBehaviour {
     ///public
     public virtual void takeDamage(GameObject player) {
         //take health away
-        health -= playerGO.GetComponent<PlayerMovement>().damage;
+        health -= _playerGO.GetComponent<PlayerMovement>().damage;
         //did the enemy die?
         if (health < 1) {
             health = 0;
+            //remove from enemy listener
+            EnemyListener.Instance.deleteFromList(gameObject);
             //give score to player
             player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             player.GetComponent<PlayerMovement>().playerData.TrackEnemyScore(pointValue);
-            player.GetComponent<PlayerMovement>().playerData.TrackEnemyKills(1);
-            if (Random.Range(0f, 100f) <= 5)
+            player.GetComponent<PlayerMovement>().playerData.TrackEnemyKills(1, this.gameObject);
+            if (Random.Range(0f, 100f) <= 30)
             {
                 Debug.Log("Currency Test Complete!");
                 Instantiate(specialCoin, this.transform.position, this.transform.rotation);
@@ -101,6 +109,28 @@ public class BaseEnemy : MonoBehaviour {
         damage = Mathf.FloorToInt(damage * multiplier);
         speed = Mathf.FloorToInt(speed * speedMultipler);
         pointValue = Mathf.FloorToInt(pointValue * multiplier);
+    }
+
+    //Set to replace the SetActive function as it's hard to call an object that's
+    //not active
+    public virtual void activateAI(bool isActive) {
+        //HallwayBot(Rumba) instance
+        int childCount = transform.childCount;
+        for (int i = 0; i < childCount; ++i) {
+            GameObject curGO = transform.GetChild(i).gameObject;
+            if (curGO.tag != "ShieldMod") {
+                curGO.SetActive(isActive);
+            }
+        }
+        //set behavior
+        if (isActive) {
+            InvokeRepeating("_changeBehavior", 0f, rateOfBehaviorChange);
+        }
+        else {
+            CancelInvoke("_changeBehavior");
+            _myBehavior = Behavior.Idle;
+        }
+        GetComponent<AudioSource>().enabled = isActive;
     }
 
     ///protected
@@ -208,14 +238,35 @@ public class BaseEnemy : MonoBehaviour {
         //Debug.DrawLine(transform.position, endPoint, Color.green, Time.deltaTime, false);
         //Debug.DrawRay(transform.position, _moveDir, Color.green, Time.deltaTime, false);
         //check what's in fron using Raycast
-        if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
-            //don't change direction if I'm looking at the player
-            if (hit.transform.tag == "Wall") {
-                isFacingWall = true;
+        //get approximate width of the player
+        if (_rightDirGO != null && _leftDirGO != null) {
+            Vector3 rightHip = (_rightDirGO.transform.position + transform.position) / 2f;
+            Vector3 leftHip = (_leftDirGO.transform.position + transform.position) / 2f;
+
+            if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)
+                || Physics.Raycast(rightHip, _moveDir, out hit, _wallDetectRay)
+                || Physics.Raycast(leftHip, _moveDir, out hit, _wallDetectRay)) {
+               //don't change direction if I'm looking at the player
+                if (hit.transform.tag == "Wall") {
+                    isFacingWall = true;
+                }
+                //am I hitting myself?
+                else if (hit.transform.name == _fwdDirGO.name) {
+                    Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
+                }
             }
-            //am I hitting myself?
-            else if (hit.transform.name == _fwdDirGO.name) {
-                Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
+        }
+        //for Hallway Bot
+        else {
+            if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)) {
+               //don't change direction if I'm looking at the player
+                if (hit.transform.tag == "Wall") {
+                    isFacingWall = true;
+                }
+                //am I hitting myself?
+                else if (hit.transform.name == _fwdDirGO.name) {
+                    Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
+                }
             }
         }
         return isFacingWall;
@@ -260,24 +311,52 @@ public class BaseEnemy : MonoBehaviour {
             if (transform.GetChild(i).name == "FrontChild") {
                 _fwdDirGO = transform.GetChild(i).gameObject;
             }
+            if (transform.GetChild(i).name == "LeftChild") { 
+                _leftDirGO = transform.GetChild(i).gameObject;
+            }
+            if (transform.GetChild(i).name == "RightChild") {
+                _rightDirGO = transform.GetChild(i).gameObject;
+            }
         }
 
         Vector3 initialDir = _fwdDirGO.transform.position - transform.position;
         _moveDir = initialDir.normalized;
 
         //get my level based on index (i.e. level 1 = 0)
-        int curLevelIndex = GameObject.FindWithTag("Player").
-                            GetComponent<PlayerMovement>().playerData.OnLevel;
-        //level up based on level index
-        levelUp(curLevelIndex);
+        if (_playerGO != null) {
+            int curLevelIndex = _playerGO.GetComponent<PlayerMovement>().playerData.OnLevel;
+            //level up based on level index
+            levelUp(curLevelIndex);
+        }
 
         //loop to change behavior sporatically
         InvokeRepeating("_changeBehavior", 0.5f, rateOfBehaviorChange);
 
 
         //get mods from level obj
-
-        SetModifiers();
+        //if statement to prevent error with CommonGuard in MainMenu scene
+        //check my current cubeface
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0) {
+            SetModifiers();
+            _myFaceLocation = CubemapFace.Unknown;
+            string parentName = transform.parent.name;
+            switch (parentName)
+            {
+                /** x axis and z axis are swapped in scene!! **/
+                case "Z": //x-axis
+                    _myFaceLocation = (transform.position[0] > 0f) ? CubemapFace.PositiveX
+                                                                   : CubemapFace.NegativeX;
+                    break;
+                case "Y": //y-axis
+                    _myFaceLocation = (transform.position[1] > 0f) ? CubemapFace.PositiveY
+                                                                   : CubemapFace.NegativeY;
+                    break;
+                case "X": //z-axis
+                    _myFaceLocation = (transform.position[2] > 0f) ? CubemapFace.PositiveZ
+                                                                   : CubemapFace.NegativeZ;
+                    break;
+            }
+        }
     }
 
     //get random int to cast to Direction enum

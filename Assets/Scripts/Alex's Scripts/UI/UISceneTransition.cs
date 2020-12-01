@@ -22,21 +22,28 @@ public class UISceneTransition : MonoBehaviour
     //Changes scene to the Character Select scene
     public void charSelect()
     {
-        SceneManager.LoadScene(8);
+        SceneManager.LoadScene(9);
         Debug.Log("Time to pick a character!");
+    }
+
+    //Changes scene to the Achievements scene
+    public void achieve()
+    {
+        SceneManager.LoadScene(12);
+        Debug.Log("Let's see those achievements!");
     }
 
     //Changes scene to the options scene
     public void options()
     {
-        SceneManager.LoadScene(10); //set by Christian
+        SceneManager.LoadScene(11); //set by Christian
         Debug.Log("You have options.");
     }
 
     //Changes scene to the credits scene
     public void credits()
     {
-        SceneManager.LoadScene(7);
+        SceneManager.LoadScene(8);
         Debug.Log("We have the best team ever.");
     }
 
@@ -61,7 +68,7 @@ public class UISceneTransition : MonoBehaviour
 
        
         Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
 
@@ -73,5 +80,5 @@ public class UISceneTransition : MonoBehaviour
  * Credits - 7
  * End Scene for Playtest - 5
  * Game Over Scene - 6
- * 
+ * Achievements - 11
  */

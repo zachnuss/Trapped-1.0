@@ -15,6 +15,7 @@ TagManager:
   - Shield
   - ShieldMod
   - PlayerCenterReferenceTag
+  - PlayerShieldMod
   layers:
   - Default
   - TransparentFX
@@ -24,9 +25,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Post Processing
+  - EnemyBulletLayer
+  - PlayerBulletLayer
   - 
   - 
   - 

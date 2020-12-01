@@ -51,7 +51,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""StartSplashAnyButton"",
                     ""type"": ""Button"",
                     ""id"": ""63a43cbf-6890-472c-a388-23d94142c2ff"",
                     ""expectedControlType"": ""Button"",
@@ -126,11 +126,110 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9bf6fe89-0de3-4431-afcb-23d18688531e"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""StartSplashAnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cdbc9325-566a-4969-ad8f-3008d6e788da"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartSplashAnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2fdcb4c5-4e47-4d43-af84-acc8ba478244"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartSplashAnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ccddd32b-ced0-4ad3-88d4-50669bed081e"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartSplashAnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf06669a-eb4c-4ad5-a44d-4ec991b63aef"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartSplashAnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd087509-470e-4c52-89fa-f97c5d2b003c"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartSplashAnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""200fa16b-d5ab-4218-a2e4-06a0b6703396"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartSplashAnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""441c6810-c8de-4fed-9318-712b44c58a52"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartSplashAnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc8dc0f6-f462-4a2c-a49d-49d990b37df8"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartSplashAnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e11a6581-3a48-4267-a6a0-92932ff2d620"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartSplashAnyButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -167,7 +266,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_PlayerControls_Pause = m_PlayerControls.FindAction("Pause", throwIfNotFound: true);
         m_PlayerControls_Return = m_PlayerControls.FindAction("Return", throwIfNotFound: true);
         m_PlayerControls_Look = m_PlayerControls.FindAction("Look", throwIfNotFound: true);
-        m_PlayerControls_Newaction = m_PlayerControls.FindAction("New action", throwIfNotFound: true);
+        m_PlayerControls_StartSplashAnyButton = m_PlayerControls.FindAction("StartSplashAnyButton", throwIfNotFound: true);
         m_PlayerControls_Attack = m_PlayerControls.FindAction("Attack", throwIfNotFound: true);
     }
 
@@ -222,7 +321,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControls_Pause;
     private readonly InputAction m_PlayerControls_Return;
     private readonly InputAction m_PlayerControls_Look;
-    private readonly InputAction m_PlayerControls_Newaction;
+    private readonly InputAction m_PlayerControls_StartSplashAnyButton;
     private readonly InputAction m_PlayerControls_Attack;
     public struct PlayerControlsActions
     {
@@ -232,7 +331,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @Pause => m_Wrapper.m_PlayerControls_Pause;
         public InputAction @Return => m_Wrapper.m_PlayerControls_Return;
         public InputAction @Look => m_Wrapper.m_PlayerControls_Look;
-        public InputAction @Newaction => m_Wrapper.m_PlayerControls_Newaction;
+        public InputAction @StartSplashAnyButton => m_Wrapper.m_PlayerControls_StartSplashAnyButton;
         public InputAction @Attack => m_Wrapper.m_PlayerControls_Attack;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
@@ -255,9 +354,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLook;
-                @Newaction.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnNewaction;
+                @StartSplashAnyButton.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnStartSplashAnyButton;
+                @StartSplashAnyButton.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnStartSplashAnyButton;
+                @StartSplashAnyButton.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnStartSplashAnyButton;
                 @Attack.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAttack;
@@ -277,9 +376,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @StartSplashAnyButton.started += instance.OnStartSplashAnyButton;
+                @StartSplashAnyButton.performed += instance.OnStartSplashAnyButton;
+                @StartSplashAnyButton.canceled += instance.OnStartSplashAnyButton;
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
@@ -293,7 +392,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnReturn(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnStartSplashAnyButton(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
     }
 }

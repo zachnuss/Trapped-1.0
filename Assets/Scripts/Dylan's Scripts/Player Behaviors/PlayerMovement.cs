@@ -20,6 +20,8 @@ using JetBrains.Annotations;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public AudioSource Powerup;
+
     //animation states for player
     //top
     public enum playerTopState
@@ -128,6 +130,9 @@ public class PlayerMovement : MonoBehaviour
     public bool doubleScoreMod = false;
     public bool serratedMod = false;
     public bool doubleDamage = false;
+    public bool personalSheild = false;
+    public bool trackingAmmunitionMod = false;
+    public GameObject mortarGrid;
     //player takes damage and applies bleed, while active every second does 1 damage for 5 seconds. Each stack adds 1 damage
     public int bleedStacks = 0;
     public float bleedTimer = 0;
@@ -231,6 +236,9 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        //sheild mod
+        DamageStandbyTimer();
+
         //movement
         //detects if player is over an edge
         if (DetectEdge())
@@ -273,7 +281,9 @@ public class PlayerMovement : MonoBehaviour
        {
             bleedTimer += Time.deltaTime;
             bleedTimer2 += Time.deltaTime;
-            
+            if (bleedStacks >= 5)
+                playerData.GiveRedDead();
+
             if(bleedTimer2 >= 1.0)
             {
                 bleedTimer2 = 0;
@@ -317,7 +327,7 @@ public class PlayerMovement : MonoBehaviour
 
         transform.localPosition = Vector3.zero;
         //this.GetComponent<Rigidbody>().isKinematic = true;
-        this.GetComponent<BoxCollider>().isTrigger = true;
+        this.GetComponent<Collider>().isTrigger = true;
 
         follower.transform.parent = PlayerRotate.transform;
         //Debug.Log(follower.transform.localEulerAngles);
@@ -383,7 +393,7 @@ public class PlayerMovement : MonoBehaviour
                 overTheEdge = false;
                 // Debug.Log(overTheEdge);
                 //this.GetComponent<Rigidbody>().isKinematic = false;
-                this.GetComponent<BoxCollider>().isTrigger = false;
+                this.GetComponent<Collider>().isTrigger = false;
             }
 
             //adjsut u value to the ranger from uMin to uMax
@@ -691,12 +701,16 @@ public class PlayerMovement : MonoBehaviour
             GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.rotation);
 
             Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
+            if (personalSheild)
+                Physics.IgnoreCollision(bullet.GetComponent<Collider>(), sheildObj.GetComponent<Collider>());
             //ZACHARY ADDED THIS
-            StartCoroutine(bullet.GetComponent<ProjectileScript>().destroyProjectile());
+            //
+
+            if(trackingAmmunitionMod)
+                bullet.GetComponent<ProjectileScript>().smartBullets = true;
 
             //just to destroy stray bullets if they escape the walls
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            rb.AddForce(bullet.transform.forward * 1000);
+            
             // _repeatedFire = true;
             //when we fire we run fire animation once (firing state is active while animation is active)
             // StartCoroutine(FireState());
@@ -792,7 +806,8 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Hit powerup");
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
-            playerData.TrackPowerupGains(1);
+            playerData.TrackPowerupGains(1, other.gameObject.GetComponent<PowerUpDrop>().type);
+            Powerup.Play();
             Destroy(other.gameObject);
         }
            
@@ -878,6 +893,7 @@ public class PlayerMovement : MonoBehaviour
         //Wesley
         playerData.SetCharacterChoiceGame();
         playerData.SetColor(); //Sets in scene start
+        playerData.SetPet();
     }
 
     /// <summary>
@@ -919,10 +935,13 @@ public class PlayerMovement : MonoBehaviour
 
                 //Set Highscore
                 playerData.EndGameScoring();
+                playerData.AddDeath();
 
-                UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(7);
                 //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
             }
+
+            SheildRegenStop();
         }
     }
 
@@ -1046,6 +1065,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void PickedPowerUp(powerUpType type, bool timer, int duration)
     {
+        
         if(timer)
         {
             StartCoroutine(PowerUpDuration(type, duration));
@@ -1210,6 +1230,8 @@ public class PlayerMovement : MonoBehaviour
         //bleedStacks--;
     }
 
+
+
     /// <summary>
     /// Dylan Loe
     /// Updated: 10-20-2020
@@ -1222,5 +1244,42 @@ public class PlayerMovement : MonoBehaviour
         _bleedCooldown = true;
         yield return new WaitForSeconds(0.5f);
         _bleedCooldown = false;
+    }
+
+
+    bool damageStbTimer = false;
+    float damageTimer = 0f;
+    public GameObject sheildObj;
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-5-2020
+    /// 
+    /// - if player takes damage, begin timer, once timer is reached sheild can regen health
+    /// - will run in update, bool is active when takes damage, turns off when timer is done
+    /// </summary>
+    void DamageStandbyTimer()
+    {
+        if (damageStbTimer)
+        {
+            damageTimer += Mathf.RoundToInt(Time.deltaTime);
+            if (damageTimer >= 5)
+            {
+                damageStbTimer = false;
+                damageTimer = 0;
+                sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-5-2020
+    /// 
+    /// this runs when player takes damage
+    /// </summary>
+    public void SheildRegenStop()
+    {
+        damageStbTimer = true;
+        sheildObj.GetComponent<ForceFieldsEnemy>().ableToRecharge = false;
     }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2343487794215749181}
   - component: {fileID: 2343487794215749180}
+  - component: {fileID: 7811141960042949800}
   m_Layer: 0
   m_Name: LevelSetup
   m_TagString: Untagged
@@ -43,6 +44,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1794186e0a81d31409f269530c74693f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  permutationNum: 0
   gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}
   type: 0
   permutation: {fileID: 0}
+  currentModsInLevel: []
+  dontLoadPermutation: 0
+  overrideRandomLevel: 0
+--- !u!114 &7811141960042949800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2343487794215749171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4824442163960e94b89176629290829f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

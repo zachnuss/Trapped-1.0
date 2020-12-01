@@ -1,16 +1,15 @@
-/*
+﻿/*
  * EnemyAnimation.cs
  * Author: Christian Mullins
  * Summary: This script handles all the states for animation in enemies.
  */
-
 using UnityEngine;
 
-public class EnemyAnimations : MonoBehavior {
+public class EnemyAnimations : MonoBehaviour {
     private Animator _animator;
 
-    void Awake() {
-        _animator = GetComponent(Animator);
+    void Start() {
+        _animator = GetComponent<Animator>();
     }
 
     /**     ANIMATION STATE FUNCTIONS       **/

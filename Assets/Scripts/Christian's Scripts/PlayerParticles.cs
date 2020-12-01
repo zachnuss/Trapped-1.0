@@ -12,7 +12,6 @@ public class PlayerParticles : MonoBehaviour {
     public GameObject bleedParticle;
     public GameObject dustParticle;
 
-    //private helper vars
     private ParticleSystem _dustPS;
     private ParticleSystem _bleedPS;
     private PlayerMovement _pMovement;
@@ -31,13 +30,13 @@ public class PlayerParticles : MonoBehaviour {
                 break;
             }
         }
-        _pMovement = GetComponent(PlayerMovement);
+        _pMovement = GetComponent<PlayerMovement>();
     }
 
     //set particles when necessary bools are met
     void FixedUpdate() {
         //set particles for dust
-        if (_pMovement.animBottomState == playerBottomState.walking) {
+        if (_pMovement.animBottomState == PlayerMovement.playerBottomState.walking) {
             kickDustParticles();
         }
         else {

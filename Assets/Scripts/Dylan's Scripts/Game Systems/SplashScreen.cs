@@ -20,7 +20,7 @@ public class SplashScreen : MonoBehaviour
 
     [SerializeField] public PlayerInputActions myActions;
 
-
+    public PlayerData myPlayerData;
    // public GameObject text;
     public TextMeshProUGUI text2;
    // Animator anim;
@@ -35,20 +35,18 @@ public class SplashScreen : MonoBehaviour
         //anim = this.GetComponent<Animator>();
         StartCoroutine(ymove());
 
-
-        
     }
     private void Update()
     {
         if (yDir)
         {
-            transform.localPosition += new Vector3(0, 1.2f * Time.deltaTime, 0);
-            transform.localScale += new Vector3(0, 0.07f * Time.deltaTime, 0);
+            transform.localPosition += new Vector3(0, 1.3f * Time.deltaTime, 0);
+            transform.localScale += new Vector3(0, 0.08f * Time.deltaTime, 0);
         }
         else
         {
-            transform.localPosition += new Vector3(0, 1.2f * Time.deltaTime, 0);
-            transform.localScale += new Vector3(0, -0.07f * Time.deltaTime, 0);
+            transform.localPosition += new Vector3(0, -1.3f * Time.deltaTime, 0);
+            transform.localScale += new Vector3(0, -0.08f * Time.deltaTime, 0);
         }
 
         if (Gamepad.current != null)
@@ -71,8 +69,11 @@ public class SplashScreen : MonoBehaviour
     public void MainMenu()
     {
         Debug.Log("start game");
-        SceneManager.LoadScene("Shawn_MainMenu");
-       //StartCoroutine(beginM)
+
+        myPlayerData.nextSceneStr = "Shawn_MainMenu";
+        //SceneManager.LoadScene("Shawn_MainMenu");
+        SceneManager.LoadScene("LoadingScene");
+       
     }
 
     IEnumerator ymove()

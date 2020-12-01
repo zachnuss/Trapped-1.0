@@ -114,6 +114,7 @@ MonoBehaviour:
   - {fileID: 1252204394211258037}
   - {fileID: 1252204395694626407}
   - {fileID: 0}
+  spawnNothing: 0
 --- !u!1 &1252204394030798574
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,9 +600,10 @@ MonoBehaviour:
   buttonObj: {fileID: 6501822059088933059, guid: 1f5b8b346f37c2f4b9b580260d025976,
     type: 3}
   assetsArray:
-  - {fileID: 1252204395531128126}
-  - {fileID: 1252204395507100515}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  spawnNothing: 1
 --- !u!1 &1252204395113430356
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,6 +718,7 @@ MonoBehaviour:
   - {fileID: 1252204394030798574}
   - {fileID: 1252204394752922337}
   - {fileID: 0}
+  spawnNothing: 0
 --- !u!1 &1252204395122203726
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,6 +926,7 @@ MonoBehaviour:
   - {fileID: 1252204395122203726}
   - {fileID: 1252204394335746522}
   - {fileID: 0}
+  spawnNothing: 0
 --- !u!1 &1252204395507100515
 GameObject:
   m_ObjectHideFlags: 0

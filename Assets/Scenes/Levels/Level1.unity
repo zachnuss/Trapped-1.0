@@ -139,21 +139,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1649338041761537737, guid: 716f5c8b413961442a5458bad0fa68db,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2137081826811593843, guid: 716f5c8b413961442a5458bad0fa68db,
-        type: 3}
-      propertyPath: m_Name
-      value: Gun
-      objectReference: {fileID: 0}
-    - target: {fileID: 3506228563881396390, guid: 716f5c8b413961442a5458bad0fa68db,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4304442032066299930, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -161,28 +146,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4576145229718424544, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.05810547
-      objectReference: {fileID: 0}
-    - target: {fileID: 4576145229718424544, guid: 716f5c8b413961442a5458bad0fa68db,
-        type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.2006836
-      objectReference: {fileID: 0}
-    - target: {fileID: 5565231554061494154, guid: 716f5c8b413961442a5458bad0fa68db,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5565231554061494154, guid: 716f5c8b413961442a5458bad0fa68db,
-        type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5631478818926144566, guid: 716f5c8b413961442a5458bad0fa68db,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5834232445033579985, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
@@ -378,7 +343,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3205010645766237246, guid: 6c1f1af45d34b7d4aa5f6ff17361c536, type: 3}
+  - {fileID: 2100000, guid: 059fc25e6eb7af742b26083f8e577725, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

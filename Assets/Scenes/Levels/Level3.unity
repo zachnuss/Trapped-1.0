@@ -131,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 293373322730873317, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.9816895
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1027260117111857179, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
@@ -151,7 +151,7 @@ PrefabInstance:
     - target: {fileID: 7368547040845880608, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 16.50122
+      value: -15.75
       objectReference: {fileID: 0}
     - target: {fileID: 7571365785621622437, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
@@ -291,12 +291,12 @@ PrefabInstance:
     - target: {fileID: 7813090081070221083, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 15.0998535
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 7946435497263402847, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 17
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 7946435497263402847, guid: 716f5c8b413961442a5458bad0fa68db,
         type: 3}
@@ -677,7 +677,7 @@ MonoBehaviour:
   permutation: {fileID: 0}
   currentModsInLevel: []
   dontLoadPermutation: 0
-  overrideRandomLevel: 1
+  overrideRandomLevel: 0
 --- !u!4 &2343487794500063815
 Transform:
   m_ObjectHideFlags: 0

@@ -3476,7 +3476,8 @@ MonoBehaviour:
     type: 3}
   dustParticle: {fileID: 1652464967751923113, guid: e7e4d552954d39c4a88b157de40310f4,
     type: 3}
-  dustFrequency: 1.5
+  dustLifeCycle: 0.5
+  dustFrequency: 0.01
 --- !u!136 &5873660316269886561
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4889,15 +4890,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45c38bcfc1b1fe14b8f597513451793c, type: 3}
---- !u!4 &7640530985917007127 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6999296805499784811, guid: 45c38bcfc1b1fe14b8f597513451793c,
-    type: 3}
-  m_PrefabInstance: {fileID: 804703075815492476}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5500290833827926569 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5151577495161739605, guid: 45c38bcfc1b1fe14b8f597513451793c,
+    type: 3}
+  m_PrefabInstance: {fileID: 804703075815492476}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7640530985917007127 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6999296805499784811, guid: 45c38bcfc1b1fe14b8f597513451793c,
     type: 3}
   m_PrefabInstance: {fileID: 804703075815492476}
   m_PrefabAsset: {fileID: 0}

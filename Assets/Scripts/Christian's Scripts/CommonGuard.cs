@@ -348,7 +348,7 @@ public class CommonGuard : BaseEnemy {
         hits = Physics.CapsuleCastAll(top, bottom, myCap.radius, Vector3.down);
         foreach (var h in hits) {
             if (h.transform.CompareTag("Wall")) {
-                Debug.Log("point of collision: " + h.point);
+               // Debug.Log("point of collision: " + h.point);
                 return transform.InverseTransformDirection(h.point);
             }
         }

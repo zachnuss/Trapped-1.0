@@ -18,6 +18,16 @@ using System;
 using System.Collections.Generic;
 
 public class PlayerOptions : MonoBehaviour {
+    /*
+     *   TO DO:
+     *       -Sound effects for player pick-up sounds
+     *       -Sound effects for in store scene GO "StoreEmpty" get audio source there
+     *
+     *
+     *
+     *
+     *
+     */
     ///public variables
     public float musicVolume = 1f;
     public Slider musicSlider;
@@ -27,7 +37,6 @@ public class PlayerOptions : MonoBehaviour {
     public Button screenButton;
     public Button nextTrackButton;
     public AudioClip[] audioTracks;
-
     ///private variables
     private List<AudioSource> _enemyFXs;
     private AudioSource _musicSource;

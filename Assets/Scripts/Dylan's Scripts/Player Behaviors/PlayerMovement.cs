@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     //Quaternion targetRotation;
     //PlayerInputActions controls;
     //Vector3 _playerAngle;
-    [Header("Player movement speed")]
+    [Header("Player default movement speed")]
     public float movementSpeed = 1.0f;
     Vector2 movementInput;
     //rotation

@@ -76,6 +76,9 @@ public class PlayerData : ScriptableObject
     public Material[] player2Color;
     public bool characterModelSwitch;
 
+    
+    //public AnimatorControllerParameter p2;
+
     //Player Persistent stats - Wesley
     private int totalEnemiesKilled = 0;
     private int totalRoombasKilled = 0;
@@ -521,36 +524,44 @@ public class PlayerData : ScriptableObject
     /// </summary>
     public void SetCharacterChoiceGame()
     {
-        GameObject[] character1 = new GameObject[8];
+        GameObject character1 = null;
 
-        if (GameObject.Find("MainCharacter_Geo") == true)
+        if (GameObject.Find("MainCharacter_Rig_Final") == true)
         {
-            for (int i = 0; i < character1.Length; i++)
-            {
-                character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-            }
+            // for (int i = 0; i < character1.Length; i++)
+            //{
+            //character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+            //}
+            character1 = GameObject.Find("MainCharacter_Rig_Final");
         }
         GameObject character2 = null;
-        if (GameObject.Find("secondCharacter_low") == true)
+
+
+        if (GameObject.Find("secondChar_Rig_TPose") == true)
         {
-            character2 = GameObject.Find("secondCharacter_low");
+            character2 = GameObject.Find("secondChar_Rig_TPose");
         }
+
         if (characterModelSwitch == false)
         {
-            character2.GetComponent<MeshRenderer>().enabled = false;
-            for (int i = 0; i < character1.Length; i++)
-            {
-                character1[i].GetComponent<SkinnedMeshRenderer>().enabled = true;
-            }
+            //character2.GetComponent<MeshRenderer>().enabled = false;
+            character1.SetActive(true);
+            character2.SetActive(false);
+           // for (int i = 0; i < character1.Length; i++)
+           // {
+               // character1[i].GetComponent<SkinnedMeshRenderer>().enabled = true;
+            //}
             SetMenuColor(materialChoice);
         }
         else
         {
-            for (int i = 0; i < character1.Length; i++)
-            {
-                character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
-            }
-            character2.GetComponent<MeshRenderer>().enabled = true;
+            // for (int i = 0; i < character1.Length; i++)
+            // {
+            //character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
+            // }
+            //character2.GetComponent<MeshRenderer>().enabled = true;
+            character1.SetActive(false);
+            character2.SetActive(true);
             SetMenuColor(materialChoice2);
         }
     }
@@ -645,16 +656,19 @@ public class PlayerData : ScriptableObject
         {
             if (GameObject.Find("MainCharacter_Geo") == true)
             {
-                GameObject[] character = new GameObject[8];
-                for (int i = 0; i < character.Length; i++)
-                {
+                 GameObject[] character = new GameObject[8];
+                 for (int i = 0; i < character.Length; i++)
+                 {
                     character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-                }
-                for (int i = 0; i < character.Length; i++)
-                {
-                    character[i].GetComponent<SkinnedMeshRenderer>().material = playerColor[materialChoice];
-                }
+                 }
+                 for (int i = 0; i < character.Length; i++)
+                 {
+                     character[i].GetComponent<SkinnedMeshRenderer>().material = playerColor[materialChoice];
+                 }
                 //Debug.Log("This still happens");
+                //GameObject character;
+                //character = GameObject.Find("MainCharacter_Geo").gameObject;
+               // character.GetComponent<MeshRenderer>().material = playerColor[materialChoice];
             }
         }
         if(characterModelSwitch == true)
@@ -665,7 +679,7 @@ public class PlayerData : ScriptableObject
                 //Debug.Log("Second step");
                 GameObject character;
                 character = GameObject.Find("secondCharacter_low").gameObject;
-                character.GetComponent<MeshRenderer>().material = player2Color[materialChoice2];
+                character.GetComponent<SkinnedMeshRenderer>().material = player2Color[materialChoice2];
             }
         }
     }

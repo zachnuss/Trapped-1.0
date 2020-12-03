@@ -666,6 +666,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3499688683977289146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136033254489722595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66ac4540218f328468dcbc890ca6dda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hornet: 1
 --- !u!1 &3144823744919640530
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,19 +810,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3499688683977289146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2136033254489722595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ac4540218f328468dcbc890ca6dda3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hornet: 1
 --- !u!1 &3478820527429892129
 GameObject:
   m_ObjectHideFlags: 0
@@ -5262,6 +5262,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010000575101607097, guid: 926d3a62626ba8b4b94463d07777b293,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010000575101607097, guid: 926d3a62626ba8b4b94463d07777b293,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010000575101607097, guid: 926d3a62626ba8b4b94463d07777b293,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 926d3a62626ba8b4b94463d07777b293, type: 3}

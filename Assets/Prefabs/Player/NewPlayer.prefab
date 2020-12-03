@@ -3451,12 +3451,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicVolume: 1
-  musicSlider: {fileID: 0}
   soundFXVolume: 1
-  soundFXSlider: {fileID: 0}
   isFullScreen: 0
+  musicSlider: {fileID: 0}
+  soundFXSlider: {fileID: 0}
   screenButton: {fileID: 0}
   nextTrackButton: {fileID: 0}
+  pickUpFX: {fileID: 8300000, guid: 9c7b5d332d2b78943b25700dcb5cded2, type: 3}
+  storePurchaseFX: {fileID: 0}
   audioTracks:
   - {fileID: 8300000, guid: debd9cef1637f4749b49f77a6f77f1ad, type: 3}
   - {fileID: 8300000, guid: 8f63246aec87eec41bfba4f2eaba99a7, type: 3}
@@ -3476,8 +3478,6 @@ MonoBehaviour:
     type: 3}
   dustParticle: {fileID: 1652464967751923113, guid: e7e4d552954d39c4a88b157de40310f4,
     type: 3}
-  dustLifeCycle: 0.5
-  dustFrequency: 0.01
 --- !u!136 &5873660316269886561
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -13,10 +13,10 @@ public class PlayerParticles : MonoBehaviour {
     //public particles
     public GameObject bleedParticle;
     public GameObject dustParticle;
-    
+
     //private variables to be set
-    private float dustLifeCycle = 0.9f;
-    private float dustFrequency = 0.6f;
+    private float _dustLifeCycle = 0.9f;
+    private float _dustFrequency = 0.6f;
     //private helpers (dust)
     private LinkedList<GameObject> _dustList;
     private Transform _dustPar;
@@ -44,10 +44,10 @@ public class PlayerParticles : MonoBehaviour {
 
     //set particles when necessary bools are met
     void FixedUpdate() {
-        //adjust frequency with rigidbody movement
+        //adjust frequency with player inputs
         float relativeSpeed = _getRelativeSpeed();
-        float dynamicDustFreq = dustFrequency * (1f - relativeSpeed);
-        float dynamicDustLife = dustLifeCycle * relativeSpeed;
+        float dynamicDustFreq = _dustFrequency * (1f - relativeSpeed);
+        float dynamicDustLife = _dustLifeCycle * relativeSpeed;
         //Debug.Log("relativeSpeed: " + relativeSpeed);
         /*      DUST PARTICLES      */
         //set particles for dust and set timer

@@ -14,6 +14,7 @@ public class LightSwitcher : MonoBehaviour
     public Color blue;
     public Color orange;
     Light light;
+    float startTime;
 
     /// <summary>
     /// Alexander
@@ -25,6 +26,7 @@ public class LightSwitcher : MonoBehaviour
     void Start()
     {
         light = GetComponent<Light>();
+        startTime = Time.time;
     }
 
     /// <summary>
@@ -36,7 +38,7 @@ public class LightSwitcher : MonoBehaviour
     /// </summary>
     void Update()
     {
-        float transferTime = Mathf.PingPong(Time.time, duration) / duration;
+        float transferTime = Mathf.PingPong(Time.time + startTime, duration) / duration;
         light.color = Color.Lerp(blue, orange, transferTime);
     }
 }

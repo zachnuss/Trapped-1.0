@@ -8,7 +8,6 @@ public class OnCharCustomizationLoad : MonoBehaviour
     public PlayerData playerData;
     void Start()
     {
-        Debug.Log("fuck");
         playerData.SetCharacterChoiceGame();
         playerData.SetColor();
     }

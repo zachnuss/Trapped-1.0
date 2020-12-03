@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerFollow : MonoBehaviour
 {
     private GameObject player;
+    public float offset;
+    public bool isCam = false;
    // public bool playerCenter = false;
     // Start is called before the first frame update
     void Start()
@@ -18,7 +20,10 @@ public class PlayerFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.transform.position;
+        if(!isCam)
+            transform.position = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y + offset, player.transform.localPosition.z);
+        else
+            transform.position = player.transform.position;
 
     }
 

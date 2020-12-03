@@ -40,6 +40,9 @@ public class UIInGame : MonoBehaviour
     public Text healthUp;
     public Text damageUp;
 
+    //ADDED BY TREVOR
+    public AudioSource CurrencyPickUp;
+
 
     //Function to keep track of the health bar removal
     public void healthBarStatus(float health)
@@ -134,12 +137,15 @@ public class UIInGame : MonoBehaviour
             {
                 //Debug.Log("Got Currency!");
                 playerData.AddCurrency(1); //VARIABLE LOCATION TO CHANGE THE AMOUNT THAT CURRENCY IS WORTH *TEMP* //We have a function that does this + adds score and tracks data, updated it - Wesley
+                //plays currency sound effect
+                CurrencyPickUp.Play();
                 Destroy(other.gameObject); //Destroys the currency obj
                 currencyText.text = "" + playerData.currency; //Updates currency UI
             }
             if(other.GetComponent<CurrencyType>().special == true)
             {
                 playerData.AddSpecialCoins(1);
+                CurrencyPickUp.Play();
                 Destroy(other.gameObject);
                 specialCurrencyText.text = "" + playerData.specialCoins; //Update special currency in the UI
             }

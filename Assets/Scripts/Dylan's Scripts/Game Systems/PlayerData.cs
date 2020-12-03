@@ -93,7 +93,7 @@ public class PlayerData : ScriptableObject
     private float totalTimerSec;
     private float totalTimerMin;
     private float totalTimerHour;
-    private bool characterChoice = false;
+    //private bool characterChoice = false;
     public bool achievementFirstTimer = false;
     public bool achievementVacuumMurderer = false;
     public bool achievementRevenge1 = false;

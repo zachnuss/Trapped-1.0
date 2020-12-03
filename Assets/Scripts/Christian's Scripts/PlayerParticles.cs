@@ -69,11 +69,15 @@ public class PlayerParticles : MonoBehaviour {
         }
 
         /*      BLEED PARTICLES      */
+        //debugging for particle effect
+        //GetComponent<PlayerMovement>().pub_isBleeding = true;
+        //GetComponent<PlayerMovement>().bleedStacks = 10;
+        //GetComponent<PlayerMovement>().bleedTimer = 10f;
         //set particles for blood if necessary
         if (_pMovement.pub_isBleeding) {
             startBleedParticles();
         }
-        else  if (_bleedPS != null){
+        else if (_bleedPS != null){
             killBleedParticles();
         }
     }
@@ -91,7 +95,7 @@ public class PlayerParticles : MonoBehaviour {
 
     //pause particles, destroy object, and reset values
     public void killBleedParticles() {
-        _bleedPS.Pause();
+        _bleedPS.Stop();
         Destroy(_bleedPS.gameObject);
         _bleedPS = null;
     }

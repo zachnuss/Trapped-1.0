@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ac9e01fa250f2469fa52ba507acdd1, type: 3}
   m_Name: PlayerDataObj
   m_EditorClassIdentifier: 
-  timerSec: 4
-  timerMin: 0
+  timerSec: 1
+  timerMin: 1
   timerHour: 0
   timerBetweenLevels: 0
-  totalTime: 26.66042
+  totalTime: 166.09866
   healthUpgrade: 0
   damageUpgrade: 0
   speedUpgrade: 0
@@ -25,8 +25,8 @@ MonoBehaviour:
   localHealth: 100
   OnLevel: 0
   levelsBeaten: 0
-  score: 29
-  matchScoreFromTime: 29
+  score: 122
+  matchScoreFromTime: 122
   matchScoreFromEnemies: 0
   matchEnemiesKilled: 0
   matchPowerUpsCollected: 0

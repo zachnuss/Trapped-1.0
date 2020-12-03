@@ -740,22 +740,23 @@ public class PlayerData : ScriptableObject
     public void SetPet()
     {
         GameObject pet1 = GameObject.Find("pet_wasp");
+        GameObject pet2 = GameObject.Find("pet_bunnyPLACEHOLDER");
 
         //GameObject pet2 = GameObject.Find("Pet2");
         if (petChoice == 0)
         {
-            pet1.GetComponent<Renderer>().enabled = false;
-            //pet2.GetComponent<Renderer>().enabled = false;
+            pet1.SetActive(false);
+            pet2.SetActive(false);
         }
         if (petChoice == 1)
         {
-            //pet2.GetComponent<Renderer>().enabled = false;
-            pet1.GetComponent<Renderer>().enabled = true;
+            pet2.SetActive(false);
+            pet1.SetActive(true);
         }
         if (petChoice == 2)
         {
-            pet1.GetComponent<Renderer>().enabled = false;
-            //pet2.GetComponent<Renderer>().enabled = true;
+            pet1.SetActive(false);
+            pet2.SetActive(true);
         }
     }
 

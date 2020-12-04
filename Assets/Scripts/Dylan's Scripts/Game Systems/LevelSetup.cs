@@ -145,13 +145,13 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().trackingAmmunitionMod = true;
                 _player.GetComponent<PlayerMovement>().mortarGrid.SetActive(true);
-                //FindObjectOfType<MortarModBehavior>().enabled = true;
+  
                 //GameObject.Find("MortarGrid").SetActive(true);
 
             }
         }
     
            
-        Debug.Log("Mods Now Active in Level");
+        //Debug.Log("Mods Now Active in Level");
     }
 }

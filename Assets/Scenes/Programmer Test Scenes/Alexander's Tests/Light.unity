@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 6228925}
   - component: {fileID: 6228926}
   m_Layer: 0
-  m_Name: Light Generator
+  m_Name: Light Generator [Top]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,9 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Light: {fileID: 485897382188352876, guid: 410180362ea1a4f4282a3c3c37d3d1ef, type: 3}
-  ToTheRight: 0
-  Columns: 0
-  Rows: 5
+  face: 0
   LightCreationPause: 0.62
 --- !u!1 &209524396
 GameObject:

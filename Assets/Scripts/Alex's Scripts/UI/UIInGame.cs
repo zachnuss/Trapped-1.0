@@ -40,6 +40,9 @@ public class UIInGame : MonoBehaviour
     public Text healthUp;
     public Text damageUp;
 
+    //ADDED BY TREVOR
+    public AudioSource CurrencyPickUp;
+
 
     //Function to keep track of the health bar removal
     public void healthBarStatus(float health)
@@ -47,6 +50,7 @@ public class UIInGame : MonoBehaviour
         healthText.text = "" + (int)health; //Sets health to be displayed correctly on the HP bar
         float totalHealth = playerData.totalHealthBase; //sets a total health variable to the health base for fractioning
         float result = health / totalHealth; //Sets the fraction for the scaling 
+        Debug.Log("health: " + health + " total Health: " + totalHealth);
         //healthBar.rectTransform.localScale = new Vector3 ((result * hpBarX),1f,0.38f); //Scales the hpBar image
         healthBar.fillAmount = result;
         //Debug.Log(healthBar.rectTransform.localScale.x);
@@ -101,6 +105,7 @@ public class UIInGame : MonoBehaviour
         healthBar.fillAmount = playerData.localHealth / playerData.totalHealthBase;
         //hpBarX = healthBar.rectTransform.localScale.x;
 
+        loopsCompleted = playerData.loops;
         //Set the text for loops completed *TEMP UNTIL LOOPS ARE ENABLED*
         loopsText.text = "" + loopsCompleted;
 
@@ -109,7 +114,7 @@ public class UIInGame : MonoBehaviour
 
         updateUpgrades();
 
-
+        
 
     }
 
@@ -133,12 +138,15 @@ public class UIInGame : MonoBehaviour
             {
                 //Debug.Log("Got Currency!");
                 playerData.AddCurrency(1); //VARIABLE LOCATION TO CHANGE THE AMOUNT THAT CURRENCY IS WORTH *TEMP* //We have a function that does this + adds score and tracks data, updated it - Wesley
+                //plays currency sound effect
+                CurrencyPickUp.Play();
                 Destroy(other.gameObject); //Destroys the currency obj
                 currencyText.text = "" + playerData.currency; //Updates currency UI
             }
             if(other.GetComponent<CurrencyType>().special == true)
             {
                 playerData.AddSpecialCoins(1);
+                CurrencyPickUp.Play();
                 Destroy(other.gameObject);
                 specialCurrencyText.text = "" + playerData.specialCoins; //Update special currency in the UI
             }

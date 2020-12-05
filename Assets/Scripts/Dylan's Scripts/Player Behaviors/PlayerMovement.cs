@@ -20,7 +20,9 @@ using JetBrains.Annotations;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //animation states for player
+    public AudioSource Powerup;
+
+    //animation states for player - Since no animations, these will always be the same state. Only one animation on player.
     //top
     public enum playerTopState
     {
@@ -36,18 +38,13 @@ public class PlayerMovement : MonoBehaviour
         walking
     }
 
-
-    
     //set up for rotation and new rotation orientation
     [Header("Parent object of this player obj")]
     public GameObject parent;
     public GameObject follower;
     private GameObject[] character = new GameObject[8];
-    //new rotation orientation player moves to
-    //Quaternion targetRotation;
-    //PlayerInputActions controls;
-    //Vector3 _playerAngle;
-    [Header("Player movement speed")]
+
+    [Header("Player default movement speed")]
     public float movementSpeed = 1.0f;
     Vector2 movementInput;
     //rotation
@@ -55,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     public float turnSpeed = 20f;
     public float lookSpeed = 30f;
     float _angle, _angle2;
+
     //player looking rotation
     Vector2 lookingInput;
 
@@ -66,10 +64,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animation State")]
     public playerBottomState animBottomState;
     public playerTopState animTopState;
-    playerTopState _localTopState = playerTopState.idle;
+    public playerTopState _localTopState = playerTopState.idle;
 
-    //when we have successfully rotated
-    //[Header("Shows if player is off the edge")]
+    //when we hit door or go off edge
     [HideInInspector]
     public bool overTheEdge = false;
     bool onDoor = false;
@@ -89,8 +86,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 p01;
 
     //for smooth parent rotation
-    private Quaternion par01;
-    private Transform pc1, pc0;
+    //private Quaternion par01;
+   // private Transform pc1, pc0;
 
     EasingType easingTypeC = EasingType.linear;
     [HideInInspector]
@@ -106,20 +103,21 @@ public class PlayerMovement : MonoBehaviour
     //player data scriptable obj
     [Header("Player Data")]
     public PlayerData playerData;
+    [Header("Player Setup Obj")]
+    public PlayerSetUp myPlayerSetup;
 
     /// <summary>
     /// Scene Transition and endgame
     /// 
     /// </summary>
-    private GameObject teleporterTracker;//Assign before load, set to private if unneeded
-   // public string nextScene; //Target Level
+    private GameObject teleporterTracker; //Assign before load, set to private if unneeded
     public Animator[] transition; //Transition animator
     public float transitionTime = 1;
     private int rng;
+    [HideInInspector]
     public bool firingState;
-    //bool _repeatedFire;
     //set to time to run full animation before repeat, may be a bit shorter so it works better
-    //float fireAnimationTime = 1f;
+    [HideInInspector]
     public float localTimer;
 
     [Header("Player Modifiers")]
@@ -144,24 +142,27 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Animators")]
     public Animator top;
     public GameObject topObj;
-   // public Transform firePos;
-    //public Animator legs;
-    public PlayerAnimations playerAnimations;
+    public GameObject anchorRef;
 
-    //public GameObject top;
+    //animation
+    public PlayerAnimations playerAnimations;
     public AnimatorStateInfo stateInfo;
     public float shootingAnimLength = 1.5f;
 
+    //cooldown on fire animations to avoid animation playing before its done
     bool _fireCoolDown;
     [Header("Fire Rate")]
     public float fireRate = 0.1f;
     float firingTimer = 0;
 
     public GameObject PlayerRotate;
+    //bleeding variables for stacks and bleed debuff
     float bleedTimer2 = 0;
     bool isBleeding = false;
-
-    //private bool _godMode = false;
+    bool damageStbTimer = false;
+    float damageTimer = 0f;
+    //sheild mod prefab
+    public GameObject sheildObj;
 
     /// <summary>
     /// Dylan Loe
@@ -171,6 +172,9 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Start()
     {
+        //Debug.Log(health);
+        SetUpCharAppearance();
+
         if (playerData.godMode)
             Debug.Log("DEBUG MODE ON");
 
@@ -181,10 +185,15 @@ public class PlayerMovement : MonoBehaviour
         if (doubleDamage)
             damage += damage;
 
-        for (int i = 0; i < character.Length; i++)
-        {
-            character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-        }
+        //commented cause it sucks
+
+        //    for (int i = 0; i < character.Length; i++)
+        //    {
+        //        character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+        //    }
+
+        //if (serratedMod)
+         //   playerData.HealthBuffSerationMod();
 
         //SetPlayerModifiers(); Player Mods set up in LevelSetup obj and script
         SetPlayerStats();
@@ -197,12 +206,13 @@ public class PlayerMovement : MonoBehaviour
 
     /// <summary>
     /// Dylan Loe
-    /// Updated 10-25-2020
+    /// Updated 12-3-2020
     /// 
     /// - Used Primarly for physics based movement and cube transversals
     /// </summary> 
     private void FixedUpdate()
     {
+        Physics.IgnoreCollision(anchorRef.GetComponent<Collider>(), GetComponent<Collider>());
         this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         this.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
@@ -211,6 +221,13 @@ public class PlayerMovement : MonoBehaviour
         {
             Movement();
             Looking();
+        }
+        else
+        {
+            //if we are interpolating, set to idle
+            animBottomState = playerBottomState.idle;
+            animTopState = playerTopState.idle;
+            SetAnimation();
         }
 
         Timer();
@@ -271,7 +288,7 @@ public class PlayerMovement : MonoBehaviour
        if(_localTopState != animTopState)
         {
             _localTopState = animTopState;
-            //SetAnimation();
+           // SetAnimation();
         }
 
        //bleed stacks can only be active when bleed mod is on
@@ -279,7 +296,9 @@ public class PlayerMovement : MonoBehaviour
        {
             bleedTimer += Time.deltaTime;
             bleedTimer2 += Time.deltaTime;
-            
+            if (bleedStacks >= 5)
+                playerData.GiveRedDead();
+
             if(bleedTimer2 >= 1.0)
             {
                 bleedTimer2 = 0;
@@ -301,6 +320,28 @@ public class PlayerMovement : MonoBehaviour
        }
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated 11-22-2020
+    /// 
+    /// Sets up animator, and rig for char
+    /// </summary>
+    void SetUpCharAppearance()
+    {
+        if(!playerData.characterModelSwitch)
+        {
+            //set up char 1
+            this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p1Controller;
+            this.GetComponent<Animator>().avatar = myPlayerSetup.p1Avatar;
+        }
+        else
+        {
+            //set up char 2
+            this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p2Controller;
+            this.GetComponent<Animator>().avatar = myPlayerSetup.p2Avatar;
+        }
+
+    }
 
     /// <summary>
     /// Dylan Loe
@@ -534,14 +575,19 @@ public class PlayerMovement : MonoBehaviour
             RotateMovement(movement);
             animBottomState = playerBottomState.walking;
             //turned off temp cause we dont have animations lol
-            if(!firingState)
+            //if(!firingState)
                 animTopState = playerTopState.moving;
+            //if(animTopState != playerTopState.moving)
+                SetAnimation();
         }
         else
         {
             animBottomState = playerBottomState.idle;
-            if (!firingState)
-                animTopState = playerTopState.idle;
+            //if (!firingState)
+            animTopState = playerTopState.idle;
+
+            //if (animTopState != playerTopState.idle)
+            SetAnimation();
         }
     }
 
@@ -621,8 +667,8 @@ public class PlayerMovement : MonoBehaviour
             LookMovement(looking);
             //animTopState = playerTopState.moving;
         }
-       // else
-          //  animTopState = playerTopState.idle;
+      //  else
+           // animTopState = playerTopState.idle;
     }
 
     /// <summary>
@@ -694,7 +740,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //runs everytime our char attacks
             //Wesley-Code
-            GameObject bullet = Object.Instantiate(Player_Bullet, topObj.transform.position, topObj.transform.rotation);
+            GameObject bullet = Object.Instantiate(Player_Bullet, anchorRef.transform.position, topObj.transform.rotation);
 
             Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponent<Collider>());
             if (personalSheild)
@@ -715,7 +761,7 @@ public class PlayerMovement : MonoBehaviour
             firingState = true;
             //Debug.Log("fire");
             //temporary turned off cause i dont have animations (will ignore firing for now)
-            animTopState = playerTopState.firing;
+            //animTopState = playerTopState.firing;
             playerAnimations.isFiringTop();
             firingTimer = 0;
             StartCoroutine(FireCoolDown());
@@ -802,7 +848,8 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Hit powerup");
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
-            playerData.TrackPowerupGains(1);
+            playerData.TrackPowerupGains(1, other.gameObject.GetComponent<PowerUpDrop>().type);
+            Powerup.Play();
             Destroy(other.gameObject);
         }
            
@@ -823,7 +870,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Dylan Loe & Jeff Underwood (Pulled from class assignment)
+    /// Dylan Loe
     /// Updated: 10-20-2020
     /// 
     /// For changing easing types (equations) for interpolation testing
@@ -883,11 +930,32 @@ public class PlayerMovement : MonoBehaviour
 
         gamerUI.healthBarStatus(health);
 
-        speedMultiplier = (playerData.speedUpgrade)/20;
+        speedMultiplier += (playerData.speedUpgrade)/20;
+
+        //if pet is on add stats here
+        switch (playerData.petChoice)
+        {
+            case 0:
+                //no pet
+                break;
+            case 1:
+                //hornet
+                damage += 5;
+                Debug.Log("Hornet Buff");
+                break;
+            case 2:
+                //bunny
+                speedMultiplier += 0.5f;
+                Debug.Log("Bunny Buff");
+                break;
+            default:
+                break;
+        }
 
         //Wesley
         playerData.SetCharacterChoiceGame();
         playerData.SetColor(); //Sets in scene start
+        playerData.SetPet();
     }
 
     /// <summary>
@@ -929,6 +997,7 @@ public class PlayerMovement : MonoBehaviour
 
                 //Set Highscore
                 playerData.EndGameScoring();
+                playerData.AddDeath();
 
                 UnityEngine.SceneManagement.SceneManager.LoadScene(7);
                 //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
@@ -1058,6 +1127,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void PickedPowerUp(powerUpType type, bool timer, int duration)
     {
+        
         if(timer)
         {
             StartCoroutine(PowerUpDuration(type, duration));
@@ -1239,9 +1309,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    bool damageStbTimer = false;
-    float damageTimer = 0f;
-    public GameObject sheildObj;
+    
     /// <summary>
     /// Dylan Loe
     /// Updated: 11-5-2020

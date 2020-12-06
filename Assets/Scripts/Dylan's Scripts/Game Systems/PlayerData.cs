@@ -768,7 +768,7 @@ public class PlayerData : ScriptableObject
     public void SetPet()
     {
         GameObject pet1 = GameObject.Find("pet_wasp");
-        GameObject pet2 = GameObject.Find("pet_bunnyPLACEHOLDER");
+        GameObject pet2 = GameObject.Find("pet_bunny");
 
         //GameObject pet2 = GameObject.Find("Pet2");
         if (petChoice == 0)

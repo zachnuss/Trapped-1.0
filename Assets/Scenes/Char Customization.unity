@@ -1899,6 +1899,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 645044538}
     m_Modifications:
+    - target: {fileID: -9219295211436124685, guid: 8679936a1a04451409a1b39120d615a4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8679936a1a04451409a1b39120d615a4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2003,6 +2008,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MainCharacter_Rig_Final
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8679936a1a04451409a1b39120d615a4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1211245406505371173, guid: 8679936a1a04451409a1b39120d615a4,
         type: 3}
@@ -2766,6 +2776,21 @@ PrefabInstance:
       value: secondChar_Rig_TPose
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f3b7e7f426403e748b3791174a0508ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082271958561512970, guid: f3b7e7f426403e748b3791174a0508ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873440182528312144, guid: f3b7e7f426403e748b3791174a0508ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: f3b7e7f426403e748b3791174a0508ef,
         type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4728,6 +4753,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: f9b9357e87ed29948b25c9a1d8db1dcf, type: 2}
+  playerRig1: {fileID: 0}
+  playerRig2: {fileID: 0}
 --- !u!1 &1693972211
 GameObject:
   m_ObjectHideFlags: 0

@@ -173,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         //Debug.Log(health);
-        SetUpCharAppearance();
+        //SetUpCharAppearance();
 
         if (playerData.godMode)
             Debug.Log("DEBUG MODE ON");
@@ -333,12 +333,16 @@ public class PlayerMovement : MonoBehaviour
             //set up char 1
             this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p1Controller;
             this.GetComponent<Animator>().avatar = myPlayerSetup.p1Avatar;
+            //GameObject.Find("mixamorig:Hips").SetActive(false);
+            GameObject.Find("secondChar_Rig_TPose").SetActive(false);
         }
         else
         {
             //set up char 2
             this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p2Controller;
             this.GetComponent<Animator>().avatar = myPlayerSetup.p2Avatar;
+            //GameObject.Find("MainCharacter_Transform").SetActive(false);
+            GameObject.Find("MainCharacter_Rig_Final").SetActive(false);
         }
 
     }
@@ -956,6 +960,8 @@ public class PlayerMovement : MonoBehaviour
         playerData.SetCharacterChoiceGame();
         playerData.SetColor(); //Sets in scene start
         playerData.SetPet();
+
+        SetUpCharAppearance();
     }
 
     /// <summary>

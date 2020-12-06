@@ -127,7 +127,9 @@ public class LevelSetup : MonoBehaviour
 
             if(currentModsInLevel[modIndex].modType == modifierType.SerratedAmmunition && currentModsInLevel[modIndex].modActive)
             {
+                Debug.Log(_player.GetComponent<PlayerMovement>().playerData.localHealth);
                 _player.GetComponent<PlayerMovement>().serratedMod = true;
+                _player.GetComponent<PlayerMovement>().playerData.HealthBuffSerationMod();
             }
             if(currentModsInLevel[modIndex].modType == modifierType.AdvancedSimulant && currentModsInLevel[modIndex].modActive)
             {

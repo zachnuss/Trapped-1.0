@@ -122,6 +122,8 @@ public class PlayerData : ScriptableObject
     public bool godMode = false;
     [HideInInspector]
     public bool startAtHalf = false;
+    [HideInInspector]
+    public bool healthBuffSeration = false;
 
     public int loops
     {
@@ -284,9 +286,10 @@ public class PlayerData : ScriptableObject
         speedPowerupsCollected = 0;
         upgradePurchased = false;
         localHealth = totalHealthBase;
+        
         gameLevelData.InitialModSetup();
         startAtHalf = false;
-
+        healthBuffSeration = false;
         nextSceneStr = "Level1";
         SceneManager.LoadScene("LoadingScene");
     }
@@ -323,7 +326,9 @@ public class PlayerData : ScriptableObject
         matchScoreFromTime = 0;
         matchSpecialCoinCollected = 0;
         localHealth = totalHealthBase;
+        
         startAtHalf = false;
+        healthBuffSeration = false;
         gameLevelData.InitialModSetup();
     }
 
@@ -973,6 +978,17 @@ public class PlayerData : ScriptableObject
             startAtHalf = true;
             totalHealthBase = totalHealthBase / 2;
             localHealth = localHealth / 2;
+        }
+    }
+
+    
+    public void HealthBuffSerationMod()
+    {
+        if(!healthBuffSeration)
+        {
+            healthBuffSeration = true;
+            //localHealth;
+            totalHealthBase += 20;
         }
     }
 }

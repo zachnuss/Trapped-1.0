@@ -172,6 +172,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Start()
     {
+        //Debug.Log(health);
         SetUpCharAppearance();
 
         if (playerData.godMode)
@@ -186,10 +187,13 @@ public class PlayerMovement : MonoBehaviour
 
         //commented cause it sucks
 
-    //    for (int i = 0; i < character.Length; i++)
-    //    {
-    //        character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-    //    }
+        //    for (int i = 0; i < character.Length; i++)
+        //    {
+        //        character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+        //    }
+
+        //if (serratedMod)
+         //   playerData.HealthBuffSerationMod();
 
         //SetPlayerModifiers(); Player Mods set up in LevelSetup obj and script
         SetPlayerStats();
@@ -936,7 +940,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case 1:
                 //hornet
-                damage += damage/20;
+                damage += 5;
                 Debug.Log("Hornet Buff");
                 break;
             case 2:

@@ -773,18 +773,24 @@ public class PlayerData : ScriptableObject
         //GameObject pet2 = GameObject.Find("Pet2");
         if (petChoice == 0)
         {
-            pet1.SetActive(false);
-            pet2.SetActive(false);
+            pet1.GetComponent<MeshRenderer>().enabled = false;
+            pet2.GetComponent<MeshRenderer>().enabled = false;
+           // pet1.SetActive(false);
+            //pet2.SetActive(false);
         }
         if (petChoice == 1)
         {
-            pet2.SetActive(false);
-            pet1.SetActive(true);
+            // pet2.SetActive(false);
+            // pet1.SetActive(true);
+            pet1.GetComponent<MeshRenderer>().enabled = true;
+            pet2.GetComponent<MeshRenderer>().enabled = false;
         }
         if (petChoice == 2)
         {
-            pet1.SetActive(false);
-            pet2.SetActive(true);
+            // pet1.SetActive(false);
+            //pet2.SetActive(true);
+            pet1.GetComponent<MeshRenderer>().enabled = false;
+            pet2.GetComponent<MeshRenderer>().enabled = true;
         }
     }
 

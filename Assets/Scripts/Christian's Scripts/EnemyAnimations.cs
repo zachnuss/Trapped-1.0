@@ -9,13 +9,16 @@ public class EnemyAnimations : MonoBehaviour {
     private Animator _animator;
 
     void Start() {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
+    }
+
+    void LateUpdate() {
     }
 
     /**     ANIMATION STATE FUNCTIONS       **/
     /*
      * Animation bools:
-     *  `   HallwayBot:
+     *      HallwayBot:
      *          isIdle
      *          isMoving
      *      CommonGuards:
@@ -33,9 +36,12 @@ public class EnemyAnimations : MonoBehaviour {
         _animator.SetBool("isMoving", false);
     }
     public void isIdle_CommonGuard() {
-        _animator.SetBool("isIdle", true);
-        _animator.SetBool("isWalking", false);
-        _animator.SetBool("isShooting", false);
+        if (!_animator.GetBool("isIdle")) {
+            _animator.SetBool("isIdle", true);
+            _animator.SetBool("isWalking", false);
+            _animator.SetBool("isShooting", false);
+            //print("isAnimating: Idle");
+        }
     }
     public void isIdle_ShieldedGuard() {
         _animator.SetBool("isIdle", true);
@@ -47,6 +53,7 @@ public class EnemyAnimations : MonoBehaviour {
         _animator.SetBool("isIdle", false);
         _animator.SetBool("isWalking", true);
         _animator.SetBool("isShooting", false);
+            //print("isAnimating: Walking");
     }
     public void isWalking_ShieldedGuard() {
         _animator.SetBool("isIdle", false);
@@ -68,5 +75,6 @@ public class EnemyAnimations : MonoBehaviour {
         _animator.SetBool("isIdle", false);
         _animator.SetBool("isWalking", false);
         _animator.SetBool("isShooting", true);
+        //print("isAnimating: isShooting");
     }
 }

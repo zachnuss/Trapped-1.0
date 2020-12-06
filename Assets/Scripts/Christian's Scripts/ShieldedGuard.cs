@@ -51,19 +51,23 @@ public class ShieldedGuard : CommonGuard {
         if (_isBashing) {
             _shieldBash();
         }
-
-
+    }
+    //FixedUpdate() reserved for animation states
+    private void FixedUpdate() {
         ///set animation states when necessary
         if (_myBehavior == Behavior.Idle) {
             animationState = EnemyAnimation.Idle;
+            _animations.isIdle_ShieldedGuard();
         }
         else if (!_canSprint) {
             //the enemy is currently sprinting and not shooting
             animationState = EnemyAnimation.Running;
+            _animations.isCharging_ShieldedGuard();
         }
         else {
             //default state that shouldn't be interupted by shooting
             animationState = EnemyAnimation.Walking;
+            _animations.isWalking_ShieldedGuard();
         }
     }
 

@@ -3,6 +3,7 @@
  * Summary: First instance of inheritance of the BaseEnemy class.
  */
 using UnityEngine;
+using System.Collections;
 
 public enum CubeFace {
     PosX, PosY, PosZ, NegX, NegY, NegZ, NULL
@@ -21,6 +22,7 @@ public class CommonGuard : BaseEnemy {
     protected bool _isTrackingPlayer = false;
     protected float _storeRegSpeed;
     protected float _trackingTimer;
+    protected EnemyAnimations _animations;
     ///private
     private Vector3 _startLocPos;
     private Quaternion _startQuat;
@@ -90,6 +92,7 @@ public class CommonGuard : BaseEnemy {
         _storeRegSpeed = speed;
         _trackingSpeed = _storeRegSpeed;
         _startLocPos = transform.localPosition;
+        _animations = GetComponent<EnemyAnimations>();
         //get _lookAtMe reference from player's children
         lookAtMe = GameObject.Find("EnemyLookReference").transform;
 
@@ -125,22 +128,22 @@ public class CommonGuard : BaseEnemy {
             //the player to turn around when hitting the wall
             _trackPlayer();
         }
+    }
 
-        ///set animation states when necessary
-        if (_myBehavior == Behavior.Idle) {
-            animationState = EnemyAnimation.Idle;
+    //LateUpdate() reserved for animation changes
+     private void LateUpdate() {
+        if (animationState == EnemyAnimation.Idle) {
+            _animations.isIdle_CommonGuard();
         }
-        else if (!_canSprint && !_isShooting) {
-            //the enemy is currently sprinting and not shooting
-            animationState = EnemyAnimation.Running;
+        else if (animationState == EnemyAnimation.Walking) {
+            _animations.isWalking_CommonGuard();
         }
-        else if (!_isShooting) {
-            //default state that shouldn't be interupted by shooting
-            animationState = EnemyAnimation.Walking;
+        else if (animationState == EnemyAnimation.Shooting) {
+            _animations.isShooting_CommonGuard();
         }
     }
 
-    //global vars for this funciton
+    //global vars for this function alone
     private Vector3 _currentLook = Vector3.zero;
     private bool _isScanningRight = false;
     private float _scanTimer = 0.15f;
@@ -173,19 +176,25 @@ public class CommonGuard : BaseEnemy {
         //Debug.Log("Looking at " + _currentLook);
         //debugging
         //Debug.DrawRay(transform.position, transform.TransformDirection(_currentLook) * 5f, Color.green, 0.75f, true);
-        //Debug.DrawRay(transform.position, transform.TransformDirection(-_fwdDirGO.transform.position) * 5f,
-        //                Color.green, 0.75f, true);
+        //Debug.DrawRay(transform.position, transform.TransformDirection(-_fwdDirGO.transform.localPosition) * 5f,
+        //                Color.green, 0.15f, true);
+        //debugging using OnDrawGizmos
         //now raycast, check forward scan and behind
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(_currentLook),
                             out hit, playerRangeCheck)
             || //OR
-            Physics.Raycast(transform.position, transform.TransformDirection(-_fwdDirGO.transform.position),
-                            out hit, 5f)) {
+            Physics.SphereCast(transform.position, 1.0f, 
+                               transform.TransformDirection(-_fwdDirGO.transform.localPosition), 
+                               out hit, 5f)) {
             if (hit.transform.tag == "Player") {
                 _isTrackingPlayer = true;
             }
         }
+    }
+
+    protected void OnDrawGizmos() {
+        //Gizmos.DrawWireSphere(_fwdDirGO.transform.position, 1.0f);
     }
 
     //if the player is never hit, then return Direction.NULL
@@ -287,7 +296,7 @@ public class CommonGuard : BaseEnemy {
             if (Vector3.Distance(transform.position, _playerGO.transform.position)
                 > spaceBetween) {
                 //move
-                Vector3 physicsForces = _isClippingWall();
+                //Vector3 physicsForces = _isClippingWall();
                 //if (physicsForces != Vector3.zero) Debug.Log("HIT");
                 transform.position += transform.TransformDirection(_moveDir) * speed * Time.fixedDeltaTime;
             }
@@ -339,6 +348,7 @@ public class CommonGuard : BaseEnemy {
      */
     
     //Physics replacement
+    [System.Obsolete("Discontinued developement.")]
     private Vector3 _isClippingWall() {
         RaycastHit[] hits;
         CapsuleCollider myCap = GetComponent<CapsuleCollider>();
@@ -367,6 +377,14 @@ public class CommonGuard : BaseEnemy {
             }
         }
         return false;
+    }
+
+    //take fwdDirGO and convert movement to the backwards direction of the enemy
+    private Vector3 _getBackDir() {
+        Vector3 outputVector = Vector3.zero;
+        outputVector = _fwdDirGO.transform.localPosition;
+
+        return outputVector;
     }
 
     //call using invoke and set time as time to animate

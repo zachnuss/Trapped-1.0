@@ -151,6 +151,7 @@ RectTransform:
   - {fileID: 2145406591}
   - {fileID: 1075501696}
   - {fileID: 1392118486}
+  - {fileID: 1066329040}
   - {fileID: 621801179}
   m_Father: {fileID: 1504379845}
   m_RootOrder: 1
@@ -3031,6 +3032,86 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1038750227}
   m_CullTransparentMesh: 0
+--- !u!1001 &1066329039
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 15731347}
+    m_Modifications:
+    - target: {fileID: 1234883042172043139, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7074680931939194661, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_Name
+      value: pet_bunny
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 238
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.099098176
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8747112
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.06108345
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.47045574
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -11.543
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 235.859
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 6.793
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 684652920365c444fa72750764b17fbf, type: 3}
+--- !u!4 &1066329040 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1066329039}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1075501696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 210c545922237e845951d43c90558ada,
@@ -3048,6 +3129,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pet_bunnyPLACEHOLDER
+      objectReference: {fileID: 0}
+    - target: {fileID: 3649428259136601285, guid: 926d3a62626ba8b4b94463d07777b293,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6010000575101607097, guid: 926d3a62626ba8b4b94463d07777b293,
         type: 3}
@@ -3087,7 +3173,7 @@ PrefabInstance:
     - target: {fileID: 6010000575101607097, guid: 926d3a62626ba8b4b94463d07777b293,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6010000575101607097, guid: 926d3a62626ba8b4b94463d07777b293,
         type: 3}
@@ -4753,8 +4839,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: f9b9357e87ed29948b25c9a1d8db1dcf, type: 2}
-  playerRig1: {fileID: 0}
-  playerRig2: {fileID: 0}
 --- !u!1 &1693972211
 GameObject:
   m_ObjectHideFlags: 0

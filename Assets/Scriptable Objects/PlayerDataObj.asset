@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ac9e01fa250f2469fa52ba507acdd1, type: 3}
   m_Name: PlayerDataObj
   m_EditorClassIdentifier: 
-  timerSec: 1
+  timerSec: 4
   timerMin: 0
   timerHour: 0
   timerBetweenLevels: 0
-  totalTime: 0
+  totalTime: 1052.5044
   healthUpgrade: 0
   damageUpgrade: 0
   speedUpgrade: 0
@@ -25,31 +25,31 @@ MonoBehaviour:
   localHealth: 100
   OnLevel: 0
   levelsBeaten: 0
-  score: 20
-  matchScoreFromTime: 20
+  score: 7
+  matchScoreFromTime: 7
   matchScoreFromEnemies: 0
-  matchEnemiesKilled: 0
+  matchEnemiesKilled: 3
   matchPowerUpsCollected: 0
-  speedPowerupsCollected: 7
+  speedPowerupsCollected: 8
   matchCurrencyCollected: 0
-  matchSpecialCoinCollected: 0
+  matchSpecialCoinCollected: 1
   highScore1: 2000
   highScore2: 1000
-  highScore3: 696
+  highScore3: 500
   currency: 0
-  specialCoins: 2
+  specialCoins: 0
   levelsS:
   - Level1
   - Level2
   - Level3
   loopsCompleted: 0
-  nextLevelStr: Level3
+  nextLevelStr: Level2
   prevLevelStr: Level1
   nextSceneStr: Level1
   gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}
   materialChoice: 0
   materialChoice2: 0
-  petChoice: 2
+  petChoice: 0
   playerColor:
   - {fileID: 2100000, guid: 8be3d9fac657a3c4f8d7517315ab4576, type: 2}
   - {fileID: 2100000, guid: 7d78cb4a02ea66e44a23665525fdc039, type: 2}
@@ -59,6 +59,26 @@ MonoBehaviour:
   - {fileID: 2100000, guid: a1456dd2421c9544585704f2e8c496df, type: 2}
   - {fileID: 2100000, guid: e1f17faa68945464ca4e37c7f8579977, type: 2}
   characterModelSwitch: 0
+  weaponModelChoice: 0
+  weaponMaterialChoice: 0
+  weapon2MaterialChoice: 0
+  weapon3MaterialChoice: 0
+  weaponColor:
+  - {fileID: 2100000, guid: 6d464d40b8550fc488a0a01a316dc7f3, type: 2}
+  - {fileID: 2100000, guid: 6e2476dfee7c7034faa64ec7acde4281, type: 2}
+  - {fileID: 2100000, guid: 8a3841aa5cee99d4b8a51a28e98110dd, type: 2}
+  weaponColor2:
+  - {fileID: 2100000, guid: 1017c48032c4c6649a46c43aa66018ba, type: 2}
+  - {fileID: 2100000, guid: 2d0021fb992340347b6913719cf92872, type: 2}
+  - {fileID: 2100000, guid: f65c18ad90c0f9a47858ffd55250f1ac, type: 2}
+  weapon2Color:
+  - {fileID: 2100000, guid: 6d464d40b8550fc488a0a01a316dc7f3, type: 2}
+  - {fileID: 2100000, guid: 6e2476dfee7c7034faa64ec7acde4281, type: 2}
+  - {fileID: 2100000, guid: 8a3841aa5cee99d4b8a51a28e98110dd, type: 2}
+  weapon3Color:
+  - {fileID: 2100000, guid: 6d464d40b8550fc488a0a01a316dc7f3, type: 2}
+  - {fileID: 2100000, guid: 6e2476dfee7c7034faa64ec7acde4281, type: 2}
+  - {fileID: 2100000, guid: 8a3841aa5cee99d4b8a51a28e98110dd, type: 2}
   achievementFirstTimer: 0
   achievementVacuumMurderer: 0
   achievementRevenge1: 0
@@ -76,9 +96,16 @@ MonoBehaviour:
   character1Color3: 0
   character2Color2: 0
   character2Color3: 0
+  weapon2Purchase: 0
+  weapon3Purchase: 0
+  weapon1Color2: 0
+  weapon1Color3: 0
+  weapon2Color2: 0
+  weapon2Color3: 0
+  weapon3Color2: 0
+  weapon3Color3: 0
   characterCost: 10
   colorCost: 5
-  petCost: 15
   godMode: 0
   startAtHalf: 0
   healthBuffSeration: 0

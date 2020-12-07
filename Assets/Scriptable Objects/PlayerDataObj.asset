@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ac9e01fa250f2469fa52ba507acdd1, type: 3}
   m_Name: PlayerDataObj
   m_EditorClassIdentifier: 
-  timerSec: 0
+  timerSec: 4
   timerMin: 0
   timerHour: 0
   timerBetweenLevels: 0
-  totalTime: 0
+  totalTime: 1052.5044
   healthUpgrade: 0
   damageUpgrade: 0
   speedUpgrade: 0
@@ -25,27 +25,27 @@ MonoBehaviour:
   localHealth: 100
   OnLevel: 0
   levelsBeaten: 0
-  score: 0
-  matchScoreFromTime: 0
+  score: 25
+  matchScoreFromTime: 25
   matchScoreFromEnemies: 0
-  matchEnemiesKilled: 0
+  matchEnemiesKilled: 3
   matchPowerUpsCollected: 0
-  speedPowerupsCollected: 0
+  speedPowerupsCollected: 8
   matchCurrencyCollected: 0
-  matchSpecialCoinCollected: 0
-  highScore1: 0
-  highScore2: 0
-  highScore3: 0
+  matchSpecialCoinCollected: 1
+  highScore1: 2000
+  highScore2: 1000
+  highScore3: 938
   currency: 0
-  specialCoins: 0
+  specialCoins: 4
   levelsS:
   - Level1
   - Level2
   - Level3
   loopsCompleted: 0
-  nextLevelStr: Level3
+  nextLevelStr: Level2
   prevLevelStr: Level1
-  nextSceneStr: 
+  nextSceneStr: Level1
   gameLevelData: {fileID: 11400000, guid: c3eae0743f7970e408298feb10b86871, type: 2}
   materialChoice: 0
   materialChoice2: 0
@@ -59,13 +59,20 @@ MonoBehaviour:
   - {fileID: 2100000, guid: a1456dd2421c9544585704f2e8c496df, type: 2}
   - {fileID: 2100000, guid: e1f17faa68945464ca4e37c7f8579977, type: 2}
   characterModelSwitch: 0
+  weaponModelChoice: 0
+  weaponMaterialChoice: 0
+  weapon2MaterialChoice: 0
+  weapon3MaterialChoice: 0
+  weaponColor: []
+  weapon2Color: []
+  weapon3Color: []
   achievementFirstTimer: 0
   achievementVacuumMurderer: 0
   achievementRevenge1: 0
   achievementRevenge2: 0
   achievementDoesItEnd: 0
   achievementRedDead: 0
-  achievementFullWallet: 0
+  achievementFullWallet: 1
   achievementRunner: 0
   achievementJailBird: 0
   achievementNoTrust: 0
@@ -76,8 +83,15 @@ MonoBehaviour:
   character1Color3: 0
   character2Color2: 0
   character2Color3: 0
+  weapon2Purchase: 0
+  weapon3Purchase: 0
+  weapon1Color2: 0
+  weapon1Color3: 0
+  weapon2Color2: 0
+  weapon2Color3: 0
+  weapon3Color2: 0
+  weapon3Color3: 0
   characterCost: 10
   colorCost: 5
-  petCost: 15
   godMode: 0
   startAtHalf: 0

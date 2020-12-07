@@ -51,7 +51,7 @@ public class PlayerData : ScriptableObject
     public int currency;
     public int specialCoins = 0;
 
-    [Header("Player Currency")]
+    [Header("Player Levels")]
    // public Scene[] levels;
     public string[] levelsS;
     [Header("Loops Completed")]
@@ -75,10 +75,18 @@ public class PlayerData : ScriptableObject
     public Material[] playerColor;
     public Material[] player2Color;
     public bool characterModelSwitch;
+    public int weaponModelChoice;
+    public int weaponMaterialChoice;
+    public int weapon2MaterialChoice;
+    public int weapon3MaterialChoice;
+    public Material[] weaponColor;
+    public Material[] weapon2Color;
+    public Material[] weapon3Color;
 
-    
+
     //public AnimatorControllerParameter p2;
 
+    [Header("Player Persistent Stats")]
     //Player Persistent stats - Wesley
     private int totalEnemiesKilled = 0;
     private int totalRoombasKilled = 0;
@@ -114,9 +122,16 @@ public class PlayerData : ScriptableObject
     public bool character1Color3 = false;
     public bool character2Color2 = false;
     public bool character2Color3 = false;
+    public bool weapon2Purchase = false;
+    public bool weapon3Purchase = false;
+    public bool weapon1Color2 = false;
+    public bool weapon1Color3 = false;
+    public bool weapon2Color2 = false;
+    public bool weapon2Color3 = false;
+    public bool weapon3Color2 = false;
+    public bool weapon3Color3 = false;
     public int characterCost;
     public int colorCost;
-    public int petCost;
 
     [HideInInspector]
     public bool godMode = false;
@@ -325,6 +340,34 @@ public class PlayerData : ScriptableObject
         localHealth = totalHealthBase;
         startAtHalf = false;
         gameLevelData.InitialModSetup();
+        //resetPersistent
+        highScore1 = 2000;
+        highScore2 = 1000;
+        highScore3 = 500;
+        totalEnemiesKilled = 0;
+        totalRoombasKilled = 0;
+        totalRegularsKilled = 0;
+        totalShieldsKilled = 0;
+        totalPowerupsCollected = 0;
+        totalCurrencyCollected = 0;
+        totalSpecialCoinsCollected = 0;
+        totalEnemyScore = 0;
+        maxLoops = 0;
+        deathCounter = 0;
+        totalTimerSec = 0;
+        totalTimerMin = 0;
+        totalTimerHour = 0;
+        characterChoice = false;
+        achievementFirstTimer = false;
+        achievementVacuumMurderer = false;
+        achievementRevenge1 = false;
+        achievementRevenge2 = false;
+        achievementDoesItEnd = false;
+        achievementRedDead = false;
+        achievementFullWallet = false;
+        achievementRunner = false;
+        achievementJailBird = false;
+        achievementNoTrust = false;
     }
 
     /// <summary>
@@ -686,6 +729,203 @@ public class PlayerData : ScriptableObject
 
     /// <summary>
     /// Wesley
+    /// Updated: 12-6-2020
+    /// 
+    /// Sets Weapon color choice
+    /// Also purchases colors using coins now
+    /// </summary>
+    public void SetMenuWeaponColor(int input)
+    {
+        if (weaponModelChoice  == 0)
+        {
+            if (input == 0)
+            {
+                weaponMaterialChoice = input;
+            }
+            else if (input == 1 && weapon1Color2 == true)
+            {
+                weaponMaterialChoice = input;
+            }
+            else if (input == 1 && weapon1Color2 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    weapon1Color2 = true;
+                    weaponMaterialChoice = input;
+                }
+            }
+            else if (input == 2 && weapon1Color3 == true)
+            {
+                weaponMaterialChoice = input;
+            }
+            else if (input == 2 && weapon1Color3 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    weapon1Color3 = true;
+                    weaponMaterialChoice = input;
+                }
+            }
+        }
+        if (weaponModelChoice == 1)
+        {
+            if (input == 0)
+            {
+                weapon2MaterialChoice = input;
+            }
+            else if (input == 1 && weapon2Color2 == true)
+            {
+                weapon2MaterialChoice = input;
+            }
+            else if (input == 1 && weapon2Color2 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    weapon2Color2 = true;
+                    weapon2MaterialChoice = input;
+                }
+            }
+            else if (input == 2 && weapon2Color3 == true)
+            {
+                weapon2MaterialChoice = input;
+            }
+            else if (input == 2 && weapon2Color3 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    weapon2Color3 = true;
+                    weapon2MaterialChoice = input;
+                }
+            }
+        }
+
+        if (weaponModelChoice == 2)
+        {
+            if (input == 0)
+            {
+                weapon3MaterialChoice = input;
+            }
+            else if (input == 1 && weapon3Color2 == true)
+            {
+                weapon3MaterialChoice = input;
+            }
+            else if (input == 1 && weapon3Color2 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    weapon3Color2 = true;
+                    weapon3MaterialChoice = input;
+                }
+            }
+            else if (input == 2 && weapon3Color3 == true)
+            {
+                weapon3MaterialChoice = input;
+            }
+            else if (input == 2 && weapon3Color3 == false)
+            {
+                if (specialCoins >= colorCost)
+                {
+                    UseSpecialCoin(colorCost);
+                    character2Color3 = true;
+                    weapon3MaterialChoice = input;
+                }
+            }
+        }
+        SetWeaponColor();
+    }
+
+
+    /// <summary>
+    /// Wesley
+    /// Updated: 12-6-2020
+    /// 
+    /// Sets Weapon model on or off in game
+    /// </summary>
+    public void SetWeaponChoiceGame()
+    {
+        GameObject gun1 = null;
+        if (GameObject.Find("Gun_V2") == true)
+        {
+            gun1 = GameObject.Find("Gun_V2");
+        }
+
+        GameObject gun2 = null;
+        if (GameObject.Find("Gun2_V2") == true)
+        {
+            gun2 = GameObject.Find("Gun2_V2");
+        }
+
+        GameObject gun3 = null;
+        if (GameObject.Find("Gun3_V2") == true)
+        {
+            gun3 = GameObject.Find("Gun3_V2");
+        }
+
+        if (weaponModelChoice == 0)
+        {
+            gun1.SetActive(true);
+            gun2.SetActive(false);
+            gun3.SetActive(false);
+            SetWeaponColor();
+        }
+        else if (weaponModelChoice == 1)
+        {
+            gun1.SetActive(false);
+            gun2.SetActive(true);
+            gun3.SetActive(false);
+            SetWeaponColor();
+        }
+
+        else if (weaponModelChoice == 2)
+        {
+            gun1.SetActive(false);
+            gun2.SetActive(false);
+            gun3.SetActive(true);
+            SetWeaponColor();
+        }
+    }
+
+    /// <summary>
+    /// Wesley
+    /// Updated: 10-20-2020
+    /// 
+    /// Sets color on weapon
+    /// </summary>
+    public void SetWeaponColor()
+    {
+        if (weaponModelChoice == 0)
+        {
+            if (GameObject.Find("Gun_V2") == true)
+            {
+                GameObject gun = GameObject.Find("Gun_V2");
+                gun.GetComponent<MeshRenderer>().materials[1] = weaponColor[weaponMaterialChoice];
+            }
+        }
+        if (weaponModelChoice == 1)
+        {
+            if (GameObject.Find("Gun2_V2") == true)
+            {
+                GameObject gun = GameObject.Find("Gun2_V2");
+                gun.GetComponent<MeshRenderer>().material = weapon2Color[weapon2MaterialChoice];
+            }
+        }
+        if (weaponModelChoice == 3)
+        {
+            if (GameObject.Find("Gun3_V2") == true)
+            {
+                GameObject gun = GameObject.Find("Gun3_V2");
+                gun.GetComponent<MeshRenderer>().material = weapon3Color[weapon3MaterialChoice];
+            }
+        }
+    }
+
+    /// <summary>
+    /// Wesley
     /// Updated: 11-12-2020
     /// 
     /// Sets Pet on player
@@ -703,13 +943,12 @@ public class PlayerData : ScriptableObject
         }
         else if(input == 1 && characterPet2Purchase == false)
         {
-            if (specialCoins >= petCost)
+            if (achievementRevenge1 == true)
             {
-                UseSpecialCoin(petCost);
                 characterPet2Purchase = true;
                 petChoice = input;
             }
-            else if(specialCoins < petCost)
+            else if(achievementRevenge1 == false)
                 petChoice = 0;
         }
         else if (input == 2 && characterPet3Purchase == true)
@@ -718,13 +957,12 @@ public class PlayerData : ScriptableObject
         }
         else if (input == 2 && characterPet3Purchase == false)
         {
-            if (specialCoins >= petCost)
+            if (achievementRunner == true)
             {
-                UseSpecialCoin(petCost);
                 characterPet3Purchase = true;
                 petChoice = input;
             }
-            else if (specialCoins < petCost)
+            else if (achievementRunner == false)
                 petChoice = 0;
         }
         

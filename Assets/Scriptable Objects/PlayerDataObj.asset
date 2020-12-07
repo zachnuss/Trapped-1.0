@@ -12,19 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ac9e01fa250f2469fa52ba507acdd1, type: 3}
   m_Name: PlayerDataObj
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
   timerSec: 4
   timerMin: 0
   timerHour: 0
   timerBetweenLevels: 0
   totalTime: 1052.5044
-=======
-  timerSec: 6
-  timerMin: 0
-  timerHour: 0
-  timerBetweenLevels: 0
-  totalTime: 6.419995
->>>>>>> origin/dev
   healthUpgrade: 0
   damageUpgrade: 0
   speedUpgrade: 0
@@ -33,13 +25,8 @@ MonoBehaviour:
   localHealth: 100
   OnLevel: 0
   levelsBeaten: 0
-<<<<<<< HEAD
-  score: 25
-  matchScoreFromTime: 25
-=======
   score: 7
   matchScoreFromTime: 7
->>>>>>> origin/dev
   matchScoreFromEnemies: 0
   matchEnemiesKilled: 3
   matchPowerUpsCollected: 0
@@ -48,9 +35,9 @@ MonoBehaviour:
   matchSpecialCoinCollected: 1
   highScore1: 2000
   highScore2: 1000
-  highScore3: 938
+  highScore3: 500
   currency: 0
-  specialCoins: 4
+  specialCoins: 0
   levelsS:
   - Level1
   - Level2
@@ -76,22 +63,35 @@ MonoBehaviour:
   weaponMaterialChoice: 0
   weapon2MaterialChoice: 0
   weapon3MaterialChoice: 0
-  weaponColor: []
-  weapon2Color: []
-  weapon3Color: []
+  weaponColor:
+  - {fileID: 2100000, guid: 6d464d40b8550fc488a0a01a316dc7f3, type: 2}
+  - {fileID: 2100000, guid: 6e2476dfee7c7034faa64ec7acde4281, type: 2}
+  - {fileID: 2100000, guid: 8a3841aa5cee99d4b8a51a28e98110dd, type: 2}
+  weaponColor2:
+  - {fileID: 2100000, guid: 1017c48032c4c6649a46c43aa66018ba, type: 2}
+  - {fileID: 2100000, guid: 2d0021fb992340347b6913719cf92872, type: 2}
+  - {fileID: 2100000, guid: f65c18ad90c0f9a47858ffd55250f1ac, type: 2}
+  weapon2Color:
+  - {fileID: 2100000, guid: 6d464d40b8550fc488a0a01a316dc7f3, type: 2}
+  - {fileID: 2100000, guid: 6e2476dfee7c7034faa64ec7acde4281, type: 2}
+  - {fileID: 2100000, guid: 8a3841aa5cee99d4b8a51a28e98110dd, type: 2}
+  weapon3Color:
+  - {fileID: 2100000, guid: 6d464d40b8550fc488a0a01a316dc7f3, type: 2}
+  - {fileID: 2100000, guid: 6e2476dfee7c7034faa64ec7acde4281, type: 2}
+  - {fileID: 2100000, guid: 8a3841aa5cee99d4b8a51a28e98110dd, type: 2}
   achievementFirstTimer: 0
   achievementVacuumMurderer: 0
   achievementRevenge1: 0
   achievementRevenge2: 0
   achievementDoesItEnd: 0
   achievementRedDead: 0
-  achievementFullWallet: 1
+  achievementFullWallet: 0
   achievementRunner: 0
   achievementJailBird: 0
   achievementNoTrust: 0
-  character2Purchase: 1
-  characterPet2Purchase: 1
-  characterPet3Purchase: 1
+  character2Purchase: 0
+  characterPet2Purchase: 0
+  characterPet3Purchase: 0
   character1Color2: 0
   character1Color3: 0
   character2Color2: 0

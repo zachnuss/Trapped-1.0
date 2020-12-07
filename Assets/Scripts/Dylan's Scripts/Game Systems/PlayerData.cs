@@ -74,12 +74,13 @@ public class PlayerData : ScriptableObject
     public int petChoice = 0;
     public Material[] playerColor;
     public Material[] player2Color;
-    public bool characterModelSwitch;
-    public int weaponModelChoice;
-    public int weaponMaterialChoice;
-    public int weapon2MaterialChoice;
-    public int weapon3MaterialChoice;
+    public bool characterModelSwitch = false;
+    public int weaponModelChoice = 0;
+    public int weaponMaterialChoice = 0;
+    public int weapon2MaterialChoice = 0;
+    public int weapon3MaterialChoice = 0;
     public Material[] weaponColor;
+    public Material[] weaponColor2;
     public Material[] weapon2Color;
     public Material[] weapon3Color;
 
@@ -101,7 +102,7 @@ public class PlayerData : ScriptableObject
     private float totalTimerSec;
     private float totalTimerMin;
     private float totalTimerHour;
-    //private bool characterChoice = false;
+    private bool characterChoice = false;
     public bool achievementFirstTimer = false;
     public bool achievementVacuumMurderer = false;
     public bool achievementRevenge1 = false;
@@ -341,7 +342,7 @@ public class PlayerData : ScriptableObject
         matchScoreFromTime = 0;
         matchSpecialCoinCollected = 0;
         localHealth = totalHealthBase;
-        
+
         startAtHalf = false;
         healthBuffSeration = false;
         gameLevelData.InitialModSetup();
@@ -373,6 +374,32 @@ public class PlayerData : ScriptableObject
         achievementRunner = false;
         achievementJailBird = false;
         achievementNoTrust = false;
+        //reset character customization
+        character2Purchase = false;
+        characterPet2Purchase = false;
+        characterPet3Purchase = false;
+        character1Color2 = false;
+        character1Color3 = false;
+        character2Color2 = false;
+        character2Color3 = false;
+        weapon2Purchase = false;
+        weapon3Purchase = false;
+        weapon1Color2 = false;
+        weapon1Color3 = false;
+        weapon2Color2 = false;
+        weapon2Color3 = false;
+        weapon3Color2 = false;
+        weapon3Color3 = false;
+        materialChoice = 0;
+        materialChoice2 = 0;
+        petChoice = 0;
+        characterModelSwitch = false;
+        weaponModelChoice = 0;
+        weaponMaterialChoice = 0;
+        weapon2MaterialChoice = 0;
+        weapon3MaterialChoice = 0;
+
+        SaveFile();
     }
 
     /// <summary>
@@ -932,6 +959,7 @@ public class PlayerData : ScriptableObject
             {
                 GameObject gun = GameObject.Find("Gun_V2");
                 gun.GetComponent<MeshRenderer>().materials[1] = weaponColor[weaponMaterialChoice];
+                gun.GetComponent<MeshRenderer>().materials[0] = weaponColor2[weaponMaterialChoice];
             }
         }
         if (weaponModelChoice == 1)
@@ -1174,7 +1202,9 @@ public class PlayerData : ScriptableObject
             totalEnemiesKilled, totalPowerupsCollected, totalCurrencyCollected, totalSpecialCoinsCollected, materialChoice, materialChoice2,
             characterModelSwitch, character2Purchase, character1Color2, character1Color3, character2Color2, character2Color3, achievementFirstTimer, achievementVacuumMurderer,
             achievementRevenge1, achievementRevenge2, achievementDoesItEnd, achievementRedDead, achievementFullWallet, achievementRunner, achievementJailBird,
-            achievementNoTrust, maxLoops, deathCounter, totalRoombasKilled, totalRegularsKilled, totalShieldsKilled, speedPowerupsCollected);
+            achievementNoTrust, maxLoops, deathCounter, totalRoombasKilled, totalRegularsKilled, totalShieldsKilled, speedPowerupsCollected, weaponModelChoice,
+            weaponMaterialChoice, weapon2MaterialChoice, weapon3MaterialChoice, weapon2Purchase, weapon3Purchase, weapon1Color2, weapon1Color3, weapon2Color2,
+            weapon2Color3, weapon3Color2, weapon3Color3);
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file, currentData);
         file.Close();
@@ -1233,6 +1263,16 @@ public class PlayerData : ScriptableObject
         totalRoombasKilled = loadData.totalRoombasKilled;
         totalShieldsKilled = loadData.totalShieldsKilled;
         speedPowerupsCollected = loadData.speedPowerupsCollected;
+        weaponModelChoice = loadData.weaponModelChoice;
+        weaponMaterialChoice = loadData.weaponMaterialChoice;
+        weapon2MaterialChoice = loadData.weapon2MaterialChoice;
+        weapon3MaterialChoice = loadData.weapon3MaterialChoice;
+        weapon2Purchase = loadData.weapon2Purchase;
+        weapon3Purchase = loadData.weapon3Purchase;
+        weapon1Color2 = loadData.weapon1Color2;
+        weapon1Color3 = loadData.weapon1Color3;
+        weapon2Color2 = loadData.weapon2Color2;
+        weapon3Color3 = loadData.weapon3Color3;
 
         file.Close();
     }

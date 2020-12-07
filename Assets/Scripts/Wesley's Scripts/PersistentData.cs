@@ -43,15 +43,29 @@ public class PersistentData
     public bool achievementRunner = false;
     public bool achievementJailBird = false;
     public bool achievementNoTrust = false;
+    public int weaponModelChoice = 0;
+    public int weaponMaterialChoice = 0;
+    public int weapon2MaterialChoice = 0;
+    public int weapon3MaterialChoice = 0;
+    public bool weapon2Purchase = false;
+    public bool weapon3Purchase = false;
+    public bool weapon1Color2 = false;
+    public bool weapon1Color3 = false;
+    public bool weapon2Color2 = false;
+    public bool weapon2Color3 = false;
+    public bool weapon3Color2 = false;
+    public bool weapon3Color3 = false;
 
 
 
 
     public PersistentData(int highScore1Int, int highScore2Int, int highScore3Int, int specialCoinInt, float totalTimeSecFloat, float totalTimeMinFloat, float totalTimeHourFloat,
         int totalEnemiesKilledInt, int totalPowerupsCollectedInt, int totalCurrencyCollectedInt, int totalSpecialCoinsCollectedInt, int materialChoiceInt, int materialChoice2Int, bool characterChoiceBool,
-        bool character2PurchaseBool, bool character1Color2Bool, bool character1Color3Bool, bool character2Color2Bool, bool character2Color3Bool, bool achievementFirstTimerBool, bool achievementVacuumMurdererBool, 
-        bool achievementRevenge1Bool, bool achievementRevenge2Bool, bool achievementDoesItEndBool, bool achievementRedDeadBool, bool achievementFullWalletBool, bool achievementRunnerBool, 
-        bool achievementJailBirdBool, bool achievementNoTrustBool, int maxLoopsInt, int deathCounterInt, int totalRoombasKilledInt, int totalRegularsKilledInt, int totalShieldsKilledInt, int speedPowerupsCollectedInt)
+        bool character2PurchaseBool, bool character1Color2Bool, bool character1Color3Bool, bool character2Color2Bool, bool character2Color3Bool, bool achievementFirstTimerBool, bool achievementVacuumMurdererBool,
+        bool achievementRevenge1Bool, bool achievementRevenge2Bool, bool achievementDoesItEndBool, bool achievementRedDeadBool, bool achievementFullWalletBool, bool achievementRunnerBool,
+        bool achievementJailBirdBool, bool achievementNoTrustBool, int maxLoopsInt, int deathCounterInt, int totalRoombasKilledInt, int totalRegularsKilledInt, int totalShieldsKilledInt, int speedPowerupsCollectedInt,
+        int weaponModelChoiceInt, int weaponMaterialChoiceInt, int weapon2MaterialChoiceInt, int weapon3MaterialChoiceInt, bool weapon2PurchaseBool, bool weapon3PurchaseBool, bool weapon1Color2Bool, bool weapon1Color3Bool,
+        bool weapon2Color2Bool, bool weapon2Color3Bool, bool weapon3Color2Bool, bool weapon3Color3Bool)
     {
         highScore1 = highScore1Int;
         highScore2 = highScore2Int;
@@ -88,8 +102,18 @@ public class PersistentData
         totalRegularsKilled = totalRoombasKilledInt;
         totalShieldsKilled = totalShieldsKilledInt;
         speedPowerupsCollected = totalPowerupsCollectedInt;
-}
+        weaponModelChoice = weaponModelChoiceInt;
+        weaponMaterialChoice = weaponMaterialChoiceInt;
+        weapon2MaterialChoice = weapon2MaterialChoiceInt;
+        weapon3MaterialChoice = weapon3MaterialChoiceInt;
+        weapon2Purchase = weapon2PurchaseBool;
+        weapon3Purchase = weapon3PurchaseBool;
+        weapon1Color2 = weapon1Color2Bool;
+        weapon1Color3 = weapon1Color3Bool;
+        weapon2Color2 = weapon2Color2Bool;
+        weapon3Color3 = weapon3Color3Bool;
+    }
 
 
-    
+
 }

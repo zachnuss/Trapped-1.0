@@ -121,12 +121,18 @@ public class CommonGuard : BaseEnemy {
         if (_myBehavior != Behavior.Idle && _myBehavior != Behavior.TrackPlayer
             && !_isTrackingPlayer) {
             _move(_moveDir);
+            animationState = EnemyAnimation.Walking;
         }
-        //MAYBE MOVE INTO FIRST IF STATEMENT
         else if (_isTrackingPlayer) {
             //override _move() because the enemy will be too focussed on
             //the player to turn around when hitting the wall
             _trackPlayer();
+            animationState = EnemyAnimation.Walking;
+        }
+        else {
+            if (_myBehavior == Behavior.Idle) {
+                animationState = EnemyAnimation.Idle;
+            }
         }
     }
 
@@ -135,7 +141,7 @@ public class CommonGuard : BaseEnemy {
         if (animationState == EnemyAnimation.Idle) {
             _animations.isIdle_CommonGuard();
         }
-        else if (animationState == EnemyAnimation.Walking) {
+        if (animationState == EnemyAnimation.Walking) {
             _animations.isWalking_CommonGuard();
         }
         else if (animationState == EnemyAnimation.Shooting) {

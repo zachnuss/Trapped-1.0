@@ -9786,6 +9786,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 162497856}
     m_Modifications:
+    - target: {fileID: 2295878794562080299, guid: 6ab4396513a19d34696b99c1c6b7ea2b,
+        type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2295878794562080299, guid: 6ab4396513a19d34696b99c1c6b7ea2b,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2295878794562080299, guid: 6ab4396513a19d34696b99c1c6b7ea2b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338863716521758634, guid: 6ab4396513a19d34696b99c1c6b7ea2b,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a82293aab29674143b4cc041a8cef266, type: 2}
     - target: {fileID: 7681786834547070976, guid: 6ab4396513a19d34696b99c1c6b7ea2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9865,6 +9885,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CommonGuard
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370181996224827404, guid: 6ab4396513a19d34696b99c1c6b7ea2b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ab4396513a19d34696b99c1c6b7ea2b, type: 3}

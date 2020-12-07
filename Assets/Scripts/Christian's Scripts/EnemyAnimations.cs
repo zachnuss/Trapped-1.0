@@ -7,12 +7,16 @@ using UnityEngine;
 
 public class EnemyAnimations : MonoBehaviour {
     private Animator _animator;
-
+    //shielded guard fix for shield flipping
+    private Transform _shield;
+    
     void Start() {
-        _animator = GetComponentInChildren<Animator>();
-    }
-
-    void LateUpdate() {
+        _animator = GetComponent<Animator>();
+        /* TO DO
+         *      -Create code that will adjust speed when appropriate (Menu scene vs in-game)
+         *          --CAN'T ALTER AS THESE VALUES ARE GETTERS ONLY
+         *      -May need to code for various animator factors based on if CommonGuard or ShieldedGuard
+         */
     }
 
     /**     ANIMATION STATE FUNCTIONS       **/
@@ -40,6 +44,7 @@ public class EnemyAnimations : MonoBehaviour {
             _animator.SetBool("isIdle", true);
             _animator.SetBool("isWalking", false);
             _animator.SetBool("isShooting", false);
+            _animator.Play("isIdle");
             //print("isAnimating: Idle");
         }
     }
@@ -47,18 +52,21 @@ public class EnemyAnimations : MonoBehaviour {
         _animator.SetBool("isIdle", true);
         _animator.SetBool("isWalking", false);
         _animator.SetBool("isCharging", false);
+        _animator.Play("isIdle");
     }
     //SET WALKING STATE FUNCTIONS
     public void isWalking_CommonGuard() {
         _animator.SetBool("isIdle", false);
         _animator.SetBool("isWalking", true);
         _animator.SetBool("isShooting", false);
+        _animator.Play("isWalking");
             //print("isAnimating: Walking");
     }
     public void isWalking_ShieldedGuard() {
         _animator.SetBool("isIdle", false);
         _animator.SetBool("isWalking", true);
         _animator.SetBool("isCharging", false);
+        _animator.Play("isWalking");
     }
     public void isMoving_HallwayBot() {
         _animator.SetBool("isIdle", false);

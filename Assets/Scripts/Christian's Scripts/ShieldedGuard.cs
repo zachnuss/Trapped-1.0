@@ -52,8 +52,9 @@ public class ShieldedGuard : CommonGuard {
             _shieldBash();
         }
     }
+    
     //FixedUpdate() reserved for animation states
-    private void FixedUpdate() {
+    private void LateUpdate() {
         ///set animation states when necessary
         if (_myBehavior == Behavior.Idle) {
             animationState = EnemyAnimation.Idle;

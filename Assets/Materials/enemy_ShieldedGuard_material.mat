@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: secondCharacter_Red_material
+  m_Name: enemy_ShieldedGuard_material
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP
   m_LightmapFlags: 2
@@ -36,19 +36,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 505afc0f4d1d1ee49b77ebbe953bfa1a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 70407700e223f014ab344152c0839d09, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f0e8a596b8db1a240b44012bc5882214, type: 3}
+        m_Texture: {fileID: 2800000, guid: a19cfeefbf96bc248bb6e5e8a24d89cb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 376ad913e0bbbe54595683d37edaa403, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6e9b9e54774572f47b351bf4cb9e2fa3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: c0aac01590eff224483d2d14e583e68b, type: 3}
+        m_Texture: {fileID: 2800000, guid: efcc649310da3a047bc8e992e6adba6e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:

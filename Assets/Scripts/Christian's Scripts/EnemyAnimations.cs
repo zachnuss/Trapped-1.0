@@ -9,7 +9,7 @@ public class EnemyAnimations : MonoBehaviour {
     private Animator _animator;
     //shielded guard fix for shield flipping
     private Transform _shield;
-    
+
     void Start() {
         _animator = GetComponent<Animator>();
         /* TO DO
@@ -22,9 +22,6 @@ public class EnemyAnimations : MonoBehaviour {
     /**     ANIMATION STATE FUNCTIONS       **/
     /*
      * Animation bools:
-     *      HallwayBot:
-     *          isIdle
-     *          isMoving
      *      CommonGuards:
      *          isWalking
      *          isShooting
@@ -35,54 +32,55 @@ public class EnemyAnimations : MonoBehaviour {
      *          isCharging
      */
     //SET IDLE STATE FUNCTIONS
-    public void isIdle_HallwayBot() {
-        _animator.SetBool("isIdle", true);
-        _animator.SetBool("isMoving", false);
-    }
     public void isIdle_CommonGuard() {
         if (!_animator.GetBool("isIdle")) {
             _animator.SetBool("isIdle", true);
             _animator.SetBool("isWalking", false);
             _animator.SetBool("isShooting", false);
-            _animator.Play("isIdle");
-            //print("isAnimating: Idle");
         }
+        _animator.Play("isIdle");
     }
     public void isIdle_ShieldedGuard() {
-        _animator.SetBool("isIdle", true);
-        _animator.SetBool("isWalking", false);
-        _animator.SetBool("isCharging", false);
+        if (!_animator.GetBool("isIdle")) {
+            _animator.SetBool("isIdle", true);
+            _animator.SetBool("isWalking", false);
+            _animator.SetBool("isCharging", false);
+        }
         _animator.Play("isIdle");
     }
     //SET WALKING STATE FUNCTIONS
     public void isWalking_CommonGuard() {
-        _animator.SetBool("isIdle", false);
-        _animator.SetBool("isWalking", true);
-        _animator.SetBool("isShooting", false);
+        if (!_animator.GetBool("isWalking")) {
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isWalking", true);
+            _animator.SetBool("isShooting", false);
+        }
         _animator.Play("isWalking");
-            //print("isAnimating: Walking");
     }
     public void isWalking_ShieldedGuard() {
-        _animator.SetBool("isIdle", false);
-        _animator.SetBool("isWalking", true);
-        _animator.SetBool("isCharging", false);
+        if (!_animator.GetBool("isWalking")) {
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isWalking", true);
+            _animator.SetBool("isCharging", false);
+        }
         _animator.Play("isWalking");
-    }
-    public void isMoving_HallwayBot() {
-        _animator.SetBool("isIdle", false);
-        _animator.SetBool("isMoving", true);
     }
     //SET RUNNING STATE FUNCTIONS
     public void isCharging_ShieldedGuard() {
-        _animator.SetBool("isIdle", false);
-        _animator.SetBool("isWalking", false);
-        _animator.SetBool("isCharging", true);
+        if (!_animator.GetBool("isCharging")) {
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isWalking", false);
+            _animator.SetBool("isCharging", true);
+        }
+        _animator.Play("isCharging");
     }
     //SET SHOOTING STATE FUNCTIONS
     public void isShooting_CommonGuard() {
-        _animator.SetBool("isIdle", false);
-        _animator.SetBool("isWalking", false);
-        _animator.SetBool("isShooting", true);
-        //print("isAnimating: isShooting");
+        if (!_animator.GetBool("isShooting")) {
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isWalking", false);
+            _animator.SetBool("isShooting", true);
+        }
+        _animator.Play("isShooting");
     }
 }

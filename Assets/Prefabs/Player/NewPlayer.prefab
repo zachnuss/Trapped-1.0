@@ -675,10 +675,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2136033254489722595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ac4540218f328468dcbc890ca6dda3, type: 3}
+  m_Script: {fileID: 11500000, guid: d84928d01b92f6f4d8734971800c3be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hornet: 1
+  hornet: 0
 --- !u!1 &3144823744919640530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,6 +1423,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &5057159769398726162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8575898182709983119}
+  m_Layer: 8
+  m_Name: EnemyLookReference
+  m_TagString: EnemyLookReference
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8575898182709983119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5057159769398726162}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.84, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7571365785918509582}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5177332795505410343
 GameObject:
   m_ObjectHideFlags: 0
@@ -3188,6 +3218,7 @@ Transform:
   - {fileID: 8306419822214427311}
   - {fileID: 6685021155176006653}
   - {fileID: 2106834315843338599}
+  - {fileID: 8575898182709983119}
   m_Father: {fileID: 7571365785621622438}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3440,12 +3471,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicVolume: 1
-  musicSlider: {fileID: 0}
   soundFXVolume: 1
-  soundFXSlider: {fileID: 0}
   isFullScreen: 0
+  musicSlider: {fileID: 0}
+  soundFXSlider: {fileID: 0}
   screenButton: {fileID: 0}
   nextTrackButton: {fileID: 0}
+  pickUpFX: {fileID: 0}
+  storePurchaseFX: {fileID: 0}
   audioTracks:
   - {fileID: 8300000, guid: debd9cef1637f4749b49f77a6f77f1ad, type: 3}
   - {fileID: 8300000, guid: 8f63246aec87eec41bfba4f2eaba99a7, type: 3}
@@ -4947,15 +4980,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45c38bcfc1b1fe14b8f597513451793c, type: 3}
---- !u!1 &5500290833827926569 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5151577495161739605, guid: 45c38bcfc1b1fe14b8f597513451793c,
-    type: 3}
-  m_PrefabInstance: {fileID: 804703075815492476}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7640530985917007127 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6999296805499784811, guid: 45c38bcfc1b1fe14b8f597513451793c,
+    type: 3}
+  m_PrefabInstance: {fileID: 804703075815492476}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5500290833827926569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5151577495161739605, guid: 45c38bcfc1b1fe14b8f597513451793c,
     type: 3}
   m_PrefabInstance: {fileID: 804703075815492476}
   m_PrefabAsset: {fileID: 0}
@@ -5083,12 +5116,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c93997a62315e040a889e7d28ed1b48, type: 3}
---- !u!95 &37654996280752494 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 978701533126419560, guid: 5c93997a62315e040a889e7d28ed1b48,
-    type: 3}
-  m_PrefabInstance: {fileID: 941477579774516486}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &4576422744198040801 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 3644103570217046503, guid: 5c93997a62315e040a889e7d28ed1b48,
@@ -5104,6 +5131,12 @@ Animator:
 --- !u!224 &2644171173463690856 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2999739793293038446, guid: 5c93997a62315e040a889e7d28ed1b48,
+    type: 3}
+  m_PrefabInstance: {fileID: 941477579774516486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &37654996280752494 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 978701533126419560, guid: 5c93997a62315e040a889e7d28ed1b48,
     type: 3}
   m_PrefabInstance: {fileID: 941477579774516486}
   m_PrefabAsset: {fileID: 0}

@@ -22,19 +22,37 @@ public class CharCustom : MonoBehaviour
     public GameObject femaleColor1;
     public GameObject players;
     public GameObject pets;
+    
+    //Color switching variables
     public GameObject MColor2Label;
     public GameObject MColor3Label;
     public GameObject FColor2Label;
     public GameObject FColor3Label;
+
+    //Pet switching Variables
+    public GameObject petButtons;
+    public GameObject petNA;
+    public GameObject petBee;
+    public GameObject petBunny;
+    public GameObject BeeDescription;
+    public GameObject BunnyDescription;
+    
+    //Pet purchase Variables
     public GameObject PurchaseP2; //Text box to display that the player needs to purchase player 2
     public GameObject PurchasePet; //Text box to display that the player needs to purchase pet
 
+    //Weapon Switching Objects
+    public GameObject Weapons; //The weapon models
+    
     //Bools to keep track of what is active
-    private bool playerActive = true;
+    private bool playerActive = true; //Keeps track of player section being active
+    private bool petActive = false; //Keeps track of pet section being active
+    private bool weaponActive = false; //Keeps track of weapon section being active
+
 
     /// <summary>
     /// Alexander
-    /// Updated: 11-6-2020
+    /// Updated: 12-7-2020
     /// 
     /// Function to switch between the character and the pets.
     /// </summary>
@@ -44,28 +62,67 @@ public class CharCustom : MonoBehaviour
         if(playerActive == true)
         {
             playerActive = false;
+            petActive = true;
             players.SetActive(false);
             Prisoner.enabled = false;
             pets.SetActive(true);
+            femaleColor.SetActive(false);
+            maleColor.SetActive(false);
+            petButtons.SetActive(true);
         }
+
+        //Checks to see if the weapons are active then switches from them
+        if (weaponActive == true)
+        {
+            weaponActive = false;
+            petActive = true;
+            Weapons.SetActive(false);
+            Korben.enabled = false;
+            pets.SetActive(true);
+            petButtons.SetActive(true);
+        }
+
+        //Switches to the pet selection buttons
+        EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+        EventSystem.current.SetSelectedGameObject(petNA); //Sets the selected obj
     }
 
     /// <summary>
     /// Alexander
-    /// Updated: 11-6-2020
+    /// Updated: 12-7-2020
     /// 
     /// Function to switch between the character and the pets.
     /// </summary>
     public void switchCharacter()
     {
-        //Checks to see if characters is not active then turns them on
-        if (playerActive == false)
+        //Checks to see if pets is active then turns it off
+        if (petActive == true)
         {
             playerActive = true;
+            petActive = false;
             pets.SetActive(false);
             Prisoner.enabled = true;
             players.SetActive(true);
+            petButtons.SetActive(false);
         }
+
+        //Checks to see if the weapons are active then switches from them
+        if (weaponActive == true)
+        {
+            weaponActive = false;
+            playerActive = true;
+            Weapons.SetActive(false);
+            Prisoner.enabled = true;
+            Korben.enabled = false;
+            players.SetActive(true);
+        }
+
+        if (playerData.characterModelSwitch == false) //False on the character model switch is Male, true is female
+        {
+            maleColor.SetActive(true);
+        }
+        else
+            femaleColor.SetActive(true);
     }
 
     /// <summary>
@@ -76,7 +133,29 @@ public class CharCustom : MonoBehaviour
     /// </summary>
     public void switchToWeapons()
     {
-        Debug.Log("Show me the WEAPONS!");
+        //Checks to see if the characters are active and then switch to Weapons
+        if (playerActive == true)
+        {
+            playerActive = false;
+            weaponActive = true;
+            players.SetActive(false);
+            Prisoner.enabled = false;
+            Korben.enabled = true;
+            Weapons.SetActive(true);
+            femaleColor.SetActive(false);
+            maleColor.SetActive(false);
+        }
+
+        //Checks to see if pets is active then turns it off
+        if (petActive == true)
+        {
+            weaponActive = true;
+            petActive = false;
+            Korben.enabled = true;
+            pets.SetActive(false);
+            petButtons.SetActive(false);
+            Weapons.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -127,7 +206,7 @@ public class CharCustom : MonoBehaviour
         }
 
         //Checks to see if pets is active
-        if (pets.activeInHierarchy == true)//If it is will adjust pet choice
+        /*if (pets.activeInHierarchy == true)//If it is will adjust pet choice
         {
             playerData.petChoice++;//rb goes up, lb goes down
             if (playerData.petChoice >= 3) //loops if goes too far
@@ -144,7 +223,7 @@ public class CharCustom : MonoBehaviour
                 if (playerData.characterPet3Purchase == false)//checks if pet is purchased after running changepet
                     StartCoroutine(waitingPet());
             }
-        }
+        }*/
     }
 
     public void OnLB()
@@ -161,7 +240,7 @@ public class CharCustom : MonoBehaviour
         }
 
         //Checks to see if pets is active
-        if (pets.activeInHierarchy == true)//If it is will adjust pet choice
+        /*if (pets.activeInHierarchy == true)//If it is will adjust pet choice
         {
             playerData.petChoice--;//rb goes up, lb goes down
             if (playerData.petChoice <= -1)//loops if goes too far
@@ -178,7 +257,7 @@ public class CharCustom : MonoBehaviour
                 if (playerData.characterPet3Purchase == false)//checks if pet is purchased after running changepet
                     StartCoroutine(waitingPet());
             }
-        }
+        }*/
     }
 
     /// <summary>
@@ -209,11 +288,22 @@ public class CharCustom : MonoBehaviour
 
     /// <summary>
     /// Alexander
-    /// Updated: 11-6-2020
+    /// Updated: 12-7-2020
     /// 
-    /// Updates to keep track of the color text box labels to see which ones should be active and which shouldn't
+    /// Awake to making sure that the prisoner description is displaying and not the other images
     /// </summary>
-    private void Update()
+    private void Awake()
+    {
+        Korben.enabled = false;
+    }
+
+        /// <summary>
+        /// Alexander
+        /// Updated: 11-6-2020
+        /// 
+        /// Updates to keep track of the color text box labels to see which ones should be active and which shouldn't
+        /// </summary>
+        private void Update()
     {
         //Checks to see if the prisoner is active
         if (playerActive == true) //If it is then it will go and adjust the players colors

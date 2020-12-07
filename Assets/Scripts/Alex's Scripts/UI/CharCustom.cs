@@ -204,7 +204,7 @@ public class CharCustom : MonoBehaviour
         }
 
         //Checks to see if pets is active
-        if (pets.activeInHierarchy == true)//If it is will adjust pet choice
+        /*if (pets.activeInHierarchy == true)//If it is will adjust pet choice
         {
             playerData.petChoice++;//rb goes up, lb goes down
             if (playerData.petChoice >= 3) //loops if goes too far
@@ -221,7 +221,7 @@ public class CharCustom : MonoBehaviour
                 if (playerData.characterPet3Purchase == false)//checks if pet is purchased after running changepet
                     StartCoroutine(waitingPet());
             }
-        }
+        }*/
     }
 
     public void OnLB()
@@ -238,7 +238,7 @@ public class CharCustom : MonoBehaviour
         }
 
         //Checks to see if pets is active
-        if (pets.activeInHierarchy == true)//If it is will adjust pet choice
+        /*if (pets.activeInHierarchy == true)//If it is will adjust pet choice
         {
             playerData.petChoice--;//rb goes up, lb goes down
             if (playerData.petChoice <= -1)//loops if goes too far
@@ -255,7 +255,7 @@ public class CharCustom : MonoBehaviour
                 if (playerData.characterPet3Purchase == false)//checks if pet is purchased after running changepet
                     StartCoroutine(waitingPet());
             }
-        }
+        }*/
     }
 
     /// <summary>

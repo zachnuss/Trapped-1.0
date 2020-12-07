@@ -18,20 +18,34 @@ using System;
 using System.Collections.Generic;
 
 public class PlayerOptions : MonoBehaviour {
+    /*
+     *   TO DO:
+     *       -Sound effects for player pick-up sounds
+     *              --adjust volume
+     *              --place to set audio tracks in scene
+     *       -Sound effects for in store scene GO "StoreEmpty" get audio source there
+     *              --adjust volume
+     *              --place to set audio tracks in scene
+     */
     ///public variables
     public float musicVolume = 1f;
-    public Slider musicSlider;
     public float soundFXVolume = 1f;
-    public Slider soundFXSlider;
     public bool isFullScreen;
+    [Header("Slider Prefabs")]
+    public Slider musicSlider;
+    public Slider soundFXSlider;
+    [Header("Button Prefabs")]
     public Button screenButton;
     public Button nextTrackButton;
+    [Header("AudioClip Prefabs")]
+    public AudioClip pickUpFX;
+    public AudioClip storePurchaseFX;
     public AudioClip[] audioTracks;
-
     ///private variables
     private List<AudioSource> _enemyFXs;
     private AudioSource _musicSource;
     private AudioSource _testFX;
+    private AudioSource _playerFX;
     private int _curTrackIndex; 
     private string _filePath;
     //UI text for proper string concatenation
@@ -47,19 +61,24 @@ public class PlayerOptions : MonoBehaviour {
         _numOfTracks = audioTracks.Length;
         _filePath = Application.persistentDataPath + "/PlayerOptions.dat";
         isFullScreen = Screen.fullScreen;
-        if (nextTrackButton)
+        if (nextTrackButton) {
             _curTrackText = nextTrackButton.GetComponentInChildren<Text>();
-        _musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
+        }
 
-
-        
         //grab AudioListener and AudioSource if we're in game
         _buildIndex = SceneManager.GetActiveScene().buildIndex;
+        //musicSource doesn't exist in store scene
+        if (_buildIndex != 5) {
+            _musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
+        }
         if (_buildIndex >= 1 && _buildIndex <= 3) {
+            _playerFX = GameObject.FindWithTag("Player").GetComponent<AudioSource>();
+            _playerFX.clip = pickUpFX;
             //get data and apply options where relavent in game
             OptionsData savedData = _getOptionsData();
             _musicSource.volume = savedData.s_musicVolume;
             float enemyFXVolume = savedData.s_soundFXVolume;
+            _playerFX.volume = savedData.s_soundFXVolume;
             if (_backButtonText) {
                 _backButtonText.text = "Close";
             }
@@ -75,9 +94,9 @@ public class PlayerOptions : MonoBehaviour {
                 _enemyFXs.Add(newSource);
             }
         }
-        else if (_buildIndex == 10) { //are we in the options scene?
+        //check for options scene
+        else if (_buildIndex == 10) {
             _testFX = Camera.main.gameObject.GetComponent<AudioSource>();
-
             //get stored data and apply it to scene
             OptionsData savedData = _getOptionsData();
             musicVolume = savedData.s_musicVolume;
@@ -85,6 +104,18 @@ public class PlayerOptions : MonoBehaviour {
             soundFXVolume = savedData.s_soundFXVolume;
             soundFXSlider.value = savedData.s_soundFXVolume;
             isFullScreen = savedData.s_isFullScreen;
+            _curTrackIndex = savedData.s_curTrackIndex;
+        }
+        //check if this is the store screen
+        else if (_buildIndex == 5) {
+            //set store scene audio options
+            //grab audio sources and data and apply them
+            _playerFX = Camera.main.gameObject.GetComponent<AudioSource>();
+            _playerFX.clip = storePurchaseFX;
+            _musicSource = GetComponent<AudioSource>();
+            OptionsData savedData = _getOptionsData();
+            _playerFX.volume = savedData.s_soundFXVolume;
+            _musicSource.volume = savedData.s_musicVolume;
             _curTrackIndex = savedData.s_curTrackIndex;
         }
 
@@ -102,6 +133,14 @@ public class PlayerOptions : MonoBehaviour {
                 _curTrackText.text = "Current Track: N/A";
 
             }
+        }
+    }
+
+    //FOR PLAYER PICK UP COLLISIONS ONLY
+    private void OnTriggerEnter(Collider other) {
+        if (other.tag == "Currency" || other.tag == "PowerUp") {
+            Debug.Log("picked up");
+            playpickUpFX();
         }
     }
 
@@ -205,6 +244,19 @@ public class PlayerOptions : MonoBehaviour {
         }
     }
 
+    //when the player makes a purchase in the store screen, play the
+    //appropriate sound effect
+    public void playPurchaseFX() {
+        _playerFX.clip = storePurchaseFX;
+        _playerFX.Play();
+    }
+
+    //when the player picks up a coin in-game, play appropriate sound effect
+    public void playpickUpFX() {
+        _playerFX.clip = pickUpFX;
+        _playerFX.Play();
+    }
+
     //for testing soundFX and getting feedback from it
     private void _playSampleFX() {
         _testFX.Play();
@@ -237,7 +289,6 @@ public class PlayerOptions : MonoBehaviour {
             data = (OptionsData)bf.Deserialize(fStream);
             fStream.Close();
         }
-
         return data;
     }
 }

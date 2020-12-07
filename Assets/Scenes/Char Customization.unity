@@ -2963,6 +2963,10 @@ MonoBehaviour:
   MColor3Label: {fileID: 158268839}
   FColor2Label: {fileID: 1281429308}
   FColor3Label: {fileID: 2136719251}
+  petButtons: {fileID: 1648136746}
+  petNA: {fileID: 1224252613}
+  petBee: {fileID: 438787779}
+  petBunny: {fileID: 1827645612}
   PurchaseP2: {fileID: 67057464}
   PurchasePet: {fileID: 576840071}
 --- !u!114 &949816045
@@ -5363,7 +5367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1648136747
 RectTransform:
   m_ObjectHideFlags: 0

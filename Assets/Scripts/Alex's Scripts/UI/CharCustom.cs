@@ -22,15 +22,28 @@ public class CharCustom : MonoBehaviour
     public GameObject femaleColor1;
     public GameObject players;
     public GameObject pets;
+    
+    //Color switching variables
     public GameObject MColor2Label;
     public GameObject MColor3Label;
     public GameObject FColor2Label;
     public GameObject FColor3Label;
+    public GameObject petButtons;
+
+    //Pet switching Variables
+    public GameObject petNA;
+    public GameObject petBee;
+    public GameObject petBunny;
+    
+    //Pet purchase Variables
     public GameObject PurchaseP2; //Text box to display that the player needs to purchase player 2
     public GameObject PurchasePet; //Text box to display that the player needs to purchase pet
 
     //Bools to keep track of what is active
-    private bool playerActive = true;
+    private bool playerActive = true; //Keeps track of player section being active
+    private bool petActive = false; //Keeps track of pet section being active
+    private bool weaponActive = false; //Keeps track of weapon section being active
+
 
     /// <summary>
     /// Alexander
@@ -44,10 +57,25 @@ public class CharCustom : MonoBehaviour
         if(playerActive == true)
         {
             playerActive = false;
+            petActive = true;
             players.SetActive(false);
             Prisoner.enabled = false;
             pets.SetActive(true);
+            femaleColor.SetActive(false);
+            maleColor.SetActive(false);
+            petButtons.SetActive(true);
         }
+        if (weaponActive == true)
+        {
+            weaponActive = false;
+            //players.SetActive(false);
+            //Prisoner.enabled = false;
+            pets.SetActive(true);
+        }
+
+        //Switches to the pet selection buttons
+        EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+        EventSystem.current.SetSelectedGameObject(petNA); //Sets the selected obj
     }
 
     /// <summary>
@@ -59,13 +87,22 @@ public class CharCustom : MonoBehaviour
     public void switchCharacter()
     {
         //Checks to see if characters is not active then turns them on
-        if (playerActive == false)
+        if (petActive == true)
         {
             playerActive = true;
+            petActive = false;
             pets.SetActive(false);
             Prisoner.enabled = true;
             players.SetActive(true);
+            petButtons.SetActive(false);
         }
+
+        if (playerData.characterModelSwitch == false) //False on the character model switch is Male, true is female
+        {
+            maleColor.SetActive(true);
+        }
+        else
+            femaleColor.SetActive(true);
     }
 
     /// <summary>

@@ -6,6 +6,11 @@ using UnityEngine;
 public class OnCharCustomizationLoad : MonoBehaviour
 {
     public PlayerData playerData;
+
+    //public GameObject playerRig1;
+    //public GameObject playerRig2;
+
+
     void Start()
     {
         playerData.SetCharacterChoiceGame();

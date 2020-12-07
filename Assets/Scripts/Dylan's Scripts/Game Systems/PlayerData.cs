@@ -93,7 +93,7 @@ public class PlayerData : ScriptableObject
     private float totalTimerSec;
     private float totalTimerMin;
     private float totalTimerHour;
-    private bool characterChoice = false;
+    //private bool characterChoice = false;
     public bool achievementFirstTimer = false;
     public bool achievementVacuumMurderer = false;
     public bool achievementRevenge1 = false;
@@ -122,6 +122,8 @@ public class PlayerData : ScriptableObject
     public bool godMode = false;
     [HideInInspector]
     public bool startAtHalf = false;
+    [HideInInspector]
+    public bool healthBuffSeration = false;
 
     public int loops
     {
@@ -284,9 +286,10 @@ public class PlayerData : ScriptableObject
         speedPowerupsCollected = 0;
         upgradePurchased = false;
         localHealth = totalHealthBase;
+        
         gameLevelData.InitialModSetup();
         startAtHalf = false;
-
+        healthBuffSeration = false;
         nextSceneStr = "Level1";
         SceneManager.LoadScene("LoadingScene");
     }
@@ -323,7 +326,9 @@ public class PlayerData : ScriptableObject
         matchScoreFromTime = 0;
         matchSpecialCoinCollected = 0;
         localHealth = totalHealthBase;
+        
         startAtHalf = false;
+        healthBuffSeration = false;
         gameLevelData.InitialModSetup();
     }
 
@@ -466,15 +471,27 @@ public class PlayerData : ScriptableObject
     {
         characterModelSwitch = !characterModelSwitch;
         GameObject[] character1 = new GameObject[8];
+        // GameObject[] character2 = new GameObject[8];
+        GameObject character2 = GameObject.Find("secondCharacter_low");
+
+        //GameObject character1 = GameObject.Find("MainCharacter_Geo");
         for (int i = 0; i < character1.Length; i++)
         {
             character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
         }
-        GameObject character2 = GameObject.Find("secondCharacter_low");
+        //for (int i = 0; i < character1.Length; i++)
+        //{
+        //    character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+        //}
+
+        //GameObject character2 = GameObject.Find("secondChar_Rig_TPose");
         if (characterModelSwitch == false)
         {
             characterModelSwitch = false;
-            character2.GetComponent<MeshRenderer>().enabled = false;
+            //character2.SetActive(false);
+            
+            //character1.SetActive(true);
+            character2.GetComponent<SkinnedMeshRenderer>().enabled = false;
             for (int i = 0; i < character1.Length; i++)
             {
                 character1[i].GetComponent<SkinnedMeshRenderer>().enabled = true;
@@ -486,11 +503,19 @@ public class PlayerData : ScriptableObject
             if (character2Purchase == true)
             {
                 characterModelSwitch = true;
+                //character1.SetActive(false);
+                //character2.SetActive(true);
+                character2.GetComponent<SkinnedMeshRenderer>().enabled = true;
                 for (int i = 0; i < character1.Length; i++)
                 {
                     character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
                 }
-                character2.GetComponent<MeshRenderer>().enabled = true;
+
+                //character2.GetComponent<MeshRenderer>().enabled = true;
+               // for (int i = 0; i < character2.Length; i++)
+                //{
+                //    character2[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
+                //}
                 SetMenuColor(materialChoice2);
             }
             else
@@ -501,11 +526,14 @@ public class PlayerData : ScriptableObject
                     character2Purchase = true;
                     //update with a purchase
                     characterModelSwitch = true;
+                    //character1.SetActive(false);
+                    //character2.SetActive(false);
+                    character2.GetComponent<SkinnedMeshRenderer>().enabled = false;
                     for (int i = 0; i < character1.Length; i++)
                     {
                         character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
                     }
-                    character2.GetComponent<MeshRenderer>().enabled = true;
+                    //character2.GetComponent<MeshRenderer>().enabled = true;
                     SetMenuColor(materialChoice2);
                 }
                 else
@@ -524,44 +552,44 @@ public class PlayerData : ScriptableObject
     /// </summary>
     public void SetCharacterChoiceGame()
     {
-        GameObject character1 = null;
-
+        GameObject[] character1 = new GameObject[8];
         if (GameObject.Find("MainCharacter_Rig_Final") == true)
         {
-            // for (int i = 0; i < character1.Length; i++)
-            //{
-            //character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-            //}
-            character1 = GameObject.Find("MainCharacter_Rig_Final");
+             for (int i = 0; i < character1.Length; i++)
+            {
+                character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+            }
+            //character1 = GameObject.Find("MainCharacter_Rig_Final");
         }
+
         GameObject character2 = null;
-
-
-        if (GameObject.Find("secondChar_Rig_TPose") == true)
+        if (GameObject.Find("secondCharacter_low") == true)
         {
-            character2 = GameObject.Find("secondChar_Rig_TPose");
+            //Debug.Log("found");
+            character2 = GameObject.Find("secondCharacter_low");
         }
 
         if (characterModelSwitch == false)
         {
             //character2.GetComponent<MeshRenderer>().enabled = false;
-            character1.SetActive(true);
-            character2.SetActive(false);
-           // for (int i = 0; i < character1.Length; i++)
-           // {
-               // character1[i].GetComponent<SkinnedMeshRenderer>().enabled = true;
-            //}
+            //character1.SetActive(true);
+            //character2.SetActive(false);
+            character2.GetComponent<SkinnedMeshRenderer>().enabled = false;
+             for (int i = 0; i < character1.Length; i++)
+             {
+                character1[i].GetComponent<SkinnedMeshRenderer>().enabled = true;
+             }
             SetMenuColor(materialChoice);
         }
         else
         {
-            // for (int i = 0; i < character1.Length; i++)
-            // {
-            //character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
-            // }
-            //character2.GetComponent<MeshRenderer>().enabled = true;
-            character1.SetActive(false);
-            character2.SetActive(true);
+             for (int i = 0; i < character1.Length; i++)
+             {
+            character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
+             }
+            character2.GetComponent<SkinnedMeshRenderer>().enabled = true;
+            //character1.SetActive(false);
+            //character2.SetActive(true);
             SetMenuColor(materialChoice2);
         }
     }
@@ -740,22 +768,29 @@ public class PlayerData : ScriptableObject
     public void SetPet()
     {
         GameObject pet1 = GameObject.Find("pet_wasp");
+        GameObject pet2 = GameObject.Find("pet_bunny");
 
         //GameObject pet2 = GameObject.Find("Pet2");
         if (petChoice == 0)
         {
-            pet1.GetComponent<Renderer>().enabled = false;
-            //pet2.GetComponent<Renderer>().enabled = false;
+            pet1.GetComponent<MeshRenderer>().enabled = false;
+            pet2.GetComponent<MeshRenderer>().enabled = false;
+           // pet1.SetActive(false);
+            //pet2.SetActive(false);
         }
         if (petChoice == 1)
         {
-            //pet2.GetComponent<Renderer>().enabled = false;
-            pet1.GetComponent<Renderer>().enabled = true;
+            // pet2.SetActive(false);
+            // pet1.SetActive(true);
+            pet1.GetComponent<MeshRenderer>().enabled = true;
+            pet2.GetComponent<MeshRenderer>().enabled = false;
         }
         if (petChoice == 2)
         {
-            pet1.GetComponent<Renderer>().enabled = false;
-            //pet2.GetComponent<Renderer>().enabled = true;
+            // pet1.SetActive(false);
+            //pet2.SetActive(true);
+            pet1.GetComponent<MeshRenderer>().enabled = false;
+            pet2.GetComponent<MeshRenderer>().enabled = true;
         }
     }
 
@@ -972,6 +1007,17 @@ public class PlayerData : ScriptableObject
             startAtHalf = true;
             totalHealthBase = totalHealthBase / 2;
             localHealth = localHealth / 2;
+        }
+    }
+
+    
+    public void HealthBuffSerationMod()
+    {
+        if(!healthBuffSeration)
+        {
+            healthBuffSeration = true;
+            //localHealth;
+            totalHealthBase += 20;
         }
     }
 }

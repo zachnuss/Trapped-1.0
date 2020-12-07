@@ -78,6 +78,8 @@ public class CharCustom : MonoBehaviour
             petActive = true;
             Weapons.SetActive(false);
             Korben.enabled = false;
+            Merlon.enabled = false;
+            Lazurus.enabled = false;
             pets.SetActive(true);
             petButtons.SetActive(true);
         }
@@ -114,6 +116,8 @@ public class CharCustom : MonoBehaviour
             Weapons.SetActive(false);
             Prisoner.enabled = true;
             Korben.enabled = false;
+            Merlon.enabled = false;
+            Lazurus.enabled = false;
             players.SetActive(true);
         }
 
@@ -141,6 +145,8 @@ public class CharCustom : MonoBehaviour
             players.SetActive(false);
             Prisoner.enabled = false;
             Korben.enabled = true;
+            Merlon.enabled = true;
+            Lazurus.enabled = true;
             Weapons.SetActive(true);
             femaleColor.SetActive(false);
             maleColor.SetActive(false);
@@ -152,6 +158,8 @@ public class CharCustom : MonoBehaviour
             weaponActive = true;
             petActive = false;
             Korben.enabled = true;
+            Merlon.enabled = true;
+            Lazurus.enabled = true;
             pets.SetActive(false);
             petButtons.SetActive(false);
             Weapons.SetActive(true);
@@ -295,6 +303,8 @@ public class CharCustom : MonoBehaviour
     private void Awake()
     {
         Korben.enabled = false;
+        Merlon.enabled = false;
+        Lazurus.enabled = false;
     }
 
         /// <summary>
@@ -356,6 +366,29 @@ public class CharCustom : MonoBehaviour
                 {
                     FColor2Label.SetActive(false);
                 }
+            }
+        }
+        if(weaponActive == true)
+        {
+            if(playerData.weaponModelChoice == 0)
+            {
+                Korben.enabled = true;
+                Merlon.enabled = false;
+                Lazurus.enabled = false;
+            }
+
+            if (playerData.weaponModelChoice == 1)
+            {
+                Korben.enabled = false;
+                Lazurus.enabled = true;
+                Merlon.enabled = false;
+            }
+
+            if (playerData.weaponModelChoice == 2)
+            {
+                Korben.enabled = false;
+                Lazurus.enabled = false;
+                Merlon.enabled = true;
             }
         }
     }

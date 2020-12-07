@@ -1,12 +1,15 @@
 ﻿/*
- * Author: Christian Mullins
+ * [Author: Christian Mullins ]
  * 
  */ 
-public class HallwayBot : BaseEnemy {
+public class HallwayBot : BaseEnemy
+{
 
-    void Awake() {
+    void Awake()
+    {
         //initialize tracking speed
         _trackingSpeed = speed * 1.3f;
+
     }
 
 }

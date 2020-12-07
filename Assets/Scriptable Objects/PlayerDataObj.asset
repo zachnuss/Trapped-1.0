@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ac9e01fa250f2469fa52ba507acdd1, type: 3}
   m_Name: PlayerDataObj
   m_EditorClassIdentifier: 
-  timerSec: 0
+  timerSec: 6
   timerMin: 0
   timerHour: 0
   timerBetweenLevels: 0
-  totalTime: 0
+  totalTime: 6.419995
   healthUpgrade: 0
   damageUpgrade: 0
   speedUpgrade: 0
@@ -25,8 +25,8 @@ MonoBehaviour:
   localHealth: 100
   OnLevel: 0
   levelsBeaten: 0
-  score: 0
-  matchScoreFromTime: 0
+  score: 7
+  matchScoreFromTime: 7
   matchScoreFromEnemies: 0
   matchEnemiesKilled: 0
   matchPowerUpsCollected: 0
@@ -69,9 +69,9 @@ MonoBehaviour:
   achievementRunner: 0
   achievementJailBird: 0
   achievementNoTrust: 0
-  character2Purchase: 0
-  characterPet2Purchase: 0
-  characterPet3Purchase: 0
+  character2Purchase: 1
+  characterPet2Purchase: 1
+  characterPet3Purchase: 1
   character1Color2: 0
   character1Color3: 0
   character2Color2: 0
@@ -81,3 +81,4 @@ MonoBehaviour:
   petCost: 15
   godMode: 0
   startAtHalf: 0
+  healthBuffSeration: 0

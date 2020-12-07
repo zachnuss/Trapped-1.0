@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public AudioSource Powerup;
 
-    //animation states for player
+    //animation states for player - Since no animations, these will always be the same state. Only one animation on player.
     //top
     public enum playerTopState
     {
@@ -38,17 +38,12 @@ public class PlayerMovement : MonoBehaviour
         walking
     }
 
-
-    
     //set up for rotation and new rotation orientation
     [Header("Parent object of this player obj")]
     public GameObject parent;
     public GameObject follower;
     private GameObject[] character = new GameObject[8];
-    //new rotation orientation player moves to
-    //Quaternion targetRotation;
-    //PlayerInputActions controls;
-    //Vector3 _playerAngle;
+
     [Header("Player default movement speed")]
     public float movementSpeed = 1.0f;
     Vector2 movementInput;
@@ -57,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     public float turnSpeed = 20f;
     public float lookSpeed = 30f;
     float _angle, _angle2;
+
     //player looking rotation
     Vector2 lookingInput;
 
@@ -70,8 +66,7 @@ public class PlayerMovement : MonoBehaviour
     public playerTopState animTopState;
     public playerTopState _localTopState = playerTopState.idle;
 
-    //when we have successfully rotated
-    //[Header("Shows if player is off the edge")]
+    //when we hit door or go off edge
     [HideInInspector]
     public bool overTheEdge = false;
     bool onDoor = false;
@@ -91,8 +86,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 p01;
 
     //for smooth parent rotation
-    private Quaternion par01;
-    private Transform pc1, pc0;
+    //private Quaternion par01;
+   // private Transform pc1, pc0;
 
     EasingType easingTypeC = EasingType.linear;
     [HideInInspector]
@@ -115,15 +110,14 @@ public class PlayerMovement : MonoBehaviour
     /// Scene Transition and endgame
     /// 
     /// </summary>
-    private GameObject teleporterTracker;//Assign before load, set to private if unneeded
-   // public string nextScene; //Target Level
+    private GameObject teleporterTracker; //Assign before load, set to private if unneeded
     public Animator[] transition; //Transition animator
     public float transitionTime = 1;
     private int rng;
+    [HideInInspector]
     public bool firingState;
-    //bool _repeatedFire;
     //set to time to run full animation before repeat, may be a bit shorter so it works better
-    //float fireAnimationTime = 1f;
+    [HideInInspector]
     public float localTimer;
 
     [Header("Player Modifiers")]
@@ -149,28 +143,28 @@ public class PlayerMovement : MonoBehaviour
     public Animator top;
     public GameObject topObj;
     public GameObject anchorRef;
-   // public Transform firePos;
-    //public Animator legs;
-    public PlayerAnimations playerAnimations;
 
-    //public GameObject top;
+    //animation
+    public PlayerAnimations playerAnimations;
     public AnimatorStateInfo stateInfo;
     public float shootingAnimLength = 1.5f;
 
+    //cooldown on fire animations to avoid animation playing before its done
     bool _fireCoolDown;
     [Header("Fire Rate")]
     public float fireRate = 0.1f;
     float firingTimer = 0;
 
     public GameObject PlayerRotate;
+    //bleeding variables for stacks and bleed debuff
     float bleedTimer2 = 0;
     bool isBleeding = false;
-
+    //FROM CHRISTIAN: public delegate for triggering bleed particle effects
+    public bool pub_isBleeding { get { return isBleeding; } }
     bool damageStbTimer = false;
     float damageTimer = 0f;
+    //sheild mod prefab
     public GameObject sheildObj;
-
-    //private bool _godMode = false;
 
     /// <summary>
     /// Dylan Loe
@@ -180,7 +174,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Start()
     {
-        SetUpCharAppearance();
+        //Debug.Log(health);
+        //SetUpCharAppearance();
 
         if (playerData.godMode)
             Debug.Log("DEBUG MODE ON");
@@ -194,10 +189,13 @@ public class PlayerMovement : MonoBehaviour
 
         //commented cause it sucks
 
-    //    for (int i = 0; i < character.Length; i++)
-    //    {
-    //        character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-    //    }
+        //    for (int i = 0; i < character.Length; i++)
+        //    {
+        //        character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+        //    }
+
+        //if (serratedMod)
+         //   playerData.HealthBuffSerationMod();
 
         //SetPlayerModifiers(); Player Mods set up in LevelSetup obj and script
         SetPlayerStats();
@@ -210,7 +208,7 @@ public class PlayerMovement : MonoBehaviour
 
     /// <summary>
     /// Dylan Loe
-    /// Updated 10-25-2020
+    /// Updated 12-3-2020
     /// 
     /// - Used Primarly for physics based movement and cube transversals
     /// </summary> 
@@ -225,6 +223,13 @@ public class PlayerMovement : MonoBehaviour
         {
             Movement();
             Looking();
+        }
+        else
+        {
+            //if we are interpolating, set to idle
+            animBottomState = playerBottomState.idle;
+            animTopState = playerTopState.idle;
+            SetAnimation();
         }
 
         Timer();
@@ -330,16 +335,18 @@ public class PlayerMovement : MonoBehaviour
             //set up char 1
             this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p1Controller;
             this.GetComponent<Animator>().avatar = myPlayerSetup.p1Avatar;
+            //GameObject.Find("mixamorig:Hips").SetActive(false);
+            GameObject.Find("secondChar_Rig_TPose").SetActive(false);
         }
         else
         {
             //set up char 2
             this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p2Controller;
             this.GetComponent<Animator>().avatar = myPlayerSetup.p2Avatar;
+            //GameObject.Find("MainCharacter_Transform").SetActive(false);
+            GameObject.Find("MainCharacter_Rig_Final").SetActive(false);
         }
 
-       // playerData.SetCharacterChoiceGame();
-       // playerData.SetColor();
     }
 
     /// <summary>
@@ -583,10 +590,10 @@ public class PlayerMovement : MonoBehaviour
         {
             animBottomState = playerBottomState.idle;
             //if (!firingState)
-                animTopState = playerTopState.idle;
+            animTopState = playerTopState.idle;
 
             //if (animTopState != playerTopState.idle)
-                SetAnimation();
+            SetAnimation();
         }
     }
 
@@ -939,7 +946,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case 1:
                 //hornet
-                damage += damage/20;
+                damage += 5;
                 Debug.Log("Hornet Buff");
                 break;
             case 2:
@@ -955,6 +962,8 @@ public class PlayerMovement : MonoBehaviour
         playerData.SetCharacterChoiceGame();
         playerData.SetColor(); //Sets in scene start
         playerData.SetPet();
+
+        SetUpCharAppearance();
     }
 
     /// <summary>

@@ -115,9 +115,6 @@ public class CharCustom : MonoBehaviour
             playerActive = true;
             Weapons.SetActive(false);
             Prisoner.enabled = true;
-            Korben.enabled = false;
-            Merlon.enabled = false;
-            Lazurus.enabled = false;
             players.SetActive(true);
         }
 
@@ -157,9 +154,6 @@ public class CharCustom : MonoBehaviour
         {
             weaponActive = true;
             petActive = false;
-            Korben.enabled = true;
-            Merlon.enabled = true;
-            Lazurus.enabled = true;
             pets.SetActive(false);
             petButtons.SetActive(false);
             Weapons.SetActive(true);

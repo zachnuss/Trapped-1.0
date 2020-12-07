@@ -42,8 +42,8 @@ public class PetBehavior : MonoBehaviour
             }
             else
             {
-                time = Random.Range(0.3f, 0.5f);
-                speedVar = Random.Range(0.2f, 0.3f);
+                time = Random.Range(0.4f, 0.5f);
+                speedVar = Random.Range(0.1f, 0.2f);
             }
 
         }

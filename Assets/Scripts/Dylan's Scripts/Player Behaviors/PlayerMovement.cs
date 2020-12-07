@@ -159,6 +159,8 @@ public class PlayerMovement : MonoBehaviour
     //bleeding variables for stacks and bleed debuff
     float bleedTimer2 = 0;
     bool isBleeding = false;
+    //FROM CHRISTIAN: public delegate for triggering bleed particle effects
+    public bool pub_isBleeding { get { return isBleeding; } }
     bool damageStbTimer = false;
     float damageTimer = 0f;
     //sheild mod prefab

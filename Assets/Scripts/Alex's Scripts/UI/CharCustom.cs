@@ -34,6 +34,8 @@ public class CharCustom : MonoBehaviour
     public GameObject petNA;
     public GameObject petBee;
     public GameObject petBunny;
+    public GameObject BeeDescription;
+    public GameObject BunnyDescription;
     
     //Pet purchase Variables
     public GameObject PurchaseP2; //Text box to display that the player needs to purchase player 2

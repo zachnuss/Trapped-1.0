@@ -50,6 +50,7 @@ public class UIInGame : MonoBehaviour
         healthText.text = "" + (int)health; //Sets health to be displayed correctly on the HP bar
         float totalHealth = playerData.totalHealthBase; //sets a total health variable to the health base for fractioning
         float result = health / totalHealth; //Sets the fraction for the scaling 
+        Debug.Log("health: " + health + " total Health: " + totalHealth);
         //healthBar.rectTransform.localScale = new Vector3 ((result * hpBarX),1f,0.38f); //Scales the hpBar image
         healthBar.fillAmount = result;
         //Debug.Log(healthBar.rectTransform.localScale.x);

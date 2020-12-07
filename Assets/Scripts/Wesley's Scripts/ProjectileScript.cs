@@ -24,8 +24,7 @@ public class ProjectileScript : MonoBehaviour
     /// 
     /// Sets inital vars and adds initial force
     /// </summary>
-    //set to Awake(), Start() is called a frame too late for some bugs
-    void Awake()
+    void Start()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");
         damage = playerRef.GetComponent<PlayerMovement>().damage;
@@ -89,16 +88,7 @@ public class ProjectileScript : MonoBehaviour
             //other.GetComponent<BaseEnemy>().health -= damage; //This is normal damage
             if (other.gameObject != null)
             {
-                /*
-                 * TO DO:
-                 *      -identify what enemy type this is and call script
-                 *       according to what enemy type this is
-                 */
-                if (other.TryGetComponent<BaseEnemy>(out BaseEnemy bE)) {
-                    Debug.Log("This exists");
-                }
-                else Debug.Log("This doesn't exist");
-                other.gameObject.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code
+                other.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code
             }
             if (Random.Range(0f, 10f) < 1) //This is a crit
             {
@@ -115,8 +105,11 @@ public class ProjectileScript : MonoBehaviour
         //More of Christian's code below
         else if (other.tag == "Shield")
         {
+            //setactive false, don't destroy
+            //gameObject.SetActive(false);
+           // StartCoroutine(OnDestruction());
             Destroy(this.gameObject);
-            Debug.Log("I hit the shield.");
+            ///Debug.Log("I hit the shield.");
         }
         //For sheild mods on enemies
         else if (other.tag == "ShieldMod") 

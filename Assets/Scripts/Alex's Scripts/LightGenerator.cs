@@ -12,7 +12,7 @@ public class LightGenerator : MonoBehaviour
     /// </summary>
     public GameObject Light;
     public enum Floor { Front, Left, Right, Back, Bottom }; //Sets up an enum to track the side of the cube
-    public Floor face = Floor.Front; //Public switch for the level designers to adjust things
+    public Floor face = Floor.Bottom; //Public switch for the level designers to adjust things
     public float LightCreationPause;
 
     /// <summary>
@@ -81,9 +81,9 @@ public class LightGenerator : MonoBehaviour
 
         if (face == Floor.Back) //Back Section
         {
-            for (int col = 0; col < 3; col++)
+            for (int col = -1; col < 2; col++)
             {
-                for (int row = 0; row < 3; row++)
+                for (int row = -1; row < 2; row++)
                 {
                     Instantiate(Light, new Vector3(this.transform.position.x + col, this.transform.position.y + row, this.transform.position.z), Quaternion.identity);
 
@@ -99,7 +99,7 @@ public class LightGenerator : MonoBehaviour
             {
                 for (int row = -1; row < 2; row++)
                 {
-                    Instantiate(Light, new Vector3(this.transform.position.x + col, this.transform.position.y, this.transform.position.z + row), Quaternion.identity);
+                    Instantiate(Light, new Vector3(this.transform.localPosition.x + col, this.transform.localPosition.y, this.transform.localPosition.z + row), Quaternion.identity);
 
                     //Waits for the certain amount of time before creating the lights
                     yield return new WaitForSeconds(lightPause);

@@ -77,7 +77,7 @@ public class BaseEnemy : MonoBehaviour {
         if (health < 1) {
             health = 0;
             //remove from enemy listener
-            EnemyListener.Instance.deleteFromList(gameObject);
+            EnemyListener.Instance.deleteFromList(this);
             //give score to player
             player.GetComponent<PlayerMovement>().playerData.AddScore(pointValue);
             player.GetComponent<PlayerMovement>().playerData.TrackEnemyScore(pointValue);

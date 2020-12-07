@@ -64,7 +64,10 @@ public class EnemyListener : MonoBehaviour {
         if (curFaceCount > 0) {
             //Debug.Log("ACTIVATING: " + curFaceCount);
             for (int i = 0; i < curFaceCount; ++i) {
-                _enemyList[(int)_curFace][i].activateAI(true);
+                //check if this exists before attempting to set it
+                if (_enemyList[(int)_curFace][i]) {
+                    _enemyList[(int)_curFace][i].activateAI(true);
+                }
             }
         }
         if ((int)oldFace == -1) return;
@@ -73,15 +76,18 @@ public class EnemyListener : MonoBehaviour {
         if (oldFaceCount > 0) {
             //Debug.Log("DEACTIVATING: " + oldFaceCount);
             for (int i = 0; i < oldFaceCount; ++i) {
-                _enemyList[(int)oldFace][i].activateAI(false);
+                //check if this exists before attempting to set it
+                if (_enemyList[(int)oldFace][i]) {
+                    _enemyList[(int)oldFace][i].activateAI(false);
+                }
             }
         }
     }
 
     //public function that will delete a give enemy from the array
-    public void deleteFromList(GameObject delete) {
+    public void deleteFromList(BaseEnemy delete) {
         //assuming the killed enemy is on the same face as the player
-        _enemyList[(int)curFace].Remove(delete.GetComponent<BaseEnemy>());
+        _enemyList[(int)curFace].Remove(delete);
     }
 
     //calculate the current face of the player so we know what enemies

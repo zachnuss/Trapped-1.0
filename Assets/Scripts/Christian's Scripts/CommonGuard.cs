@@ -13,7 +13,7 @@ public class CommonGuard : BaseEnemy {
     ///public
     public EnemyAnimation animationState = EnemyAnimation.Idle;
     [Header("How far away can I see the player?")]
-    public float playerRangeCheck = 20.0f;
+    public float playerRangeCheck = 50.0f;
     public float playerSearchTimer = 15.0f;
     [HideInInspector]
     public Transform lookAtMe;
@@ -107,7 +107,7 @@ public class CommonGuard : BaseEnemy {
             _myBehavior = Behavior.TrackPlayer;
             _trackingTimer = Time.time + playerSearchTimer;
         }
-        else if (_hasLostPlayer()) {
+        if (_hasLostPlayer()) {
             //the player has not be detected and we're not tracking
             ///resume change behavior
             if (_isTrackingPlayer) {
@@ -190,9 +190,9 @@ public class CommonGuard : BaseEnemy {
         if (Physics.Raycast(transform.position, transform.TransformDirection(_currentLook),
                             out hit, playerRangeCheck)
             || //OR
-            Physics.SphereCast(transform.position, 1.0f, 
-                               transform.TransformDirection(-_fwdDirGO.transform.localPosition), 
-                               out hit, 5f)) {
+            Physics.Raycast(transform.position, 
+                            transform.TransformDirection(-_fwdDirGO.transform.localPosition), 
+                            out hit, 5f)) {
             if (hit.transform.tag == "Player") {
                 _isTrackingPlayer = true;
             }
@@ -335,7 +335,6 @@ public class CommonGuard : BaseEnemy {
         //change behavior
         _myBehavior = Behavior.Idle;
         //reset rotation and position to local
-        //transform.rotation = _startQuat;
         Vector3 resetPos = new Vector3(transform.localPosition.x,
                                        _startLocPos.y, 
                                        transform.localPosition.z);

@@ -48,7 +48,7 @@ public class BaseEnemy : MonoBehaviour {
     protected GameObject _fwdDirGO, _leftDirGO, _rightDirGO;
     protected GameObject _playerGO;
     protected EnemyAnimations _enemyAnim;
-    protected float _wallDetectRay = 1.0f;
+    protected float _wallDetectRay = 0.5f;
     //private
     private Vector3 _rotVal; //rotation
     private bool _hasHitWall = false;
@@ -217,7 +217,7 @@ public class BaseEnemy : MonoBehaviour {
             //PositiveY  is
             turningVector.y += axisTurn;
             //transform.Rotate(turningVector); //mess with local vs world space
-            transform.localEulerAngles += turningVector;
+            transform.Rotate(turningVector, Space.Self);
             //change facing dir to match rotation
             Vector3 newMoveDir = Vector3.MoveTowards(_fwdDirGO.transform.position,
                                                      transform.position,
@@ -257,10 +257,7 @@ public class BaseEnemy : MonoBehaviour {
            //am I hitting myself?
            else if (hit.transform.name == _fwdDirGO.name) {
                 Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
-           }
-           else {
-               _oneEnemyPrint("ShieldedGuard", hit.transform.name);
-           }
+            }
         }
         return isFacingWall;
     }

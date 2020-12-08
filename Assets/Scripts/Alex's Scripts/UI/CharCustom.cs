@@ -51,6 +51,9 @@ public class CharCustom : MonoBehaviour
 
     //Button Objects
     public GameObject Character; //Character Button
+    public GameObject purchaseChar2Panel; //Panel with the Yes and No button
+    public GameObject PurchaseYes; //Yes to buy character 2
+    public GameObject PurchaseNo; //No to buy character 2
 
     //Bools to keep track of what is active
     private bool playerActive = true; //Keeps track of player section being active

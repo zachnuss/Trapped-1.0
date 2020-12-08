@@ -980,20 +980,45 @@ public class PlayerData : ScriptableObject
             gun3.GetComponent<MeshRenderer>().enabled = false;
             SetWeaponColor();
         }
-        else if (weaponModelChoice == 1)
+        else if (weaponModelChoice == 1 && weapon2Purchase == true)
         {
             gun1.GetComponent<MeshRenderer>().enabled = false;
             gun2.GetComponent<MeshRenderer>().enabled = true;
             gun3.GetComponent<MeshRenderer>().enabled = false;
             SetWeaponColor();
         }
-
-        else if (weaponModelChoice == 2)
+        else if (weaponModelChoice == 1 && specialCoins >= characterCost)
+        {
+            UseSpecialCoin(characterCost);
+            weapon2Purchase = true;
+            gun1.GetComponent<MeshRenderer>().enabled = false;
+            gun2.GetComponent<MeshRenderer>().enabled = true;
+            gun3.GetComponent<MeshRenderer>().enabled = false;
+            SetWeaponColor();
+        }
+        else if (weaponModelChoice == 1 && specialCoins < characterCost)
+        {
+            weaponModelChoice = 0;
+        }
+        else if (weaponModelChoice == 2 && weapon3Purchase == true)
         {
             gun1.GetComponent<MeshRenderer>().enabled = false;
             gun2.GetComponent<MeshRenderer>().enabled = false;
             gun3.GetComponent<MeshRenderer>().enabled = true;
             SetWeaponColor();
+        }
+        else if (weaponModelChoice == 2 && specialCoins >= characterCost)
+        {
+            UseSpecialCoin(characterCost);
+            weapon3Purchase = true;
+            gun1.GetComponent<MeshRenderer>().enabled = false;
+            gun2.GetComponent<MeshRenderer>().enabled = true;
+            gun3.GetComponent<MeshRenderer>().enabled = false;
+            SetWeaponColor();
+        }
+        else if (weaponModelChoice == 2 && specialCoins < characterCost)
+        {
+            weaponModelChoice = 0;
         }
     }
 

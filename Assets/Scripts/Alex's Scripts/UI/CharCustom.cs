@@ -137,6 +137,7 @@ public class CharCustom : MonoBehaviour
             weaponActive = false;
             playerActive = true;
             Weapons.SetActive(false);
+            Korben.enabled = false;
             Prisoner.enabled = true;
             players.SetActive(true);
         }

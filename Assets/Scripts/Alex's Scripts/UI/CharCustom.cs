@@ -367,16 +367,28 @@ public class CharCustom : MonoBehaviour
             {
                 purchaseConfirmation.SetActive(true);
 
+                //Uses the event system to set the buttons for the UI
+                EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+                EventSystem.current.SetSelectedGameObject(PurchaseYes); //Sets the selected obj
+
                 if (purchaseYes == true)
                 {
                     playerData.SetCharacterChoiceMenu();
                     purchaseConfirmation.SetActive(false);
                     purchaseYes = false;
+
+                    //Switches to the Characte button selection buttons
+                    EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+                    EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
                 }
                 if (purchaseNo == true)
                 {
                     purchaseConfirmation.SetActive(false);
                     purchaseNo = false;
+
+                    //Switches to the Characte button selection buttons
+                    EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+                    EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
                 }
 
             }
@@ -390,10 +402,6 @@ public class CharCustom : MonoBehaviour
             {
                 playerData.SetCharacterChoiceMenu();
             }
-
-            //Switches to the Characte button selection buttons
-            EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
-            EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
         }
 
         //Checks to see if pets is active

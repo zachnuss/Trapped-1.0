@@ -1447,7 +1447,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &1023678822805134334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1560,7 +1560,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &1023678822904301719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1786,7 +1786,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!65 &483053300510254721
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2926,7 +2926,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &1997073245577051335
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,7 +3039,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &1997073245813125038
 GameObject:
   m_ObjectHideFlags: 0
@@ -3265,7 +3265,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!65 &7517854093548461822
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6867,7 +6867,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &5770260763857683122
 GameObject:
   m_ObjectHideFlags: 0
@@ -6980,7 +6980,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &5770260764026884571
 GameObject:
   m_ObjectHideFlags: 0
@@ -7206,7 +7206,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!65 &5751259204751055556
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7709,7 +7709,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &6199534782637318363
 GameObject:
   m_ObjectHideFlags: 0
@@ -7988,7 +7988,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &6199534783296728554
 GameObject:
   m_ObjectHideFlags: 0
@@ -8101,7 +8101,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!65 &7390541060104287099
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9657,7 +9657,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &8039227602871785094
 GameObject:
   m_ObjectHideFlags: 0
@@ -9770,7 +9770,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &8039227603218433301
 GameObject:
   m_ObjectHideFlags: 0
@@ -9996,7 +9996,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnNothing: 0
+  spawnNothing: 1
 --- !u!1 &8039227603806247863
 GameObject:
   m_ObjectHideFlags: 0
@@ -11270,6 +11270,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8ff47204a8cca44ab130a6e1597c686,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: -8635115644873401014, guid: d8ff47204a8cca44ab130a6e1597c686,
         type: 3}

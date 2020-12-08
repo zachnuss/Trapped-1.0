@@ -304,7 +304,7 @@ public class CommonGuard : BaseEnemy {
                 //move
                 //Vector3 physicsForces = _isClippingWall();
                 //if (physicsForces != Vector3.zero) Debug.Log("HIT");
-                transform.position += transform.TransformDirection(_moveDir) * speed;// * Time.fixedDeltaTime;
+                transform.position += transform.TransformDirection(_moveDir) * speed * Time.fixedDeltaTime;
             }
             //look at the reference point on the player object
             transform.LookAt(lookAtMe, lookAtMe.up);

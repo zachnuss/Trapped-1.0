@@ -2896,7 +2896,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 109, y: -142}
+  m_AnchoredPosition: {x: 109, y: -220}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &810654474
@@ -2941,7 +2941,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 810654475}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 949816044}
+        m_MethodName: CancelPurchase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &810654475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3401,6 +3412,9 @@ MonoBehaviour:
   BunnyModel: {fileID: 1640107115}
   BeeLabel: {fileID: 1324974552}
   BunnyLabel: {fileID: 1049612914}
+  purchaseConfirmation: {fileID: 1127252779}
+  yesButton: {fileID: 1059640287}
+  noButton: {fileID: 810654474}
   PurchaseP2: {fileID: 67057464}
   PurchasePet: {fileID: 576840071}
   Weapons: {fileID: 880735251}
@@ -3880,7 +3894,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1059640288}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 949816044}
+        m_MethodName: ConfirmPurchase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1059640288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3935,7 +3960,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -142}
+  m_AnchoredPosition: {x: 75, y: -220}
   m_SizeDelta: {x: 160, y: -470}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!4 &1075501696 stripped
@@ -5375,15 +5400,15 @@ MonoBehaviour:
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 300
-    m_Alignment: 4
+    m_Alignment: 1
     m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'Text Here
+    m_LineSpacing: 0.75
+  m_Text: 'Confirm your purchase.
 
-'
+    [10]'
 --- !u!222 &1440510868
 CanvasRenderer:
   m_ObjectHideFlags: 0

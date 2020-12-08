@@ -308,7 +308,6 @@ public class CharCustom : MonoBehaviour
             if(playerData.character2Purchase == false && playerData.specialCoins > playerData.characterCost)
             {
                 purchaseConfirmation.SetActive(true);
-                StartCoroutine(purchaseWait());
                 if (purchaseYes == true)
                 {
                     playerData.SetCharacterChoiceMenu();
@@ -367,7 +366,7 @@ public class CharCustom : MonoBehaviour
             if (playerData.character2Purchase == false && playerData.specialCoins > playerData.characterCost)
             {
                 purchaseConfirmation.SetActive(true);
-                StartCoroutine(purchaseWait());
+
                 if (purchaseYes == true)
                 {
                     playerData.SetCharacterChoiceMenu();
@@ -443,35 +442,14 @@ public class CharCustom : MonoBehaviour
         yield return new WaitForSeconds(2);
         PurchasePet.SetActive(false);
     }
+    
 
-    /// <summary>
-    /// Wesley
-    /// Updated: 11-16-2020
-    /// 
-    /// Courutine to keep track of seconds waiting to display that players need to purchase a pet
-    /// </summary>
-    IEnumerator purchaseWait()
-    {
-        bool inputRecieved = false;
-
-        yesButton.onClick.AddListener(confirmPurchase);
-        noButton.onClick.AddListener(cancelPurchase);
-        while (!inputRecieved)
-        {
-            if(purchaseYes == true || purchaseNo == true)
-            {
-                inputRecieved = true;
-            }
-        }
-        yield return null;
-    }
-
-    void confirmPurchase()
+    public void ConfirmPurchase()
     {
         purchaseYes = true;
     }
 
-    void cancelPurchase()
+    public void CancelPurchase()
     {
         purchaseNo = true;
     }

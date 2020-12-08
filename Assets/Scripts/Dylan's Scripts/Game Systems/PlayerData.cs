@@ -917,31 +917,31 @@ public class PlayerData : ScriptableObject
             gun2 = GameObject.Find("Gun2_V2");
         }
 
-        if (GameObject.Find("Gun3Gun3") == true)
+        if (GameObject.Find("Gun3_V2") == true)
         {
-            gun3 = GameObject.Find("Gun3Gun3");
+            gun3 = GameObject.Find("Gun3_V2");
         }
 
         if (weaponModelChoice == 0)
         {
-            gun1.SetActive(true);
-            gun2.SetActive(false);
-            gun3.SetActive(false);
+            gun1.GetComponent<MeshRenderer>().enabled = true;
+            gun2.GetComponent<MeshRenderer>().enabled = false;
+            gun3.GetComponent<MeshRenderer>().enabled = false;
             SetWeaponColor();
         }
         else if (weaponModelChoice == 1)
         {
-            gun1.SetActive(false);
-            gun2.SetActive(true);
-            gun3.SetActive(false);
+            gun1.GetComponent<MeshRenderer>().enabled = false;
+            gun2.GetComponent<MeshRenderer>().enabled = true;
+            gun3.GetComponent<MeshRenderer>().enabled = false;
             SetWeaponColor();
         }
 
         else if (weaponModelChoice == 2)
         {
-            gun1.SetActive(false);
-            gun2.SetActive(false);
-            gun3.SetActive(true);
+            gun1.GetComponent<MeshRenderer>().enabled = false;
+            gun2.GetComponent<MeshRenderer>().enabled = false;
+            gun3.GetComponent<MeshRenderer>().enabled = true;
             SetWeaponColor();
         }
     }
@@ -968,9 +968,9 @@ public class PlayerData : ScriptableObject
             gun2 = GameObject.Find("Gun2_V2");
         }
         
-        if (GameObject.Find("Gun3Gun3") == true)
+        if (GameObject.Find("Gun3_V2") == true)
         {
-            gun3 = GameObject.Find("Gun3Gun3");
+            gun3 = GameObject.Find("Gun3_V2");
         }
 
         if (weaponModelChoice == 0)
@@ -1032,10 +1032,10 @@ public class PlayerData : ScriptableObject
         }
         if (weaponModelChoice == 2)
         {
-            if (GameObject.Find("Gun3Gun3") == true)
+            if (GameObject.Find("Gun3_V2") == true)
             {
-                Debug.Log("Gun3 exists");
-                gun3 = GameObject.Find("Gun3Gun3");
+                //Debug.Log("Gun3 exists");
+                gun3 = GameObject.Find("Gun3_V2");
                 Material[] gunMaterials = new Material[1];
                 gunMaterials[0] = weapon3Color[weapon3MaterialChoice];
                 gun3.GetComponent<MeshRenderer>().materials = gunMaterials;

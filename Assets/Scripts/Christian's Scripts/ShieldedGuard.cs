@@ -12,6 +12,7 @@ public class ShieldedGuard : CommonGuard {
     private float _timeForRest = 4f;
     private float _restTimer = 0f;
     private float _timeStunned = 2.75f;
+    private float _bashTimer = 0f;
     private bool _isBashing = false;
     private bool _isStunned = false;
 
@@ -22,7 +23,7 @@ public class ShieldedGuard : CommonGuard {
         ///check before movement
         if (_myBehavior != Behavior.Idle && _myBehavior != Behavior.TrackPlayer
             && !_isTrackingPlayer && !_isBashing) {
-            _move(_moveDir);
+                _move(_moveDir);
         }
         else if (_isTrackingPlayer && !_isBashing) {
             //override _move() because the enemy will be too focussed on
@@ -39,10 +40,10 @@ public class ShieldedGuard : CommonGuard {
                     //shield bash
                     _isTrackingPlayer = false;
                     _isBashing = true;
-                    Vector3 vecToPlayer = _playerGO.transform.position - transform.position;
-                    _moveDir = transform.TransformDirection(_fwdDirGO.transform.localPosition);
-                    _moveDir = _moveDir.normalized;
-                    _moveDir.y = 0f;
+                    _bashTimer = Time.time + 5f;
+                    //Vector3 vecToPlayer = _playerGO.transform.localPosition - transform.localPosition
+                    //_moveDir = (_fwdDirGO.transform.localPosition).normalized;
+                    //_moveDir.y = 0f;
                 }
             }
         }
@@ -73,7 +74,7 @@ public class ShieldedGuard : CommonGuard {
     //Once facing the player, maintain _moveDir and run until "Wall" is hit
     private void _shieldBash() {
         //if wall is hit, stun
-        if (_isEnemyFacingWall()) {
+        if (_isEnemyFacingWall() || Time.time > _bashTimer) {
             _isBashing = false;
             speed = _storeRegSpeed;
             Invoke("_resetBehaviors", _timeStunned);
@@ -81,6 +82,7 @@ public class ShieldedGuard : CommonGuard {
             InvokeRepeating("_changeBehavior", _timeStunned, rateOfBehaviorChange);
             _isStunned = true;
             Invoke("_stunTimer", _timeStunned);
+            _bashTimer = 0f;
             return;
         }
 
@@ -88,7 +90,8 @@ public class ShieldedGuard : CommonGuard {
         speed = _storeRegSpeed * 1.75f;
         if (Vector3.Distance(transform.position, _playerGO.transform.position)
             > 0.5f) {
-                transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
+                transform.Translate(_moveDir * speed * Time.fixedDeltaTime, Space.Self);
+                //transform.localPosition += _moveDir * speed * Time.fixedDeltaTime;
         }
     }
 

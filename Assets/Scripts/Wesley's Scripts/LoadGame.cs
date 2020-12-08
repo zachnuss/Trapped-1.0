@@ -5,7 +5,7 @@ using UnityEngine;
 public class LoadGame : MonoBehaviour
 {
     public PlayerData playerData;
-    void Start()
+    void Awake()
     {
         playerData.LoadFile();
     }

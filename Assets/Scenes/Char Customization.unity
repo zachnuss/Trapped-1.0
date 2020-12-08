@@ -1178,7 +1178,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You need 15 Special Currency to purchase a pet model
+  m_Text: You need to complete the associated achievment to unlock this pet.
 --- !u!222 &407132585
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1255,17 +1255,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: f9b9357e87ed29948b25c9a1d8db1dcf, type: 2}
-        m_MethodName: SetMenuColor
-        m_Mode: 3
+      - m_Target: {fileID: 949816044}
+        m_MethodName: BeeButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
 --- !u!114 &438787781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1767,6 +1767,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pet_bunny
+      objectReference: {fileID: 0}
+    - target: {fileID: 7074680931939194661, guid: 684652920365c444fa72750764b17fbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7594617632226495903, guid: 684652920365c444fa72750764b17fbf,
         type: 3}
@@ -3195,9 +3200,14 @@ MonoBehaviour:
   petBunny: {fileID: 1827645612}
   BeeDescription: {fileID: 1506599336}
   BunnyDescription: {fileID: 933103886}
+  BeeModel: {fileID: 1967133425}
+  BunnyModel: {fileID: 1640107115}
+  BeeLabel: {fileID: 1324974552}
+  BunnyLabel: {fileID: 1049612914}
   PurchaseP2: {fileID: 67057464}
   PurchasePet: {fileID: 576840071}
   Weapons: {fileID: 880735251}
+  Character: {fileID: 283681812}
 --- !u!114 &949816045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3873,9 +3883,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: f9b9357e87ed29948b25c9a1d8db1dcf, type: 2}
-        m_MethodName: SetMenuColor
-        m_Mode: 3
+      - m_Target: {fileID: 949816044}
+        m_MethodName: NAButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5762,6 +5772,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595701996}
   m_CullTransparentMesh: 0
+--- !u!1 &1640107115 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7074680931939194661, guid: 684652920365c444fa72750764b17fbf,
+    type: 3}
+  m_PrefabInstance: {fileID: 518974867}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1646324412
 GameObject:
   m_ObjectHideFlags: 0
@@ -6331,17 +6347,28 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: f9b9357e87ed29948b25c9a1d8db1dcf, type: 2}
-        m_MethodName: SetMenuColor
-        m_Mode: 3
+      - m_Target: {fileID: 949816044}
+        m_MethodName: BunnyButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1827645615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6653,6 +6680,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1919943349}
   m_CullTransparentMesh: 0
+--- !u!1 &1967133425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 210c545922237e845951d43c90558ada,
+    type: 3}
+  m_PrefabInstance: {fileID: 1018317521}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2103768306
 GameObject:
   m_ObjectHideFlags: 0

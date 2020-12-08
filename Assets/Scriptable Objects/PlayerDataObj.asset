@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ac9e01fa250f2469fa52ba507acdd1, type: 3}
   m_Name: PlayerDataObj
   m_EditorClassIdentifier: 
-  timerSec: 0
+  timerSec: 5
   timerMin: 0
   timerHour: 0
   timerBetweenLevels: 0
-  totalTime: 1052.9648
+  totalTime: 1059.6514
   healthUpgrade: 0
   damageUpgrade: 0
   speedUpgrade: 0
@@ -25,14 +25,14 @@ MonoBehaviour:
   localHealth: 100
   OnLevel: 0
   levelsBeaten: 0
-  score: 8
-  matchScoreFromTime: 8
+  score: 5
+  matchScoreFromTime: 5
   matchScoreFromEnemies: 0
-  matchEnemiesKilled: 3
+  matchEnemiesKilled: 0
   matchPowerUpsCollected: 0
-  speedPowerupsCollected: 8
+  speedPowerupsCollected: 0
   matchCurrencyCollected: 0
-  matchSpecialCoinCollected: 1
+  matchSpecialCoinCollected: 0
   highScore1: 2000
   highScore2: 1000
   highScore3: 938
@@ -85,7 +85,7 @@ MonoBehaviour:
   achievementRevenge2: 0
   achievementDoesItEnd: 0
   achievementRedDead: 0
-  achievementFullWallet: 1
+  achievementFullWallet: 0
   achievementRunner: 0
   achievementJailBird: 0
   achievementNoTrust: 0

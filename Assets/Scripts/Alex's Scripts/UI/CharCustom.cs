@@ -36,14 +36,22 @@ public class CharCustom : MonoBehaviour
     public GameObject petBunny;
     public GameObject BeeDescription;
     public GameObject BunnyDescription;
+    public GameObject BeeModel;
+    public GameObject BunnyModel;
+    private int currPet;
+    public GameObject BeeLabel;
+    public GameObject BunnyLabel;
     
-    //Pet purchase Variables
+    //Purchase Label Objects
     public GameObject PurchaseP2; //Text box to display that the player needs to purchase player 2
     public GameObject PurchasePet; //Text box to display that the player needs to purchase pet
 
     //Weapon Switching Objects
     public GameObject Weapons; //The weapon models
-    
+
+    //Button Objects
+    public GameObject Character; //Character Button
+
     //Bools to keep track of what is active
     private bool playerActive = true; //Keeps track of player section being active
     private bool petActive = false; //Keeps track of pet section being active
@@ -83,6 +91,11 @@ public class CharCustom : MonoBehaviour
             pets.SetActive(true);
             petButtons.SetActive(true);
         }
+
+        if (playerData.characterPet2Purchase == true)//checks if pet is purchased after running changepet
+            BeeLabel.SetActive(false);
+        if (playerData.characterPet3Purchase == true)//checks if pet is purchased after running changepet
+            BunnyLabel.SetActive(false);
 
         //Switches to the pet selection buttons
         EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
@@ -189,7 +202,88 @@ public class CharCustom : MonoBehaviour
 
     /// <summary>
     /// Alexander
-    /// Updated: 11-6-2020
+    /// Updated: 12-7-2020
+    /// 
+    /// Pet buttons to track the pet selection and all that
+    /// </summary>
+    public void NAButton()
+    {
+        if (currPet == 1) //From Bee
+        {
+            BeeModel.GetComponent<MeshRenderer>().enabled = false;
+            BeeDescription.SetActive(false);
+            playerData.ChangePet(0);//runs changepet
+            currPet = 0;
+        }
+
+        if (currPet == 2) //From Bunny
+        {
+            BunnyModel.GetComponent<MeshRenderer>().enabled = false;
+            BunnyDescription.SetActive(false);
+            playerData.ChangePet(0);//runs changepet
+            currPet = 0;
+        }
+    }
+
+    public void BeeButton()
+    {
+        if (currPet == 0) //From NA
+        {
+            BeeModel.GetComponent<MeshRenderer>().enabled = true;
+            BeeDescription.SetActive(true);
+            currPet = 1;
+
+            if (playerData.characterPet2Purchase == false)//checks if pet is purchased after running changepet
+                StartCoroutine(waitingPet());
+            if (playerData.characterPet2Purchase == true)//checks if pet is purchased after running changepet
+                playerData.ChangePet(1);//runs changepet
+        }
+
+        if (currPet == 2) //From Bunny
+        {
+            BunnyModel.GetComponent<MeshRenderer>().enabled = false;
+            BeeModel.GetComponent<MeshRenderer>().enabled = true;
+            BeeDescription.SetActive(true);
+            currPet = 1;
+
+            if (playerData.characterPet2Purchase == false)//checks if pet is purchased after running changepet
+                StartCoroutine(waitingPet());
+            if (playerData.characterPet2Purchase == true)//checks if pet is purchased after running changepet
+                playerData.ChangePet(1);//runs changepet
+        }
+    }
+
+    public void BunnyButton()
+    {
+        if(currPet == 0) //From NA
+        {
+            BunnyModel.GetComponent<MeshRenderer>().enabled = true;
+            BunnyDescription.SetActive(true);
+            currPet = 2;
+
+            if (playerData.characterPet3Purchase == false)//checks if pet is purchased after running changepet
+                StartCoroutine(waitingPet());
+            if (playerData.characterPet3Purchase == true)//checks if pet is purchased after running changepet
+                playerData.ChangePet(2);//runs changepet
+        }   
+
+        if (currPet == 1) //From Bee
+        {
+            BeeModel.GetComponent<MeshRenderer>().enabled = false;
+            BunnyModel.GetComponent<MeshRenderer>().enabled = true;
+            BunnyDescription.SetActive(true);
+            currPet = 2;
+
+            if (playerData.characterPet3Purchase == false)//checks if pet is purchased after running changepet
+                StartCoroutine(waitingPet());
+            if (playerData.characterPet3Purchase == true)//checks if pet is purchased after running changepet
+                playerData.ChangePet(2);//runs changepet
+        }
+    }
+
+    /// <summary>
+    /// Alexander
+    /// Updated: 12-7-2020
     /// 
     /// Two Functions that have the same purpose
     /// Switches models based on right or left bumper being pressed
@@ -206,6 +300,10 @@ public class CharCustom : MonoBehaviour
                 StartCoroutine(waiting());
             }
         }
+
+        //Switches to the Characte button selection buttons
+        EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+        EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
 
         //Checks to see if pets is active
         /*if (pets.activeInHierarchy == true)//If it is will adjust pet choice
@@ -239,6 +337,10 @@ public class CharCustom : MonoBehaviour
             {
                 StartCoroutine(waiting());
             }
+
+            //Switches to the Characte button selection buttons
+            EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+            EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
         }
 
         //Checks to see if pets is active
@@ -299,6 +401,7 @@ public class CharCustom : MonoBehaviour
         Korben.enabled = false;
         Merlon.enabled = false;
         Lazurus.enabled = false;
+        currPet = playerData.petChoice;
     }
 
         /// <summary>

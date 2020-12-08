@@ -408,6 +408,10 @@ public class CharCustom : MonoBehaviour
             playerData.characterPet3Purchase = true;
         if (playerData.achievementRevenge1 == true)
             playerData.characterPet2Purchase = true;
+        if (playerData.achievementRunner == false)
+            playerData.characterPet3Purchase = false;
+        if (playerData.achievementRevenge1 == false)
+            playerData.characterPet2Purchase = false;
     }
 
         /// <summary>

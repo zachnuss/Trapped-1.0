@@ -41,6 +41,13 @@ public class CharCustom : MonoBehaviour
     private int currPet;
     public GameObject BeeLabel;
     public GameObject BunnyLabel;
+
+    //Purchase System, yes it's jank
+    public GameObject purchaseConfirmation; //textbox for purchases
+    public Button yesButton;
+    public Button noButton;
+    private bool purchaseYes;
+    private bool purchaseNo;
     
     //Purchase Label Objects
     public GameObject PurchaseP2; //Text box to display that the player needs to purchase player 2
@@ -295,11 +302,32 @@ public class CharCustom : MonoBehaviour
         //Checks to see if the prisoner is active
         if (playerActive == true) //If it is then it will go and adjust the players colors
         {
-            playerData.SetCharacterChoiceMenu();
+            if(playerData.character2Purchase == false && playerData.specialCoins > playerData.characterCost)
+            {
+                purchaseConfirmation.SetActive(true);
+                StartCoroutine(purchaseWait());
+                if (purchaseYes == true)
+                {
+                    playerData.SetCharacterChoiceMenu();
+                    purchaseConfirmation.SetActive(false);
+                    purchaseYes = false;
+                }
+                if (purchaseNo == true)
+                {
+                    purchaseConfirmation.SetActive(false);
+                    purchaseNo = false;
+                }
 
-            if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
+            }
+
+            else if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
             {
                 StartCoroutine(waiting());
+            }
+
+            else if (playerData.character2Purchase == true)
+            {
+                playerData.SetCharacterChoiceMenu();
             }
         }
 
@@ -333,11 +361,32 @@ public class CharCustom : MonoBehaviour
         //Checks to see if the prisoner is active
         if (playerActive == true) //If it is then it will go and adjust the players colors
         {
-            playerData.SetCharacterChoiceMenu();
+            if (playerData.character2Purchase == false && playerData.specialCoins > playerData.characterCost)
+            {
+                purchaseConfirmation.SetActive(true);
+                StartCoroutine(purchaseWait());
+                if (purchaseYes == true)
+                {
+                    playerData.SetCharacterChoiceMenu();
+                    purchaseConfirmation.SetActive(false);
+                    purchaseYes = false;
+                }
+                if (purchaseNo == true)
+                {
+                    purchaseConfirmation.SetActive(false);
+                    purchaseNo = false;
+                }
 
-            if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
+            }
+
+            else if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
             {
                 StartCoroutine(waiting());
+            }
+
+            else if(playerData.character2Purchase == true)
+            {
+                playerData.SetCharacterChoiceMenu();
             }
 
             //Switches to the Characte button selection buttons
@@ -391,6 +440,39 @@ public class CharCustom : MonoBehaviour
         yield return new WaitForSeconds(2);
         PurchasePet.SetActive(false);
     }
+
+    /// <summary>
+    /// Wesley
+    /// Updated: 11-16-2020
+    /// 
+    /// Courutine to keep track of seconds waiting to display that players need to purchase a pet
+    /// </summary>
+    IEnumerator purchaseWait()
+    {
+        bool inputRecieved = false;
+
+        yesButton.onClick.AddListener(confirmPurchase);
+        noButton.onClick.AddListener(cancelPurchase);
+        while (!inputRecieved)
+        {
+            if(purchaseYes == true || purchaseNo == true)
+            {
+                inputRecieved = true;
+            }
+        }
+        yield return null;
+    }
+
+    void confirmPurchase()
+    {
+        purchaseYes = true;
+    }
+
+    void cancelPurchase()
+    {
+        purchaseNo = true;
+    }
+
 
     /// <summary>
     /// Alexander

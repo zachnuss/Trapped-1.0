@@ -71,7 +71,7 @@ public class PlayerOptions : MonoBehaviour {
         if (_buildIndex != 5) {
             _musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
         }
-        if (_buildIndex >= 1 && _buildIndex <= 3) {
+        if (_buildIndex >= 2 && _buildIndex <= 4) {
             _playerFX = GameObject.FindWithTag("Player").GetComponent<AudioSource>();
             _playerFX.clip = pickUpFX;
             //get data and apply options where relavent in game
@@ -135,15 +135,12 @@ public class PlayerOptions : MonoBehaviour {
             }
         }
     }
-
     //FOR PLAYER PICK UP COLLISIONS ONLY
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Currency" || other.tag == "PowerUp") {
-            Debug.Log("picked up");
-            playpickUpFX();
+            playPickUpFX();
         }
     }
-
     /*    BUTTON FUNCTIONS    */
     //simply toggles if the game will go to fullscreen or not.
     public void toggleFullscreen() {
@@ -252,8 +249,8 @@ public class PlayerOptions : MonoBehaviour {
     }
 
     //when the player picks up a coin in-game, play appropriate sound effect
-    public void playpickUpFX() {
-        _playerFX.clip = pickUpFX;
+    public void playPickUpFX() {
+        //_playerFX.clip = pickUpFX;
         _playerFX.Play();
     }
 

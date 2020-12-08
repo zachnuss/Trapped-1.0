@@ -22,9 +22,7 @@ public class ShieldedGuard : CommonGuard {
         ///check before movement
         if (_myBehavior != Behavior.Idle && _myBehavior != Behavior.TrackPlayer
             && !_isTrackingPlayer && !_isBashing) {
-            if (!_isEnemyFacingWall()) {
-                _move(_moveDir);
-            }
+            _move(_moveDir);
         }
         else if (_isTrackingPlayer && !_isBashing) {
             //override _move() because the enemy will be too focussed on

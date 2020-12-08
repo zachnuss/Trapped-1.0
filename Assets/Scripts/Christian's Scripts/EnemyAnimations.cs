@@ -23,64 +23,74 @@ public class EnemyAnimations : MonoBehaviour {
     /*
      * Animation bools:
      *      CommonGuards:
+     *          isIdle
      *          isWalking
      *          isShooting
-     *          isIdle
      *      ShieldedGuard:
      *          isIdle
      *          isWalking
      *          isCharging
      */
-    //SET IDLE STATE FUNCTIONS
+     //COMMONGUARD FUNCTIONS
     public void isIdle_CommonGuard() {
         if (!_animator.GetBool("isIdle")) {
             _animator.SetBool("isIdle", true);
             _animator.SetBool("isWalking", false);
             _animator.SetBool("isShooting", false);
+            _animator.StopPlayback();
         }
         _animator.Play("isIdle");
     }
-    public void isIdle_ShieldedGuard() {
-        if (!_animator.GetBool("isIdle")) {
-            _animator.SetBool("isIdle", true);
-            _animator.SetBool("isWalking", false);
-            _animator.SetBool("isCharging", false);
-        }
-        _animator.Play("isIdle");
-    }
-    //SET WALKING STATE FUNCTIONS
+
     public void isWalking_CommonGuard() {
         if (!_animator.GetBool("isWalking")) {
             _animator.SetBool("isIdle", false);
             _animator.SetBool("isWalking", true);
             _animator.SetBool("isShooting", false);
+            _animator.StopPlayback();
+            
         }
         _animator.Play("isWalking");
     }
-    public void isWalking_ShieldedGuard() {
-        if (!_animator.GetBool("isWalking")) {
-            _animator.SetBool("isIdle", false);
-            _animator.SetBool("isWalking", true);
-            _animator.SetBool("isCharging", false);
-        }
-        _animator.Play("isWalking");
-    }
-    //SET RUNNING STATE FUNCTIONS
-    public void isCharging_ShieldedGuard() {
-        if (!_animator.GetBool("isCharging")) {
-            _animator.SetBool("isIdle", false);
-            _animator.SetBool("isWalking", false);
-            _animator.SetBool("isCharging", true);
-        }
-        _animator.Play("isCharging");
-    }
-    //SET SHOOTING STATE FUNCTIONS
+
     public void isShooting_CommonGuard() {
         if (!_animator.GetBool("isShooting")) {
             _animator.SetBool("isIdle", false);
             _animator.SetBool("isWalking", false);
             _animator.SetBool("isShooting", true);
+            _animator.StopPlayback();
         }
         _animator.Play("isShooting");
+    }
+
+    //SHIELDEDGUARD FUNCTIONS
+    public void isIdle_ShieldedGuard() {
+        if (!_animator.GetBool("isIdle")) {
+            _animator.SetBool("isIdle", true);
+            _animator.SetBool("isWalking", false);
+            _animator.SetBool("isCharging", false);
+            _animator.StopPlayback();
+        }
+        _animator.Play("isIdle");
+    }
+
+    public void isWalking_ShieldedGuard() {
+        if (!_animator.GetBool("isWalking")) {
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isWalking", true);
+            _animator.SetBool("isCharging", false);
+            _animator.StopPlayback();
+        }
+        _animator.Play("isWalking");
+    }
+
+    public void isCharging_ShieldedGuard() {
+        if (!_animator.GetBool("isCharging")) {
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isWalking", false);
+            _animator.SetBool("isCharging", true);
+            _animator.StopPlayback();
+        }
+        _animator.Play("isCharging");
     }
 }

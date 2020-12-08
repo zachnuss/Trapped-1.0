@@ -48,9 +48,9 @@ public class BaseEnemy : MonoBehaviour {
     protected GameObject _fwdDirGO, _leftDirGO, _rightDirGO;
     protected GameObject _playerGO;
     protected EnemyAnimations _enemyAnim;
+    protected float _wallDetectRay = 1.0f;
     //private
     private Vector3 _rotVal; //rotation
-    private float _wallDetectRay = 0.75f;
     private bool _hasHitWall = false;
     private CubemapFace _myFaceLocation;
 
@@ -234,22 +234,22 @@ public class BaseEnemy : MonoBehaviour {
         RaycastHit hit;
         //check what's in fron using Raycast
         //get approximate width of the player
-        /*
+        
         Vector3 rightHip = (_rightDirGO != null) ? (_rightDirGO.transform.position 
                                                     + transform.position) / 2f
                                                  : Vector3.zero;
         Vector3 leftHip = (_leftDirGO != null) ? (_leftDirGO.transform.position
                                                     + transform.position) / 2f
                                                  : Vector3.zero;
-        */
+        
         //if (rightHip != null && leftHip != null) {
         //    Debug.DrawRay(transform.position, _moveDir * 2f, Color.red);
         //    Debug.DrawRay(rightHip, _moveDir * 2f, Color.green);
         //    Debug.DrawRay(leftHip, _moveDir * 2f, Color.green);
         //}
-        if (Physics.SphereCast(transform.position, 0.25f, _moveDir, out hit, _wallDetectRay)) {
-           // || Physics.Raycast(rightHip, _moveDir, out hit, _wallDetectRay)
-           // || Physics.Raycast(leftHip, _moveDir, out hit, _wallDetectRay)) {
+        if (Physics.Raycast(transform.position, _moveDir, out hit, _wallDetectRay)
+            || Physics.Raycast(rightHip, _moveDir, out hit, _wallDetectRay)
+            || Physics.Raycast(leftHip, _moveDir, out hit, _wallDetectRay)) {
            //don't change direction if I'm looking at the player
            if (hit.transform.tag == "Wall") {
                 isFacingWall = true;
@@ -257,6 +257,9 @@ public class BaseEnemy : MonoBehaviour {
            //am I hitting myself?
            else if (hit.transform.name == _fwdDirGO.name) {
                 Debug.LogWarning("BaseEnemy: hitting child for raycast"); 
+           }
+           else {
+               _oneEnemyPrint("ShieldedGuard", hit.transform.name);
            }
         }
         return isFacingWall;
@@ -274,7 +277,7 @@ public class BaseEnemy : MonoBehaviour {
 
     //this function will act like onDeath (doesn't need to be called manually)
     protected virtual void OnDestroy() {
-        //call singleton to add score to game
+        //EnemyListener.Instance.deleteFromList(this);
 
         ///collectable
         ///STAND IN CODE FOR THE FUTURE
@@ -371,7 +374,7 @@ public class BaseEnemy : MonoBehaviour {
 
 
     ///DEBUGGING FUNCTION TO ONLY CALL FROM A SINGLE ENEMY
-    private void oneEnemyPrint(string enemyName, string printing) {
+    private void _oneEnemyPrint(string enemyName, string printing) {
         if (name == enemyName) {
             Debug.Log(enemyName + ": " + printing);
         }

@@ -431,6 +431,7 @@ public class CharCustom : MonoBehaviour
                     else if (playerData.weapon2Purchase == false) //The player doesn't have enough currency to switch between the models
                     {
                         StartCoroutine(waitingWeapon());
+                        playerData.weaponModelChoice = 0;
                     }
 
                     else if (playerData.weapon2Purchase == true) //if the model we moved to is purchased
@@ -459,6 +460,7 @@ public class CharCustom : MonoBehaviour
                     else if (playerData.weapon3Purchase == false) //The player doesn't have enough currency to switch between the models
                     {
                         StartCoroutine(waitingWeapon());
+                        playerData.weaponModelChoice = 0;
                     }
 
                     else if (playerData.weapon3Purchase == true) //if the model we moved to is purchased
@@ -584,6 +586,7 @@ public class CharCustom : MonoBehaviour
                     else if (playerData.weapon2Purchase == false) //The player doesn't have enough currency to switch between the models
                     {
                         StartCoroutine(waitingWeapon());
+                        playerData.weaponModelChoice = 0;
                     }
 
                     else if (playerData.weapon2Purchase == true) //if the model we moved to is purchased
@@ -612,6 +615,7 @@ public class CharCustom : MonoBehaviour
                     else if (playerData.weapon3Purchase == false) //The player doesn't have enough currency to switch between the models
                     {
                         StartCoroutine(waitingWeapon());
+                        playerData.weaponModelChoice = 0;
                     }
 
                     else if (playerData.weapon3Purchase == true) //if the model we moved to is purchased

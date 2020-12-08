@@ -951,7 +951,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case 2:
                 //bunny
-                speedMultiplier += 0.5f;
+                speedMultiplier += 0.25f;
                 Debug.Log("Bunny Buff");
                 break;
             default:

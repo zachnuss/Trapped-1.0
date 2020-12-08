@@ -199,9 +199,9 @@ public class CommonGuard : BaseEnemy {
         }
     }
 
-    protected void OnDrawGizmos() {
+    //protected void OnDrawGizmos() {
         //Gizmos.DrawWireSphere(_fwdDirGO.transform.position, 1.0f);
-    }
+    //}
 
     //if the player is never hit, then return Direction.NULL
     [System.Obsolete("Use _scanForPlayer() instead.")]

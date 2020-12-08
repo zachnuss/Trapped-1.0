@@ -333,6 +333,7 @@ public class PlayerData : ScriptableObject
         totalTime = 0;
         //currency starts at 0
         currency = 0;
+        specialCoins = 0;
         //score starts at 0
         score = 0; //added by wesley
         matchCurrencyCollected = 0;

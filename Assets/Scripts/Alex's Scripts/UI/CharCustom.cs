@@ -309,18 +309,32 @@ public class CharCustom : MonoBehaviour
             if(playerData.character2Purchase == false && playerData.specialCoins > playerData.characterCost)
             {
                 purchaseConfirmation.SetActive(true);
-                if (purchaseYes == true)
+                
+                //Sets second character to on
+                GameObject[] character1 = new GameObject[8];
+                // GameObject[] character2 = new GameObject[8];
+                GameObject character2 = GameObject.Find("secondCharacter_low");
+                //GameObject character1 = GameObject.Find("MainCharacter_Geo");
+                for (int i = 0; i < character1.Length; i++)
                 {
-                    playerData.SetCharacterChoiceMenu();
-                    purchaseConfirmation.SetActive(false);
-                    purchaseYes = false;
+                    character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
                 }
-                if (purchaseNo == true)
+                character2.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                for (int i = 0; i < character1.Length; i++)
                 {
-                    purchaseConfirmation.SetActive(false);
-                    purchaseNo = false;
+                    character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
+                }
+                if (GameObject.Find("secondCharacter_low") == true)
+                {
+                    //Debug.Log("Second step");
+                    GameObject character;
+                    character = GameObject.Find("secondCharacter_low").gameObject;
+                    character.GetComponent<SkinnedMeshRenderer>().material = playerData.player2Color[playerData.materialChoice2];
                 }
 
+                //Uses the event system to set the buttons for the UI
+                EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+                EventSystem.current.SetSelectedGameObject(PurchaseYes); //Sets the selected obj
             }
 
             else if (playerData.character2Purchase == false) //The player doesn't have enough currency to switch between the models
@@ -333,10 +347,6 @@ public class CharCustom : MonoBehaviour
                 playerData.SetCharacterChoiceMenu();
             }
         }
-
-        //Switches to the Characte button selection buttons
-        EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
-        EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
 
         //Checks to see if pets is active
         /*if (pets.activeInHierarchy == true)//If it is will adjust pet choice
@@ -368,29 +378,32 @@ public class CharCustom : MonoBehaviour
             {
                 purchaseConfirmation.SetActive(true);
 
+                //Sets second character to on
+                GameObject[] character1 = new GameObject[8];
+                // GameObject[] character2 = new GameObject[8];
+                GameObject character2 = GameObject.Find("secondCharacter_low");
+                //GameObject character1 = GameObject.Find("MainCharacter_Geo");
+                for (int i = 0; i < character1.Length; i++)
+                {
+                    character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+                }
+                character2.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                for (int i = 0; i < character1.Length; i++)
+                {
+                    character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
+                }
+                if (GameObject.Find("secondCharacter_low") == true)
+                {
+                    //Debug.Log("Second step");
+                    GameObject character;
+                    character = GameObject.Find("secondCharacter_low").gameObject;
+                    character.GetComponent<SkinnedMeshRenderer>().material = playerData.player2Color[playerData.materialChoice2];
+                }
+
                 //Uses the event system to set the buttons for the UI
                 EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
                 EventSystem.current.SetSelectedGameObject(PurchaseYes); //Sets the selected obj
-
-                if (purchaseYes == true)
-                {
-                    playerData.SetCharacterChoiceMenu();
-                    purchaseConfirmation.SetActive(false);
-                    purchaseYes = false;
-
-                    //Switches to the Characte button selection buttons
-                    EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
-                    EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
-                }
-                if (purchaseNo == true)
-                {
-                    purchaseConfirmation.SetActive(false);
-                    purchaseNo = false;
-
-                    //Switches to the Characte button selection buttons
-                    EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
-                    EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
-                }
+                
 
             }
 
@@ -569,6 +582,37 @@ public class CharCustom : MonoBehaviour
                 Lazurus.enabled = false;
                 Merlon.enabled = true;
             }
+        }
+
+        //PurchaseControl
+        if (purchaseYes == true)
+        {
+            purchaseConfirmation.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+            EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
+            playerData.SetCharacterChoiceMenu();
+            purchaseYes = false;
+        }
+        if (purchaseNo == true)
+        {
+            purchaseConfirmation.SetActive(false);
+            GameObject[] character1 = new GameObject[8];
+            // GameObject[] character2 = new GameObject[8];
+            GameObject character2 = GameObject.Find("secondCharacter_low");
+
+            //GameObject character1 = GameObject.Find("MainCharacter_Geo");
+            for (int i = 0; i < character1.Length; i++)
+            {
+                character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
+            }
+            character2.GetComponent<SkinnedMeshRenderer>().enabled = false;
+            for (int i = 0; i < character1.Length; i++)
+            {
+                character1[i].GetComponent<SkinnedMeshRenderer>().enabled = true;
+            }
+            EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+            EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
+            purchaseNo = false;
         }
     }
 }

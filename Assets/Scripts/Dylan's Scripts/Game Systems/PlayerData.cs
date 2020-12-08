@@ -598,7 +598,7 @@ public class PlayerData : ScriptableObject
                     characterModelSwitch = true;
                     //character1.SetActive(false);
                     //character2.SetActive(false);
-                    character2.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                    character2.GetComponent<SkinnedMeshRenderer>().enabled = true;
                     for (int i = 0; i < character1.Length; i++)
                     {
                         character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;

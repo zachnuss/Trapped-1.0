@@ -243,6 +243,7 @@ public class CharCustom : MonoBehaviour
         {
             BunnyModel.GetComponent<MeshRenderer>().enabled = false;
             BeeModel.GetComponent<MeshRenderer>().enabled = true;
+            BunnyDescription.SetActive(false);
             BeeDescription.SetActive(true);
             currPet = 1;
 
@@ -271,6 +272,7 @@ public class CharCustom : MonoBehaviour
         {
             BeeModel.GetComponent<MeshRenderer>().enabled = false;
             BunnyModel.GetComponent<MeshRenderer>().enabled = true;
+            BeeDescription.SetActive(false);
             BunnyDescription.SetActive(true);
             currPet = 2;
 
@@ -402,6 +404,10 @@ public class CharCustom : MonoBehaviour
         Merlon.enabled = false;
         Lazurus.enabled = false;
         currPet = playerData.petChoice;
+        if (playerData.achievementRunner == true)
+            playerData.characterPet3Purchase = true;
+        if (playerData.achievementRevenge1 == true)
+            playerData.characterPet2Purchase = true;
     }
 
         /// <summary>

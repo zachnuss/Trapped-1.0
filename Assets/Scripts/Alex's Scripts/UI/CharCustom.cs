@@ -126,6 +126,8 @@ public class CharCustom : MonoBehaviour
             playerActive = true;
             petActive = false;
             pets.SetActive(false);
+            BeeDescription.SetActive(false);
+            BunnyDescription.SetActive(false);
             Prisoner.enabled = true;
             players.SetActive(true);
             petButtons.SetActive(false);
@@ -179,6 +181,8 @@ public class CharCustom : MonoBehaviour
             weaponActive = true;
             petActive = false;
             pets.SetActive(false);
+            BeeDescription.SetActive(false);
+            BunnyDescription.SetActive(false);
             petButtons.SetActive(false);
             Weapons.SetActive(true);
         }
@@ -345,6 +349,8 @@ public class CharCustom : MonoBehaviour
             else if (playerData.character2Purchase == true)
             {
                 playerData.SetCharacterChoiceMenu();
+                EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+                EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
             }
         }
 
@@ -415,6 +421,8 @@ public class CharCustom : MonoBehaviour
             else if(playerData.character2Purchase == true)
             {
                 playerData.SetCharacterChoiceMenu();
+                EventSystem.current.SetSelectedGameObject(null); //Clears the selected Obj
+                EventSystem.current.SetSelectedGameObject(Character); //Sets the selected obj
             }
         }
 

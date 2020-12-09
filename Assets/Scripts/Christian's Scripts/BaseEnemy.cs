@@ -420,28 +420,31 @@ public class BaseEnemy : MonoBehaviour {
     /// </summary>
     void SetModifiers()
     {
-        _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
-        for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)
+        if (GameObject.Find("LevelSetup") == true)
         {
-            if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+            _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
+            for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)
             {
-                doubleDamageMod = true;
+                if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+                {
+                    doubleDamageMod = true;
+                }
+                if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.shields_and_regainMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+                {
+                    sheildMod = true;
+                    sheildObj.SetActive(true);
+                }
+                if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.AdvancedSimulant && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+                {
+                    advancedStimsMod = true;
+                    Debug.Log("OG SPEED: " + speed);
+                    //increase to speed by 25%
+                    speed = speed + (speed * 0.25f);
+                    Debug.Log("New speed yo: " + speed);
+                }
             }
-            if(_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.shields_and_regainMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
-            {
-                sheildMod = true;
-                sheildObj.SetActive(true);
-            }
-            if(_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.AdvancedSimulant && _lvlSetUp.currentModsInLevel[modIndex].modActive)
-            {
-                advancedStimsMod = true;
-                Debug.Log("OG SPEED: " + speed);
-                //increase to speed by 25%
-                speed = speed + (speed * 0.25f);
-                Debug.Log("New speed yo: " + speed);
-            }
+            if (!sheildMod)
+                sheildObj.SetActive(false);
         }
-        if (!sheildMod)
-            sheildObj.SetActive(false);
     }
 }

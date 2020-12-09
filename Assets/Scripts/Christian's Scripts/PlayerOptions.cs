@@ -69,7 +69,10 @@ public class PlayerOptions : MonoBehaviour {
         _buildIndex = SceneManager.GetActiveScene().buildIndex;
         //musicSource doesn't exist in store scene
         if (_buildIndex != 5) {
-            _musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
+            if (GameObject.Find("Music") == true)
+            {
+                _musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
+            }
         }
         if (_buildIndex >= 2 && _buildIndex <= 4) {
             _playerFX = GameObject.FindWithTag("Player").GetComponent<AudioSource>();

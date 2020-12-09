@@ -33,6 +33,7 @@ public class SetButtonOnObj : MonoBehaviour
             GameObject key = Instantiate(buttonObj, this.transform);
             key.transform.localPosition = new Vector3(0, 0, 0);
             this.name = "ButtonObj";
+            this.GetComponent<BoxCollider>().enabled = false;
             //Debug.Log(this.name + " activating true");
         }
         else

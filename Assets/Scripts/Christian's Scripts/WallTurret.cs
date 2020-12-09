@@ -84,19 +84,22 @@ public class WallTurret : MonoBehaviour
         newBullet.transform.parent = transform;
         newBullet.GetComponent<TurretBullet>().damage = bulletDamage;
         //double damage mod
-        if(doubleDamageMod)
+        if (doubleDamageMod)
             newBullet.GetComponent<TurretBullet>().doubleDamage = true;
     }
 
     //initial setup of modifiers
     void SetModifiers()
     {
-        _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
-        for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)
+        if (GameObject.Find("LevelSetup") == true)
         {
-            if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+            _lvlSetUp = GameObject.Find("LevelSetup").GetComponent<LevelSetup>();
+            for (int modIndex = 0; modIndex < _lvlSetUp.currentModsInLevel.Length; modIndex++)
             {
-                doubleDamageMod = true;
+                if (_lvlSetUp.currentModsInLevel[modIndex].modType == modifierType.doubleDamageMOD && _lvlSetUp.currentModsInLevel[modIndex].modActive)
+                {
+                    doubleDamageMod = true;
+                }
             }
         }
     }

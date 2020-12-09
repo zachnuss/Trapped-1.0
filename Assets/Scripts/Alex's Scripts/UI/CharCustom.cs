@@ -97,9 +97,6 @@ public class CharCustom : MonoBehaviour
             pets.SetActive(true);
             femaleColor.SetActive(false);
             maleColor.SetActive(false);
-            weapon1Color.SetActive(false);
-            weapon2Color.SetActive(false);
-            weapon3Color.SetActive(false);
             petButtons.SetActive(true);
         }
 
@@ -114,6 +111,9 @@ public class CharCustom : MonoBehaviour
             Lazurus.enabled = false;
             pets.SetActive(true);
             petButtons.SetActive(true);
+            weapon1Color.SetActive(false);
+            weapon2Color.SetActive(false);
+            weapon3Color.SetActive(false);
         }
 
         if (playerData.characterPet2Purchase == true)//checks if pet is purchased after running changepet
@@ -156,6 +156,9 @@ public class CharCustom : MonoBehaviour
             Korben.enabled = false;
             Prisoner.enabled = true;
             players.SetActive(true);
+            weapon1Color.SetActive(false);
+            weapon2Color.SetActive(false);
+            weapon3Color.SetActive(false);
         }
 
         if (playerData.characterModelSwitch == false) //False on the character model switch is Male, true is female

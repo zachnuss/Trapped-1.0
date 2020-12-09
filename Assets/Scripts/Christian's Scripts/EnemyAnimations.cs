@@ -68,7 +68,8 @@ public class EnemyAnimations : MonoBehaviour {
         if (!_animator.GetBool("isIdle")) {
             _animator.SetBool("isIdle", true);
             _animator.SetBool("isWalking", false);
-            _animator.SetBool("isCharging", false);
+            //THIS ANIMATION MAY EXIST IN A PREVIOUS BUILD
+            _animator.SetBool("isRunning", false);
             _animator.StopPlayback();
         }
         _animator.Play("isIdle");
@@ -78,19 +79,20 @@ public class EnemyAnimations : MonoBehaviour {
         if (!_animator.GetBool("isWalking")) {
             _animator.SetBool("isIdle", false);
             _animator.SetBool("isWalking", true);
-            _animator.SetBool("isCharging", false);
+            //THIS ANIMATION MAY EXIST IN A PREVIOUS BUILD
+            _animator.SetBool("isRunning", false);
             _animator.StopPlayback();
         }
         _animator.Play("isWalking");
     }
 
     public void isCharging_ShieldedGuard() {
-        if (!_animator.GetBool("isCharging")) {
+        if (!_animator.GetBool("isRunning")) {
             _animator.SetBool("isIdle", false);
             _animator.SetBool("isWalking", false);
-            _animator.SetBool("isCharging", true);
+            _animator.SetBool("isRunning", true);
             _animator.StopPlayback();
         }
-        _animator.Play("isCharging");
+        _animator.Play("isRunning");
     }
 }

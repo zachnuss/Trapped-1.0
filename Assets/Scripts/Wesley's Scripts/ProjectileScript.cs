@@ -95,7 +95,7 @@ public class ProjectileScript : MonoBehaviour
                  *       according to what enemy type this is
                  */
                 if (other.TryGetComponent<BaseEnemy>(out BaseEnemy bE)) {
-                    Debug.Log("This exists");
+                    //Debug.Log("This exists");
                 }
                 else Debug.Log("This doesn't exist");
                 other.gameObject.GetComponent<BaseEnemy>().takeDamage(playerRef); //Christian's code

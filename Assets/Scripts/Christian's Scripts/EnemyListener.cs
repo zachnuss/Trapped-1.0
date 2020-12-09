@@ -36,7 +36,9 @@ public class EnemyListener : MonoBehaviour {
         int enemyListLength = tempList.Length;
         foreach (var enemy in tempList) {
             int enumIndex = (int) enemy.GetComponent<BaseEnemy>().myFaceLocation;
-            _enemyList[enumIndex].Add(enemy.GetComponent<BaseEnemy>());
+            if (_enemyList[enumIndex] != null)
+                //Debug.Log("Functioning"); confirmed that this makes the script not cause a null pointer. Don't know what affects this have though.
+                _enemyList[enumIndex].Add(enemy.GetComponent<BaseEnemy>());
            /* Debug.Log("Adding: " + enemy.name + "(" + enemy.transform.parent.name + ")" +
                       ", Face: " + enemy.GetComponent<BaseEnemy>().myFaceLocation);
             *///enemy.SetActive(false);

@@ -5,6 +5,21 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+/// <summary>
+/// Dylan Loe, Whesley, and Alexander
+/// 
+/// Dylan
+/// - Primarly used to store information related to the player such as starting stats, time 
+/// variables, upgrades and other variables that must be tracked.
+/// 
+/// - Has functions for game progression such as updating when level is beaten, started or reset in debug.
+/// 
+/// Whesley and Alexander
+/// - Contains functions to set, get and update values like score, time and upgrades.
+/// 
+/// Whesley
+/// - Has functions for setting rigs, materials, animation controllers, player pets meshes, and player weapon meshes.
+/// </summary>
 [CreateAssetMenu(fileName = "Data", menuName = "ScritableObjects/PlayerData", order = 1)]
 public class PlayerData : ScriptableObject
 {
@@ -23,7 +38,7 @@ public class PlayerData : ScriptableObject
 
     [Header("Player base stats")]
     public int totalHealthBase;
-    // public int totalSpeedBase;
+    //speed is used as a multipler to a base 10 in playerMovement
     public int totalDamageBase;
     public float localHealth;
 
@@ -52,14 +67,11 @@ public class PlayerData : ScriptableObject
     public int specialCoins = 0;
 
     [Header("Player Levels")]
-   // public Scene[] levels;
     public string[] levelsS;
     [Header("Loops Completed")]
     public int loopsCompleted;
 
     [Header("Prev and Next")]
-    //public Scene nextLevel;
-    //public Scene prevLevel;
     public string nextLevelStr;
     public string prevLevelStr;
 
@@ -84,8 +96,6 @@ public class PlayerData : ScriptableObject
     public Material[] weapon2Color;
     public Material[] weapon3Color;
 
-
-    //public AnimatorControllerParameter p2;
 
     [Header("Player Persistent Stats")]
     //Player Persistent stats - Wesley
@@ -134,13 +144,22 @@ public class PlayerData : ScriptableObject
     public int characterCost;
     public int colorCost;
 
+    //for debugging
     [HideInInspector]
     public bool godMode = false;
+    //for specific regen mod, health can only be cut in half one in the run, when it is activated
     [HideInInspector]
     public bool startAtHalf = false;
+    //for specific seration mod, gives health buff on initial load, can only run once per run
     [HideInInspector]
     public bool healthBuffSeration = false;
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-25-2020
+    /// 
+    /// Getter for loops beaten. Found by deviding total levels beaten by 3
+    /// </summary>
     public int loops
     {
         get
@@ -196,13 +215,11 @@ public class PlayerData : ScriptableObject
             if (!takeToModSelection)
             {
                 nextSceneStr = "StoreScene";
-                //SceneManager.LoadScene("StoreScene");
                 SceneManager.LoadScene("LoadingScene");
             }
             else
             {
                 nextSceneStr = "GameLoopModSelection";
-                //SceneManager.LoadScene("GameLoopModSelection");
                 SceneManager.LoadScene("LoadingScene");
             }
         }
@@ -212,7 +229,7 @@ public class PlayerData : ScriptableObject
     /// Dylan Loe
     /// Updated: 10-20-2020
     /// 
-    /// Loads next scene
+    /// Loads next scene. Sets nextSceneStr, prevSceneStr
     /// </summary>
     public void LoadNextLevel()
     {
@@ -222,12 +239,8 @@ public class PlayerData : ScriptableObject
             timerSec += timerBetweenLevels;
 
             nextSceneStr = nextLevelStr;
-            //SceneManager.LoadScene(nextLevelStr);
             SceneManager.LoadScene("LoadingScene");
         }
-       // else
-          //  SceneManager.LoadScene(5);    
-        //Debug.Log("LOAD END SCREEN HERE UWU");
     }
 
     /// <summary>
@@ -270,10 +283,11 @@ public class PlayerData : ScriptableObject
     }
 
     /// <summary>
-    /// Dylan Loe
+    /// Dylan Loe And Wesley
     /// Updated: 11-5-2020
     /// 
-    /// Runs when game is initially started from menu, sets variables, loads level 1 and starts setting up the mods
+    /// Runs when game is initially started from menu, sets variables, loads level 1 and starts 
+    /// setting up the mods.
     /// </summary>
     public void StartGame()
     {
@@ -311,7 +325,7 @@ public class PlayerData : ScriptableObject
     }
 
     /// <summary>
-    /// Dylan Loe
+    /// Dylan Loe And Whesley
     /// Updated: 11-5-2020
     /// 
     /// Activated with gui, will reset values for testing and debugging, as if start game was activated
@@ -347,9 +361,9 @@ public class PlayerData : ScriptableObject
         healthBuffSeration = false;
         gameLevelData.InitialModSetup();
         //resetPersistent
-        highScore1 = 2000;
-        highScore2 = 1000;
-        highScore3 = 500;
+        highScore1 = 0;
+        highScore2 = 0;
+        highScore3 = 0;
         totalEnemiesKilled = 0;
         totalRoombasKilled = 0;
         totalRegularsKilled = 0;
@@ -406,7 +420,8 @@ public class PlayerData : ScriptableObject
     /// Dylan loe
     /// Updated: 10-31-2020
     /// 
-    /// Activates a god mode that can be toggled on and off before unity plays
+    /// Activates a god mode that can be toggled on and off before unity plays. 
+    /// From GUI, USED FOR DEBUGGING
     /// </summary>
     public void DebugMode()
     {
@@ -468,11 +483,6 @@ public class PlayerData : ScriptableObject
                 timerHour++;
                 timerMin = 0;
             }
-        
-        if (timerHour >= 99 && timerMin > 60 && timerSec > 60)
-        {
-            Debug.Log("you loose");
-        }
     }
 
     /// <summary>
@@ -486,24 +496,20 @@ public class PlayerData : ScriptableObject
     {
         matchScoreFromEnemies += input;
     }
-
     public void TrackTimeScore(int input)
     {
         matchScoreFromTime += input;
     }
-
     public void TrackCurrencyGains(int input)
     {
         matchCurrencyCollected += input;
     }
-
     public void TrackSpecialCoinGains(int input)
     {
         matchSpecialCoinCollected += input;
         if (totalSpecialCoinsCollected >= 30)
             achievementFullWallet = true;
     }
-    
     public void TrackEnemyKills(int input, GameObject enemy)
     {
         matchEnemiesKilled += input;
@@ -520,7 +526,6 @@ public class PlayerData : ScriptableObject
         if (totalShieldsKilled > 10)
             achievementRevenge2 = true;
     }
-
     public void TrackPowerupGains(int input, powerUpType type)
     {
         matchPowerUpsCollected += input;
@@ -531,11 +536,17 @@ public class PlayerData : ScriptableObject
     }
 
     /// <summary>
-    /// Wesley
-    /// Updated: 10-20-2020
+    /// Wesley AND Dylan Loe
+    /// Updated: 12-8-2020
     /// 
     /// Turns character models on or off in menus
     /// Also handles purchasing
+    /// 
+    /// Dylan UPDATE (12-10-2020): Due to second rig being added, this proved to be inefficient turing off 
+    /// the SkinnedMeshRenderers, things like guns would still be present on both rigs in game.
+    /// Future Iteration would require these functions to exist in a different script due to the 
+    /// nature of this script being a scriptable obj and therefore not present in scenes. Gameobject.find is 
+    /// expensive to run constantly (should only be once)
     /// </summary>
     public void SetCharacterChoiceMenu()
     {
@@ -549,18 +560,12 @@ public class PlayerData : ScriptableObject
         {
             character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
         }
-        //for (int i = 0; i < character1.Length; i++)
-        //{
-        //    character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-        //}
 
         //GameObject character2 = GameObject.Find("secondChar_Rig_TPose");
         if (characterModelSwitch == false)
         {
             characterModelSwitch = false;
-            //character2.SetActive(false);
-            
-            //character1.SetActive(true);
+
             character2.GetComponent<SkinnedMeshRenderer>().enabled = false;
             for (int i = 0; i < character1.Length; i++)
             {
@@ -573,19 +578,12 @@ public class PlayerData : ScriptableObject
             if (character2Purchase == true)
             {
                 characterModelSwitch = true;
-                //character1.SetActive(false);
-                //character2.SetActive(true);
                 character2.GetComponent<SkinnedMeshRenderer>().enabled = true;
                 for (int i = 0; i < character1.Length; i++)
                 {
                     character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
                 }
 
-                //character2.GetComponent<MeshRenderer>().enabled = true;
-               // for (int i = 0; i < character2.Length; i++)
-                //{
-                //    character2[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
-                //}
                 SetMenuColor(materialChoice2);
             }
             else
@@ -596,14 +594,12 @@ public class PlayerData : ScriptableObject
                     character2Purchase = true;
                     //update with a purchase
                     characterModelSwitch = true;
-                    //character1.SetActive(false);
-                    //character2.SetActive(false);
+
                     character2.GetComponent<SkinnedMeshRenderer>().enabled = true;
                     for (int i = 0; i < character1.Length; i++)
                     {
                         character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
                     }
-                    //character2.GetComponent<MeshRenderer>().enabled = true;
                     SetMenuColor(materialChoice2);
                 }
                 else
@@ -615,10 +611,12 @@ public class PlayerData : ScriptableObject
     }
 
     /// <summary>
-    /// Wesley
-    /// Updated: 10-20-2020
+    /// Wesley and Dylan Loe
+    /// Updated: 12-10-2020
     /// 
     /// Sets character model on or off in game
+    /// 
+    /// Update: Dylan Added Second Rig with correct naming.
     /// </summary>
     public void SetCharacterChoiceGame()
     {
@@ -629,21 +627,17 @@ public class PlayerData : ScriptableObject
             {
                 character1[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
             }
-            //character1 = GameObject.Find("MainCharacter_Rig_Final");
+
         }
 
         GameObject character2 = null;
         if (GameObject.Find("secondCharacter_low") == true)
         {
-            //Debug.Log("found");
             character2 = GameObject.Find("secondCharacter_low");
         }
 
         if (characterModelSwitch == false)
         {
-            //character2.GetComponent<MeshRenderer>().enabled = false;
-            //character1.SetActive(true);
-            //character2.SetActive(false);
             character2.GetComponent<SkinnedMeshRenderer>().enabled = false;
              for (int i = 0; i < character1.Length; i++)
              {
@@ -658,8 +652,6 @@ public class PlayerData : ScriptableObject
             character1[i].GetComponent<SkinnedMeshRenderer>().enabled = false;
              }
             character2.GetComponent<SkinnedMeshRenderer>().enabled = true;
-            //character1.SetActive(false);
-            //character2.SetActive(true);
             SetMenuColor(materialChoice2);
         }
     }
@@ -743,10 +735,12 @@ public class PlayerData : ScriptableObject
     }
 
     /// <summary>
-    /// Wesley
-    /// Updated: 10-20-2020
+    /// Wesley and Dylan Loe
+    /// Updated: 12-10-2020
     /// 
     /// Sets color on player
+    /// 
+    /// Update: Added second rig with correct naming
     /// </summary>
     public void SetColor()
     {
@@ -763,18 +757,12 @@ public class PlayerData : ScriptableObject
                  {
                      character[i].GetComponent<SkinnedMeshRenderer>().material = playerColor[materialChoice];
                  }
-                //Debug.Log("This still happens");
-                //GameObject character;
-                //character = GameObject.Find("MainCharacter_Geo").gameObject;
-               // character.GetComponent<MeshRenderer>().material = playerColor[materialChoice];
             }
         }
         if(characterModelSwitch == true)
         {
-            //Debug.Log("First step");
             if (GameObject.Find("secondCharacter_low") == true)
             {
-                //Debug.Log("Second step");
                 GameObject character;
                 character = GameObject.Find("secondCharacter_low").gameObject;
                 character.GetComponent<SkinnedMeshRenderer>().material = player2Color[materialChoice2];
@@ -1104,20 +1092,14 @@ public class PlayerData : ScriptableObject
         {
             pet1.GetComponent<MeshRenderer>().enabled = false;
             pet2.GetComponent<MeshRenderer>().enabled = false;
-           // pet1.SetActive(false);
-            //pet2.SetActive(false);
         }
         if (petChoice == 1)
         {
-            // pet2.SetActive(false);
-            // pet1.SetActive(true);
             pet1.GetComponent<MeshRenderer>().enabled = true;
             pet2.GetComponent<MeshRenderer>().enabled = false;
         }
         if (petChoice == 2)
         {
-            // pet1.SetActive(false);
-            //pet2.SetActive(true);
             pet1.GetComponent<MeshRenderer>().enabled = false;
             pet2.GetComponent<MeshRenderer>().enabled = true;
         }
@@ -1340,6 +1322,13 @@ public class PlayerData : ScriptableObject
         file.Close();
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-23-2020
+    /// 
+    /// Durings on startAtHalf bool for low power generator mod, Bool should allow so it only
+    /// has to be used once for initial run in game. When player restarts it resets as well.
+    /// </summary>
     public void ActivateHalfHealthMod()
     {
         if(!startAtHalf)
@@ -1351,7 +1340,13 @@ public class PlayerData : ScriptableObject
         }
     }
 
-    
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-23-2020
+    /// 
+    /// During the healthBuffSeration bool for SerratedAmmo mod. Bool should allow so it only 
+    /// has to be used once for initial run in game. When player restartes it resets as well.
+    /// </summary>
     public void HealthBuffSerationMod()
     {
         if(!healthBuffSeration)

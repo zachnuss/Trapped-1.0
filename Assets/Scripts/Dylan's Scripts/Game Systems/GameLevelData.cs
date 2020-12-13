@@ -10,7 +10,6 @@ using UnityEngine;
 /// 
 /// PlayerData takes from here to choose the next level
 /// </summary>
-/// 
 public enum modifierType
 {
    none,
@@ -22,6 +21,12 @@ public enum modifierType
    TrackingAmmunitionMOD
 };
 
+/// <summary>
+/// Dylan Loe
+/// 10-28-2020
+/// 
+/// Modifier class to hold information on the different modifiers to be displayed on the inspector.
+/// </summary>
 [System.Serializable]
 public class Modifier
 {
@@ -33,7 +38,6 @@ public class Modifier
     public bool modActive;
     public string modDescription;
     public modifierType modType;
-    //maybe symbol goes here or somethin
 }
 
 [CreateAssetMenu(fileName = "GameLevelData", menuName = "ScritableObjects/GameLevelData", order = 2)]
@@ -52,9 +56,13 @@ public class GameLevelData : ScriptableObject
     private Modifier lastModActivated;
     public int totalModsOn;
 
-   // [HideInInspector]
-   // public bool overrideRandomLevel;
-
+    /// <summary>
+    /// Dylan Loe
+    /// 10-28-2020
+    /// 
+    /// Chooses random level based on what type of level is inputed. Uses levelTypeE enum. 
+    /// Displays in console what is choosen.
+    /// </summary>
     public GameObject ChooseLevelP(levelTypeE levelType)
     {
         int permutation;
@@ -82,7 +90,7 @@ public class GameLevelData : ScriptableObject
     /// Dylan Loe
     /// Updated: 10-20-2020
     /// 
-    /// Addes the modifer to the array of active mods
+    /// Addes the modifer to the array of active mods.
     /// </summary>
     public void AddModifier(modifierType newMod)
     {
@@ -102,7 +110,7 @@ public class GameLevelData : ScriptableObject
     /// Dylan Loe
     /// Updated: 10-20-2020
     /// 
-    /// Checks if a mod is active in the array
+    /// Checks if a mod is active in the array.
     /// </summary>
     public bool CheckIfModActive(modifierType newMod)
     {
@@ -121,7 +129,7 @@ public class GameLevelData : ScriptableObject
     /// Dylan Loe
     /// 11-15-2020
     /// 
-    /// Simplly finds total num of mods active and updates public var
+    /// Simplly finds total num of mods active and updates public var.
     /// </summary>
     public void UpdateModCounter()
     {
@@ -160,15 +168,12 @@ public class GameLevelData : ScriptableObject
         switch (levelType)
         {
             case levelTypeE.EasyLevel:
-                //permutation = Random.Range(0, level1Permutations.Length);
                 Debug.Log("Used p number: " + permutation);
                 return level1Permutations[permutation];
             case levelTypeE.MidLevel:
-                //permutation = Random.Range(0, level2Permutations.Length);
                 Debug.Log("Used p number: " + permutation);
                 return level2Permutations[permutation];
             case levelTypeE.Hardlevel:
-                //permutation = Random.Range(0, level3Permutations.Length);
                 Debug.Log("Used p number: " + permutation);
                 return level3Permutations[permutation];
             default:

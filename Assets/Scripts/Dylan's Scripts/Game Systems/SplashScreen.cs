@@ -21,21 +21,32 @@ public class SplashScreen : MonoBehaviour
     [SerializeField] public PlayerInputActions myActions;
 
     public PlayerData myPlayerData;
-   // public GameObject text;
     public TextMeshProUGUI text2;
-   // Animator anim;
 
     public string pluggedIn = "";
     bool _controllerPlugged;
 
     bool yDir = false;
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-26-2020
+    /// 
+    /// Starts y movement on button
+    /// </summary>
     private void Start()
     {
         var myActions = new PlayerInputActions();
-        //anim = this.GetComponent<Animator>();
         StartCoroutine(ymove());
 
     }
+
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-26-2020
+    /// 
+    /// Moves button small increments. Also checks if player has a controller plugged in
+    /// and displays accordingly.
+    /// </summary>
     private void Update()
     {
         if (yDir)
@@ -61,21 +72,30 @@ public class SplashScreen : MonoBehaviour
             text2.text = "Please Plug in Controller...";
             _controllerPlugged = false;
         }
-
-        
     }
 
-
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-26-2020
+    /// 
+    /// Loads Main menu when button is pushed.
+    /// </summary>
     public void MainMenu()
     {
         Debug.Log("start game");
 
         myPlayerData.nextSceneStr = "Shawn_MainMenu";
-        //SceneManager.LoadScene("Shawn_MainMenu");
         SceneManager.LoadScene("LoadingScene");
        
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-26-2020
+    /// 
+    /// Switches direction every increment.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ymove()
     {
         yield return new WaitForSeconds(2.0f);
@@ -88,10 +108,15 @@ public class SplashScreen : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10-26-2020
+    /// 
+    /// When button pressed, begin fade out animation
+    /// </summary>
     public void OnPress()
     {
         if(_controllerPlugged)
             this.GetComponent<Animator>().SetBool("TransStart", true);
-        //anim.Play("SplashFadeOut");
     }
 }

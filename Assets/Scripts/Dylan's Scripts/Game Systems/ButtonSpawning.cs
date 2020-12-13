@@ -24,7 +24,8 @@ public class ButtonSpawning : MonoBehaviour
     /// Dylan Loe
     /// 10-26-2020
     /// 
-    /// turns on button for one of the preplaced objs in level
+    /// Turns on button for one of the preplaced objs in level. Chooses random index and 
+    /// that button is activate while the others are turned off.
     /// </summary>
     public void AssignButton()
     {

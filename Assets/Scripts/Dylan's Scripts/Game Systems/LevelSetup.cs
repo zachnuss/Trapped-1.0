@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Future iteration will use a cube class to create the sides and set that up instead of chooseing what cube we use we choose what sides on said cube
+/// Dylan Loe
+/// Future iteration will use a cube class to create the sides and set that up instead of 
+/// chooseing what cube we use we choose what sides on said cube
 /// </summary>
 public enum levelTypeE {
     EasyLevel,
@@ -15,19 +17,20 @@ public enum levelTypeE {
 
 public class LevelSetup : MonoBehaviour
 {
-    //player can overide
-    //[HideInInspector]
-    
+    //permuation number choosen for level
     [HideInInspector]
     public int permutationNum;
+    //ref to game level data
     public GameLevelData gameLevelData;
 
+    //level type
     public levelTypeE type;
 
+    //ref to permutatin obj
     public GameObject permutation;
-
+    //ref to player obj
     private GameObject _player;
-
+    //array of all mods
     public Modifier[] currentModsInLevel;
 
     [SerializeField, HideInInspector]
@@ -39,12 +42,10 @@ public class LevelSetup : MonoBehaviour
     /// Dylan Loe
     /// Updated: 11-3-2020
     /// 
-    /// Sets variables, modifiers and brings in the level permutation to load
+    /// Sets variables, modifiers and brings in the level permutation to load. Collects references to player.
     /// </summary>
     private void Awake()
     {
-       
-
         _player = GameObject.FindGameObjectWithTag("Player");
         SetPlayer();
         //set modifiers
@@ -53,7 +54,6 @@ public class LevelSetup : MonoBehaviour
         {
             if (!overrideRandomLevel)
             {
-                //Debug.Log("here");
                 permutation = gameLevelData.ChooseLevelP(type);
                 Instantiate(permutation);
                 Debug.Log(permutation.name);
@@ -61,7 +61,6 @@ public class LevelSetup : MonoBehaviour
             else
             {
                 permutation = gameLevelData.GetPermutation(type, permutationNum);
-                //if(permutation != null)
                 Instantiate(permutation);
                 Debug.Log("Manual Override for Permutation: " + permutation.name);
             }
@@ -73,7 +72,7 @@ public class LevelSetup : MonoBehaviour
     /// Dylan Loe
     /// Updated: 10-20-2020
     /// 
-    /// Sets player to starting point beased on what level is loaded
+    /// Sets player to starting point beased on what level is loaded.
     /// </summary>
     void SetPlayer()
     {
@@ -135,7 +134,6 @@ public class LevelSetup : MonoBehaviour
             }
             if(currentModsInLevel[modIndex].modType == modifierType.LowPoweredGeneratorMOD && currentModsInLevel[modIndex].modActive)
             {
-               // Debug.Log("health mod");
                 _player.GetComponent<PlayerMovement>().personalSheild = true;
                 _player.GetComponent<PlayerMovement>().sheildObj.SetActive(true);
 
@@ -145,13 +143,9 @@ public class LevelSetup : MonoBehaviour
             {
                 _player.GetComponent<PlayerMovement>().trackingAmmunitionMod = true;
                 _player.GetComponent<PlayerMovement>().mortarGrid.SetActive(true);
-                //FindObjectOfType<MortarModBehavior>().enabled = true;
-                //GameObject.Find("MortarGrid").SetActive(true);
 
             }
-        }
-    
-           
+        }  
         Debug.Log("Mods Now Active in Level");
     }
 }

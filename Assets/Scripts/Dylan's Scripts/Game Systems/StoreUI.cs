@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Manage store UI Buttons
+/// Dylan Loe
+/// Updated: 10 2020
+/// 
+/// Manage store UI Buttons. Each button runs one of these functions. Simply runs functions from PlayerData
 /// </summary>
 
 public class StoreUI : MonoBehaviour

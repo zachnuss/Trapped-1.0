@@ -24,6 +24,12 @@ public class PlayerMovement : MonoBehaviour
 
     //animation states for player - Since no animations, these will always be the same state. Only one animation on player.
     //top
+    /// <summary>
+    /// Dylan Loe
+    /// updated: 10 2020
+    /// 
+    /// Gives animation states of top half of character
+    /// </summary>
     public enum playerTopState
     {
         idle,
@@ -32,6 +38,12 @@ public class PlayerMovement : MonoBehaviour
         interacting
     };
     //legs
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 10 2020
+    /// 
+    /// Gives animation states of bottom half of character
+    /// </summary>
     public enum playerBottomState
     {
         idle,
@@ -84,10 +96,6 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public bool checkToCalculate = false;
     private Vector3 p01;
-
-    //for smooth parent rotation
-    //private Quaternion par01;
-   // private Transform pc1, pc0;
 
     EasingType easingTypeC = EasingType.linear;
     [HideInInspector]
@@ -174,8 +182,6 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Start()
     {
-        //Debug.Log(health);
-        //SetUpCharAppearance();
 
         if (playerData.godMode)
             Debug.Log("DEBUG MODE ON");
@@ -187,17 +193,6 @@ public class PlayerMovement : MonoBehaviour
         if (doubleDamage)
             damage += damage;
 
-        //commented cause it sucks
-
-        //    for (int i = 0; i < character.Length; i++)
-        //    {
-        //        character[i] = GameObject.Find("MainCharacter_Geo").transform.GetChild(i).gameObject;
-        //    }
-
-        //if (serratedMod)
-         //   playerData.HealthBuffSerationMod();
-
-        //SetPlayerModifiers(); Player Mods set up in LevelSetup obj and script
         SetPlayerStats();
 
         teleporterTracker = GameObject.FindGameObjectWithTag("GoalCheck"); //assumes we check on construction of the player, with a new player every level - Wesley
@@ -239,10 +234,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Interpolation();
         }
-
-        //so the looky thing does go over there
-       // topObj.transform.position = this.transform.position;
-        
     }
 
     /// <summary>
@@ -261,7 +252,6 @@ public class PlayerMovement : MonoBehaviour
         if (DetectEdge())
         {
             overTheEdge = true;
-            //Debug.Log("Over edge");
         }
         else
             overTheEdge = false;
@@ -270,7 +260,6 @@ public class PlayerMovement : MonoBehaviour
         if (overTheEdge && onDoor && !checkToCalculate && !moving)
         {
             //if we hit the door and are off the cube
-
             SwapRotate();
         }
 
@@ -282,15 +271,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 firingState = false;
                 firingTimer = 0;
-               // Debug.Log(stateInfo.length);
             }
         }
 
-       // SetAnimation();
        if(_localTopState != animTopState)
         {
             _localTopState = animTopState;
-           // SetAnimation();
         }
 
        //bleed stacks can only be active when bleed mod is on
@@ -304,7 +290,6 @@ public class PlayerMovement : MonoBehaviour
             if(bleedTimer2 >= 1.0)
             {
                 bleedTimer2 = 0;
-                Debug.Log("took bleed damage");
                 
                 //do damage based on stacks
                 health -= 1 * bleedStacks;
@@ -312,7 +297,6 @@ public class PlayerMovement : MonoBehaviour
             }
             else if(bleedTimer >= 5.0)
             {
-                Debug.Log("Done bleeding");
                 bleedStacks = 0;
                 bleedTimer = 0;
                 isBleeding = false;
@@ -335,7 +319,6 @@ public class PlayerMovement : MonoBehaviour
             //set up char 1
             this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p1Controller;
             this.GetComponent<Animator>().avatar = myPlayerSetup.p1Avatar;
-            //GameObject.Find("mixamorig:Hips").SetActive(false);
             GameObject.Find("secondChar_Rig_TPose").SetActive(false);
         }
         else
@@ -343,7 +326,6 @@ public class PlayerMovement : MonoBehaviour
             //set up char 2
             this.GetComponent<Animator>().runtimeAnimatorController = myPlayerSetup.p2Controller;
             this.GetComponent<Animator>().avatar = myPlayerSetup.p2Avatar;
-            //GameObject.Find("MainCharacter_Transform").SetActive(false);
             GameObject.Find("MainCharacter_Rig_Final").SetActive(false);
         }
 
@@ -357,28 +339,18 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void SwapRotate()
     {
-        //PlayerRotate.transform.position = this.transform.position;
         //rotates the parent of both playerObj and PlayerFollower
         PlayerRotate.transform.parent = null;
 
         PlayerRotate.transform.eulerAngles = _startingT.eulerAngles;
 
         //make sure PlayerRotate is at 0, 0, 0 and ect for each door
-
         transform.parent = PlayerRotate.transform;
-
-
         transform.localPosition = Vector3.zero;
         //this.GetComponent<Rigidbody>().isKinematic = true;
         this.GetComponent<Collider>().isTrigger = true;
 
         follower.transform.parent = PlayerRotate.transform;
-        //Debug.Log(follower.transform.localEulerAngles);
-        //follower.transform.localEulerAngles = 
-       // PlayerRotate.transform.localRotation = follower.transform.localRotation;
-
-
-        //follower.transform.localEulerAngles = Vector3.zero;
         checkToCalculate = true;
     }
 
@@ -396,7 +368,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (checkToCalculate)
         {
-            c0 = PlayerRotate.transform;//this.transform;
+            c0 = PlayerRotate.transform;
             c1 = _rotationTrans;
             
             checkToCalculate = false;
@@ -419,23 +391,16 @@ public class PlayerMovement : MonoBehaviour
 
                 this.transform.parent = parent.transform;
                 follower.transform.parent = parent.transform;
-
-                //Debug.Log("set this obj parent back to ParentObj");
                 PlayerRotate.transform.parent = this.transform;
-                //PlayerRotate.transform.position = Vector3.zero;
 
-                //PlayerRotate.transform.localPosition = Vector3.zero;
                 PlayerRotate.transform.localEulerAngles = Vector3.zero;
                 PlayerRotate.transform.position = this.transform.position;
-                
-               //this.GetComponent<Rigidbody>().constraints.
 
                 u = 1;
                 moving = false;
                 _rotationTrans = null;
                 overTheEdge = false;
-                // Debug.Log(overTheEdge);
-                //this.GetComponent<Rigidbody>().isKinematic = false;
+
                 this.GetComponent<Collider>().isTrigger = false;
             }
 
@@ -458,9 +423,6 @@ public class PlayerMovement : MonoBehaviour
             //apply those new values
             PlayerRotate.transform.position = p01;
             PlayerRotate.transform.rotation = r01;
-            //follower.transform.rotation = r01;
-            //parent.transform.rotation = par01;
-            //this.transform.localPosition = Vector3.zero;
         }
     }
    
@@ -489,7 +451,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnLook(InputValue value)
     {
         lookingInput = value.Get<Vector2>();
-       // Debug.Log(lookingInput);
     }
 
     //joysticks
@@ -512,9 +473,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public float JoystickV()
     {
-        //float r = 0.0f;
         float v = movementInput.y;
-        //r += Mathf.Round(v);
         return Mathf.Clamp(v, -1.0f, 1.0f);
     }
     /// <summary>
@@ -568,7 +527,6 @@ public class PlayerMovement : MonoBehaviour
     {
         float deadzone = 0.35f;
         Vector2 movement = MainJoystick();
-        //Debug.Log(movement);
         if (movement.magnitude < deadzone)
         {
             movement = Vector2.zero;
@@ -580,19 +538,15 @@ public class PlayerMovement : MonoBehaviour
         {
             RotateMovement(movement);
             animBottomState = playerBottomState.walking;
-            //turned off temp cause we dont have animations lol
-            //if(!firingState)
-                animTopState = playerTopState.moving;
-            //if(animTopState != playerTopState.moving)
-                SetAnimation();
+
+            animTopState = playerTopState.moving;
+            SetAnimation();
         }
         else
         {
             animBottomState = playerBottomState.idle;
-            //if (!firingState)
             animTopState = playerTopState.idle;
 
-            //if (animTopState != playerTopState.idle)
             SetAnimation();
         }
     }
@@ -658,7 +612,6 @@ public class PlayerMovement : MonoBehaviour
     {
         float deadzone = 0.25f;
         Vector2 looking = LookJoystick();
-        //Debug.Log(movement);
         //only move if player gives input
 
         //deadzones (high precision or radial?)
@@ -671,10 +624,8 @@ public class PlayerMovement : MonoBehaviour
         if (looking != Vector2.zero)
         {
             LookMovement(looking);
-            //animTopState = playerTopState.moving;
+
         }
-      //  else
-           // animTopState = playerTopState.idle;
     }
 
     /// <summary>
@@ -691,7 +642,6 @@ public class PlayerMovement : MonoBehaviour
         //convert joystick movements to angles that we can apply to player rotation
         _angle2 = Mathf.Atan2(looking.x, looking.y);
         _angle2 = Mathf.Rad2Deg * _angle2;
-        //Debug.Log(_angle);
         //local angles are used since its a child, the player parent is set to keep track of the global rotation
         //rotates top half with the gun
         float newAngle = _angle2 + follower.transform.localEulerAngles.y;
@@ -722,9 +672,7 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down) * 6, out hit, 1, layerMask))
         {
             //if we dont hit anything, char is hanging over edge
-            //if(hit.collider.tag != "Cube")
             noFloor = false;
-           // Debug.Log("Found edge");
         }
         else
             noFloor = true;
@@ -759,15 +707,11 @@ public class PlayerMovement : MonoBehaviour
 
             //just to destroy stray bullets if they escape the walls
             
-            // _repeatedFire = true;
             //when we fire we run fire animation once (firing state is active while animation is active)
             // StartCoroutine(FireState());
 
             //start animation
             firingState = true;
-            //Debug.Log("fire");
-            //temporary turned off cause i dont have animations (will ignore firing for now)
-            //animTopState = playerTopState.firing;
             playerAnimations.isFiringTop();
             firingTimer = 0;
             StartCoroutine(FireCoolDown());
@@ -789,20 +733,14 @@ public class PlayerMovement : MonoBehaviour
             onDoor = true;
             _rotationTrans = other.gameObject.GetComponent<DoorTrigger>().moveLocation;
             _startingT = other.gameObject.GetComponent<DoorTrigger>()._starting;
-            //_startingT = other.gameObject.GetComponent<DoorTrigger>().OnHit();
-            //c2 = other.gameObject.GetComponent<DoorTrigger>().moveMid;
-            //other.gameObject.GetComponent<DoorTrigger>().SwitchDirection();
 
-            //checkToCalculate = true;
         }
 
         //end game
         if (other.tag == "Goal")
         {
-            //Debug.Log("goal");
             if(!other.GetComponent<TeleBool>().active)
                    gamerUI.UpdateObjText();
-            //Debug.Log("hit");
             other.GetComponent<TeleBool>().active = true;
             //instead of destroying io made the game object change color so we dont get an error when we have multiple keys
             other.GetComponent<TeleBool>().onPress();
@@ -811,7 +749,6 @@ public class PlayerMovement : MonoBehaviour
                 playerData.localHealth = health;
                 StartCoroutine(LoadTargetLevel());
             }
-            //Destroy(other.gameObject);
         }
 
         //adding christans damage code
@@ -819,8 +756,6 @@ public class PlayerMovement : MonoBehaviour
         {
             //destroy object
             Destroy(other.transform.gameObject);
-            //decrement health
-            //takeDamage(bulletDamage); //Olivia changed this
             takeDamage(other.GetComponent<TurretBullet>().damage);
 
             Debug.Log("Current health: " + health);
@@ -851,7 +786,6 @@ public class PlayerMovement : MonoBehaviour
 
         if(other.gameObject.tag == "PowerUp")
         {
-            //Debug.Log("Hit powerup");
             PickedPowerUp(other.gameObject.GetComponent<PowerUpDrop>().type, other.gameObject.GetComponent<PowerUpDrop>().timer, other.gameObject.GetComponent<PowerUpDrop>().powerUpDuration);
             //run animation on powerup (if any)
             playerData.TrackPowerupGains(1, other.gameObject.GetComponent<PowerUpDrop>().type);
@@ -996,21 +930,19 @@ public class PlayerMovement : MonoBehaviour
                     StartCoroutine(BleedDamage());
                 }
             }
-            //playerData.localHealth -= damageTaken;
+
             if (health < 1)
             {
                 health = 0; //because negative health looks bad
                             //send to GameOver Screen
                 Debug.Log("GAME OVER");
-                //call SceneManager to get the GameOverScene
-                //int gameOverInt = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1;
 
                 //Set Highscore
                 playerData.EndGameScoring();
                 playerData.AddDeath();
 
                 UnityEngine.SceneManagement.SceneManager.LoadScene(7);
-                //DontDestroyOnLoad(GameObject.Find("ScriptManager"));
+
             }
 
             SheildRegenStop();
@@ -1029,8 +961,6 @@ public class PlayerMovement : MonoBehaviour
         transition[rng].SetTrigger("Start"); //start animation
 
         yield return new WaitForSeconds(transitionTime); //Time given for transition animation to play
-
-        //SceneManager.LoadScene(nextScene); //Loads target scene
         playerData.BeatLevel();
     }
 
@@ -1081,7 +1011,7 @@ public class PlayerMovement : MonoBehaviour
     {
         localTimer += Time.deltaTime;
         playerData.totalTime+= Time.deltaTime;
-        // Debug.Log("click");
+
         playerData.timerSec = Mathf.RoundToInt(localTimer);
         if (playerData.timerSec >= 60)
         {
@@ -1104,7 +1034,6 @@ public class PlayerMovement : MonoBehaviour
     void DisplayTime()
     {
         //update text here with info from playerdata
-       // const string Format = "{22:11:00}";
         timerText.text = string.Format("{0:00}:{1:00}:{2:00}", playerData.timerHour, playerData.timerMin, playerData.timerSec);
 
     }
@@ -1120,8 +1049,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator timerCount()
     {
         yield return new WaitForSeconds(1.0f);
-        localTimer++; //= Time.deltaTime;
-        //Debug.Log("click");
+        localTimer++; 
 
         playerData.UpdateTime();
 
@@ -1162,7 +1090,6 @@ public class PlayerMovement : MonoBehaviour
             case powerUpType.speed:
                 gamerUI.vSpeed.SetActive(true);
                 speedMultiplier += 0.5f;
-               // Debug.Log(speedMultiplier);
                 break;
             case powerUpType.health:
                 gamerUI.vHealth.SetActive(true);
@@ -1170,8 +1097,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (serratedMod)
                     playerData.totalHealthBase++;
-              //  else
-               // {
+
                     if (health < playerData.totalHealthBase)
                     {
                         health += 20;
@@ -1180,7 +1106,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     if (health > playerData.totalHealthBase)
                         health = playerData.totalHealthBase;
-              //  }
+
                 gamerUI.healthBarStatus(health);
                 break;
             default:
@@ -1204,8 +1130,7 @@ public class PlayerMovement : MonoBehaviour
             default:
                 break;
         }
-        //Debug.Log("off");
-        //Debug.Log(speedMultiplier);
+
     }
 
     /// <summary>
@@ -1217,7 +1142,6 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void SetAnimation()
     {
-        //playerAnimations.isIdlingTop();
         //based on status enum
         switch (animBottomState)
         {
@@ -1244,7 +1168,6 @@ public class PlayerMovement : MonoBehaviour
             case playerTopState.firing:
                 playerAnimations.isFiringTop();
                 stateInfo = top.GetCurrentAnimatorStateInfo(0);
-               // Debug.Log(stateInfo.length);
                 break;
             case playerTopState.interacting:
                 break;
@@ -1296,10 +1219,7 @@ public class PlayerMovement : MonoBehaviour
     {
         StartCoroutine(BleedApplyCooldown());
         bleedTimer = 0;
-        //bleedStacks++;
         yield return new WaitForSeconds(5.0f);
-        //bleedStacks = 0;
-        //bleedStacks--;
     }
 
 

@@ -22,7 +22,6 @@ public class MortarModBehavior : MonoBehaviour
     public int height;
     public GameObject[,] grid2DArray;
 
-    Transform startingPoint;
     float distanceBetweenNodes = 5.0f;
 
     public int mortarShellDamage = 10;
@@ -71,7 +70,6 @@ public class MortarModBehavior : MonoBehaviour
                 float x = col * distanceBetweenNodes;
                 
                 float y = rows * distanceBetweenNodes;
-                //Debug.Log(x + " " + y);
 
                 nodeTile.name = "Grid_Node_" + x.ToString() + ":" + y.ToString();
 
@@ -82,8 +80,6 @@ public class MortarModBehavior : MonoBehaviour
                 
             }
         }
-
-       // Destroy(node);
     }
 
     /// <summary>
@@ -97,27 +93,14 @@ public class MortarModBehavior : MonoBehaviour
         switch (myLevelSetUp.type)
         {
             case levelTypeE.EasyLevel:
-               // this.transform.localPosition = new Vector3(-18, 40, -18);
-                //distanceBetweenNodes = 5.0f;
-               // width = 8;
-               // height = 8;
                 minTime = 4;
                 maxTime = 9;
                 break;
             case levelTypeE.MidLevel:
-               // this.transform.localPosition = new Vector3(-25, 50, -25);
-                //distanceBetweenNodes = 5.03f;
-               // width = 11;
-              //  height = 11;
                 minTime = 2;
                 maxTime = 8;
                 break;
             case levelTypeE.Hardlevel:
-                //Debug.Log("hi");
-                //this.transform.localPosition = new Vector3(-33.7f, 60, -33.7f);
-              //  distanceBetweenNodes = 4.5f;
-              //  width = 16;
-               // height = 16;
                 minTime = 1;
                 maxTime = 6;
                 break;
@@ -129,12 +112,12 @@ public class MortarModBehavior : MonoBehaviour
         }
     }
 
-    //mortal spawning is done a timer that times a random range between 4 - 10 seconds
     /// <summary>
     /// Dylan Loe
     /// Updated: 11-12-2020
     /// 
     /// Spawns a mortar prefab
+    /// mortal spawning is done a timer that times a random range between 4 - 10 seconds
     /// </summary>
     /// <returns></returns>
     IEnumerator SpawnMortar()
@@ -146,7 +129,6 @@ public class MortarModBehavior : MonoBehaviour
 
         GameObject mortar = Instantiate(mortalPref, grid2DArray[wIndex, hIndex].transform.position, this.transform.rotation);
         mortar.GetComponent<MortarShell>().lineSpeed = tracingLineSpeed;
-        //mortar.transform.parent = this.gameObject.transform;
         StartCoroutine(SpawnMortar());
     }
 }

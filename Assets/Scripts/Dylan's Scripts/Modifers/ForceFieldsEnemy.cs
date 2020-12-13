@@ -44,7 +44,6 @@ public class ForceFieldsEnemy : MonoBehaviour
     void Update()
     {
         trans = (currentHealth / maxHealth) * 0.5f;
-        //Debug.Log(currentHealth / maxHealth);
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -57,7 +56,6 @@ public class ForceFieldsEnemy : MonoBehaviour
         col.a = trans;
         _sheild.GetComponent<Renderer>().material.color = col;
 
-        //SheildRegen();
     }
     /// <summary>
     /// Dylan Loe

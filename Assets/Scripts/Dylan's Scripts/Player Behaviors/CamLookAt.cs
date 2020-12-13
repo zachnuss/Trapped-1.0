@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 /// <summary>
 /// Dylan Loe
-/// 
-/// Cam movement system
-/// 
-/// NOT IN USE
+/// Easing type enum for interpolation used in player script
 /// </summary>
-
-
 public enum EasingType
 {
     linear,
@@ -22,6 +19,13 @@ public enum EasingType
     sinOut
 }
 
+/// <summary>
+/// Dylan Loe
+/// 
+/// Cam movement system
+/// 
+/// NOT IN USE
+/// </summary>
 public class CamLookAt : MonoBehaviour
 {
     //basic camera looking at player (will be updated later)
@@ -42,7 +46,7 @@ public class CamLookAt : MonoBehaviour
      * 
      */
 
-    //
+    //ref to player transform to be used as the target position this object moves to
     public Transform playerTarget;
 
     //location of camera (will be set from door prefab)
@@ -50,14 +54,10 @@ public class CamLookAt : MonoBehaviour
     //smoothing of camera
     public float smoothSpeed = 0.1f;
 
-    //public bool transversalSide = false;
-   
-
     // fixed update for movment based
     void FixedUpdate()
     {
         //follow player
-
         Vector3 desiredPosition = playerTarget.localPosition + offset;
 
         Vector3 smoothedPosition = Vector3.Lerp(transform.localPosition, desiredPosition, smoothSpeed);

@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
+
+/// <summary>
+/// Dylan Loe
+/// 11-12-2020
+/// 
+/// Mortar Shell Behavior
+/// </summary>
 public class MortarShell : MonoBehaviour
 {
     public int damage;
@@ -40,9 +47,7 @@ public class MortarShell : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
-        //transform.Translate(-this.transform.up * speed * Time.deltaTime);
         transform.position += speed * Time.deltaTime * -this.transform.up;
-        //CastLine();
     }
 
     /// <summary>
@@ -89,8 +94,6 @@ public class MortarShell : MonoBehaviour
     /// </summary>
     void Detonation()
     {
-
-       // Debug.Log("Detonation");
         //run particle effect
 
         //damage player
@@ -100,11 +103,9 @@ public class MortarShell : MonoBehaviour
             if (potentialTarget.gameObject.tag == "Player")
             {
                 //player in range, damage player
-               // Debug.Log("hit player");
                 potentialTarget.gameObject.GetComponent<PlayerMovement>().takeDamage(damage);
             }
         }
-
         Destroy(this.gameObject);
     }
 
@@ -117,16 +118,12 @@ public class MortarShell : MonoBehaviour
     /// </summary>
     void CastLine()
     {
-        //mortarLine.SetPosition(0, this.transform.position);
         RaycastHit hit;
-       // Debug.DrawRay(this.transform.position, -transform.up, Color.green, 10f);
         if (Physics.Raycast(transform.position, -transform.up, out hit))
         {
-            //Debug.Log(hit.transform.name);
             mortarLine.enabled = true;
             rayHitTrans = hit.point;
             distance = Vector3.Distance(this.transform.position, rayHitTrans);
-            //mortarLine.SetPosition(1, rayHitTrans);
         }
     }
 
@@ -156,7 +153,5 @@ public class MortarShell : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, checkRadius);
-        //Gizmos.color = Color.yellow;
-       // Gizmos.DrawWireSphere(transform.position, bulletDetectionRadius);
     }
 }

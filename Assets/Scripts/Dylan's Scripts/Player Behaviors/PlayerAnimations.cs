@@ -4,23 +4,15 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
+    /// <summary>
+    /// Initially there were gunna be a top half of the body for aiming and lookign and a bottom half used 
+    /// for the movement. The controller can have the player run one diretion and shoot another. Due to constraits 
+    /// made by not getting efficent rigs and player avatars, there will only be one animator per character.
+    /// </summary>
     public Animator animatorTop;
     public Animator animatorBottom;
     //may need to set animaotrs manually
 
-
-    /// <summary>
-    /// Dylan Loe
-    /// Updated: 10-25-2020
-    /// 
-    /// Sets animator for player
-    /// </summary>
-    void Start()
-    {
-        //animatorTop = GetComponent<Animator>();
-    }
-
-    //top
     /// <summary>
     /// Dylan Loe
     /// Updated: 10-20-2020
@@ -30,10 +22,8 @@ public class PlayerAnimations : MonoBehaviour
     public void IsMovingTop()
     {
         animatorTop.SetBool("isIdling", false);
-        //animatorTop.SetBool("Death", false);
         animatorTop.SetBool("isMoving", true);
         animatorTop.SetBool("isFiring", false);
-        //Debug.Log("Set Moving Top Animation");
     }
     /// <summary>
     /// Dylan Loe
@@ -44,10 +34,8 @@ public class PlayerAnimations : MonoBehaviour
     public void isIdlingTop()
     {
         animatorTop.SetBool("isIdling", true);
-        //animatorTop.SetBool("Death", false);
         animatorTop.SetBool("isMoving", false);
         animatorTop.SetBool("isFiring", false);
-        //Debug.Log("Set Idling Top Animation");
     }
     /// <summary>
     /// Dylan Loe
@@ -58,10 +46,8 @@ public class PlayerAnimations : MonoBehaviour
     public void isFiringTop()
     {
         animatorTop.SetBool("isIdling", false);
-       // animatorTop.SetBool("Death", false);
         animatorTop.SetBool("isMoving", false);
         animatorTop.SetBool("isFiring", true);
-        //Debug.Log("Start Firing Animation");
     }
     /// <summary>
     /// Dylan Loe
@@ -72,10 +58,8 @@ public class PlayerAnimations : MonoBehaviour
     public void DeathAnimatorTop()
     {
         animatorTop.SetBool("isIdling", false);
-        //animatorTop.SetBool("Death", true);
         animatorTop.SetBool("isMoving", false);
         animatorTop.SetBool("isFiring", false);
-        //Debug.Log("Death");
     }
 
     //bottom legs 

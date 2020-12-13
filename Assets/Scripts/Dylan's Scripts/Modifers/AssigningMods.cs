@@ -6,6 +6,7 @@ using UnityEngine;
 
 
 /// <summary>
+/// Dylan Loe
 /// After a complete run (lvls 1 - 3), player will be able to select which mods to activate for next run
 /// </summary>
 public class AssigningMods : MonoBehaviour
@@ -32,15 +33,13 @@ public class AssigningMods : MonoBehaviour
     /// Dylan Loe
     /// Updated: 11-15-2020
     /// 
-    /// Sets colors on buttons and establishes how many mods it can assign. Skips this if there are no mods to select
+    /// Sets colors on buttons and establishes how many mods it can assign. Skips this if there are no mods to select.
+    /// 
     /// </summary>
     private void Start()
     {
-        
         numberOfModsToSelect = Mathf.FloorToInt(playerData.levelsBeaten/3);
-        
-        //Debug.Log(numberOfModsToSelect);
-        //_myEventSystem = GameObject.Find("EventSystem");
+
         disabledColor.highlightedColor = buttonArray[0].colors.highlightedColor;
         disabledColor.pressedColor = buttonArray[0].colors.pressedColor;
         disabledColor.normalColor = buttonArray[0].colors.disabledColor;
@@ -73,15 +72,10 @@ public class AssigningMods : MonoBehaviour
     /// </summary>
     void ButtonsActiveInitial()
     {
-        // Debug.Log("yes");
         for (int modIndex = 0; modIndex < gameLevelData.mods.Length; modIndex++)
         {
             if(gameLevelData.mods[modIndex].modActive)
             {
-               // buttonArray[buttonIndex].interactable = false;
-               // buttonArray[modIndex].colors = disabledColor;
-               // Debug.Log(appliedText[buttonIndex].name);
-                //appliedText[modIndex].text = "APPLIED";
                 numberOfModsToSelect--;
             }
         }
@@ -99,19 +93,14 @@ public class AssigningMods : MonoBehaviour
         {
             if (gameLevelData.mods[modIndex].modType == type1 && gameLevelData.mods[modIndex].modActive)
             {
-                // buttonArray[buttonIndex].interactable = false;
                 buttonArray[0].colors = disabledColor;
-                //appliedText[buttonIndex].enabled = false;
                 appliedText[0].text = "APPLIED";
-                //Debug.Log("here");
-                //numberOfModsToSelect--;
             }
             if (gameLevelData.mods[modIndex].modType == type2 && gameLevelData.mods[modIndex].modActive)
             {
                 buttonArray[1].colors = disabledColor;
                 appliedText[1].text = "APPLIED";
             }
-
         }
     }
 
@@ -123,7 +112,6 @@ public class AssigningMods : MonoBehaviour
     /// </summary>
     public void AssignMod(int buttonNum)
     {
-
         modifierType typeL;
         if (buttonNum == 0)
         {
@@ -139,11 +127,9 @@ public class AssigningMods : MonoBehaviour
                 if (gameLevelData.mods[modIndex].modType == typeL)
                 {
                     gameLevelData.mods[modIndex].modActive = true;
-                    // gameLevelData.mods[modNum - 1].modActive = true;
                     numberOfModsToSelect--;
                     ButtonsActiveCheck();
                     gameLevelData.UpdateModCounter();
-                    //         SceneManager.LoadScene("StoreScene");
                 }
             }
         }
@@ -154,7 +140,8 @@ public class AssigningMods : MonoBehaviour
     /// Dylan Loe
     /// Updated 11-15-2020
     /// 
-    /// 
+    /// Chooses random button to display on UI for players to pick. Also assigns text 
+    /// and other information to UI panels.
     /// </summary>
     void ChooseRandomButton()
     {
@@ -168,16 +155,13 @@ public class AssigningMods : MonoBehaviour
             type1 = gameLevelData.mods[randomMod1].modType;
             //set text
             string description = gameLevelData.mods[randomMod1].modDescription;
-            //description.Replace("~", "\n");
             mod1Descript1.text = description.Replace("~", "\n");
-            //mod1Descript1.text.Replace("~", "\n");
 
             Debug.Log("Modifier 1 = " + type1.ToString());
         }
         else
         {
             buttonArray[0].colors = disabledColor;
-            //appliedText[buttonIndex].enabled = false;
             appliedText[0].text = "APPLIED";
         }
 
@@ -192,18 +176,13 @@ public class AssigningMods : MonoBehaviour
             type2 = gameLevelData.mods[randomMod2].modType;
             //set text
             string description2 = gameLevelData.mods[randomMod2].modDescription;
-            //description2.Replace("~", "\n");
             mod2Descript2.text = description2.Replace("~", "\n");
-            //mod2Descript2.text.Replace("~", "\n");
-
-            // mod2Descript2.text = gameLevelData.mods[randomMod2].modDescription;
             Debug.Log("Modifier 2 = " + type2.ToString());
         }
         else
         {
             mod2Descript2.text = "No More Mods Avalible...";
             buttonArray[1].colors = disabledColor;
-            //appliedText[buttonIndex].enabled = false;
             appliedText[1].text = "APPLIED";
         }
     }

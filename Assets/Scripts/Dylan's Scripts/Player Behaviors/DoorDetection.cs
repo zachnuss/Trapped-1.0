@@ -23,7 +23,6 @@ public class DoorDetection : MonoBehaviour
     /// 
     /// If player hits trigger then we set the direction of which way the player is going for cube trasnversal
     /// </summary>
-    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player") {
@@ -47,32 +46,29 @@ public class DoorDetection : MonoBehaviour
         }
         if(other.gameObject.tag == "Player" && !other.GetComponent<PlayerMovement>().checkToCalculate && !other.GetComponent<PlayerMovement>().moving)
         {
-
-            //Debug.Log("hit");
             if (trans)
             {
-                //Debug.Log("setting true");
                 parent.direction = true;
 
             }
             else
             {
-               // Debug.Log("Setting false");
                 parent.direction = false;
             }
         }
     }
 
-   // Transform temp;
+   /// <summary>
+   /// Dylan Loe
+   /// Updated: 10-20-2020
+   /// 
+   /// When player makes contact, update localEuleer Angles and return this new position to be incorperated
+   /// </summary>
     public Transform OnHit()
     {
         Transform temp = Instantiate(this.transform);
         temp.transform.parent = this.transform;
-      //  if (direction)
             temp.localEulerAngles = new Vector3(temp.localEulerAngles.x, temp.localEulerAngles.y - 180, temp.localEulerAngles.z);
-       // else
-       //     temp.localEulerAngles = new Vector3(_starting.localEulerAngles.x - 180, _starting.localEulerAngles.y, _starting.localEulerAngles.z);
-        Debug.Log(temp.localEulerAngles);
         return temp;
     }
 }

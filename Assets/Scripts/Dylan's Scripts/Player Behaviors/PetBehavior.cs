@@ -2,20 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Dylan Loe
+/// 11-2020
+/// 
+/// Pet makes small movements when in game.
+/// </summary>
 public class PetBehavior : MonoBehaviour
 {
     bool yDir = false;
     float time = 0.5f;
     float speedVar = 0.25f;
 
+    //if the pet is either hornet or bunny - has different speeds and movements
     public bool hornet;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11 2020
+    /// 
+    /// Starts changes in direction
+    /// </summary>
     void Start()
     {
         StartCoroutine(ymove());
     }
 
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-2020
+    /// 
+    /// Updates transform to show moevements
+    /// </summary>
     void FixedUpdate()
     {
         if (yDir)
@@ -23,10 +41,16 @@ public class PetBehavior : MonoBehaviour
         else
             transform.localPosition += new Vector3(0, -speedVar * Time.deltaTime, 0);
 
-        //transform.Rotate(0, 0.25f, 0, Space.Self);
     }
 
-    //move in y dir
+    /// <summary>
+    /// Dylan Loe
+    /// Updated: 11-2020
+    /// 
+    /// Wait certain time then change directions. Time waiting changes every time called. Different 
+    /// pets have different speeds, and time waiting
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ymove()
     {
         
@@ -45,7 +69,6 @@ public class PetBehavior : MonoBehaviour
                 time = Random.Range(0.4f, 0.5f);
                 speedVar = Random.Range(0.1f, 0.2f);
             }
-
         }
         else
             yDir = true;
